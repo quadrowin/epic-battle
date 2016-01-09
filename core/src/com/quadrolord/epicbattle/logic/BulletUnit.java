@@ -59,10 +59,7 @@ public class BulletUnit {
             mIsRunning = false;
 
             if (TimeUtils.timeSinceMillis(mLastAttackedMills) >= AttackTime) {
-                for (int i = 0; i < targets.size; i++) {
-                    this.attack(targets.get(i));
-                }
-
+                this.attack();
                 mLastAttackedMills = TimeUtils.millis();
             }
         } else {
@@ -74,8 +71,10 @@ public class BulletUnit {
         }
     }
 
-    public void attack(BulletUnit unit) {
-        unit.harm(AttackDamage);
+    public void attack() {
+        for (int i = 0; i < targets.size; i++) {
+            targets.get(i).harm(AttackDamage);
+        }
     }
 
     public void harm(float damage) {
