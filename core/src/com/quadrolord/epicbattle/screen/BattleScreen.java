@@ -4,11 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
+import com.quadrolord.epicbattle.logic.BulletCallback;
+import com.quadrolord.epicbattle.logic.BulletUnit;
 import com.quadrolord.epicbattle.logic.Game;
+import com.quadrolord.epicbattle.view.BulletUnitView;
+import com.quadrolord.epicbattle.view.ViewLoader;
 
 /**
  * Created by Quadrowin on 08.01.2016.
@@ -37,7 +44,39 @@ public class BattleScreen extends AbstractScreen {
         mSkin.add("text-button-style-default", textButtonStyle);
 
         TextButton btn = new TextButton("OK", textButtonStyle);
-        addStageBounds(btn, 10, 10, 200, 100);
+        addStageBounds(btn, 100, 200, 100, 50);
+
+        ViewLoader vl = new ViewLoader();
+        vl.loadTextures(
+                mSkin,
+                new String[]{
+                        "tower", "tower.png"
+                }
+        );
+
+        ImageButton tower1 = new ImageButton(mSkin.getDrawable("tower"));
+        addStageBounds(tower1, 10, 10, 60, 90);
+        tower1.addListener(new ClickListener() {
+
+            @Override
+            public void clicked (InputEvent event, float x, float y) {
+                mGame.createBullet();
+            }
+
+        });
+
+        ImageButton tower2 = new ImageButton(mSkin.getDrawable("tower"));
+        addStageBounds(tower2, 330, 10, 60, 90);
+
+        final AbstractScreen screen = this;
+        mGame.setOnBulletCreate(new BulletCallback() {
+
+            @Override
+            public void run(BulletUnit bullet) {
+                new BulletUnitView(bullet, screen);
+            }
+
+        });
     }
 
     @Override
@@ -53,7 +92,7 @@ public class BattleScreen extends AbstractScreen {
 
     @Override
     public void update(float delta) {
-
+        mGame.act(delta);
     }
 
 }
