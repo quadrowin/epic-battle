@@ -1,22 +1,19 @@
 package com.quadrolord.epicbattle.logic;
 
-import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 
-import java.sql.Time;
 import java.util.Iterator;
 
 /**
  * Created by Quadrowin on 09.01.2016.
  */
-public class Tower {
+public class Tower extends GameUnit {
 
     private float mSpeedRatio = 1;
-
-    private float mPosition;
 
     private float mCash = 0;
 
@@ -24,19 +21,17 @@ public class Tower {
 
     private float mConstuctionMultiplier = 1.0f;
 
-    private ArrayMap<Class<? extends BulletUnit>, Long> cooldown = new ArrayMap<Class<? extends BulletUnit>, Long>();
-    private Array<BulletUnit> mBullets = new Array<BulletUnit>();
-
-    private Game mGame;
+    private ArrayMap<Class<? extends AbstractBullet>, Long> cooldown = new ArrayMap<Class<? extends AbstractBullet>, Long>();
+    private Array<AbstractBullet> mBullets = new Array<AbstractBullet>();
 
     public Tower(Game game) {
-        mGame = game;
+        super(game);
     }
 
     public void act(float delta) {
         mCash += mCashGrowth * delta;
 
-        Iterator<ObjectMap.Entry<Class<? extends BulletUnit>, Long>> iter = cooldown.iterator();
+        Iterator<ObjectMap.Entry<Class<? extends AbstractBullet>, Long>> iter = cooldown.iterator();
         long now = TimeUtils.millis();
 
         while (iter.hasNext()) {
@@ -46,33 +41,29 @@ public class Tower {
         }
     }
 
-    public Array<BulletUnit> getUnits() {
+    public Array<AbstractBullet> getUnits() {
         return mBullets;
     }
 
-    public void addUnit(BulletUnit unit) {
+    public void addUnit(AbstractBullet unit) {
         mBullets.add(unit);
         unit.setTower(this);
     }
 
-    public long getConstructionTime(BulletUnit unit) {
-        return Math.round(unit.ConstructionTime * mConstuctionMultiplier);
+    public long getConstructionTime(AbstractBullet unit) {
+        return Math.round(unit.getInfo().getConstructionTime() * mConstuctionMultiplier);
     }
 
-    public void toCooldown(BulletUnit unit) {
+    public void toCooldown(AbstractBullet unit) {
         cooldown.put(unit.getClass(), TimeUtils.millis() + getConstructionTime(unit));
     }
 
-    public boolean isInCooldown(BulletUnit unit) {
+    public boolean isInCooldown(AbstractBullet unit) {
         return cooldown.containsKey(unit.getClass());
     }
 
     public float getCash() {
         return mCash;
-    }
-
-    public float getPosition() {
-        return mPosition;
     }
 
     public float getSpeedRatio() {
@@ -87,20 +78,12 @@ public class Tower {
         mCashGrowth = growth;
     }
 
-    public void setPosition(float pos) {
-        mPosition = pos;
-    }
-
     public void setSpeedRatio(float ratio) {
         mSpeedRatio = ratio;
     }
 
-    public boolean hasCash(BulletUnit unit) {
-        return unit.Cost <= mCash;
-    }
-
-    public Game getGame() {
-        return mGame;
+    public boolean hasCash(AbstractBullet unit) {
+        return unit.getInfo().getCost() <= mCash;
     }
 
     public Tower getEnemy() {
@@ -115,8 +98,8 @@ public class Tower {
         return null;
     }
 
-    public void deleteUnit(BulletUnit unit) {
-        for (Iterator<BulletUnit> iter = mBullets.iterator(); iter.hasNext(); ) {
+    public void deleteUnit(AbstractBullet unit) {
+        for (Iterator<AbstractBullet> iter = mBullets.iterator(); iter.hasNext(); ) {
             if (iter.next().equals(unit)) {
                 iter.remove();
             }

@@ -4,16 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
-import com.quadrolord.epicbattle.logic.BulletUnit;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.GameListener;
 import com.quadrolord.epicbattle.logic.Tower;
+import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
+import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.screen.battle.CashLabel;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 import com.quadrolord.epicbattle.view.TowerView;
@@ -63,8 +65,24 @@ public class BattleScreen extends AbstractScreen {
         mGame.setListener(new GameListener() {
 
             @Override
-            public void onBulletCreate(BulletUnit bullet) {
+            public void onBulletCreate(AbstractBullet bullet) {
+                Gdx.app.log("", "fire with " + bullet.getInfo().getTitle() + " at " + bullet.getX());
                 new BulletUnitView(bullet, screen);
+            }
+
+            @Override
+            public void onBulletCreateFailCash(float current, int required) {
+                Gdx.app.log("", "create fail cash: " + current + "/" + required);
+            }
+
+            @Override
+            public void onBulletCreateFailCooldown() {
+                Gdx.app.log("", "create fail cooldown");
+            }
+
+            @Override
+            public void onBulletRemove(AbstractBullet bullet) {
+                ((Actor)bullet.getViewObject()).remove();
             }
 
             @Override
@@ -79,7 +97,7 @@ public class BattleScreen extends AbstractScreen {
 
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        mGame.createUnit(tower, BulletUnit.class);
+                        mGame.createUnit(tower, Simple.class);
                     }
 
                 });

@@ -17,7 +17,7 @@ public class TowerView extends Group {
     public TowerView(Tower tower, AbstractScreen screen) {
         mTower = tower;
 
-        setBounds(mTower.getPosition(), 10, 60, 90);
+        setBounds(mTower.getX(), 10, 60, 90);
         screen.getStage().addActor(this);
 
         mView = new ImageButton(screen.getSkin().getDrawable("tower"));
