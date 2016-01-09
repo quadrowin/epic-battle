@@ -42,6 +42,7 @@ public class Game {
         Tower tower = new Tower(this);
         tower.setX(position);
         tower.setSpeedRatio(speedRatio);
+        tower.setWidth(60);
         mTowers.add(tower);
         mListener.onTowerCreate(tower);
     }
@@ -95,6 +96,10 @@ public class Game {
 
         createTower(10, 1);
         createTower(340, -1);
+    }
+
+    public void towerDeath(Tower tower) {
+        mListener.onTowerDeath(tower);
     }
 
     public Array<Tower> getTowers() {

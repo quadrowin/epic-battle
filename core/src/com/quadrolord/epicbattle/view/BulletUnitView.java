@@ -17,9 +17,11 @@ public class BulletUnitView extends Group {
     public BulletUnitView(AbstractBullet bullet, AbstractScreen screen) {
         mBullet = bullet;
         mBullet.setViewObject(this);
-        mWrapper = new ImageButton(screen.getSkin().getDrawable("test-texture"));
+
         setBounds(mBullet.getX(), 20, 20, 20);
         screen.getStage().addActor(this);
+
+        mWrapper = new ImageButton(screen.getSkin().getDrawable("test-texture"));
         mWrapper.setBounds(0, 0, getWidth(), getHeight());
         addActor(mWrapper);
     }

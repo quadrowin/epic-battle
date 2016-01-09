@@ -17,4 +17,6 @@ public interface GameListener {
 
     void onTowerCreate(Tower tower);
 
+    void onTowerDeath(Tower tower);
+
 }

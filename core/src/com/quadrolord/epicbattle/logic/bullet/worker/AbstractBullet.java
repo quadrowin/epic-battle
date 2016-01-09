@@ -19,7 +19,7 @@ abstract public class AbstractBullet extends GameUnit {
 
     private Tower mTower;
 
-    private Array<AbstractBullet> mTargets = new Array<AbstractBullet>();
+    private Array<GameUnit> mTargets = new Array<GameUnit>();
 
     private Array<AbstractBullet> mAttackers = new Array<AbstractBullet>();
 
@@ -42,7 +42,7 @@ abstract public class AbstractBullet extends GameUnit {
 
         while (iter.hasNext()) {
             if (mInfo.getMaxTargetCount() <= mTargets.size) {
-                break;
+                return;
             }
 
             AbstractBullet unit = iter.next();
@@ -51,6 +51,15 @@ abstract public class AbstractBullet extends GameUnit {
                 mTargets.add(unit);
                 unit.addAttacker(this);
             }
+        }
+
+        if (mInfo.getMaxTargetCount() <= mTargets.size) {
+            return;
+        }
+
+        GameUnit enemyTower = mTower.getEnemy();
+        if (canAttack(enemyTower)) {
+            mTargets.add(enemyTower);
         }
     }
 
@@ -67,7 +76,7 @@ abstract public class AbstractBullet extends GameUnit {
             mIsRunning = false;
 
             if (TimeUtils.timeSinceMillis(mLastAttackedMills) >= mInfo.getAttackTime()) {
-                this.attack();
+                attack();
                 mLastAttackedMills = TimeUtils.millis();
             }
         } else {
@@ -87,28 +96,18 @@ abstract public class AbstractBullet extends GameUnit {
         }
     }
 
-    public void harm(float damage) {
-        Gdx.app.log("bullets", "unit damaged for " + Math.round(damage));
-        incHp(-damage);
-
-        if (isDied()) {
-            onDeath();
-        }
-    }
-
-    public boolean canAttack(AbstractBullet unit) {
-        return Math.abs(getX() - unit.getX()) <= unit.getInfo().getAttackDistance();
-    }
-
-    public float getAttackDistance() {
-        return mInfo.getAttackDistance();
+    public boolean canAttack(GameUnit unit) {
+        float dist = getX() < unit.getX()
+                ? unit.getX() - getX() - getWidth()
+                : getX() - unit.getX() - unit.getWidth();
+        return Math.abs(dist) <= mInfo.getAttackDistance();
     }
 
     public void removeTarget(AbstractBullet unit) {
-        Iterator<AbstractBullet> iter = mTargets.iterator();
+        Iterator<GameUnit> iter = mTargets.iterator();
 
         while (iter.hasNext()) {
-            AbstractBullet next = iter.next();
+            GameUnit next = iter.next();
 
             if (next.equals(unit)) {
                 Gdx.app.log("bullets", "unit removed from targets");
@@ -117,6 +116,7 @@ abstract public class AbstractBullet extends GameUnit {
         }
     }
 
+    @Override
     public void onDeath() {
         mIsRunning = false;
 

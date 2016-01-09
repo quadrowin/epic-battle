@@ -105,4 +105,9 @@ public class Tower extends GameUnit {
             }
         }
     }
+
+    public void onDeath() {
+        mGame.towerDeath(this);
+    }
+
 }

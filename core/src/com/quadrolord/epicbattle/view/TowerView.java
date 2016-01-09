@@ -16,13 +16,14 @@ public class TowerView extends Group {
 
     public TowerView(Tower tower, AbstractScreen screen) {
         mTower = tower;
+        tower.setViewObject(this);
 
-        setBounds(mTower.getX(), 10, 60, 90);
+        setBounds(mTower.getX(), 10, mTower.getWidth(), 90);
         screen.getStage().addActor(this);
 
         mView = new ImageButton(screen.getSkin().getDrawable("tower"));
         mView.setBounds(0, 0, getWidth(), getHeight());
-        this.addActor(mView);
+        addActor(mView);
     }
 
 }

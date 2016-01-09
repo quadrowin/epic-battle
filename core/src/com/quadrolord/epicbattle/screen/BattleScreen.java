@@ -18,6 +18,7 @@ import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.screen.battle.CashLabel;
 import com.quadrolord.epicbattle.view.BulletUnitView;
+import com.quadrolord.epicbattle.view.TowerDeath;
 import com.quadrolord.epicbattle.view.TowerView;
 import com.quadrolord.epicbattle.view.ViewLoader;
 
@@ -101,6 +102,12 @@ public class BattleScreen extends AbstractScreen {
                     }
 
                 });
+            }
+
+            @Override
+            public void onTowerDeath(Tower tower) {
+                Gdx.app.log("", "tower death");
+                new TowerDeath((TowerView)tower.getViewObject(), screen);
             }
 
         });
