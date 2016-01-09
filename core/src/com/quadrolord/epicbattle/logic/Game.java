@@ -40,11 +40,17 @@ public class Game {
         } catch (Exception e) {
             bullet = new BulletUnit();
         }
-        bullet.MoveSpeed = 10 * tower.getSpeedRatio();
-        bullet.setPosition(tower.getPosition());
-        mBullets.add(bullet);
-        tower.setCash(tower.getCash() - 1000);
-        mListener.onBulletCreate(bullet);
+
+        if (!tower.isInCooldown(bullet) && tower.hasCash(bullet)) {
+            bullet.MoveSpeed = 10 * tower.getSpeedRatio();
+            bullet.setPosition(tower.getPosition());
+            mBullets.add(bullet);
+
+            tower.setCash(tower.getCash() - bullet.Cost);
+            tower.toCooldown(bullet);
+
+            mListener.onBulletCreate(bullet);
+        }
     }
 
     public void setListener(GameListener listener) {

@@ -5,6 +5,8 @@ package com.quadrolord.epicbattle.logic;
  */
 public class BulletUnit {
 
+    public int ConstructionTime = 100;
+
     public float CurrentHp = 10;
 
     public float MaxHp = 10;
@@ -12,6 +14,8 @@ public class BulletUnit {
     public float AttackDamage = 10;
 
     public float AttackTime = 1000;
+
+    public int Cost = 100;
 
     public float MoveSpeed = 1;
 
@@ -38,5 +42,4 @@ public class BulletUnit {
     public void setUserObject(Object obj) {
         mUserObject = obj;
     }
-
 }
