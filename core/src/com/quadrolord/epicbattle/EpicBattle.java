@@ -2,12 +2,13 @@ package com.quadrolord.epicbattle;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.BattleScreen;
@@ -37,29 +38,31 @@ public class EpicBattle extends ApplicationAdapter {
 		Skin src = getSkin();
 		Skin dst = new Skin();
 
-		dst.add("default", src.getFont("default"), BitmapFont.class);
+//		dst.add("default", src.getFont("default"), BitmapFont.class);
+//
+//		String[] copyTextures = new String[] {
+//				"test-texture"
+//		};
+//
+//		for (int i = 0; i < copyTextures.length; i++) {
+//			dst.add(
+//					copyTextures[i],
+//					src.get(copyTextures[i], Texture.class),
+//					Texture.class
+//			);
+//		}
 
-		String[] copyTextures = new String[] {
-				"test-texture"
+		Object[] copyResources = new Object[] {
+				"default", BitmapFont.class,
+				"test-texture", Texture.class,
+				"default-label-style", Label.LabelStyle.class,
 		};
 
-		for (int i = 0; i < copyTextures.length; i++) {
+		for (int i = 0; i < copyResources.length; i += 2) {
 			dst.add(
-					copyTextures[i],
-					src.get(copyTextures[i], Texture.class),
-					Texture.class
-			);
-		}
-
-		String[] copyDrawables = new String[] {
-
-		};
-
-		for (int i = 0; i < copyDrawables.length; i++) {
-			dst.add(
-					copyDrawables[i],
-					src.getDrawable(copyDrawables[i]),
-					Drawable.class
+					(String)copyResources[i],
+					src.get((String)copyResources[i], (Class)copyResources[i + 1]),
+					(Class)copyResources[i + 1]
 			);
 		}
 
@@ -74,6 +77,9 @@ public class EpicBattle extends ApplicationAdapter {
 
 		BitmapFont font = new BitmapFont();
 		mSkin.add("default", font, BitmapFont.class);
+
+		Label.LabelStyle ls = new Label.LabelStyle(font, Color.WHITE);
+		mSkin.add("default-label-style", ls);
 
 		Texture texture = new Texture(Gdx.files.internal("badlogic.jpg"));
 		mSkin.add("test-texture", texture);

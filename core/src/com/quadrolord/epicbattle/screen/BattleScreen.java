@@ -5,16 +5,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
-import com.quadrolord.epicbattle.logic.BulletCallback;
 import com.quadrolord.epicbattle.logic.BulletUnit;
 import com.quadrolord.epicbattle.logic.Game;
+import com.quadrolord.epicbattle.logic.GameListener;
+import com.quadrolord.epicbattle.logic.Tower;
+import com.quadrolord.epicbattle.screen.battle.CashLabel;
 import com.quadrolord.epicbattle.view.BulletUnitView;
+import com.quadrolord.epicbattle.view.TowerView;
 import com.quadrolord.epicbattle.view.ViewLoader;
 
 /**
@@ -35,6 +37,8 @@ public class BattleScreen extends AbstractScreen {
         NinePatchDrawable npd1 = new NinePatchDrawable(np1);
         NinePatchDrawable npd2 = new NinePatchDrawable(np2);
 
+
+
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle(
                 npd1,
                 npd2,
@@ -44,7 +48,8 @@ public class BattleScreen extends AbstractScreen {
         mSkin.add("text-button-style-default", textButtonStyle);
 
         TextButton btn = new TextButton("OK", textButtonStyle);
-        addStageBounds(btn, 100, 200, 100, 50);
+        btn.setBounds(100, 200, 100, 50);
+        mStage.addActor(btn);
 
         ViewLoader vl = new ViewLoader();
         vl.loadTextures(
@@ -54,29 +59,35 @@ public class BattleScreen extends AbstractScreen {
                 }
         );
 
-        ImageButton tower1 = new ImageButton(mSkin.getDrawable("tower"));
-        addStageBounds(tower1, 10, 10, 60, 90);
-        tower1.addListener(new ClickListener() {
-
-            @Override
-            public void clicked (InputEvent event, float x, float y) {
-                mGame.createBullet();
-            }
-
-        });
-
-        ImageButton tower2 = new ImageButton(mSkin.getDrawable("tower"));
-        addStageBounds(tower2, 330, 10, 60, 90);
-
         final AbstractScreen screen = this;
-        mGame.setOnBulletCreate(new BulletCallback() {
+        mGame.setListener(new GameListener() {
 
             @Override
-            public void run(BulletUnit bullet) {
+            public void onBulletCreate(BulletUnit bullet) {
                 new BulletUnitView(bullet, screen);
             }
 
+            @Override
+            public void onTowerCreate(final Tower tower) {
+
+                if (tower.getSpeedRatio() < 0) {
+                    new CashLabel(tower, screen);
+                }
+
+                TowerView tv = new TowerView(tower, screen);
+                tv.addListener(new ClickListener() {
+
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        mGame.createUnit(tower, BulletUnit.class);
+                    }
+
+                });
+            }
+
         });
+
+        mGame.startLevel();
     }
 
     @Override

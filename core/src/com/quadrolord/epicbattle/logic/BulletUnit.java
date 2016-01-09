@@ -15,12 +15,24 @@ public class BulletUnit {
 
     public float MoveSpeed = 1;
 
-    public float Position;
+    private float mPosition;
 
     private Object mUserObject;
 
+    public void act(float delta) {
+        mPosition += MoveSpeed * delta;
+    }
+
+    public float getPosition() {
+        return mPosition;
+    }
+
     public Object getUserObject() {
         return mUserObject;
+    }
+
+    public void setPosition(float pos) {
+        mPosition = pos;
     }
 
     public void setUserObject(Object obj) {

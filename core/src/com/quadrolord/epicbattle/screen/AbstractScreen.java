@@ -2,7 +2,6 @@ package com.quadrolord.epicbattle.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.quadrolord.epicbattle.EpicBattle;
@@ -30,33 +29,9 @@ public abstract class AbstractScreen implements Screen {
         mAdapter = adapter;
         mGame = game;
         mStage = new Stage();
+        mStage.getRoot().setScale(mPx);
         mSkin = adapter.getNewSkin();
         Gdx.input.setInputProcessor(mStage);
-    }
-
-    /**
-     * Добавление контрола на скрин с учетом размера пикселя
-     * @param actor
-     * @param x
-     * @param y
-     * @param width
-     * @param height
-     */
-    public void addStageBounds(Actor actor, float x, float y, float width, float height) {
-        actor.setBounds(x * mPx, y * mPx, width * mPx, height * mPx);
-        mStage.addActor(actor);
-    }
-
-    /**
-     * Установка размеров актора с учетом разрешения
-     * @param actor
-     * @param left
-     * @param bottom
-     * @param width
-     * @param height
-     */
-    public void initBounds(Actor actor, float left, float bottom, float width, float height) {
-        actor.setBounds(left * mPx, bottom * mPx, width * mPx, height * mPx);
     }
 
     public float getPx() {

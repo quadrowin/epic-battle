@@ -11,24 +11,52 @@ public class Game {
 
     private Array<BulletUnit> mBullets = new Array<BulletUnit>();
 
-    private BulletCallback mOnBulletCreate;
+    private Array<Tower> mTowers = new Array<Tower>();
+
+    private GameListener mListener;
 
     public void act(float delta) {
         for (Iterator<BulletUnit> iter = mBullets.iterator(); iter.hasNext(); ) {
             BulletUnit bullet = iter.next();
-            bullet.Position += bullet.MoveSpeed * delta;
+            bullet.act(delta);
+        }
+        for (Iterator<Tower> iter = mTowers.iterator(); iter.hasNext(); ) {
+            iter.next().act(delta);
         }
     }
 
-    public void createBullet() {
-        BulletUnit bullet = new BulletUnit();
-        bullet.MoveSpeed = 10;
-        mBullets.add(bullet);
-        mOnBulletCreate.run(bullet);
+    public void createTower(float position, float speedRatio) {
+        Tower tower = new Tower();
+        tower.setPosition(position);
+        tower.setSpeedRatio(speedRatio);
+        mTowers.add(tower);
+        mListener.onTowerCreate(tower);
     }
 
-    public void setOnBulletCreate(BulletCallback callback) {
-        mOnBulletCreate = callback;
+    public void createUnit(Tower tower, Class<? extends BulletUnit> bulletClass) {
+        BulletUnit bullet;
+        try {
+            bullet = bulletClass.newInstance();
+        } catch (Exception e) {
+            bullet = new BulletUnit();
+        }
+        bullet.MoveSpeed = 10 * tower.getSpeedRatio();
+        bullet.setPosition(tower.getPosition());
+        mBullets.add(bullet);
+        tower.setCash(tower.getCash() - 1000);
+        mListener.onBulletCreate(bullet);
+    }
+
+    public void setListener(GameListener listener) {
+        mListener = listener;
+    }
+
+    public void startLevel() {
+        mTowers.clear();
+        mBullets.clear();
+
+        createTower(10, 1);
+        createTower(350, -1);
     }
 
 }

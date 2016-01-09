@@ -17,14 +17,16 @@ public class BulletUnitView extends Group {
     public BulletUnitView(BulletUnit bullet, AbstractScreen screen) {
         mBullet = bullet;
         mWrapper = new ImageButton(screen.getSkin().getDrawable("test-texture"));
-        screen.addStageBounds(this, 10, 10, 20, 20);
+        setBounds(mBullet.getPosition(), 20, 20, 20);
+        screen.getStage().addActor(this);
         mWrapper.setBounds(0, 0, getWidth(), getHeight());
         this.addActor(mWrapper);
     }
 
     @Override
     public void act(float delta) {
-        setX(mBullet.Position);
+        super.act(delta);
+        setX(mBullet.getPosition());
     }
 
 }
