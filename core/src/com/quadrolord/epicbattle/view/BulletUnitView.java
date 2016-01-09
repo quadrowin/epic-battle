@@ -25,8 +25,12 @@ public class BulletUnitView extends Group {
 
     @Override
     public void act(float delta) {
-        super.act(delta);
-        setX(mBullet.getPosition());
+        if (mBullet.isDied()) {
+            this.removeActor(mWrapper);
+        } else {
+            super.act(delta);
+            setX(mBullet.getPosition());
+        }
     }
 
 }

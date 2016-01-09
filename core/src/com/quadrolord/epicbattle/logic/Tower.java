@@ -1,6 +1,7 @@
 package com.quadrolord.epicbattle.logic;
 
 import com.badlogic.gdx.maps.Map;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -23,10 +24,13 @@ public class Tower {
 
     private float mConstuctionMultiplier = 1.0f;
 
-    private ArrayMap<Class<? extends BulletUnit>, Long> cooldown;
+    private ArrayMap<Class<? extends BulletUnit>, Long> cooldown = new ArrayMap<Class<? extends BulletUnit>, Long>();
+    private Array<BulletUnit> mBullets = new Array<BulletUnit>();
 
-    public Tower() {
-        cooldown = new ArrayMap<Class<? extends BulletUnit>, Long>();
+    private Game mGame;
+
+    public Tower(Game game) {
+        mGame = game;
     }
 
     public void act(float delta) {
@@ -40,6 +44,15 @@ public class Tower {
                 iter.remove();
             }
         }
+    }
+
+    public Array<BulletUnit> getUnits() {
+        return mBullets;
+    }
+
+    public void addUnit(BulletUnit unit) {
+        mBullets.add(unit);
+        unit.setTower(this);
     }
 
     public long getConstructionTime(BulletUnit unit) {
@@ -86,4 +99,27 @@ public class Tower {
         return unit.Cost <= mCash;
     }
 
+    public Game getGame() {
+        return mGame;
+    }
+
+    public Tower getEnemy() {
+        for (Iterator<Tower> iter = mGame.getTowers().iterator(); iter.hasNext(); ) {
+            Tower next = iter.next();
+
+            if (!next.equals(this)) {
+                return next;
+            }
+        }
+
+        return null;
+    }
+
+    public void deleteUnit(BulletUnit unit) {
+        for (Iterator<BulletUnit> iter = mBullets.iterator(); iter.hasNext(); ) {
+            if (iter.next().equals(unit)) {
+                iter.remove();
+            }
+        }
+    }
 }
