@@ -35,8 +35,8 @@ public class BulletUnit {
 
     private Object mUserObject;
 
-    private Array<BulletUnit> targets = new Array<BulletUnit>();
-    private Array<BulletUnit> attackers = new Array<BulletUnit>();
+    private Array<BulletUnit> mTargets = new Array<BulletUnit>();
+    private Array<BulletUnit> mAttackers = new Array<BulletUnit>();
 
     private Tower mTower;
     private long mLastAttackedMills;
@@ -47,15 +47,15 @@ public class BulletUnit {
     }
 
     public void addAttacker(BulletUnit unit) {
-        attackers.add(unit);
+        mAttackers.add(unit);
     }
 
     public void act(float delta) {
-        if (MaxTargetCount > targets.size) {
+        if (MaxTargetCount > mTargets.size) {
             findTargets();
         }
 
-        if (targets.size > 0) {
+        if (mTargets.size > 0) {
             mIsRunning = false;
 
             if (TimeUtils.timeSinceMillis(mLastAttackedMills) >= AttackTime) {
@@ -72,8 +72,10 @@ public class BulletUnit {
     }
 
     public void attack() {
-        for (int i = 0; i < targets.size; i++) {
-            targets.get(i).harm(AttackDamage);
+        for (int i = 0; i < mTargets.size; i++) {
+            if (!mTargets.get(i).isDied()) {
+                mTargets.get(i).harm(AttackDamage);
+            }
         }
     }
 
@@ -95,21 +97,21 @@ public class BulletUnit {
         Iterator<BulletUnit> iter = enemies.iterator();
 
         while (iter.hasNext()) {
-            if (MaxTargetCount <= targets.size) {
+            if (MaxTargetCount <= mTargets.size) {
                 break;
             }
 
             BulletUnit unit = iter.next();
 
             if (this.canAttack(unit) && !unit.isDied()) {
-                targets.add(unit);
+                mTargets.add(unit);
                 unit.addAttacker(this);
             }
         }
     }
 
     public void removeTarget(BulletUnit unit) {
-        Iterator<BulletUnit> iter = targets.iterator();
+        Iterator<BulletUnit> iter = mTargets.iterator();
 
         while (iter.hasNext()) {
             BulletUnit next = iter.next();
@@ -124,7 +126,7 @@ public class BulletUnit {
     public void onDeath() {
         mIsRunning = false;
 
-        for (Iterator<BulletUnit> iter = attackers.iterator(); iter.hasNext(); ) {
+        for (Iterator<BulletUnit> iter = mAttackers.iterator(); iter.hasNext(); ) {
             iter.next().removeTarget(this);
         }
 
