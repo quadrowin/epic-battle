@@ -66,12 +66,7 @@ public class Game {
             bullet = new Simple(this);
         }
 
-        BulletInfo bi = mBulletInfos.get(workerClass);
-        if (bi == null) {
-            bi = new BulletInfo();
-            mBulletInfos.put(workerClass, bi);
-            bullet.initInfo(bi);
-        }
+        BulletInfo bi = getBulletInfo(workerClass);
         bullet.setInfo(bi);
 
         if (tower.isInCooldown(bullet)) {
@@ -98,6 +93,22 @@ public class Game {
         mListener.onBulletCreate(bullet);
 
         mListener.onBulletAttack(bullet, tower);
+    }
+
+    public BulletInfo getBulletInfo(Class<? extends AbstractBullet> workerClass) {
+        BulletInfo bi = mBulletInfos.get(workerClass);
+        if (bi == null) {
+            bi = new BulletInfo();
+            mBulletInfos.put(workerClass, bi);
+            AbstractBullet bullet;
+            try {
+                bullet = workerClass.getConstructor(Game.class).newInstance(this);
+            } catch (Exception e) {
+                bullet = new Simple(this);
+            }
+            bullet.initInfo(bi);
+        }
+        return bi;
     }
 
     public GameListener getListener() {

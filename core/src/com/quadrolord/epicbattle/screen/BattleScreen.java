@@ -14,12 +14,11 @@ import com.quadrolord.epicbattle.logic.GameListener;
 import com.quadrolord.epicbattle.logic.GameUnit;
 import com.quadrolord.epicbattle.logic.Tower;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
-import com.quadrolord.epicbattle.logic.bullet.worker.Big;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.screen.battle.AttackAnimation;
 import com.quadrolord.epicbattle.screen.battle.Background;
 import com.quadrolord.epicbattle.screen.battle.CashLabel;
-import com.quadrolord.epicbattle.screen.battle.CreateBulletButton;
+import com.quadrolord.epicbattle.screen.battle.CreateBulletPanel;
 import com.quadrolord.epicbattle.screen.battle.PauseButton;
 import com.quadrolord.epicbattle.screen.battle.TowerHp;
 import com.quadrolord.epicbattle.view.BulletUnitView;
@@ -60,10 +59,7 @@ public class BattleScreen extends AbstractScreen {
 
         new PauseButton(this, mFrontStage);
 
-        CreateBulletButton btn1 = new CreateBulletButton(this, mFrontStage, Simple.class);
-        CreateBulletButton btn2 = new CreateBulletButton(this, mFrontStage, Big.class);
-        btn1.setBounds(150, 250, 40, 40);
-        btn2.setBounds(150, 200, 40, 40);
+        new CreateBulletPanel(this, mFrontStage);
 
 //        TextureRegion tr1 = new TextureRegion(mSkin.get("test-texture", Texture.class), 64, 64);
 //        TextureRegion tr2 = new TextureRegion(mSkin.get("test-texture", Texture.class), 64, 0, 64, 64);
