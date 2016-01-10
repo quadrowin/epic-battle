@@ -18,7 +18,7 @@ public class BulletUnitView extends Group {
         mBullet = bullet;
         mBullet.setViewObject(this);
 
-        setBounds(mBullet.getX(), bullet.getWidth(), 20, bullet.getWidth());
+        setBounds(mBullet.getX(), 20, bullet.getWidth(), bullet.getWidth());
         screen.getStage().addActor(this);
 
         mWrapper = new ImageButton(screen.getSkin().getDrawable("test-texture"));

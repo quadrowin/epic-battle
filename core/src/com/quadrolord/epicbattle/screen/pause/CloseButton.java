@@ -32,7 +32,7 @@ public class CloseButton {
 
         });
 
-        Label lblPause = new Label("||", screen.getSkin(), "default", Color.WHITE);
+        Label lblPause = new Label("X", screen.getSkin(), "default", Color.WHITE);
         lblPause.setBounds(0, 0, btnPause.getWidth(), btnPause.getHeight());
         lblPause.setAlignment(Align.center, Align.center);
         btnPause.addActor(lblPause);

@@ -6,14 +6,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 
 import java.util.Iterator;
-
-import javax.xml.soap.Text;
 
 /**
  * Created by Quadrowin on 10.01.2016.
@@ -84,7 +81,7 @@ public class Background extends Group {
             ObjectMap.Entry<Texture, Integer> next = iter.next();
 
             float top = offsets[i][1];
-            float pos = mPosition / 1000 * next.value;
+            float pos = mPosition / 10000 * next.value;
             float delta = pos >= 0
                     ? -mWidth * (pos - (int)pos)
                     : -mWidth - mWidth * (pos - (int)pos);
