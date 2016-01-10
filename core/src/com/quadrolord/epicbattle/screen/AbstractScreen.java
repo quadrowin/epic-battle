@@ -31,7 +31,14 @@ public abstract class AbstractScreen implements Screen {
         mStage = new Stage();
         mStage.getRoot().setScale(mPx);
         mSkin = adapter.getNewSkin();
-        Gdx.input.setInputProcessor(mStage);
+    }
+
+    public EpicBattle getAdapter() {
+        return mAdapter;
+    }
+
+    public Game getGame() {
+        return mGame;
     }
 
     public float getPx() {
@@ -44,6 +51,13 @@ public abstract class AbstractScreen implements Screen {
 
     public Stage getStage() {
         return mStage;
+    }
+
+    /**
+     * Переключение на этот скрин с другого
+     */
+    public void switchIn() {
+        Gdx.input.setInputProcessor(mStage);
     }
 
     /** Called when a screen should render itself */

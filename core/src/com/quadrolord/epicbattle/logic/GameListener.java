@@ -7,6 +7,8 @@ import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
  */
 public interface GameListener {
 
+    void onBulletAttack(AbstractBullet attacker, GameUnit target);
+
     void onBulletCreate(AbstractBullet bullet);
 
     void onBulletCreateFailCash(float current, int required);
