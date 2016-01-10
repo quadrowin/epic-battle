@@ -1,14 +1,10 @@
 package com.quadrolord.epicbattle.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.Game;
@@ -18,6 +14,7 @@ import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.screen.battle.Background;
 import com.quadrolord.epicbattle.screen.battle.CashLabel;
+import com.quadrolord.epicbattle.screen.battle.PauseButton;
 import com.quadrolord.epicbattle.screen.battle.TowerHp;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 import com.quadrolord.epicbattle.view.TowerDeath;
@@ -46,16 +43,18 @@ public class BattleScreen extends AbstractScreen {
         mFrontStage = new Stage(new FitViewport(400 * mPx, 300 * mPx));
         mFrontStage.getRoot().setScale(mPx);
         mFrontStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
-
-        TextureRegion tr1 = new TextureRegion(mSkin.get("test-texture", Texture.class), 64, 64);
-        TextureRegion tr2 = new TextureRegion(mSkin.get("test-texture", Texture.class), 64, 0, 64, 64);
-        NinePatch np1 = new NinePatch(tr1, 10, 10, 10, 10);
-        NinePatch np2 = new NinePatch(tr2, 15, 15, 15, 15);
-        NinePatchDrawable npd1 = new NinePatchDrawable(np1);
-        NinePatchDrawable npd2 = new NinePatchDrawable(np2);
+        Gdx.input.setInputProcessor(mFrontStage);
 
         new Background(this, mBackStage, mStage.getCamera());
 
+        new PauseButton(this, mFrontStage);
+
+//        TextureRegion tr1 = new TextureRegion(mSkin.get("test-texture", Texture.class), 64, 64);
+//        TextureRegion tr2 = new TextureRegion(mSkin.get("test-texture", Texture.class), 64, 0, 64, 64);
+//        NinePatch np1 = new NinePatch(tr1, 10, 10, 10, 10);
+//        NinePatch np2 = new NinePatch(tr2, 15, 15, 15, 15);
+//        NinePatchDrawable npd1 = new NinePatchDrawable(np1);
+//        NinePatchDrawable npd2 = new NinePatchDrawable(np2);
 //        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle(
 //                npd1,
 //                npd2,
@@ -66,7 +65,7 @@ public class BattleScreen extends AbstractScreen {
 //
 //        TextButton btn = new TextButton("OK", textButtonStyle);
 //        btn.setBounds(100, 200, 100, 50);
-//        mStage.addActor(btn);
+//        mFrontStage.addActor(btn);
 
         ViewLoader vl = new ViewLoader();
         vl.loadTextures(
@@ -151,6 +150,11 @@ public class BattleScreen extends AbstractScreen {
     }
 
     @Override
+    public void switchIn() {
+        Gdx.input.setInputProcessor(mFrontStage);
+    }
+
+    @Override
     public void update(float delta) {
 
         if (Gdx.input.isTouched()) {
@@ -158,7 +162,7 @@ public class BattleScreen extends AbstractScreen {
                     mGame.getTowerLeft() * mStage.getRoot().getScaleX(),
                     Math.min(
                             mGame.getTowerRight() * mStage.getRoot().getScaleX(),
-                            mStage.getCamera().position.x + Gdx.input.getDeltaX()
+                            mStage.getCamera().position.x - Gdx.input.getDeltaX()
                     )
             );
         }

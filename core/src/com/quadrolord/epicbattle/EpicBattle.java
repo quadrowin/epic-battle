@@ -7,8 +7,11 @@ import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.BattleScreen;
@@ -38,24 +41,11 @@ public class EpicBattle extends ApplicationAdapter {
 		Skin src = getSkin();
 		Skin dst = new Skin();
 
-//		dst.add("default", src.getFont("default"), BitmapFont.class);
-//
-//		String[] copyTextures = new String[] {
-//				"test-texture"
-//		};
-//
-//		for (int i = 0; i < copyTextures.length; i++) {
-//			dst.add(
-//					copyTextures[i],
-//					src.get(copyTextures[i], Texture.class),
-//					Texture.class
-//			);
-//		}
-
 		Object[] copyResources = new Object[] {
 				"default", BitmapFont.class,
 				"test-texture", Texture.class,
 				"default-label-style", Label.LabelStyle.class,
+				"default-text-button-style", TextButton.TextButtonStyle.class,
 		};
 
 		for (int i = 0; i < copyResources.length; i += 2) {
@@ -83,6 +73,27 @@ public class EpicBattle extends ApplicationAdapter {
 
 		Texture texture = new Texture(Gdx.files.internal("badlogic.jpg"));
 		mSkin.add("test-texture", texture);
+
+		Texture textureBtnUp = new Texture("ui/button64-up.png");
+		Texture textureBtnDown = new Texture("ui/button64-down.png");
+
+		NinePatch patchUp = new NinePatch(
+				textureBtnUp,
+				16, 16, 16, 16
+		);
+
+		NinePatch patchDown = new NinePatch(
+				textureBtnDown,
+				16, 16, 16, 16
+		);
+
+		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle(
+				new NinePatchDrawable(patchUp),
+				new NinePatchDrawable(patchDown),
+				null,
+				font
+		);
+		mSkin.add("default-text-button-style", textButtonStyle);
 
 		return mSkin;
 	}
@@ -125,7 +136,7 @@ public class EpicBattle extends ApplicationAdapter {
 		}
 		mScreen = newScreen;
 		if (mScreen != null) {
-			Gdx.input.setInputProcessor(mScreen.getStage());
+			mScreen.switchIn();
 		}
 	}
 
