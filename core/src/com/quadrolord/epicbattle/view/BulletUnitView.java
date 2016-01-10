@@ -1,11 +1,8 @@
 package com.quadrolord.epicbattle.view;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.quadrolord.epicbattle.logic.GameUnit;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.battle.SpriteAnimation;
@@ -40,7 +37,6 @@ public class BulletUnitView extends Group {
                 10,
                 2,
                 2,
-                false,
                 true
         );
 
@@ -54,7 +50,6 @@ public class BulletUnitView extends Group {
                 10,
                 2,
                 2,
-                false,
                 true
         );
 
@@ -68,7 +63,6 @@ public class BulletUnitView extends Group {
                 10,
                 2,
                 2,
-                false,
                 true
         );
 
@@ -81,7 +75,13 @@ public class BulletUnitView extends Group {
     @Override
     public void act(float delta) {
         super.act(delta);
-        setX(mBullet.getX());
+        if (mBullet.getVelocity() > 0) {
+            setX(mBullet.getX());
+            setScaleX(1);
+        } else {
+            setX(mBullet.getX() + mBullet.getWidth());
+            setScaleX(-1);
+        }
 
         if (mBullet.isRunning()) {
             mWrapper.getStyle().imageUp = new TextureRegionDrawable(mRunningAnim.getTexture());

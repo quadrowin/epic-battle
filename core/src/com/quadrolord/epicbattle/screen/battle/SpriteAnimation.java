@@ -1,11 +1,9 @@
 package com.quadrolord.epicbattle.screen.battle;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -22,13 +20,12 @@ public class SpriteAnimation extends Group {
     private int mWidth;
     private int mHeight;
     private int mFramesCount;
-    private boolean mFlipX;
     private GameUnit mUnit;
     private boolean mIsLooped;
     private int mPaddingX;
     private int mPaddingY;
 
-    private int mFrame = 0;
+    private float mFrame = 0;
 
     public SpriteAnimation(
             GameUnit unit,
@@ -40,14 +37,12 @@ public class SpriteAnimation extends Group {
             int framesCount,
             int paddingX,
             int paddingY,
-            boolean flipX,
             boolean isLooped
     ) {
         mResource = resource;
         mWidth = width;
         mHeight = height;
         mFramesCount = framesCount;
-        mFlipX = flipX;
         mUnit = unit;
         mPaddingX = paddingX;
         mPaddingY = paddingY;
@@ -60,14 +55,10 @@ public class SpriteAnimation extends Group {
 
     @Override
     public void act(float delta) {
-        ++mFrame;
+        mFrame += delta;
 
-        if (mFrame >= mFramesCount) {
-            if (!mIsLooped) {
-                remove();
-            } else {
-                mFrame = 0;
-            }
+        if (mFrame >= mFramesCount && !mIsLooped) {
+            remove();
         }
     }
 
@@ -77,7 +68,7 @@ public class SpriteAnimation extends Group {
     }
 
     public TextureRegion getTexture() {
-        return mAnim.getKeyFrames()[mFrame];
+        return mAnim.getKeyFrame(mFrame, mIsLooped);
     }
 
     private Animation getAnimation(Skin skin) {
@@ -96,7 +87,7 @@ public class SpriteAnimation extends Group {
             frames.add(new TextureRegion(region, i * width, mPaddingY, width, mHeight));
         }
 
-        Animation anim = new Animation(0.25f, frames);
+        Animation anim = new Animation(0.1f, frames);
         skin.add(mResource, anim);
 
         return anim;
