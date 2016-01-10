@@ -1,6 +1,6 @@
 package com.quadrolord.epicbattle.view;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
@@ -12,11 +12,11 @@ public class BulletUnitView extends Group {
 
     private AbstractBullet mBullet;
 
-    private SpriteAnimation mAnimation;
+    private SpriteAnimationActor mAnimation;
 
-    private SpriteAnimation mRunningAnim;
-    private SpriteAnimation mAttackingAnim;
-    private SpriteAnimation mDeadAnim;
+    private SpriteAnimationDrawable mRunningAnim;
+    private SpriteAnimationDrawable mAttackingAnim;
+    private SpriteAnimationDrawable mDeadAnim;
 
     public BulletUnitView(AbstractBullet bullet, AbstractScreen screen) {
         mBullet = bullet;
@@ -25,79 +25,81 @@ public class BulletUnitView extends Group {
         setBounds(mBullet.getX(), 20, bullet.getWidth(), bullet.getWidth());
         screen.getStage().addActor(this);
 
-        mRunningAnim = new SpriteAnimation(
+        mRunningAnim = screen.getSpriteAnimationLoader().createDrawable(
                 screen.getSkin(),
                 "animation_ninja/ninja_run.png",
                 71,
                 89,
                 10,
+                0.1f,
                 2,
                 2,
                 true
         );
 
-        mAttackingAnim = new SpriteAnimation(
+        mAttackingAnim = screen.getSpriteAnimationLoader().createDrawable(
                 screen.getSkin(),
                 "animation_ninja/ninja_attack.png",
                 96,
                 89,
                 10,
+                0.1f,
                 2,
                 2,
                 true
         );
 
-        mDeadAnim = new SpriteAnimation(
+        mDeadAnim = screen.getSpriteAnimationLoader().createDrawable(
                 screen.getSkin(),
                 "animation_ninja/ninja_dead.png",
                 86,
                 89,
                 10,
+                0.1f,
                 2,
                 2,
                 false
         );
 
-        mAnimation = mRunningAnim;
+        mAnimation = new SpriteAnimationActor();
+        mAnimation.setAnimationLooped(mRunningAnim);
+        addActor(mAnimation);
     }
 
     @Override
     public void act(float delta) {
-        super.act(delta);
         if (mBullet.getVelocity() > 0) {
             setX(mBullet.getX());
             setScale(0.5f, 0.5f);
         } else {
             setX(mBullet.getX() + mBullet.getWidth());
-            setScale(-0.5f, 0.5f);
+            setScale(-0.5f, 0.3f);
         }
 
         if (mBullet.isRunning()) {
-            setAnimation(mRunningAnim);
+            if (mAnimation.getAnimation() != mRunningAnim) {
+                mAnimation.setAnimationLooped(mRunningAnim);
+            }
         }
 
-        mAnimation.act(delta);
+        super.act(delta);
     }
-
-    public void draw(Batch batch, float parentAlpha) {
-        applyTransform(batch, computeTransform());
-        mAnimation.draw(batch, 0, 0, getWidth(), getHeight());
-        drawChildren(batch, parentAlpha);
-        resetTransform(batch);
-    }
-
-    public void setAnimation(SpriteAnimation anim) {
-        mAnimation = anim;
-        anim.reset();
-    }
-
 
     public void startAttackAnimation() {
-        setAnimation(mAttackingAnim);
+        mAnimation.setAnimationLooped(mAttackingAnim);
     }
 
     public void startDeadAnimation() {
-        setAnimation(mDeadAnim);
+        final Actor self = this;
+        mAnimation.setAnimationCallback(
+                mDeadAnim,
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        self.remove();
+                    }
+                }
+        );
     }
 
 }

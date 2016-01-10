@@ -1,87 +1,45 @@
 package com.quadrolord.epicbattle.view;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.Array;
 
 /**
  * Created by Quadrowin on 10.01.2016.
  */
-public class SpriteAnimation implements Drawable {
+public class SpriteAnimationDrawable implements Drawable {
 
     private Animation mAnim;
-    private String mResource;
     private int mWidth;
     private int mHeight;
-    private int mFramesCount;
 
     private boolean mIsLooped;
-    private int mPaddingX;
-    private int mPaddingY;
 
-    private float mFrame = 0;
+    private float mTime = 0;
 
-    public SpriteAnimation(
-            Skin skin,
-            String resource,
+    public SpriteAnimationDrawable(
+            Animation animation,
             int width,
             int height,
-            int framesCount,
-            int paddingX,
-            int paddingY,
             boolean isLooped
     ) {
-        mResource = resource;
+        mAnim = animation;
         mWidth = width;
         mHeight = height;
-        mFramesCount = framesCount;
-        mPaddingX = paddingX;
-        mPaddingY = paddingY;
         mIsLooped = isLooped;
-
-        mAnim = getAnimation(skin);
-    }
-
-    public void act(float delta) {
-        mFrame += delta;
-
-        if (mFrame >= mFramesCount && !mIsLooped) {
-            // remove();
-        }
     }
 
     public TextureRegion getTexture() {
-        return mAnim.getKeyFrame(mFrame, mIsLooped);
+        return mAnim.getKeyFrame(mTime, mIsLooped);
     }
 
-    private Animation getAnimation(Skin skin) {
-        if (skin.has(mResource, Animation.class)) {
-            return skin.get(mResource, Animation.class);
-        }
-
-        Array<TextureRegion> frames = new Array<TextureRegion>();
-
-        Texture texture = new Texture(mResource);
-        TextureRegion region = new TextureRegion(texture);
-
-        int width = mWidth + 2 * mPaddingX - 1;
-
-        for (int i = 0; i < mFramesCount; i++) {
-            frames.add(new TextureRegion(region, i * width, mPaddingY, width, mHeight));
-        }
-
-        Animation anim = new Animation(0.1f, frames);
-        skin.add(mResource, anim);
-
-        return anim;
+    public Animation getAnimation() {
+        return mAnim;
     }
 
-    public void reset() {
-        mFrame = 0;
+    public void setTime(float time) {
+        mTime = time;
     }
 
     @Override

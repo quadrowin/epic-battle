@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.Game;
+import com.quadrolord.epicbattle.view.SpriteAnimationLoader;
 
 /**
  * Created by Quadrowin on 27.11.2015.
@@ -24,6 +25,8 @@ public abstract class AbstractScreen implements Screen {
      * Размер пикселя
      */
     protected float mPx = 2;
+
+    private SpriteAnimationLoader mSpriteAnimationLoader;
 
     public AbstractScreen(EpicBattle adapter, Game game) {
         mAdapter = adapter;
@@ -47,6 +50,13 @@ public abstract class AbstractScreen implements Screen {
 
     public Skin getSkin() {
         return mSkin;
+    }
+
+    public SpriteAnimationLoader getSpriteAnimationLoader() {
+        if (mSpriteAnimationLoader == null) {
+            mSpriteAnimationLoader = new SpriteAnimationLoader();
+        }
+        return mSpriteAnimationLoader;
     }
 
     public Stage getStage() {
