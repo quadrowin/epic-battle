@@ -1,11 +1,9 @@
 package com.quadrolord.epicbattle.view;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
-import com.quadrolord.epicbattle.screen.battle.SpriteAnimation;
 
 /**
  * Created by Quadrowin on 09.01.2016.
@@ -14,11 +12,11 @@ public class BulletUnitView extends Group {
 
     private AbstractBullet mBullet;
 
-    private ImageButton mWrapper;
+    private SpriteAnimation mAnimation;
 
-    protected SpriteAnimation mAttackingAnim;
-    protected SpriteAnimation mRunningAnim;
-    protected SpriteAnimation mDeadAnim;
+    private SpriteAnimation mRunningAnim;
+    private SpriteAnimation mAttackingAnim;
+    private SpriteAnimation mDeadAnim;
 
     public BulletUnitView(AbstractBullet bullet, AbstractScreen screen) {
         mBullet = bullet;
@@ -28,9 +26,7 @@ public class BulletUnitView extends Group {
         screen.getStage().addActor(this);
 
         mRunningAnim = new SpriteAnimation(
-                bullet,
                 screen.getSkin(),
-                screen.getStage(),
                 "animation_ninja/ninja_run.png",
                 71,
                 89,
@@ -41,9 +37,7 @@ public class BulletUnitView extends Group {
         );
 
         mAttackingAnim = new SpriteAnimation(
-                bullet,
                 screen.getSkin(),
-                screen.getStage(),
                 "animation_ninja/ninja_attack.png",
                 96,
                 89,
@@ -54,22 +48,17 @@ public class BulletUnitView extends Group {
         );
 
         mDeadAnim = new SpriteAnimation(
-                bullet,
                 screen.getSkin(),
-                screen.getStage(),
                 "animation_ninja/ninja_dead.png",
                 86,
                 89,
                 10,
                 2,
                 2,
-                true
+                false
         );
 
-        mWrapper = new ImageButton(new TextureRegionDrawable(mRunningAnim.getTexture()));
-        mWrapper.setBounds(0, 0, getWidth(), getHeight());
-
-        addActor(mWrapper);
+        mAnimation = mRunningAnim;
     }
 
     @Override
@@ -77,24 +66,38 @@ public class BulletUnitView extends Group {
         super.act(delta);
         if (mBullet.getVelocity() > 0) {
             setX(mBullet.getX());
-            setScaleX(1);
+            setScale(0.5f, 0.5f);
         } else {
             setX(mBullet.getX() + mBullet.getWidth());
-            setScaleX(-1);
+            setScale(-0.5f, 0.5f);
         }
 
         if (mBullet.isRunning()) {
-            mWrapper.getStyle().imageUp = new TextureRegionDrawable(mRunningAnim.getTexture());
-            mAttackingAnim.reset();
+            setAnimation(mRunningAnim);
         }
 
-        if (mBullet.isAttacking()) {
-            mWrapper.getStyle().imageUp = new TextureRegionDrawable(mAttackingAnim.getTexture());
-            mRunningAnim.reset();
-        }
-
-        if (mBullet.isDied()) {
-            mWrapper.getStyle().imageUp = new TextureRegionDrawable(mDeadAnim.getTexture());
-        }
+        mAnimation.act(delta);
     }
+
+    public void draw(Batch batch, float parentAlpha) {
+        applyTransform(batch, computeTransform());
+        mAnimation.draw(batch, 0, 0, getWidth(), getHeight());
+        drawChildren(batch, parentAlpha);
+        resetTransform(batch);
+    }
+
+    public void setAnimation(SpriteAnimation anim) {
+        mAnimation = anim;
+        anim.reset();
+    }
+
+
+    public void startAttackAnimation() {
+        setAnimation(mAttackingAnim);
+    }
+
+    public void startDeadAnimation() {
+        setAnimation(mDeadAnim);
+    }
+
 }

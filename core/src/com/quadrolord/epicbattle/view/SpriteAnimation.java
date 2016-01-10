@@ -1,26 +1,24 @@
-package com.quadrolord.epicbattle.screen.battle;
+package com.quadrolord.epicbattle.view;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
-import com.quadrolord.epicbattle.logic.GameUnit;
 
 /**
  * Created by Quadrowin on 10.01.2016.
  */
-public class SpriteAnimation extends Group {
+public class SpriteAnimation implements Drawable {
 
     private Animation mAnim;
     private String mResource;
     private int mWidth;
     private int mHeight;
     private int mFramesCount;
-    private GameUnit mUnit;
+
     private boolean mIsLooped;
     private int mPaddingX;
     private int mPaddingY;
@@ -28,9 +26,7 @@ public class SpriteAnimation extends Group {
     private float mFrame = 0;
 
     public SpriteAnimation(
-            GameUnit unit,
             Skin skin,
-            Stage stage,
             String resource,
             int width,
             int height,
@@ -43,28 +39,19 @@ public class SpriteAnimation extends Group {
         mWidth = width;
         mHeight = height;
         mFramesCount = framesCount;
-        mUnit = unit;
         mPaddingX = paddingX;
         mPaddingY = paddingY;
         mIsLooped = isLooped;
 
         mAnim = getAnimation(skin);
-
-        stage.addActor(this);
     }
 
-    @Override
     public void act(float delta) {
         mFrame += delta;
 
         if (mFrame >= mFramesCount && !mIsLooped) {
-            remove();
+            // remove();
         }
-    }
-
-    @Override
-    public void draw (Batch batch, float parentAlpha) {
-
     }
 
     public TextureRegion getTexture() {
@@ -95,5 +82,73 @@ public class SpriteAnimation extends Group {
 
     public void reset() {
         mFrame = 0;
+    }
+
+    @Override
+    public void draw(Batch batch, float x, float y, float width, float height) {
+        batch.draw(
+                getTexture(),
+                (width - mWidth) / 2, (height - mHeight) / 2, mWidth, mHeight
+        );
+    }
+
+    @Override
+    public float getLeftWidth() {
+        return 0;
+    }
+
+    @Override
+    public void setLeftWidth(float leftWidth) {
+
+    }
+
+    @Override
+    public float getRightWidth() {
+        return 0;
+    }
+
+    @Override
+    public void setRightWidth(float rightWidth) {
+
+    }
+
+    @Override
+    public float getTopHeight() {
+        return 0;
+    }
+
+    @Override
+    public void setTopHeight(float topHeight) {
+
+    }
+
+    @Override
+    public float getBottomHeight() {
+        return 0;
+    }
+
+    @Override
+    public void setBottomHeight(float bottomHeight) {
+
+    }
+
+    @Override
+    public float getMinWidth() {
+        return 0;
+    }
+
+    @Override
+    public void setMinWidth(float minWidth) {
+
+    }
+
+    @Override
+    public float getMinHeight() {
+        return 0;
+    }
+
+    @Override
+    public void setMinHeight(float minHeight) {
+
     }
 }

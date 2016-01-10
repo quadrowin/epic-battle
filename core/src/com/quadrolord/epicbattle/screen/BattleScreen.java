@@ -1,12 +1,9 @@
 package com.quadrolord.epicbattle.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.Game;
@@ -25,9 +22,6 @@ import com.quadrolord.epicbattle.view.BulletUnitView;
 import com.quadrolord.epicbattle.view.TowerDeath;
 import com.quadrolord.epicbattle.view.TowerView;
 import com.quadrolord.epicbattle.view.ViewLoader;
-
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
 
 /**
  * Created by Quadrowin on 08.01.2016.
@@ -92,6 +86,8 @@ public class BattleScreen extends AbstractScreen {
 
             @Override
             public void onBulletAttack(AbstractBullet attacker, GameUnit target) {
+                BulletUnitView buv = ((BulletUnitView) attacker.getViewObject());
+                buv.startAttackAnimation();
                 new AttackAnimation(attacker, target, mSkin, mStage);
             }
 
@@ -120,7 +116,8 @@ public class BattleScreen extends AbstractScreen {
 
             @Override
             public void onBulletRemove(AbstractBullet bullet) {
-                ((Actor)bullet.getViewObject()).remove();
+                BulletUnitView buv = ((BulletUnitView) bullet.getViewObject());
+                buv.startDeadAnimation();
             }
 
             @Override
