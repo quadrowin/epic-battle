@@ -25,6 +25,7 @@ abstract public class AbstractBullet extends GameUnit {
 
     private long mLastAttackedMills;
     private boolean mIsRunning = true;
+    private boolean mIsAttacking = false;
 
     public AbstractBullet(Game game) {
         super(game);
@@ -74,6 +75,7 @@ abstract public class AbstractBullet extends GameUnit {
 
         if (mTargets.size > 0) {
             mIsRunning = false;
+            mIsAttacking = true;
 
             if (TimeUtils.timeSinceMillis(mLastAttackedMills) >= mInfo.getAttackTime() / mTower.getTimeUp()) {
                 attack();
@@ -81,6 +83,7 @@ abstract public class AbstractBullet extends GameUnit {
             }
         } else {
             mIsRunning = true;
+            mIsAttacking = false;
         }
 
         if (mIsRunning) {
@@ -122,6 +125,7 @@ abstract public class AbstractBullet extends GameUnit {
     @Override
     public void onDeath() {
         mIsRunning = false;
+        mIsAttacking = false;
 
         for (Iterator<AbstractBullet> iter = mAttackers.iterator(); iter.hasNext(); ) {
             iter.next().removeTarget(this);
@@ -140,4 +144,11 @@ abstract public class AbstractBullet extends GameUnit {
         mInfo = info;
     }
 
+    public boolean isAttacking() {
+        return mIsAttacking;
+    }
+
+    public boolean isRunning() {
+        return mIsRunning;
+    }
 }

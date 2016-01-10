@@ -1,5 +1,7 @@
 package com.quadrolord.epicbattle.logic.bullet;
 
+import com.quadrolord.epicbattle.view.BulletUnitView;
+
 /**
  * Created by Quadrowin on 09.01.2016.
  */
@@ -22,6 +24,8 @@ public class BulletInfo {
     private int mMaxTargetCount = 1;
 
     private String mTitle;
+
+    private Class<? extends BulletUnitView> mViewClass;
 
     public float getAttackDamage() {
         return mAttackDamage;
@@ -59,6 +63,14 @@ public class BulletInfo {
         return mTitle;
     }
 
+    public Class<? extends BulletUnitView> getViewClass() {
+        return mViewClass;
+    }
+
+    public void setViewClass(Class<? extends BulletUnitView> viewClass) {
+        mViewClass = viewClass;
+    }
+
     public void setInfo(String title, int cost, int constructionTime, float attackDamage, float attackDistance, float attackTime, float moveSpeed, int maxTargetCount, int maxHp) {
         mTitle = title;
         mCost = cost;
@@ -69,6 +81,7 @@ public class BulletInfo {
         mMoveSpeed = moveSpeed;
         mMaxTargetCount = maxTargetCount;
         mMaxHp = maxHp;
+        mViewClass = BulletUnitView.class;
     }
 
 }

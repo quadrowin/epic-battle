@@ -24,7 +24,7 @@ public class Tower extends GameUnit {
 
     private float mTime = 0;
 
-    private float mTimeUp = 5.0f;
+    private float mTimeUp = 2.0f;
 
     protected float mMaxHp = 4000;
 
