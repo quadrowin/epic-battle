@@ -17,7 +17,7 @@ public class Big extends AbstractBullet {
         info.setInfo(
                 "Big",
                 100,
-                1000,
+                1,
                 70,
                 2,
                 1000,

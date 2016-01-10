@@ -17,7 +17,7 @@ public class Simple extends AbstractBullet {
         info.setInfo(
                 "Simple",
                 100,
-                1000,
+                3,
                 50,
                 1,
                 1000,

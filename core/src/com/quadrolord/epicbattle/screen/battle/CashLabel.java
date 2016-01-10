@@ -1,6 +1,7 @@
 package com.quadrolord.epicbattle.screen.battle;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.quadrolord.epicbattle.logic.Tower;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
@@ -14,7 +15,7 @@ public class CashLabel extends Group {
 
     private Tower mTower;
 
-    public CashLabel(Tower tower, AbstractScreen screen) {
+    public CashLabel(Tower tower, AbstractScreen screen, Stage stage) {
         mTower = tower;
         mLabel = new Label(
                 Integer.toString((int)tower.getCash()),
@@ -24,7 +25,7 @@ public class CashLabel extends Group {
         this.addActor(mLabel);
 
         this.setBounds(300, 250, 50, 50);
-        screen.getStage().addActor(this);
+        stage.addActor(this);
     }
 
     @Override

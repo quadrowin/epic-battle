@@ -20,6 +20,10 @@ public class Game {
 
     private GameListener mListener;
 
+    private float mTowerLeft;
+
+    private float mTowerRight;
+
     public void act(float delta) {
         for (Iterator<Tower> towers = mTowers.iterator(); towers.hasNext(); ) {
             towers.next().act(delta);
@@ -95,7 +99,10 @@ public class Game {
         mTowers.clear();
 
         createTower(10, 1);
-        createTower(340, -1);
+        createTower(640, -1);
+
+        mTowerLeft = 10;
+        mTowerRight = 640;
     }
 
     public void towerDeath(Tower tower) {
@@ -104,6 +111,14 @@ public class Game {
 
     public Array<Tower> getTowers() {
         return mTowers;
+    }
+
+    public float getTowerLeft() {
+        return mTowerLeft;
+    }
+
+    public float getTowerRight() {
+        return mTowerRight;
     }
 
 }

@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -16,6 +16,7 @@ import com.quadrolord.epicbattle.logic.GameListener;
 import com.quadrolord.epicbattle.logic.Tower;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
+import com.quadrolord.epicbattle.screen.battle.Background;
 import com.quadrolord.epicbattle.screen.battle.CashLabel;
 import com.quadrolord.epicbattle.screen.battle.TowerHp;
 import com.quadrolord.epicbattle.view.BulletUnitView;
@@ -28,11 +29,23 @@ import com.quadrolord.epicbattle.view.ViewLoader;
  */
 public class BattleScreen extends AbstractScreen {
 
+    private Stage mBackStage;
+
+    private Stage mFrontStage;
+
     public BattleScreen(EpicBattle adapter, Game game) {
         super(adapter, game);
 
         mStage.setViewport(new FitViewport(400 * mPx, 300 * mPx));
         mStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+
+        mBackStage = new Stage(new FitViewport(400 * mPx, 300 * mPx));
+        mBackStage.getRoot().setScale(mPx);
+        mBackStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+
+        mFrontStage = new Stage(new FitViewport(400 * mPx, 300 * mPx));
+        mFrontStage.getRoot().setScale(mPx);
+        mFrontStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
         TextureRegion tr1 = new TextureRegion(mSkin.get("test-texture", Texture.class), 64, 64);
         TextureRegion tr2 = new TextureRegion(mSkin.get("test-texture", Texture.class), 64, 0, 64, 64);
@@ -41,19 +54,19 @@ public class BattleScreen extends AbstractScreen {
         NinePatchDrawable npd1 = new NinePatchDrawable(np1);
         NinePatchDrawable npd2 = new NinePatchDrawable(np2);
 
+        new Background(this, mBackStage, mStage.getCamera());
 
-
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle(
-                npd1,
-                npd2,
-                null,
-                mSkin.getFont("default")
-        );
-        mSkin.add("text-button-style-default", textButtonStyle);
-
-        TextButton btn = new TextButton("OK", textButtonStyle);
-        btn.setBounds(100, 200, 100, 50);
-        mStage.addActor(btn);
+//        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle(
+//                npd1,
+//                npd2,
+//                null,
+//                mSkin.getFont("default")
+//        );
+//        mSkin.add("text-button-style-default", textButtonStyle);
+//
+//        TextButton btn = new TextButton("OK", textButtonStyle);
+//        btn.setBounds(100, 200, 100, 50);
+//        mStage.addActor(btn);
 
         ViewLoader vl = new ViewLoader();
         vl.loadTextures(
@@ -91,7 +104,7 @@ public class BattleScreen extends AbstractScreen {
             public void onTowerCreate(final Tower tower) {
 
                 if (tower.getSpeedRatio() < 0) {
-                    new CashLabel(tower, screen);
+                    new CashLabel(tower, screen, mFrontStage);
                 }
 
                 TowerView tv = new TowerView(tower, screen);
@@ -120,17 +133,36 @@ public class BattleScreen extends AbstractScreen {
 
     @Override
     public void draw(float delta) {
+        mBackStage.act(delta);
+        mBackStage.draw();
+
         mStage.act(delta);
         mStage.draw();
+
+        mFrontStage.act(delta);
+        mFrontStage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
         mStage.getViewport().update(width, height, true);
+        mBackStage.getViewport().update(width, height, true);
+        mFrontStage.getViewport().update(width, height, true);
     }
 
     @Override
     public void update(float delta) {
+
+        if (Gdx.input.isTouched()) {
+            mStage.getCamera().position.x = Math.max(
+                    mGame.getTowerLeft() * mStage.getRoot().getScaleX(),
+                    Math.min(
+                            mGame.getTowerRight() * mStage.getRoot().getScaleX(),
+                            mStage.getCamera().position.x + Gdx.input.getDeltaX()
+                    )
+            );
+        }
+
         mGame.act(delta);
     }
 

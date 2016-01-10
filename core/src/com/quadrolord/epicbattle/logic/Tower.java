@@ -3,7 +3,6 @@ package com.quadrolord.epicbattle.logic;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 
 import java.util.Iterator;
@@ -23,11 +22,13 @@ public class Tower extends GameUnit {
 
     private float mRewardMultiplier = 1.0f;
 
+    private float mTime = 0;
+
     private float mTimeUp = 5.0f;
 
     protected float mMaxHp = 4000;
 
-    private ArrayMap<Class<? extends AbstractBullet>, Long> cooldown = new ArrayMap<Class<? extends AbstractBullet>, Long>();
+    private ArrayMap<Class<? extends AbstractBullet>, Float> cooldown = new ArrayMap<Class<? extends AbstractBullet>, Float>();
     private Array<AbstractBullet> mBullets = new Array<AbstractBullet>();
 
     public Tower(Game game) {
@@ -36,13 +37,13 @@ public class Tower extends GameUnit {
     }
 
     public void act(float delta) {
+        mTime += delta;
         mCash += mCashGrowth * delta * mTimeUp;
 
-        Iterator<ObjectMap.Entry<Class<? extends AbstractBullet>, Long>> iter = cooldown.iterator();
-        long now = TimeUtils.millis();
+        Iterator<ObjectMap.Entry<Class<? extends AbstractBullet>, Float>> iter = cooldown.iterator();
 
         while (iter.hasNext()) {
-            if (now >= iter.next().value) {
+            if (mTime >= iter.next().value) {
                 iter.remove();
             }
         }
@@ -62,7 +63,7 @@ public class Tower extends GameUnit {
     }
 
     public void toCooldown(AbstractBullet unit) {
-        cooldown.put(unit.getClass(), TimeUtils.millis() + getConstructionTime(unit));
+        cooldown.put(unit.getClass(), mTime + getConstructionTime(unit));
     }
 
     public boolean isInCooldown(AbstractBullet unit) {
