@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -21,7 +22,13 @@ public class AttackAnimation extends Group {
 
     public AttackAnimation(GameUnit from, GameUnit to, Skin skin, Stage stage) {
         mAnim = getAnimation1(skin);
-        setBounds(from.getX(), 20, 30, 30);
+
+        if (from.getX() < to.getX()) {
+            setScaleX(-1);
+            setBounds(from.getX() + from.getWidth(), 20, 30, 30);
+        } else {
+            setBounds(from.getX(), 20, 30, 30);
+        }
         stage.addActor(this);
     }
 
@@ -36,7 +43,10 @@ public class AttackAnimation extends Group {
     @Override
     public void draw (Batch batch, float parentAlpha) {
         TextureRegion frame = mAnim.getKeyFrame(mStateTime);
-        batch.draw(frame, getX(), getY(), 30, 30);
+        Matrix4 transform = computeTransform();
+        applyTransform(batch, transform);
+        batch.draw(frame, 0, 0, 30, 30);
+        resetTransform(batch);
     }
 
     private Animation getAnimation1(Skin skin) {

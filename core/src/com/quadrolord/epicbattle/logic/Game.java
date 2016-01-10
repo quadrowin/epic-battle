@@ -77,6 +77,7 @@ public class Game {
             return;
         }
 
+        bullet.setWidth(30);
         bullet.setMaxHp(bi.getMaxHp());
         bullet.setHp(bullet.getMaxHp());
         bullet.setVelocity(bi.getMoveSpeed() * tower.getSpeedRatio());
@@ -90,6 +91,10 @@ public class Game {
         mListener.onBulletCreate(bullet);
 
         mListener.onBulletAttack(bullet, tower);
+    }
+
+    public GameListener getListener() {
+        return mListener;
     }
 
     public void setListener(GameListener listener) {

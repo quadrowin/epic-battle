@@ -89,6 +89,9 @@ abstract public class AbstractBullet extends GameUnit {
     }
 
     public void attack() {
+        if (mTargets.size > 0) {
+            mGame.getListener().onBulletAttack(this, mTargets.get(0));
+        }
         for (int i = 0; i < mTargets.size; i++) {
             if (!mTargets.get(i).isDied()) {
                 mTargets.get(i).harm(mInfo.getAttackDamage());
