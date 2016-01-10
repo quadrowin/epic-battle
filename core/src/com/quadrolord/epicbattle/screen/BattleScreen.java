@@ -36,6 +36,8 @@ public class BattleScreen extends AbstractScreen {
     public BattleScreen(EpicBattle adapter, Game game) {
         super(adapter, game);
 
+        mPx = 2;
+
         mStage.setViewport(new FitViewport(400 * mPx, 300 * mPx));
         mStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
