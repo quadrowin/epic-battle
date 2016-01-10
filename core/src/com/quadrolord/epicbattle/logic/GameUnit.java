@@ -7,9 +7,9 @@ import com.badlogic.gdx.Gdx;
  */
 public class GameUnit {
 
-    private float mHp = 100;
+    protected float mHp = 100;
 
-    private float mMaxHp = 100;
+    protected float mMaxHp = 100;
 
     private float mVelocity = 0;
 

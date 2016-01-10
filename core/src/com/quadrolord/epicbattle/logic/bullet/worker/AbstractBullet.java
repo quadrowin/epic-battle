@@ -75,7 +75,7 @@ abstract public class AbstractBullet extends GameUnit {
         if (mTargets.size > 0) {
             mIsRunning = false;
 
-            if (TimeUtils.timeSinceMillis(mLastAttackedMills) >= mInfo.getAttackTime()) {
+            if (TimeUtils.timeSinceMillis(mLastAttackedMills) >= mInfo.getAttackTime() / mTower.getTimeUp()) {
                 attack();
                 mLastAttackedMills = TimeUtils.millis();
             }
@@ -84,7 +84,7 @@ abstract public class AbstractBullet extends GameUnit {
         }
 
         if (mIsRunning) {
-            setX(getX() + getVelocity() * delta);
+            setX(getX() + getVelocity() * delta * mTower.getTimeUp());
         }
     }
 

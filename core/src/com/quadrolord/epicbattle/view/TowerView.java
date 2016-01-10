@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.quadrolord.epicbattle.logic.Tower;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.epicbattle.screen.battle.TowerHp;
 
 /**
  * Created by Quadrowin on 09.01.2016.
@@ -13,6 +14,8 @@ public class TowerView extends Group {
     private Tower mTower;
 
     private ImageButton mView;
+
+    private TowerHp mHpLabel;
 
     public TowerView(Tower tower, AbstractScreen screen) {
         mTower = tower;
@@ -26,4 +29,11 @@ public class TowerView extends Group {
         addActor(mView);
     }
 
+    public void setHpLabel(TowerHp hpLabel) {
+        mHpLabel = hpLabel;
+    }
+
+    public TowerHp getHpLabel() {
+        return mHpLabel;
+    }
 }

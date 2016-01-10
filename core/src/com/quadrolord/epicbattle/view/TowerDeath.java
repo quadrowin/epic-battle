@@ -27,6 +27,8 @@ public class TowerDeath extends Group {
         tv.setPosition(0, 0);
 
         screen.getStage().addActor(this);
+
+        mSourceView.getHpLabel().remove();
     }
 
     @Override

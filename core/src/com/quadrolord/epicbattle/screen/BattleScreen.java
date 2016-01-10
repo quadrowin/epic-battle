@@ -17,6 +17,7 @@ import com.quadrolord.epicbattle.logic.Tower;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.screen.battle.CashLabel;
+import com.quadrolord.epicbattle.screen.battle.TowerHp;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 import com.quadrolord.epicbattle.view.TowerDeath;
 import com.quadrolord.epicbattle.view.TowerView;
@@ -94,6 +95,8 @@ public class BattleScreen extends AbstractScreen {
                 }
 
                 TowerView tv = new TowerView(tower, screen);
+                tv.setHpLabel(new TowerHp(tower, screen));
+
                 tv.addListener(new ClickListener() {
 
                     @Override
@@ -106,7 +109,7 @@ public class BattleScreen extends AbstractScreen {
 
             @Override
             public void onTowerDeath(Tower tower) {
-                Gdx.app.log("", "tower death");
+                Gdx.app.log("towers", "tower death");
                 new TowerDeath((TowerView)tower.getViewObject(), screen);
             }
 
