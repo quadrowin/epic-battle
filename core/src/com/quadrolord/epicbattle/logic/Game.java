@@ -88,6 +88,8 @@ public class Game {
 
         mBullets.add(bullet);
         mListener.onBulletCreate(bullet);
+
+        mListener.onBulletAttack(bullet, tower);
     }
 
     public void setListener(GameListener listener) {
