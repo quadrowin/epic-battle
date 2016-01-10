@@ -2,6 +2,7 @@ package com.quadrolord.epicbattle.logic;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
+import com.quadrolord.epicbattle.logic.ai.TowerAi;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
@@ -13,6 +14,7 @@ import java.util.Iterator;
  */
 public class Game {
 
+    private Array<TowerAi> mAi = new Array<TowerAi>();
     private Array<Tower> mTowers = new Array<Tower>();
     private Array<AbstractBullet> mBullets = new Array<AbstractBullet>();
 
@@ -25,6 +27,10 @@ public class Game {
     private float mTowerRight;
 
     public void act(float delta) {
+        for (Iterator<TowerAi> iter = mAi.iterator(); iter.hasNext(); ) {
+            iter.next().act(delta);
+        }
+
         for (Iterator<Tower> towers = mTowers.iterator(); towers.hasNext(); ) {
             towers.next().act(delta);
         }
@@ -42,13 +48,14 @@ public class Game {
         }
     }
 
-    public void createTower(float position, float speedRatio) {
+    public Tower createTower(float position, float speedRatio) {
         Tower tower = new Tower(this);
         tower.setX(position);
         tower.setSpeedRatio(speedRatio);
         tower.setWidth(60);
         mTowers.add(tower);
         mListener.onTowerCreate(tower);
+        return tower;
     }
 
     public void createUnit(Tower tower, Class<? extends AbstractBullet> workerClass) {
@@ -102,11 +109,14 @@ public class Game {
     }
 
     public void startLevel() {
+        mAi.clear();
         mBullets.clear();
         mTowers.clear();
 
         createTower(10, 1);
-        createTower(640, -1);
+        Tower tower = createTower(640, -1);
+        TowerAi tai = new TowerAi(tower);
+        mAi.add(tai);
 
         mTowerLeft = 10;
         mTowerRight = 640;

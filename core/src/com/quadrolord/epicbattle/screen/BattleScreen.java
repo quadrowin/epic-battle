@@ -116,7 +116,7 @@ public class BattleScreen extends AbstractScreen {
             @Override
             public void onTowerCreate(final Tower tower) {
 
-                if (tower.getSpeedRatio() < 0) {
+                if (tower.getSpeedRatio() > 0) {
                     new CashLabel(tower, screen, mFrontStage);
                 }
 
