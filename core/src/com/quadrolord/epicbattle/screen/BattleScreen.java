@@ -12,10 +12,12 @@ import com.quadrolord.epicbattle.logic.GameUnit;
 import com.quadrolord.epicbattle.logic.Tower;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
+import com.quadrolord.epicbattle.logic.campaign.Level;
 import com.quadrolord.epicbattle.screen.battle.AttackAnimation;
 import com.quadrolord.epicbattle.screen.battle.Background;
 import com.quadrolord.epicbattle.screen.battle.CashLabel;
 import com.quadrolord.epicbattle.screen.battle.CreateBulletPanel;
+import com.quadrolord.epicbattle.screen.battle.LevelNameLabel;
 import com.quadrolord.epicbattle.screen.battle.PauseButton;
 import com.quadrolord.epicbattle.screen.battle.TowerHp;
 import com.quadrolord.epicbattle.view.BulletUnitView;
@@ -164,7 +166,9 @@ public class BattleScreen extends AbstractScreen {
 
         });
 
-        mGame.startLevel();
+        Level level = mGame.getCampaignManager().getLevel(0, 0);
+        new LevelNameLabel(level, mSkin, mFrontStage);
+        mGame.startLevel(level);
     }
 
     @Override

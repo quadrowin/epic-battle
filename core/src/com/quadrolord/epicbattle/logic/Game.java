@@ -6,6 +6,8 @@ import com.quadrolord.epicbattle.logic.ai.TowerAi;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
+import com.quadrolord.epicbattle.logic.campaign.CampaignManager;
+import com.quadrolord.epicbattle.logic.campaign.Level;
 
 import java.util.Iterator;
 
@@ -20,13 +22,20 @@ public class Game {
 
     private ArrayMap<Class<? extends AbstractBullet>, BulletInfo> mBulletInfos = new ArrayMap<Class<? extends AbstractBullet>, BulletInfo>();
 
+    private Level mLevel;
+
     private GameListener mListener;
 
     private float mTowerLeft;
 
     private float mTowerRight;
 
+    private float mLevelTime;
+
+    private CampaignManager mCampaignManager = new CampaignManager();
+
     public void act(float delta) {
+        mLevelTime += delta;
         for (Iterator<TowerAi> iter = mAi.iterator(); iter.hasNext(); ) {
             iter.next().act(delta);
         }
@@ -119,22 +128,35 @@ public class Game {
         mListener = listener;
     }
 
-    public void startLevel() {
+    public void startLevel(Level level) {
         mAi.clear();
         mBullets.clear();
         mTowers.clear();
 
+        mLevel = level;
+
         createTower(10, 1);
-        Tower tower = createTower(640, -1);
+        Tower tower = createTower(level.getEnemyTower().getX(), -1);
         TowerAi tai = new TowerAi(tower);
+        tower.setMaxHp(level.getEnemyTower().getMaxHp());
+        tower.setHp(level.getEnemyTower().getMaxHp());
         mAi.add(tai);
 
         mTowerLeft = 10;
         mTowerRight = 640;
+        mLevelTime = 0;
     }
 
     public void towerDeath(Tower tower) {
         mListener.onTowerDeath(tower);
+    }
+
+    public Level getLevel() {
+        return mLevel;
+    }
+
+    public CampaignManager getCampaignManager() {
+        return mCampaignManager;
     }
 
     public Array<Tower> getTowers() {
