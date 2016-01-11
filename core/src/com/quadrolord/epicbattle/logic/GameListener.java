@@ -17,6 +17,10 @@ public interface GameListener {
 
     void onBulletRemove(AbstractBullet bullet);
 
+    void onLevelDefeat();
+
+    void onLevelVictory();
+
     void onTowerCreate(Tower tower);
 
     void onTowerDeath(Tower tower);

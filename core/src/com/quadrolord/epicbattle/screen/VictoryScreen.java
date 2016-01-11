@@ -7,19 +7,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.quadrolord.epicbattle.screen.pause.CloseButton;
 
 /**
- * Created by Quadrowin on 04.01.2016.
+ * Created by Quadrowin on 11.01.2016.
  */
-public class PauseScreen extends AbstractScreen {
+public class VictoryScreen extends AbstractScreen {
 
-    private AbstractScreen mPausedScreen;
+    private AbstractScreen mBattleScreen;
 
-    public PauseScreen(AbstractScreen pausedScreen) {
-        super(pausedScreen.getAdapter(), pausedScreen.getGame());
-        mPausedScreen = pausedScreen;
+    public VictoryScreen(AbstractScreen battleScreen) {
+        super(battleScreen.getAdapter(), battleScreen.getGame());
+        mBattleScreen = battleScreen;
         initFitViewport();
+
 
         Texture texture = new Texture("ui/panel-64.png");
         mSkin.add("ui-panel-64", texture);
@@ -43,33 +43,23 @@ public class PauseScreen extends AbstractScreen {
         background.setBounds(50, 50, 300, 200);
         mStage.addActor(background);
 
-        Label lblTitle = new Label("GAME IS PAUSED", mSkin.get("default-label-style", Label.LabelStyle.class));
+        Label lblTitle = new Label("Victory!", mSkin.get("default-label-style", Label.LabelStyle.class));
         lblTitle.setAlignment(Align.center, Align.center);
         lblTitle.setBounds(0, background.getHeight() - 50, background.getWidth(), 30);
         lblTitle.setFontScale(getPx());
         background.addActor(lblTitle);
-
-        new CloseButton(this, background);
     }
 
     @Override
     public void draw(float delta) {
-        mPausedScreen.draw(0);
+        mBattleScreen.draw(delta);
+        mStage.act(delta);
         mStage.draw();
-    }
-
-    public AbstractScreen getPausedScreen() {
-        return mPausedScreen;
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        mStage.getViewport().update(width, height, true);
     }
 
     @Override
     public void update(float delta) {
-        mStage.act(delta);
+
     }
 
 }

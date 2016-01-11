@@ -71,6 +71,10 @@ public class Tower extends GameUnit {
         return cooldown.containsKey(unit.getClass());
     }
 
+    public boolean isPlayer() {
+        return mSpeedRatio > 0;
+    }
+
     public float getCash() {
         return mCash;
     }

@@ -38,8 +38,6 @@ public class BattleScreen extends AbstractScreen {
     public BattleScreen(EpicBattle adapter, Game game) {
         super(adapter, game);
 
-        mPx = 2;
-
         mStage.setViewport(new FitViewport(400 * mPx, 300 * mPx));
         mStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
@@ -136,6 +134,18 @@ public class BattleScreen extends AbstractScreen {
             public void onBulletRemove(AbstractBullet bullet) {
                 BulletUnitView buv = ((BulletUnitView) bullet.getViewObject());
                 buv.startDeadAnimation();
+            }
+
+            @Override
+            public void onLevelDefeat() {
+                DefeatScreen ds = new DefeatScreen(screen);
+                mAdapter.switchToScreen(ds, false);
+            }
+
+            @Override
+            public void onLevelVictory() {
+                VictoryScreen vs = new VictoryScreen(screen);
+                mAdapter.switchToScreen(vs, false);
             }
 
             @Override

@@ -149,6 +149,11 @@ public class Game {
 
     public void towerDeath(Tower tower) {
         mListener.onTowerDeath(tower);
+        if (tower.isPlayer()) {
+            mListener.onLevelDefeat();
+        } else {
+            mListener.onLevelVictory();
+        }
     }
 
     public Level getLevel() {
