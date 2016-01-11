@@ -22,7 +22,7 @@ public class Simple extends BulletUnitView {
         return screen.getSpriteAnimationLoader().createDrawable(
                 screen.getSkin(),
                 "animation_ninja/ninja_run.png",
-                71,
+                70,
                 89,
                 10,
                 0.1f,
@@ -37,7 +37,7 @@ public class Simple extends BulletUnitView {
         return screen.getSpriteAnimationLoader().createDrawable(
                 screen.getSkin(),
                 "animation_ninja/ninja_attack.png",
-                96,
+                95,
                 89,
                 10,
                 0.1f,
@@ -52,7 +52,7 @@ public class Simple extends BulletUnitView {
         return screen.getSpriteAnimationLoader().createDrawable(
                 screen.getSkin(),
                 "animation_ninja/ninja_dead.png",
-                86,
+                85,
                 89,
                 10,
                 0.1f,
