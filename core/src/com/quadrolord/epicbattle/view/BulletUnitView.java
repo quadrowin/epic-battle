@@ -73,7 +73,7 @@ public class BulletUnitView extends Group {
             setScale(0.5f, 0.5f);
         } else {
             setX(mBullet.getX() + mBullet.getWidth());
-            setScale(-0.5f, 0.3f);
+            setScale(-0.5f, 0.5f);
         }
 
         if (mBullet.isRunning()) {

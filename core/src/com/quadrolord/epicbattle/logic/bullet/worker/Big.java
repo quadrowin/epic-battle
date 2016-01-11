@@ -16,14 +16,14 @@ public class Big extends AbstractBullet {
     public void initInfo(BulletInfo info) {
         info.setInfo(
                 "Big",
-                100,
-                1,
+                200,
+                2,
                 70,
                 2,
-                1000,
-                50,
-                1,
-                100
+                2,
+                30,
+                2,
+                250
         );
     }
 

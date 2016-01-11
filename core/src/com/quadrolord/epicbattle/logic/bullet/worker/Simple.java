@@ -20,7 +20,7 @@ public class Simple extends AbstractBullet {
                 3,
                 50,
                 1,
-                1000,
+                1,
                 50,
                 1,
                 100
