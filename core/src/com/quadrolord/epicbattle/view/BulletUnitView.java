@@ -8,58 +8,34 @@ import com.quadrolord.epicbattle.screen.AbstractScreen;
 /**
  * Created by Quadrowin on 09.01.2016.
  */
-public class BulletUnitView extends Group {
+public abstract class BulletUnitView extends Group {
 
     private AbstractBullet mBullet;
 
     private SpriteAnimationActor mAnimation;
 
-    private SpriteAnimationDrawable mRunningAnim;
-    private SpriteAnimationDrawable mAttackingAnim;
-    private SpriteAnimationDrawable mDeadAnim;
+    protected SpriteAnimationDrawable mRunningAnim;
+    protected SpriteAnimationDrawable mAttackingAnim;
+    protected SpriteAnimationDrawable mDeadAnim;
+
+    protected abstract SpriteAnimationDrawable getRunningAnimation(AbstractScreen screen);
+    protected abstract SpriteAnimationDrawable getAttackingAnimation(AbstractScreen screen);
+    protected abstract SpriteAnimationDrawable getDeadAnimation(AbstractScreen screen);
+
+    protected float mScaleWidth = 1.0f;
+    protected float mScaleHeight = 1.0f;
+    protected float mUnitY = 60.0f;
 
     public BulletUnitView(AbstractBullet bullet, AbstractScreen screen) {
         mBullet = bullet;
         mBullet.setViewObject(this);
 
-        setBounds(mBullet.getX(), 20, bullet.getWidth(), bullet.getWidth());
+        setBounds(mBullet.getX(), getUnitY(), bullet.getWidth(), bullet.getWidth());
         screen.getStage().addActor(this);
 
-        mRunningAnim = screen.getSpriteAnimationLoader().createDrawable(
-                screen.getSkin(),
-                "animation_ninja/ninja_run.png",
-                71,
-                89,
-                10,
-                0.1f,
-                2,
-                2,
-                true
-        );
-
-        mAttackingAnim = screen.getSpriteAnimationLoader().createDrawable(
-                screen.getSkin(),
-                "animation_ninja/ninja_attack.png",
-                96,
-                89,
-                10,
-                0.1f,
-                2,
-                2,
-                true
-        );
-
-        mDeadAnim = screen.getSpriteAnimationLoader().createDrawable(
-                screen.getSkin(),
-                "animation_ninja/ninja_dead.png",
-                86,
-                89,
-                10,
-                0.1f,
-                2,
-                2,
-                false
-        );
+        mRunningAnim = getRunningAnimation(screen);
+        mAttackingAnim = getAttackingAnimation(screen);
+        mDeadAnim = getDeadAnimation(screen);
 
         mAnimation = new SpriteAnimationActor();
         mAnimation.setAnimationLooped(mRunningAnim);
@@ -70,10 +46,10 @@ public class BulletUnitView extends Group {
     public void act(float delta) {
         if (mBullet.getVelocity() > 0) {
             setX(mBullet.getX());
-            setScale(0.5f, 0.5f);
+            setScale(getScaleWidth(), getScaleHeight());
         } else {
             setX(mBullet.getX() + mBullet.getWidth());
-            setScale(-0.5f, 0.5f);
+            setScale(-getScaleWidth(), getScaleHeight());
         }
 
         if (mBullet.isRunning()) {
@@ -102,4 +78,15 @@ public class BulletUnitView extends Group {
         );
     }
 
+    protected float getScaleWidth() {
+        return mScaleWidth;
+    }
+
+    protected float getScaleHeight() {
+        return mScaleHeight;
+    }
+
+    protected float getUnitY() {
+        return mUnitY;
+    }
 }

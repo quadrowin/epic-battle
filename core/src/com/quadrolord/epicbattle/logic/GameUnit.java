@@ -17,7 +17,7 @@ public class GameUnit {
 
     private float mX;
 
-    private float mWidth = 10;
+    protected float mWidth = 10;
 
     protected Game mGame;
 

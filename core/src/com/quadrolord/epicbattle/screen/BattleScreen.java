@@ -19,6 +19,7 @@ import com.quadrolord.epicbattle.screen.battle.CreateBulletPanel;
 import com.quadrolord.epicbattle.screen.battle.PauseButton;
 import com.quadrolord.epicbattle.screen.battle.TowerHp;
 import com.quadrolord.epicbattle.view.BulletUnitView;
+import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
 import com.quadrolord.epicbattle.view.TowerDeath;
 import com.quadrolord.epicbattle.view.TowerView;
 import com.quadrolord.epicbattle.view.ViewLoader;
@@ -100,7 +101,22 @@ public class BattleScreen extends AbstractScreen {
                 try {
                     viewClass.getConstructor(AbstractBullet.class, AbstractScreen.class).newInstance(bullet, screen);
                 } catch (Exception e) {
-                    new BulletUnitView(bullet, screen);
+                    new BulletUnitView(bullet, screen) {
+                        @Override
+                        protected SpriteAnimationDrawable getRunningAnimation(AbstractScreen screen) {
+                            return null;
+                        }
+
+                        @Override
+                        protected SpriteAnimationDrawable getAttackingAnimation(AbstractScreen screen) {
+                            return null;
+                        }
+
+                        @Override
+                        protected SpriteAnimationDrawable getDeadAnimation(AbstractScreen screen) {
+                            return null;
+                        }
+                    };
                 }
             }
 

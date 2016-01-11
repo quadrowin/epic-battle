@@ -25,5 +25,7 @@ public class Simple extends AbstractBullet {
                 1,
                 100
         );
+
+        info.setViewClass(com.quadrolord.epicbattle.view.worker.Simple.class);
     }
 }

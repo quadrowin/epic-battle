@@ -26,7 +26,7 @@ public class TowerHp extends Group {
 
         float x = mTower.getX() + (mTower.getWidth() - mLabel.getPrefWidth()) / 2;
 
-        this.setBounds(x, 100, 50, 50);
+        this.setBounds(x, 220, 50, 50);
         screen.getStage().addActor(this);
     }
 
