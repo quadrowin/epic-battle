@@ -1,8 +1,10 @@
-package com.quadrolord.epicbattle.logic;
+package com.quadrolord.epicbattle.logic.tower;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.quadrolord.epicbattle.logic.Game;
+import com.quadrolord.epicbattle.logic.GameUnit;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 
 import java.util.Iterator;

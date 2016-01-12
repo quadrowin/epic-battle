@@ -2,12 +2,15 @@ package com.quadrolord.epicbattle.logic;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
-import com.quadrolord.epicbattle.logic.ai.TowerAi;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.logic.campaign.CampaignManager;
 import com.quadrolord.epicbattle.logic.campaign.Level;
+import com.quadrolord.epicbattle.logic.tower.Tower;
+import com.quadrolord.epicbattle.logic.tower.controller.AbstractController;
+import com.quadrolord.epicbattle.logic.tower.controller.ControllerAi;
+import com.quadrolord.epicbattle.logic.tower.controller.ControllerPlayer;
 
 import java.util.Iterator;
 
@@ -16,7 +19,7 @@ import java.util.Iterator;
  */
 public class Game {
 
-    private Array<TowerAi> mAi = new Array<TowerAi>();
+    private Array<AbstractController> mControllers = new Array<AbstractController>();
     private Array<Tower> mTowers = new Array<Tower>();
     private Array<AbstractBullet> mBullets = new Array<AbstractBullet>();
 
@@ -25,6 +28,8 @@ public class Game {
     private Level mLevel;
 
     private GameListener mListener;
+
+    private ControllerPlayer mPlayerController = new ControllerPlayer(this);
 
     private float mTowerLeft;
 
@@ -36,7 +41,7 @@ public class Game {
 
     public void act(float delta) {
         mLevelTime += delta;
-        for (Iterator<TowerAi> iter = mAi.iterator(); iter.hasNext(); ) {
+        for (Iterator<AbstractController> iter = mControllers.iterator(); iter.hasNext(); ) {
             iter.next().act(delta);
         }
 
@@ -57,11 +62,18 @@ public class Game {
         }
     }
 
-    public Tower createTower(float position, float speedRatio) {
+    public Tower createTower(float position, float speedRatio, AbstractController controller) {
+        if (position < mTowerLeft) {
+            mTowerLeft = position;
+        }
+        if (position > mTowerRight) {
+            mTowerRight = position;
+        }
         Tower tower = new Tower(this);
         tower.setX(position);
         tower.setSpeedRatio(speedRatio);
         tower.setWidth(60);
+        controller.setTower(tower);
         mTowers.add(tower);
         mListener.onTowerCreate(tower);
         return tower;
@@ -120,8 +132,16 @@ public class Game {
         return bi;
     }
 
+    public Array<AbstractBullet> getBullets() {
+        return mBullets;
+    }
+
     public GameListener getListener() {
         return mListener;
+    }
+
+    public ControllerPlayer getPlayerController() {
+        return mPlayerController;
     }
 
     public void setListener(GameListener listener) {
@@ -129,21 +149,25 @@ public class Game {
     }
 
     public void startLevel(Level level) {
-        mAi.clear();
+        mListener.beforeStageClear();
+        mControllers.clear();
+        mControllers.add(mPlayerController);
         mBullets.clear();
         mTowers.clear();
 
         mLevel = level;
-
-        createTower(10, 1);
-        Tower tower = createTower(level.getEnemyTower().getX(), -1);
-        TowerAi tai = new TowerAi(tower);
-        tower.setMaxHp(level.getEnemyTower().getMaxHp());
-        tower.setHp(level.getEnemyTower().getMaxHp());
-        mAi.add(tai);
-
         mTowerLeft = 10;
         mTowerRight = 640;
+
+        createTower(10, 1, mPlayerController);
+
+        ControllerAi ai = new ControllerAi(this);
+        ai.setEnemyParams(level.getEnemyTower());
+        Tower tower = createTower(level.getEnemyTower().getX(), -1, ai);
+        tower.setMaxHp(level.getEnemyTower().getMaxHp());
+        tower.setHp(level.getEnemyTower().getMaxHp());
+        mControllers.add(ai);
+
         mLevelTime = 0;
     }
 
@@ -158,6 +182,10 @@ public class Game {
 
     public Level getLevel() {
         return mLevel;
+    }
+
+    public float getLevelTime() {
+        return mLevelTime;
     }
 
     public CampaignManager getCampaignManager() {

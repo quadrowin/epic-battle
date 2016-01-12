@@ -1,18 +1,16 @@
 package com.quadrolord.epicbattle.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.GameListener;
 import com.quadrolord.epicbattle.logic.GameUnit;
-import com.quadrolord.epicbattle.logic.Tower;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
-import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.logic.campaign.Level;
+import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.screen.battle.AttackAnimation;
 import com.quadrolord.epicbattle.screen.battle.Background;
 import com.quadrolord.epicbattle.screen.battle.CashLabel;
@@ -25,6 +23,8 @@ import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
 import com.quadrolord.epicbattle.view.TowerDeath;
 import com.quadrolord.epicbattle.view.TowerView;
 import com.quadrolord.epicbattle.view.ViewLoader;
+
+import java.util.Iterator;
 
 /**
  * Created by Quadrowin on 08.01.2016.
@@ -84,6 +84,18 @@ public class BattleScreen extends AbstractScreen {
 
         final AbstractScreen screen = this;
         mGame.setListener(new GameListener() {
+
+            @Override
+            public void beforeStageClear() {
+                for (Iterator<AbstractBullet> iter = mGame.getBullets().iterator(); iter.hasNext(); ) {
+                    AbstractBullet bullet = iter.next();
+                    ((Actor)bullet.getViewObject()).remove();
+                }
+                for (Iterator<Tower> iter = mGame.getTowers().iterator(); iter.hasNext(); ) {
+                    Tower tower = iter.next();
+                    ((Actor)tower.getViewObject()).remove();
+                }
+            }
 
             @Override
             public void onBulletAttack(AbstractBullet attacker, GameUnit target) {
@@ -157,15 +169,6 @@ public class BattleScreen extends AbstractScreen {
 
                 TowerView tv = new TowerView(tower, screen);
                 tv.setHpLabel(new TowerHp(tower, screen));
-
-                tv.addListener(new ClickListener() {
-
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        mGame.createUnit(tower, Simple.class);
-                    }
-
-                });
             }
 
             @Override

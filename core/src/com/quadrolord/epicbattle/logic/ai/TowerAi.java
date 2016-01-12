@@ -1,6 +1,6 @@
 package com.quadrolord.epicbattle.logic.ai;
 
-import com.quadrolord.epicbattle.logic.Tower;
+import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 
 /**

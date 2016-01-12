@@ -7,6 +7,8 @@ public class EnemyTower {
 
     private int maxHp;
 
+    private EnemyUnit[] units;
+
     private int x;
 
     public int getMaxHp() {

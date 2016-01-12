@@ -2,10 +2,9 @@ package com.quadrolord.epicbattle.logic.bullet.worker;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.GameUnit;
-import com.quadrolord.epicbattle.logic.Tower;
+import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 
 import java.util.Iterator;

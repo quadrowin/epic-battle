@@ -7,6 +7,8 @@ import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
  */
 public interface GameListener {
 
+    void beforeStageClear();
+
     void onBulletAttack(AbstractBullet attacker, GameUnit target);
 
     void onBulletCreate(AbstractBullet bullet);
@@ -21,8 +23,8 @@ public interface GameListener {
 
     void onLevelVictory();
 
-    void onTowerCreate(Tower tower);
+    void onTowerCreate(com.quadrolord.epicbattle.logic.tower.Tower tower);
 
-    void onTowerDeath(Tower tower);
+    void onTowerDeath(com.quadrolord.epicbattle.logic.tower.Tower tower);
 
 }

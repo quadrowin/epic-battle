@@ -1,9 +1,8 @@
 package com.quadrolord.epicbattle.screen.battle;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.quadrolord.epicbattle.logic.Tower;
+import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 
 /**

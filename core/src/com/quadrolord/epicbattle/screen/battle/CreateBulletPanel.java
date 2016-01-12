@@ -4,7 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.quadrolord.epicbattle.logic.Tower;
 import com.quadrolord.epicbattle.logic.bullet.worker.Big;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
@@ -21,8 +20,7 @@ public class CreateBulletPanel extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 CreateBulletButton btn = (CreateBulletButton)event.getListenerActor();
-                Tower tower = screen.getGame().getTowers().get(0);
-                screen.getGame().createUnit(tower, btn.getBulletClass());
+                screen.getGame().getPlayerController().callFire(btn.getBulletClass());
             }
 
         };

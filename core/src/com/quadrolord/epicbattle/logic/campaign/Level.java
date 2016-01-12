@@ -5,9 +5,17 @@ package com.quadrolord.epicbattle.logic.campaign;
  */
 public class Level {
 
+    private AbstractCampaign mCampaign;
+
+    private int mIndex;
+
     private String name;
 
     private EnemyTower enemyTower;
+
+    public AbstractCampaign getCampaign() {
+        return mCampaign;
+    }
 
     public EnemyTower getEnemyTower() {
         return enemyTower;
@@ -17,8 +25,20 @@ public class Level {
         return name;
     }
 
+    public int getIndex() {
+        return mIndex;
+    }
+
+    public void setCampaign(AbstractCampaign campaign) {
+        mCampaign = campaign;
+    }
+
     public void setName(String val) {
         name = val;
+    }
+
+    public void setIndex(int index) {
+        mIndex = index;
     }
 
 }
