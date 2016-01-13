@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.quadrolord.epicbattle.screen.pause.CloseButton;
+import com.quadrolord.epicbattle.screen.pause.LeaveButton;
 
 /**
  * Created by Quadrowin on 04.01.2016.
@@ -50,6 +51,7 @@ public class PauseScreen extends AbstractScreen {
         background.addActor(lblTitle);
 
         new CloseButton(this, background);
+        new LeaveButton(this, background);
     }
 
     @Override

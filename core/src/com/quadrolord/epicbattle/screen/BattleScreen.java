@@ -41,7 +41,7 @@ public class BattleScreen extends AbstractScreen {
      */
     private Array<Actor> mLevelViews = new Array<Actor>();
 
-    public BattleScreen(EpicBattle adapter, Game game) {
+    public BattleScreen(EpicBattle adapter, Game game, Level level) {
         super(adapter, game);
 
         mStage.setViewport(new FitViewport(400 * mPx, 300 * mPx));
@@ -189,7 +189,9 @@ public class BattleScreen extends AbstractScreen {
 
         });
 
-        Level level = mGame.getCampaignManager().getLevel(0, 0);
+        if (level == null) {
+            level = mGame.getCampaignManager().getLevel(0, 0);
+        }
         new LevelNameLabel(level, mSkin, mFrontStage);
         mGame.startLevel(level);
     }

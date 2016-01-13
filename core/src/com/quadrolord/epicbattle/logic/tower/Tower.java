@@ -65,6 +65,10 @@ public class Tower extends GameUnit {
         return Math.round(unit.getInfo().getConstructionTime() * mConstuctionMultiplier / mTimeUp);
     }
 
+    public long getConstructionTime(Class<? extends AbstractBullet> bulletClass) {
+        return Math.round(mGame.getBulletInfo(bulletClass).getConstructionTime() * mConstuctionMultiplier / mTimeUp);
+    }
+
     public void toCooldown(AbstractBullet unit) {
         cooldown.put(unit.getClass(), mTime + getConstructionTime(unit));
     }

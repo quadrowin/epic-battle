@@ -8,12 +8,10 @@ import com.badlogic.gdx.utils.Json;
  */
 public class CampaignItem extends AbstractCampaign {
 
-    private String name;
-
     private Level[] mLevels;
 
     public String getLevelsFile() {
-        return "campaign/" + name.replaceAll("[^a-zA-Z0-9 _]]", "") + ".json";
+        return "campaign/" + getName().replaceAll("[^a-zA-Z0-9 _]]", "") + ".json";
     }
 
     @Override
@@ -32,8 +30,6 @@ public class CampaignItem extends AbstractCampaign {
         return mLevels;
     }
 
-    public String getName() {
-        return name;
-    }
+
 
 }

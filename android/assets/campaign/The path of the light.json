@@ -1,0 +1,53 @@
+[
+  {
+    "class": "Level",
+    "name": "Sydänparka rinnassaan",
+    "enemyTower": {
+      "class": "EnemyTower",
+      "maxHp": 5000,
+      "x": 300,
+      "units": [
+        {
+          "class": "Unit",
+          "workerType": "Simple",
+          "firstTime": 5,
+          "deltaTime": 3
+        }
+      ]
+    }
+  },
+  {
+    "class": "Level",
+    "name": "Hakkaa kahleitaan",
+    "enemyTower": {
+      "class": "EnemyTower",
+      "maxHp": 6000,
+      "x": 500,
+      "units": [
+        {
+          "class": "Unit",
+          "workerType": "Simple",
+          "firstTime": 4,
+          "deltaTime": 2
+        }
+      ]
+    }
+  },
+  {
+    "class": "Level",
+    "name": "Ei koskaan katkeamaan saa",
+    "enemyTower": {
+      "class": "EnemyTower",
+      "maxHp": 7000,
+      "x": 700,
+      "units": [
+        {
+          "class": "Unit",
+          "workerType": "Simple",
+          "firstTime": 3,
+          "deltaTime": 1
+        }
+      ]
+    }
+  }
+]

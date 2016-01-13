@@ -30,7 +30,11 @@ public class EpicBattle extends ApplicationAdapter {
 	public void create () {
 		mGame = new Game();
 		mFps = new FPSLogger();
-		mScreen = new BattleScreen(this, mGame);
+		mScreen = new BattleScreen(this, mGame, null);
+	}
+
+	public Game getGame() {
+		return mGame;
 	}
 
 	/**

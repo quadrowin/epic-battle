@@ -5,6 +5,12 @@ package com.quadrolord.epicbattle.logic.campaign;
  */
 abstract public class AbstractCampaign {
 
+    private String name;
+
     abstract public Level[] getLevels();
+
+    public String getName() {
+        return name;
+    }
 
 }
