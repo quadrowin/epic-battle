@@ -1,11 +1,21 @@
 package com.quadrolord.epicbattle.logic.bullet;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 
 /**
  * Created by Quadrowin on 09.01.2016.
  */
 public class BulletInfo {
+
+    public BulletInfo() {
+
+    }
+
+    public BulletInfo(BulletInfoDto dto) {
+        setInfo(dto);
+    }
 
     private int mCost;
 
@@ -15,7 +25,7 @@ public class BulletInfo {
 
     private float mAttackTime = 1000;
 
-    private int mConstructionTime = 1000;
+    private float mConstructionTime = 1;
 
     private float mMoveSpeed = 1;
 
@@ -26,6 +36,10 @@ public class BulletInfo {
     private String mTitle;
 
     private Class<? extends BulletUnitView> mViewClass;
+
+    private Class<? extends AbstractBullet> mBulletClass;
+
+    private Texture mIcon;
 
     public float getAttackDamage() {
         return mAttackDamage;
@@ -43,7 +57,7 @@ public class BulletInfo {
         return mCost;
     }
 
-    public int getConstructionTime() {
+    public float getConstructionTime() {
         return mConstructionTime;
     }
 
@@ -71,7 +85,29 @@ public class BulletInfo {
         mViewClass = viewClass;
     }
 
-    public void setInfo(String title, int cost, int constructionTime, float attackDamage, float attackDistance, float attackTime, float moveSpeed, int maxTargetCount, int maxHp) {
+    public Texture getIcon() {
+        return mIcon;
+    }
+
+    public void setIcon(Texture mIcon) {
+        this.mIcon = mIcon;
+    }
+
+    public void setBulletClass(Class<? extends AbstractBullet> bulletClass) {
+        mBulletClass = bulletClass;
+    }
+
+    public void setInfo(
+            String title,
+            int cost,
+            float constructionTime,
+            float attackDamage,
+            float attackDistance,
+            float attackTime,
+            float moveSpeed,
+            int maxTargetCount,
+            int maxHp
+    ) {
         mTitle = title;
         mCost = cost;
         mConstructionTime = constructionTime;
@@ -82,6 +118,24 @@ public class BulletInfo {
         mMaxTargetCount = maxTargetCount;
         mMaxHp = maxHp;
         mViewClass = BulletUnitView.class;
+    }
+
+    public void setInfo(BulletInfoDto dto) {
+        setInfo(
+                dto.getTitle(),
+                dto.getCost(),
+                dto.getConstructionTime(),
+                dto.getAttackDamage(),
+                dto.getAttackDistance(),
+                dto.getAttackTime(),
+                dto.getMoveSpeed(),
+                dto.getMaxTargetCount(),
+                dto.getMaxHp()
+        );
+
+        setViewClass(dto.getViewClass());
+        setIcon(dto.getIcon());
+        setBulletClass(dto.getBulletClass());
     }
 
 }

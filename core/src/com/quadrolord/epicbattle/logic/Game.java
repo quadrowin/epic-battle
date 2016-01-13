@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
+import com.quadrolord.epicbattle.logic.bullet.worker.Big;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.logic.campaign.CampaignManager;
 import com.quadrolord.epicbattle.logic.campaign.Level;
@@ -24,6 +25,7 @@ public class Game {
     private Array<AbstractBullet> mBullets = new Array<AbstractBullet>();
 
     private ArrayMap<Class<? extends AbstractBullet>, BulletInfo> mBulletInfos = new ArrayMap<Class<? extends AbstractBullet>, BulletInfo>();
+    private Array<Class<? extends AbstractBullet>> mPlayerBulletClasses = new Array<Class<? extends AbstractBullet>>();
 
     private Level mLevel;
 
@@ -38,6 +40,13 @@ public class Game {
     private float mLevelTime;
 
     private CampaignManager mCampaignManager = new CampaignManager();
+
+    private Tower mPlayerTower;
+
+    public Game() {
+        mPlayerBulletClasses.add(Simple.class);
+        mPlayerBulletClasses.add(Big.class);
+    }
 
     public void act(float delta) {
         mLevelTime += delta;
@@ -159,7 +168,7 @@ public class Game {
         mTowerLeft = 10;
         mTowerRight = 640;
 
-        createTower(10, 1, mPlayerController);
+        mPlayerTower = createTower(10, 1, mPlayerController);
 
         ControllerAi ai = new ControllerAi(this);
         ai.setEnemyParams(level.getEnemyTower());
@@ -194,6 +203,14 @@ public class Game {
 
     public Array<Tower> getTowers() {
         return mTowers;
+    }
+
+    public Tower getPlayerTower() {
+        return mPlayerTower;
+    }
+
+    public Array<Class<? extends AbstractBullet>> getPlayerBulletClasses() {
+        return mPlayerBulletClasses;
     }
 
     public float getTowerLeft() {

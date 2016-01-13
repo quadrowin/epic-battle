@@ -4,9 +4,13 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.quadrolord.epicbattle.logic.Game;
+import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.Big;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
+
+import java.util.Iterator;
 
 /**
  * Created by Quadrowin on 10.01.2016.
@@ -25,17 +29,18 @@ public class CreateBulletPanel extends Group {
 
         };
 
-        CreateBulletButton btn1 = new CreateBulletButton(screen, Simple.class);
-        btn1.setBounds(0, 0, 40, 40);
-        btn1.addListener(clickListener);
-        addActor(btn1);
+        int i = 0;
+        Iterator<Class<? extends AbstractBullet>> iter = screen.getGame().getPlayerBulletClasses().iterator();
 
-        CreateBulletButton btn2 = new CreateBulletButton(screen, Big.class);
-        btn2.setBounds(50, 0, 40, 40);
-        btn2.addListener(clickListener);
-        addActor(btn2);
+        while (iter.hasNext()) {
+            CreateBulletButton btn = new CreateBulletButton(screen, iter.next());
+            btn.setBounds(i * 50, 0, 40, 40);
+            btn.addListener(clickListener);
+            addActor(btn);
+            ++i;
+        }
 
-        setBounds(100, 250, 250, 40);
+        setBounds(10, 5, i * 50, 40);
 
         stage.addActor(this);
     }

@@ -73,6 +73,18 @@ public class Tower extends GameUnit {
         return cooldown.containsKey(unit.getClass());
     }
 
+    public boolean isInCooldown(Class<? extends AbstractBullet> bulletClass) {
+        return cooldown.containsKey(bulletClass);
+    }
+
+    public float getCooldownTime(Class<? extends AbstractBullet> bulletClass) {
+        if (!cooldown.containsKey(bulletClass)) {
+            return 0.0f;
+        }
+
+        return cooldown.get(bulletClass) - mTime;
+    }
+
     public boolean isPlayer() {
         return mSpeedRatio > 0;
     }
