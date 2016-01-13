@@ -3,6 +3,7 @@ package com.quadrolord.epicbattle.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.Game;
@@ -34,6 +35,11 @@ public class BattleScreen extends AbstractScreen {
     private Stage mBackStage;
 
     private Stage mFrontStage;
+
+    /**
+     * Представления, которые нужно удалить со сцены при очистке уровня
+     */
+    private Array<Actor> mLevelViews = new Array<Actor>();
 
     public BattleScreen(EpicBattle adapter, Game game) {
         super(adapter, game);
@@ -87,13 +93,8 @@ public class BattleScreen extends AbstractScreen {
 
             @Override
             public void beforeStageClear() {
-                for (Iterator<AbstractBullet> iter = mGame.getBullets().iterator(); iter.hasNext(); ) {
-                    AbstractBullet bullet = iter.next();
-                    ((Actor)bullet.getViewObject()).remove();
-                }
-                for (Iterator<Tower> iter = mGame.getTowers().iterator(); iter.hasNext(); ) {
-                    Tower tower = iter.next();
-                    ((Actor)tower.getViewObject()).remove();
+                for (Iterator<Actor> iter = mLevelViews.iterator(); iter.hasNext(); ) {
+                    iter.next().remove();
                 }
             }
 
@@ -109,11 +110,12 @@ public class BattleScreen extends AbstractScreen {
                 Gdx.app.log("", "fire with " + bullet.getInfo().getTitle() + " at " + bullet.getX());
 
                 Class <? extends BulletUnitView> viewClass = bullet.getInfo().getViewClass();
+                BulletUnitView view;
 
                 try {
-                    viewClass.getConstructor(AbstractBullet.class, AbstractScreen.class).newInstance(bullet, screen);
+                    view = viewClass.getConstructor(AbstractBullet.class, AbstractScreen.class).newInstance(bullet, screen);
                 } catch (Exception e) {
-                    new BulletUnitView(bullet, screen) {
+                    view = new BulletUnitView(bullet, screen) {
                         @Override
                         protected SpriteAnimationDrawable getRunningAnimation(AbstractScreen screen) {
                             return null;
@@ -130,6 +132,8 @@ public class BattleScreen extends AbstractScreen {
                         }
                     };
                 }
+
+                mLevelViews.add(view);
             }
 
             @Override
@@ -164,17 +168,23 @@ public class BattleScreen extends AbstractScreen {
             public void onTowerCreate(final Tower tower) {
 
                 if (tower.getSpeedRatio() > 0) {
-                    new CashLabel(tower, screen, mFrontStage);
+                    CashLabel cl = new CashLabel(tower, screen, mFrontStage);
+                    mLevelViews.add(cl);
                 }
 
                 TowerView tv = new TowerView(tower, screen);
-                tv.setHpLabel(new TowerHp(tower, screen));
+                mLevelViews.add(tv);
+
+                TowerHp twHp = new TowerHp(tower, screen);
+                tv.setHpLabel(twHp);
+                mLevelViews.add(twHp);
             }
 
             @Override
             public void onTowerDeath(Tower tower) {
                 Gdx.app.log("towers", "tower death");
-                new TowerDeath((TowerView)tower.getViewObject(), screen);
+                Actor td = new TowerDeath((TowerView)tower.getViewObject(), screen);
+                mLevelViews.add(td);
             }
 
         });

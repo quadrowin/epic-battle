@@ -4,17 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.BaseDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
@@ -63,25 +58,22 @@ public class CreateBulletButton extends Group {
 
         Skin skin = screen.getSkin();
 
-        Pixmap white = new Pixmap(30, 5, Pixmap.Format.RGBA8888);
+        Pixmap white = new Pixmap(3, 5, Pixmap.Format.RGBA8888);
         white.setColor(Color.WHITE);
         white.fill();
         skin.add("white", new Texture(white));
 
-        Pixmap black = new Pixmap(30, 5, Pixmap.Format.RGBA8888);
-        black.setColor(Color.BLACK);
-        black.fill();
-        skin.add("black", new Texture(black));
-
         ProgressBar.ProgressBarStyle barStyle = new ProgressBar.ProgressBarStyle(
-                skin.newDrawable("black", Color.BLACK),
-                skin.newDrawable("white", Color.WHITE)
+                skin.newDrawable("white", Color.BLACK),
+                skin.newDrawable("white", Color.BLUE)
         );
+        barStyle.knobBefore = skin.newDrawable("white", Color.WHITE);
 
         mProgressBar = new ProgressBar(0, 100, 1, false, barStyle);
 
         mProgressBar.setPosition(5, 0);
         mProgressBar.setSize(30, 5);
+        mProgressBar.setValue(100);
 
         mFireButton.addActor(mProgressBar);
     }
@@ -91,13 +83,14 @@ public class CreateBulletButton extends Group {
     }
 
     public void act(float delta) {
-        mProgressBar.setValue(100);
-
         if (mGame.getPlayerTower().isInCooldown(mBulletClass)) {
-            float constructionTime = mGame.getBulletInfo(mBulletClass).getConstructionTime();
+            float constructionTime = mGame.getPlayerTower().getConstructionTime(mBulletClass);
             float timeDelta = constructionTime - mGame.getPlayerTower().getCooldownTime(mBulletClass);
 
-            mProgressBar.setValue(Math.round(timeDelta / constructionTime * 100));
+            mProgressBar.setValue(timeDelta / constructionTime * 100);
+            Gdx.app.log("cooldown", timeDelta + " / " + constructionTime);
+        } else {
+            mProgressBar.setValue(mProgressBar.getMaxValue());
         }
     }
 }
