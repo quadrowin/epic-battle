@@ -4,20 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.GameListener;
 import com.quadrolord.epicbattle.logic.GameUnit;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
-import com.quadrolord.epicbattle.logic.bullet.worker.Big;
 import com.quadrolord.epicbattle.logic.campaign.Level;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.screen.battle.AttackAnimation;
 import com.quadrolord.epicbattle.screen.battle.Background;
-import com.quadrolord.epicbattle.screen.battle.Cash;
 import com.quadrolord.epicbattle.screen.battle.BulletPanel;
+import com.quadrolord.epicbattle.screen.battle.Cash;
 import com.quadrolord.epicbattle.screen.battle.LevelName;
 import com.quadrolord.epicbattle.screen.battle.PauseButton;
 import com.quadrolord.epicbattle.screen.battle.TowerHp;
@@ -173,16 +171,11 @@ public class BattleScreen extends AbstractScreen {
 
         });
 
-<<<<<<< HEAD
         if (level == null) {
             level = mGame.getCampaignManager().getLevel(0, 0);
         }
-        new LevelNameLabel(level, mSkin, mFrontStage);
-=======
-        Level level = mGame.getCampaignManager().getLevel(0, 0);
-        new LevelName(level, mSkin, mFrontStage);
 
->>>>>>> 3f75044dc97ab78a22bb5923ec2b5709d7803519
+        new LevelName(level, mSkin, mFrontStage);
         mGame.startLevel(level);
     }
 
