@@ -14,9 +14,9 @@ import com.quadrolord.epicbattle.logic.campaign.Level;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.screen.battle.AttackAnimation;
 import com.quadrolord.epicbattle.screen.battle.Background;
-import com.quadrolord.epicbattle.screen.battle.CashLabel;
-import com.quadrolord.epicbattle.screen.battle.CreateBulletPanel;
-import com.quadrolord.epicbattle.screen.battle.LevelNameLabel;
+import com.quadrolord.epicbattle.screen.battle.Cash;
+import com.quadrolord.epicbattle.screen.battle.BulletPanel;
+import com.quadrolord.epicbattle.screen.battle.LevelName;
 import com.quadrolord.epicbattle.screen.battle.PauseButton;
 import com.quadrolord.epicbattle.screen.battle.TowerHp;
 import com.quadrolord.epicbattle.view.BulletUnitView;
@@ -60,7 +60,7 @@ public class BattleScreen extends AbstractScreen {
 
         new PauseButton(this, mFrontStage);
 
-        new CreateBulletPanel(this, mFrontStage);
+        new BulletPanel(this, mFrontStage);
 
 //        TextureRegion tr1 = new TextureRegion(mSkin.get("test-texture", Texture.class), 64, 64);
 //        TextureRegion tr2 = new TextureRegion(mSkin.get("test-texture", Texture.class), 64, 0, 64, 64);
@@ -109,7 +109,7 @@ public class BattleScreen extends AbstractScreen {
             public void onBulletCreate(AbstractBullet bullet) {
                 Gdx.app.log("", "fire with " + bullet.getInfo().getTitle() + " at " + bullet.getX());
 
-                Class <? extends BulletUnitView> viewClass = bullet.getInfo().getViewClass();
+                Class<? extends BulletUnitView> viewClass = bullet.getInfo().getViewClass();
                 BulletUnitView view;
 
                 try {
@@ -168,7 +168,7 @@ public class BattleScreen extends AbstractScreen {
             public void onTowerCreate(final Tower tower) {
 
                 if (tower.getSpeedRatio() > 0) {
-                    CashLabel cl = new CashLabel(tower, screen, mFrontStage);
+                    Cash cl = new Cash(tower, screen, mFrontStage);
                     mLevelViews.add(cl);
                 }
 
@@ -183,14 +183,14 @@ public class BattleScreen extends AbstractScreen {
             @Override
             public void onTowerDeath(Tower tower) {
                 Gdx.app.log("towers", "tower death");
-                Actor td = new TowerDeath((TowerView)tower.getViewObject(), screen);
+                Actor td = new TowerDeath((TowerView) tower.getViewObject(), screen);
                 mLevelViews.add(td);
             }
 
         });
 
         Level level = mGame.getCampaignManager().getLevel(0, 0);
-        new LevelNameLabel(level, mSkin, mFrontStage);
+        new LevelName(level, mSkin, mFrontStage);
         mGame.startLevel(level);
     }
 

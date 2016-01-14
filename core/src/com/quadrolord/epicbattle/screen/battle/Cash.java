@@ -9,13 +9,13 @@ import com.quadrolord.epicbattle.screen.AbstractScreen;
 /**
  * Created by Quadrowin on 09.01.2016.
  */
-public class CashLabel extends Group {
+public class Cash extends Group {
 
     private Label mLabel;
 
     private Tower mTower;
 
-    public CashLabel(Tower tower, AbstractScreen screen, Stage stage) {
+    public Cash(Tower tower, AbstractScreen screen, Stage stage) {
         mTower = tower;
         mLabel = new Label(
                 Integer.toString((int)tower.getCash()),

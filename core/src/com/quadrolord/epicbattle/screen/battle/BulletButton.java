@@ -19,14 +19,14 @@ import com.quadrolord.epicbattle.screen.AbstractScreen;
 /**
  * Created by Quadrowin on 10.01.2016.
  */
-public class CreateBulletButton extends Group {
+public class BulletButton extends Group {
 
     private Class<? extends AbstractBullet> mBulletClass;
     private Game mGame;
     private ImageButton mFireButton;
     private ProgressBar mProgressBar;
 
-    public CreateBulletButton(AbstractScreen screen, Class<? extends AbstractBullet> bulletClass) {
+    public BulletButton(AbstractScreen screen, Class<? extends AbstractBullet> bulletClass) {
         mBulletClass = bulletClass;
         mGame = screen.getGame();
 
@@ -43,12 +43,6 @@ public class CreateBulletButton extends Group {
 
         this.addActor(mFireButton);
 
-        Label title = new Label(bi.getTitle(), screen.getSkin(), "default", Color.WHITE);
-        title.setBounds(0, 5, mFireButton.getWidth(), mFireButton.getHeight());
-        title.setAlignment(Align.top, Align.center);
-        title.setFontScale(0.7f, 0.7f);
-        mFireButton.addActor(title);
-
         Label cost = new Label(Integer.toString(bi.getCost()), screen.getSkin(), "default", Color.WHITE);
         cost.setBounds(0, 0, mFireButton.getWidth(), mFireButton.getHeight());
         cost.setAlignment(Align.bottom, Align.center);
@@ -58,14 +52,14 @@ public class CreateBulletButton extends Group {
 
         Skin skin = screen.getSkin();
 
-        Pixmap white = new Pixmap(3, 5, Pixmap.Format.RGBA8888);
+        Pixmap white = new Pixmap(1, 5, Pixmap.Format.RGBA8888);
         white.setColor(Color.WHITE);
         white.fill();
         skin.add("white", new Texture(white));
 
         ProgressBar.ProgressBarStyle barStyle = new ProgressBar.ProgressBarStyle(
                 skin.newDrawable("white", Color.BLACK),
-                skin.newDrawable("white", Color.BLUE)
+                skin.newDrawable("white", Color.WHITE)
         );
         barStyle.knobBefore = skin.newDrawable("white", Color.WHITE);
 
@@ -73,7 +67,7 @@ public class CreateBulletButton extends Group {
 
         mProgressBar.setPosition(5, 0);
         mProgressBar.setSize(30, 5);
-        mProgressBar.setValue(100);
+        mProgressBar.setValue(mProgressBar.getMaxValue());
 
         mFireButton.addActor(mProgressBar);
     }
@@ -83,14 +77,23 @@ public class CreateBulletButton extends Group {
     }
 
     public void act(float delta) {
-        if (mGame.getPlayerTower().isInCooldown(mBulletClass)) {
+        boolean isInCooldown = mGame.getPlayerTower().isInCooldown(mBulletClass);
+
+        if (isInCooldown) {
             float constructionTime = mGame.getPlayerTower().getConstructionTime(mBulletClass);
             float timeDelta = constructionTime - mGame.getPlayerTower().getCooldownTime(mBulletClass);
 
             mProgressBar.setValue(timeDelta / constructionTime * 100);
-            Gdx.app.log("cooldown", timeDelta + " / " + constructionTime);
         } else {
             mProgressBar.setValue(mProgressBar.getMaxValue());
+        }
+
+        Color color = mFireButton.getColor();
+
+        if (isInCooldown || !mGame.getPlayerTower().hasCash(mBulletClass)) {
+            mFireButton.setColor(color.r, color.b, color.g, 0.5f);
+        } else {
+            mFireButton.setColor(color.r, color.b, color.g, 1.0f);
         }
     }
 }

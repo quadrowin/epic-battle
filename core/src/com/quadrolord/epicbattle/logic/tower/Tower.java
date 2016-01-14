@@ -65,6 +65,10 @@ public class Tower extends GameUnit {
         return Math.round(unit.getInfo().getConstructionTime() * mConstuctionMultiplier / mTimeUp);
     }
 
+    public long getConstructionTime(Class<? extends AbstractBullet> bulletClass) {
+        return Math.round(getGame().getBulletInfo(bulletClass).getConstructionTime() * mConstuctionMultiplier / mTimeUp);
+    }
+
     public void toCooldown(AbstractBullet unit) {
         cooldown.put(unit.getClass(), mTime + getConstructionTime(unit));
     }
@@ -111,6 +115,10 @@ public class Tower extends GameUnit {
 
     public boolean hasCash(AbstractBullet unit) {
         return unit.getInfo().getCost() <= mCash;
+    }
+
+    public boolean hasCash(Class<? extends AbstractBullet> bulletClass) {
+        return getGame().getBulletInfo(bulletClass).getCost() <= mCash;
     }
 
     public Tower getEnemy() {
