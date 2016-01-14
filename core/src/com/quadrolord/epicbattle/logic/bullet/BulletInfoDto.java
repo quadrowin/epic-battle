@@ -1,6 +1,7 @@
 package com.quadrolord.epicbattle.logic.bullet;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 

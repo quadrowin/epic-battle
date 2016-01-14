@@ -1,5 +1,6 @@
 package com.quadrolord.epicbattle.logic;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
@@ -24,9 +25,6 @@ public class Game {
     private Array<Tower> mTowers = new Array<Tower>();
     private Array<AbstractBullet> mBullets = new Array<AbstractBullet>();
 
-    private ArrayMap<Class<? extends AbstractBullet>, BulletInfo> mBulletInfos = new ArrayMap<Class<? extends AbstractBullet>, BulletInfo>();
-    private Array<Class<? extends AbstractBullet>> mPlayerBulletClasses = new Array<Class<? extends AbstractBullet>>();
-
     private Level mLevel;
 
     private GameListener mListener;
@@ -42,14 +40,37 @@ public class Game {
     private CampaignManager mCampaignManager = new CampaignManager();
 
     private Tower mPlayerTower;
+    private Tower mEnemyTower;
 
     public Game() {
-        mPlayerBulletClasses.add(Simple.class);
-        mPlayerBulletClasses.add(Big.class);
+        mPlayerTower = new Tower(this);
+        mEnemyTower = new Tower(this);
+
+        mTowers.add(mPlayerTower);
+        mTowers.add(mEnemyTower);
+
+        mPlayerTower.getBulletClasses().add(Simple.class);
+        mPlayerTower.getBulletClasses().add(Big.class);
+
+        ArrayMap<Class<? extends AbstractBullet>, Integer> bulletLevels = new ArrayMap<Class<? extends AbstractBullet>, Integer>();
+        bulletLevels.put(Big.class, 3);
+        getPlayerTower().setBulletLevels(bulletLevels);
+
+        ArrayMap<Class<? extends AbstractBullet>, Integer> levels = mPlayerTower.getBulletLevels();
+        Iterator<Class<? extends AbstractBullet>> iter = mPlayerTower.getBulletClasses().iterator();
+
+        while (iter.hasNext()) {
+            Class<? extends AbstractBullet> bulletClass = iter.next();
+
+            if (levels.containsKey(bulletClass)) {
+                mPlayerTower.getBulletInfo(bulletClass).setLevel(levels.get(bulletClass));
+            }
+        }
     }
 
     public void act(float delta) {
         mLevelTime += delta;
+
         for (Iterator<AbstractController> iter = mControllers.iterator(); iter.hasNext(); ) {
             iter.next().act(delta);
         }
@@ -71,21 +92,19 @@ public class Game {
         }
     }
 
-    public Tower createTower(float position, float speedRatio, AbstractController controller) {
+    public void spawnTower(Tower tower, float position, float speedRatio, AbstractController controller) {
         if (position < mTowerLeft) {
             mTowerLeft = position;
         }
         if (position > mTowerRight) {
             mTowerRight = position;
         }
-        Tower tower = new Tower(this);
         tower.setX(position);
         tower.setSpeedRatio(speedRatio);
         tower.setWidth(60);
         controller.setTower(tower);
-        mTowers.add(tower);
+
         mListener.onTowerCreate(tower);
-        return tower;
     }
 
     public void createUnit(Tower tower, Class<? extends AbstractBullet> workerClass) {
@@ -96,7 +115,7 @@ public class Game {
             bullet = new Simple(this);
         }
 
-        BulletInfo bi = getBulletInfo(workerClass);
+        BulletInfo bi = tower.getBulletInfo(workerClass);
         bullet.setInfo(bi);
 
         if (tower.isInCooldown(bullet)) {
@@ -123,22 +142,6 @@ public class Game {
         mListener.onBulletCreate(bullet);
 
         mListener.onBulletAttack(bullet, tower);
-    }
-
-    public BulletInfo getBulletInfo(Class<? extends AbstractBullet> workerClass) {
-        BulletInfo bi = mBulletInfos.get(workerClass);
-        if (bi == null) {
-            bi = new BulletInfo();
-            mBulletInfos.put(workerClass, bi);
-            AbstractBullet bullet;
-            try {
-                bullet = workerClass.getConstructor(Game.class).newInstance(this);
-            } catch (Exception e) {
-                bullet = new Simple(this);
-            }
-            bullet.initInfo(bi);
-        }
-        return bi;
     }
 
     public Array<AbstractBullet> getBullets() {
@@ -168,16 +171,20 @@ public class Game {
         mTowerLeft = 10;
         mTowerRight = 640;
 
-        mPlayerTower = createTower(10, 1, mPlayerController);
+        spawnTower(mPlayerTower, 10, 1, mPlayerController);
 
         ControllerAi ai = new ControllerAi(this);
         ai.setEnemyParams(level.getEnemyTower());
-        Tower tower = createTower(level.getEnemyTower().getX(), -1, ai);
-        tower.setMaxHp(level.getEnemyTower().getMaxHp());
-        tower.setHp(level.getEnemyTower().getMaxHp());
+
+        spawnTower(mEnemyTower, level.getEnemyTower().getX(), -1, ai);
+        mEnemyTower.setMaxHp(level.getEnemyTower().getMaxHp());
+        mEnemyTower.setHp(level.getEnemyTower().getMaxHp());
         mControllers.add(ai);
 
         mLevelTime = 0;
+
+        mTowers.add(mPlayerTower);
+        mTowers.add(mEnemyTower);
     }
 
     public void towerDeath(Tower tower) {
@@ -207,10 +214,6 @@ public class Game {
 
     public Tower getPlayerTower() {
         return mPlayerTower;
-    }
-
-    public Array<Class<? extends AbstractBullet>> getPlayerBulletClasses() {
-        return mPlayerBulletClasses;
     }
 
     public float getTowerLeft() {

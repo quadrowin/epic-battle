@@ -10,11 +10,11 @@ import com.quadrolord.epicbattle.logic.campaign.Level;
 /**
  * Created by Quadrowin on 11.01.2016.
  */
-public class LevelNameLabel extends Group {
+public class LevelName extends Group {
 
     private float mTime = 0;
 
-    public LevelNameLabel(Level level, Skin skin, Stage stage) {
+    public LevelName(Level level, Skin skin, Stage stage) {
         setBounds(0, 300, 400, 30);
 
         Label label = new Label(level.getName(), skin.get("default-label-style", Label.LabelStyle.class));

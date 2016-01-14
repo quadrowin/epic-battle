@@ -16,7 +16,7 @@ abstract public class AbstractBullet extends GameUnit {
 
     protected BulletInfo mInfo;
 
-    private Tower mTower;
+    protected Tower mTower;
 
     private Array<GameUnit> mTargets = new Array<GameUnit>();
 
@@ -134,9 +134,14 @@ abstract public class AbstractBullet extends GameUnit {
             iter.next().removeTarget(this);
         }
 
+        mTower.getEnemy().incCash(this);
         mTower.deleteUnit(this);
 
         Gdx.app.log("bullets", "unit was died");
+    }
+
+    public Tower getTower() {
+        return mTower;
     }
 
     public void setTower(Tower tower) {

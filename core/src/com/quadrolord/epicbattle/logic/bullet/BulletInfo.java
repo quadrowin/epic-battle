@@ -1,6 +1,8 @@
 package com.quadrolord.epicbattle.logic.bullet;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 
@@ -40,6 +42,20 @@ public class BulletInfo {
     private Class<? extends AbstractBullet> mBulletClass;
 
     private Texture mIcon;
+
+    private int mLevel = 0;
+
+    protected Array<BulletLevelUp> mLevelUps = new Array<BulletLevelUp>() {
+
+    };
+
+    public Array<BulletLevelUp> getLevelUps() {
+        return mLevelUps;
+    }
+
+    public void setLevelUps(Array<BulletLevelUp> levelUps) {
+        mLevelUps = levelUps;
+    }
 
     public float getAttackDamage() {
         return mAttackDamage;
@@ -93,8 +109,59 @@ public class BulletInfo {
         this.mIcon = mIcon;
     }
 
+    public int getLevel() {
+        return mLevel;
+    }
+
+    public void setLevel(int level) {
+        for (int i = 2; i <= level; i++) {
+
+            BulletLevelUp levelUp = getLevelUps().get(i - 2);
+
+            if (levelUp != null) {
+                levelUp.action().updateInfo(this);
+            }
+        }
+    }
+
     public void setBulletClass(Class<? extends AbstractBullet> bulletClass) {
         mBulletClass = bulletClass;
+    }
+
+    public void setTitle(String title) {
+        mTitle = title;
+    }
+
+    public void setAttackDamage(float attackDamage) {
+        mAttackDamage = attackDamage;
+    }
+
+    public void setAttackTime(float attackTime) {
+        mAttackTime = attackTime;
+    }
+
+    public void setAttackDistance(float attackDistance) {
+        mAttackDistance = attackDistance;
+    }
+
+    public void setMaxHp(int maxHp) {
+        mMaxHp = maxHp;
+    }
+
+    public void setMoveSpeed(float moveSpeed) {
+        mMoveSpeed = moveSpeed;
+    }
+
+    public void setMaxTargetCount(int maxTargetCount) {
+        mMaxTargetCount = maxTargetCount;
+    }
+
+    public void setCost(int cost) {
+        mCost = cost;
+    }
+
+    public void setConstructionTime(float constructionTime) {
+        mConstructionTime = constructionTime;
     }
 
     public void setInfo(

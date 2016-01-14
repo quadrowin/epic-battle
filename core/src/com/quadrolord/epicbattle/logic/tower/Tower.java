@@ -5,7 +5,9 @@ import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.GameUnit;
+import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
+import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 
 import java.util.Iterator;
 
@@ -18,7 +20,7 @@ public class Tower extends GameUnit {
 
     private float mCash = 0;
 
-    private float mCashGrowth = 100;
+    private float mCashGrowth = 10;
 
     private float mConstuctionMultiplier = 1.0f;
 
@@ -32,6 +34,10 @@ public class Tower extends GameUnit {
 
     private ArrayMap<Class<? extends AbstractBullet>, Float> cooldown = new ArrayMap<Class<? extends AbstractBullet>, Float>();
     private Array<AbstractBullet> mBullets = new Array<AbstractBullet>();
+    private ArrayMap<Class<? extends AbstractBullet>, Integer> mBulletLevels = new ArrayMap<Class<? extends AbstractBullet>, Integer>();
+
+    private ArrayMap<Class<? extends AbstractBullet>, BulletInfo> mBulletInfos = new ArrayMap<Class<? extends AbstractBullet>, BulletInfo>();
+    private Array<Class<? extends AbstractBullet>> mBulletClasses = new Array<Class<? extends AbstractBullet>>();
 
     public Tower(Game game) {
         super(game);
@@ -52,6 +58,38 @@ public class Tower extends GameUnit {
         }
     }
 
+    public BulletInfo getBulletInfo(Class<? extends AbstractBullet> workerClass) {
+        BulletInfo bi = mBulletInfos.get(workerClass);
+        if (bi == null) {
+            bi = new BulletInfo();
+            mBulletInfos.put(workerClass, bi);
+            AbstractBullet bullet;
+            try {
+                bullet = workerClass.getConstructor(Game.class).newInstance(getGame());
+            } catch (Exception e) {
+                bullet = new Simple(getGame());
+            }
+            bullet.initInfo(bi);
+        }
+        return bi;
+    }
+
+    public void setBulletLevels(ArrayMap<Class<? extends AbstractBullet>, Integer> bulletLevels) {
+        mBulletLevels = bulletLevels;
+    }
+
+    public ArrayMap<Class<? extends AbstractBullet>, Integer> getBulletLevels() {
+        return mBulletLevels;
+    }
+
+    public int getBulletLevel(Class<? extends AbstractBullet> bulletClass) {
+        if (mBulletLevels.containsKey(bulletClass)) {
+            return mBulletLevels.get(bulletClass);
+        }
+
+        return 1;
+    }
+
     public Array<AbstractBullet> getUnits() {
         return mBullets;
     }
@@ -66,7 +104,11 @@ public class Tower extends GameUnit {
     }
 
     public long getConstructionTime(Class<? extends AbstractBullet> bulletClass) {
+<<<<<<< HEAD
         return Math.round(mGame.getBulletInfo(bulletClass).getConstructionTime() * mConstuctionMultiplier / mTimeUp);
+=======
+        return Math.round(getBulletInfo(bulletClass).getConstructionTime() * mConstuctionMultiplier / mTimeUp);
+>>>>>>> 3f75044dc97ab78a22bb5923ec2b5709d7803519
     }
 
     public void toCooldown(AbstractBullet unit) {
@@ -117,6 +159,10 @@ public class Tower extends GameUnit {
         return unit.getInfo().getCost() <= mCash;
     }
 
+    public boolean hasCash(Class<? extends AbstractBullet> bulletClass) {
+        return getBulletInfo(bulletClass).getCost() <= mCash;
+    }
+
     public Tower getEnemy() {
         for (Iterator<Tower> iter = mGame.getTowers().iterator(); iter.hasNext(); ) {
             Tower next = iter.next();
@@ -142,9 +188,11 @@ public class Tower extends GameUnit {
     }
 
     public void incCash(AbstractBullet bullet) {
-        if (!bullet.isDied()) {
-            mCash += bullet.getInfo().getCost() / 3 * mRewardMultiplier;
-        }
+        mCash += bullet.getInfo().getCost() / 3 * mRewardMultiplier;
+    }
+
+    public Array<Class<? extends AbstractBullet>> getBulletClasses() {
+        return mBulletClasses;
     }
 
     public float getTimeUp() {
