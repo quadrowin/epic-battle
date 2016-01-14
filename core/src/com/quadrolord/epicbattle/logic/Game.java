@@ -1,6 +1,5 @@
 package com.quadrolord.epicbattle.logic;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
@@ -99,6 +98,7 @@ public class Game {
         if (position > mTowerRight) {
             mTowerRight = position;
         }
+        tower.setHp(tower.getMaxHp());
         tower.setX(position);
         tower.setSpeedRatio(speedRatio);
         tower.setWidth(60);
