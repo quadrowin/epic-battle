@@ -27,7 +27,7 @@ public class BulletPanel extends Group {
         };
 
         int i = 0;
-        Iterator<Class<? extends AbstractBullet>> iter = screen.getGame().getPlayerBulletClasses().iterator();
+        Iterator<Class<? extends AbstractBullet>> iter = screen.getGame().getPlayerTower().getBulletClasses().iterator();
 
         while (iter.hasNext()) {
             BulletButton btn = new BulletButton(screen, iter.next());

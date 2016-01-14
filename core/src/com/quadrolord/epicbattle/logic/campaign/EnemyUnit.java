@@ -33,6 +33,8 @@ public class EnemyUnit {
      */
     private float deltaTime = 3;
 
+    private int level = 1;
+
     public Class<? extends AbstractBullet> getWorkerClass() {
         return workerTypes.get(workerType);
     }

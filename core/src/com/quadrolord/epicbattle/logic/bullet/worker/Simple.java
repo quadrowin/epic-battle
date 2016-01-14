@@ -1,9 +1,12 @@
 package com.quadrolord.epicbattle.logic.bullet.worker;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfoDto;
+import com.quadrolord.epicbattle.logic.bullet.BulletLevelUp;
+import com.quadrolord.epicbattle.logic.bullet.BulletLevelUpDto;
 
 /**
  * Created by Quadrowin on 09.01.2016.
@@ -43,5 +46,20 @@ public class Simple extends AbstractBullet {
                 setIcon(new Texture("icons/units/simple.png"));
 
         info.setInfo(dto);
+
+        info.setLevelUps(new Array<BulletLevelUp>(new BulletLevelUp[]{
+                new BulletLevelUp() {
+                    @Override
+                    public BulletLevelUpDto action() {
+                        return getDdo().setAttackDamageDelta(5);
+                    }
+                },
+                new BulletLevelUp() {
+                    @Override
+                    public BulletLevelUpDto action() {
+                        return getDdo().setAttackDamageDelta(10);
+                    }
+                }
+        }));
     }
 }

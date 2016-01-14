@@ -4,12 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.GameListener;
 import com.quadrolord.epicbattle.logic.GameUnit;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
+import com.quadrolord.epicbattle.logic.bullet.worker.Big;
 import com.quadrolord.epicbattle.logic.campaign.Level;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.screen.battle.AttackAnimation;
@@ -61,24 +63,6 @@ public class BattleScreen extends AbstractScreen {
         new PauseButton(this, mFrontStage);
 
         new BulletPanel(this, mFrontStage);
-
-//        TextureRegion tr1 = new TextureRegion(mSkin.get("test-texture", Texture.class), 64, 64);
-//        TextureRegion tr2 = new TextureRegion(mSkin.get("test-texture", Texture.class), 64, 0, 64, 64);
-//        NinePatch np1 = new NinePatch(tr1, 10, 10, 10, 10);
-//        NinePatch np2 = new NinePatch(tr2, 15, 15, 15, 15);
-//        NinePatchDrawable npd1 = new NinePatchDrawable(np1);
-//        NinePatchDrawable npd2 = new NinePatchDrawable(np2);
-//        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle(
-//                npd1,
-//                npd2,
-//                null,
-//                mSkin.getFont("default")
-//        );
-//        mSkin.add("text-button-style-default", textButtonStyle);
-//
-//        TextButton btn = new TextButton("OK", textButtonStyle);
-//        btn.setBounds(100, 200, 100, 50);
-//        mFrontStage.addActor(btn);
 
         ViewLoader vl = new ViewLoader();
         vl.loadTextures(
@@ -191,6 +175,7 @@ public class BattleScreen extends AbstractScreen {
 
         Level level = mGame.getCampaignManager().getLevel(0, 0);
         new LevelName(level, mSkin, mFrontStage);
+
         mGame.startLevel(level);
     }
 

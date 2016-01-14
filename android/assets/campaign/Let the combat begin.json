@@ -11,7 +11,8 @@
           "class": "Unit",
           "workerType": "Simple",
           "firstTime": 5,
-          "deltaTime": 3
+          "deltaTime": 3,
+          "level": 1
         }
       ]
     }
@@ -28,7 +29,8 @@
           "class": "Unit",
           "workerType": "Simple",
           "firstTime": 4,
-          "deltaTime": 2
+          "deltaTime": 2,
+          "level": 1
         }
       ]
     }
@@ -45,7 +47,8 @@
           "class": "Unit",
           "workerType": "Simple",
           "firstTime": 3,
-          "deltaTime": 1
+          "deltaTime": 1,
+          "level": 2
         }
       ]
     }

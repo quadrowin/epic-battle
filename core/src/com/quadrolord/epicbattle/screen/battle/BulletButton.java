@@ -30,7 +30,7 @@ public class BulletButton extends Group {
         mBulletClass = bulletClass;
         mGame = screen.getGame();
 
-        BulletInfo bi = screen.getGame().getBulletInfo(bulletClass);
+        BulletInfo bi = screen.getGame().getPlayerTower().getBulletInfo(bulletClass);
 
         mFireButton = new ImageButton(new Image(bi.getIcon()).getDrawable());
 
