@@ -20,7 +20,7 @@ public class Tower extends GameUnit {
 
     private float mCash = 0;
 
-    private float mCashGrowth = 100;
+    private float mCashGrowth = 10;
 
     private float mConstuctionMultiplier = 1.0f;
 
@@ -184,9 +184,7 @@ public class Tower extends GameUnit {
     }
 
     public void incCash(AbstractBullet bullet) {
-        if (!bullet.isDied()) {
-            mCash += bullet.getInfo().getCost() / 3 * mRewardMultiplier;
-        }
+        mCash += bullet.getInfo().getCost() / 3 * mRewardMultiplier;
     }
 
     public Array<Class<? extends AbstractBullet>> getBulletClasses() {
