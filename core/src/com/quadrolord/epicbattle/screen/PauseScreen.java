@@ -18,7 +18,7 @@ public class PauseScreen extends AbstractScreen {
     private AbstractScreen mPausedScreen;
 
     public PauseScreen(AbstractScreen pausedScreen) {
-        super(pausedScreen.getAdapter(), pausedScreen.getGame());
+        super(pausedScreen.getAdapter());
         mPausedScreen = pausedScreen;
         initFitViewport();
 

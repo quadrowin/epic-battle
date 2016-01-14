@@ -27,4 +27,12 @@ public interface GameListener {
 
     void onTowerDeath(com.quadrolord.epicbattle.logic.tower.Tower tower);
 
+    /**
+     * Вызов визуального эффекта
+     * @param x
+     * @param y
+     * @param visualEventClass
+     */
+    void onVisualEvent(float x, float y, Class visualEventClass);
+
 }

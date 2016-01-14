@@ -4,13 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
-import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.GameListener;
 import com.quadrolord.epicbattle.logic.GameUnit;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.campaign.Level;
+import com.quadrolord.epicbattle.logic.skill.TowerRandomBleed;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.screen.battle.AttackAnimation;
 import com.quadrolord.epicbattle.screen.battle.Background;
@@ -24,6 +25,8 @@ import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
 import com.quadrolord.epicbattle.view.TowerDeath;
 import com.quadrolord.epicbattle.view.TowerView;
 import com.quadrolord.epicbattle.view.ViewLoader;
+import com.quadrolord.epicbattle.view.visualization.AbstractVisualization;
+import com.quadrolord.epicbattle.view.visualization.TowerRandomBleedView;
 
 import java.util.Iterator;
 
@@ -41,8 +44,14 @@ public class BattleScreen extends AbstractScreen {
      */
     private Array<Actor> mLevelViews = new Array<Actor>();
 
-    public BattleScreen(EpicBattle adapter, Game game, Level level) {
-        super(adapter, game);
+    private static final ArrayMap<Class, Class<? extends AbstractVisualization>> mVisualization = new ArrayMap<Class, Class<? extends AbstractVisualization>>();
+
+    {
+        mVisualization.put(TowerRandomBleed.class, TowerRandomBleedView.class);
+    }
+
+    public BattleScreen(EpicBattle adapter, Level level) {
+        super(adapter);
 
         mStage.setViewport(new FitViewport(400 * mPx, 300 * mPx));
         mStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
@@ -167,6 +176,16 @@ public class BattleScreen extends AbstractScreen {
                 Gdx.app.log("towers", "tower death");
                 Actor td = new TowerDeath((TowerView) tower.getViewObject(), screen);
                 mLevelViews.add(td);
+            }
+
+            @Override
+            public void onVisualEvent(float x, float y, Class visualEventClass) {
+                Class <? extends AbstractVisualization> avc = mVisualization.get(visualEventClass);
+                try {
+                    avc.getConstructor(AbstractScreen.class, Float.TYPE, Float.TYPE).newInstance(screen, x, y);
+                } catch (Exception e) {
+                    Gdx.app.error("onVisualEvent", visualEventClass.getName());
+                }
             }
 
         });

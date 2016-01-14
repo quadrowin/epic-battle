@@ -19,7 +19,7 @@ public class VictoryScreen extends AbstractScreen {
     private AbstractScreen mBattleScreen;
 
     public VictoryScreen(AbstractScreen battleScreen) {
-        super(battleScreen.getAdapter(), battleScreen.getGame());
+        super(battleScreen.getAdapter());
         mBattleScreen = battleScreen;
         initFitViewport();
 

@@ -1,7 +1,6 @@
 package com.quadrolord.epicbattle.screen;
 
 import com.quadrolord.epicbattle.EpicBattle;
-import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.screen.campaigns.CampaignsList;
 
 /**
@@ -9,11 +8,11 @@ import com.quadrolord.epicbattle.screen.campaigns.CampaignsList;
  */
 public class CampaignSelectScreen extends AbstractScreen {
 
-    public CampaignSelectScreen(EpicBattle adapter, Game game) {
-        super(adapter, game);
+    public CampaignSelectScreen(EpicBattle adapter) {
+        super(adapter);
         initFitViewport();
 
-        new CampaignsList(this, game.getCampaignManager().getCampaigns());
+        new CampaignsList(this, mGame.getCampaignManager().getCampaigns());
     }
 
     @Override

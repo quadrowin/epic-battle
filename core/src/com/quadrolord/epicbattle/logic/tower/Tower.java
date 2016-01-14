@@ -1,5 +1,6 @@
 package com.quadrolord.epicbattle.logic.tower;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -8,6 +9,7 @@ import com.quadrolord.epicbattle.logic.GameUnit;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
+import com.quadrolord.epicbattle.logic.skill.AbstractSkill;
 
 import java.util.Iterator;
 
@@ -33,6 +35,7 @@ public class Tower extends GameUnit {
     protected float mMaxHp = 4000;
 
     private ArrayMap<Class<? extends AbstractBullet>, Float> cooldown = new ArrayMap<Class<? extends AbstractBullet>, Float>();
+    private Array<AbstractSkill> mActSkills = new Array<AbstractSkill>();
     private Array<AbstractBullet> mBullets = new Array<AbstractBullet>();
     private ArrayMap<Class<? extends AbstractBullet>, Integer> mBulletLevels = new ArrayMap<Class<? extends AbstractBullet>, Integer>();
 
@@ -56,6 +59,23 @@ public class Tower extends GameUnit {
                 iter.remove();
             }
         }
+
+        for (Iterator<AbstractSkill> skill_iter = mActSkills.iterator(); skill_iter.hasNext(); ) {
+            AbstractSkill skill = skill_iter.next();
+            Gdx.app.log("tower", "act skill " + skill.getClass().getName() + " " + delta);
+            skill.act(delta);
+        }
+    }
+
+    public void addActSkill(AbstractSkill skill) {
+        mActSkills.add(skill);
+        Gdx.app.log("tower", "addActSkill len: " + mActSkills.size);
+    }
+
+    public void spawnReset() {
+        setHp(getMaxHp());
+        mActSkills.clear();
+        Gdx.app.log("tower", "spawnReset");
     }
 
     public BulletInfo getBulletInfo(Class<? extends AbstractBullet> workerClass) {

@@ -29,9 +29,9 @@ public abstract class AbstractScreen implements Screen {
 
     private SpriteAnimationLoader mSpriteAnimationLoader;
 
-    public AbstractScreen(EpicBattle adapter, Game game) {
+    public AbstractScreen(EpicBattle adapter) {
         mAdapter = adapter;
-        mGame = game;
+        mGame = adapter.getGame();
         mStage = new Stage();
         mStage.getRoot().setScale(mPx);
         mSkin = adapter.getNewSkin();

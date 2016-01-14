@@ -1,5 +1,6 @@
 package com.quadrolord.epicbattle.logic;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
@@ -8,6 +9,11 @@ import com.quadrolord.epicbattle.logic.bullet.worker.Big;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.logic.campaign.CampaignManager;
 import com.quadrolord.epicbattle.logic.campaign.Level;
+import com.quadrolord.epicbattle.logic.profile.PlayerProfile;
+import com.quadrolord.epicbattle.logic.profile.ProfileManager;
+import com.quadrolord.epicbattle.logic.profile.ProfileSkill;
+import com.quadrolord.epicbattle.logic.skill.AbstractSkill;
+import com.quadrolord.epicbattle.logic.skill.DummySkill;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.logic.tower.controller.AbstractController;
 import com.quadrolord.epicbattle.logic.tower.controller.ControllerAi;
@@ -37,6 +43,8 @@ public class Game {
     private float mLevelTime;
 
     private CampaignManager mCampaignManager = new CampaignManager();
+
+    private ProfileManager mProfileManager = new ProfileManager();
 
     private Tower mPlayerTower;
     private Tower mEnemyTower;
@@ -98,11 +106,13 @@ public class Game {
         if (position > mTowerRight) {
             mTowerRight = position;
         }
-        tower.setHp(tower.getMaxHp());
+        tower.spawnReset();
         tower.setX(position);
         tower.setSpeedRatio(speedRatio);
         tower.setWidth(60);
         controller.setTower(tower);
+        mControllers.add(controller);
+        mTowers.add(tower);
 
         mListener.onTowerCreate(tower);
     }
@@ -156,6 +166,24 @@ public class Game {
         return mPlayerController;
     }
 
+    private void initPlayerTower() {
+        spawnTower(mPlayerTower, 10, 1, mPlayerController);
+        PlayerProfile profile = mProfileManager.getProfile();
+        for (int i = 0; i < profile.getSkills().length; i++) {
+            ProfileSkill skillInfo = profile.getSkills()[i];
+            AbstractSkill skill;
+            try {
+                skill = skillInfo.getSkillClass().newInstance();
+                Gdx.app.log("initPlayerTower", "Skill inited " + skillInfo.getSkillName());
+            } catch (Exception e) {
+                Gdx.app.error("initPlayerTower", "Error skill " + skillInfo.getSkillName());
+                skill = new DummySkill();
+            }
+            skill.setLevel(skillInfo.getLevel());
+            skill.initTower(mPlayerTower);
+        }
+    }
+
     public void setListener(GameListener listener) {
         mListener = listener;
     }
@@ -163,7 +191,7 @@ public class Game {
     public void startLevel(Level level) {
         mListener.beforeStageClear();
         mControllers.clear();
-        mControllers.add(mPlayerController);
+
         mBullets.clear();
         mTowers.clear();
 
@@ -171,7 +199,7 @@ public class Game {
         mTowerLeft = 10;
         mTowerRight = 640;
 
-        spawnTower(mPlayerTower, 10, 1, mPlayerController);
+        initPlayerTower();
 
         ControllerAi ai = new ControllerAi(this);
         ai.setEnemyParams(level.getEnemyTower());
@@ -179,12 +207,8 @@ public class Game {
         spawnTower(mEnemyTower, level.getEnemyTower().getX(), -1, ai);
         mEnemyTower.setMaxHp(level.getEnemyTower().getMaxHp());
         mEnemyTower.setHp(level.getEnemyTower().getMaxHp());
-        mControllers.add(ai);
 
         mLevelTime = 0;
-
-        mTowers.add(mPlayerTower);
-        mTowers.add(mEnemyTower);
     }
 
     public void towerDeath(Tower tower) {

@@ -28,7 +28,7 @@ public class LevelsList extends Group {
 
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    BattleScreen battleScreen = new BattleScreen(screen.getAdapter(), screen.getGame(), level);
+                    BattleScreen battleScreen = new BattleScreen(screen.getAdapter(), level);
                     screen.getAdapter().switchToScreen(battleScreen, true);
                 }
 

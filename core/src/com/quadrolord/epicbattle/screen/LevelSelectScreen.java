@@ -1,7 +1,6 @@
 package com.quadrolord.epicbattle.screen;
 
 import com.quadrolord.epicbattle.EpicBattle;
-import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.campaign.AbstractCampaign;
 import com.quadrolord.epicbattle.screen.levels.LeaveCampaignButton;
 import com.quadrolord.epicbattle.screen.levels.LevelsList;
@@ -13,8 +12,8 @@ public class LevelSelectScreen extends AbstractScreen {
 
     private AbstractCampaign mCampaign;
 
-    public LevelSelectScreen(EpicBattle adapter, Game game, AbstractCampaign campaign) {
-        super(adapter, game);
+    public LevelSelectScreen(EpicBattle adapter, AbstractCampaign campaign) {
+        super(adapter);
         initFitViewport();
         mCampaign = campaign;
 

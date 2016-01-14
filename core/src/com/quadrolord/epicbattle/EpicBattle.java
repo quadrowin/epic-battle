@@ -30,7 +30,7 @@ public class EpicBattle extends ApplicationAdapter {
 	public void create () {
 		mGame = new Game();
 		mFps = new FPSLogger();
-		mScreen = new BattleScreen(this, mGame, null);
+		mScreen = new BattleScreen(this, null);
 	}
 
 	public Game getGame() {
@@ -127,7 +127,7 @@ public class EpicBattle extends ApplicationAdapter {
 
 	public void switchToScreen(Class<? extends AbstractScreen> screenClass) {
 		try {
-			AbstractScreen screen = screenClass.getConstructor(EpicBattle.class, Game.class).newInstance(this, mGame);
+			AbstractScreen screen = screenClass.getConstructor(EpicBattle.class).newInstance(this);
 			switchToScreen(screen, true);
 		} catch (Exception e) {
 			e.printStackTrace();

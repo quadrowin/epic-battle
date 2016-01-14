@@ -19,7 +19,7 @@ public class DefeatScreen extends AbstractScreen {
     private AbstractScreen mBattleScreen;
 
     public DefeatScreen(AbstractScreen battleScreen) {
-        super(battleScreen.getAdapter(), battleScreen.getGame());
+        super(battleScreen.getAdapter());
         mBattleScreen = battleScreen;
         initFitViewport();
 
@@ -74,7 +74,7 @@ public class DefeatScreen extends AbstractScreen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                LevelSelectScreen levelsScreen = new LevelSelectScreen(mAdapter, mGame, mGame.getLevel().getCampaign());
+                LevelSelectScreen levelsScreen = new LevelSelectScreen(mAdapter, mGame.getLevel().getCampaign());
                 mAdapter.switchToScreen(levelsScreen, true);
             }
 

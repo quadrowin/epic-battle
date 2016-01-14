@@ -28,7 +28,7 @@ public class CampaignsList extends Group {
 
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    LevelSelectScreen levelsScreen = new LevelSelectScreen(screen.getAdapter(), screen.getGame(), campaign);
+                    LevelSelectScreen levelsScreen = new LevelSelectScreen(screen.getAdapter(), campaign);
                     screen.getAdapter().switchToScreen(levelsScreen, true);
                 }
 
