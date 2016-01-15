@@ -71,6 +71,11 @@ abstract public class AbstractBullet extends GameUnit {
 
     public void act(float delta) {
         mTime += delta;
+        Tower enemyTower = getTower().getEnemy();
+
+        if (isAttackingTower(enemyTower)) {
+            removeTarget(enemyTower);
+        }
 
         if (mInfo.getMaxTargetCount() > mTargets.size) {
             findTargets();
@@ -94,6 +99,10 @@ abstract public class AbstractBullet extends GameUnit {
         }
     }
 
+    public boolean isAttackingTower(Tower tower) {
+        return mTargets.contains(tower, false);
+    }
+
     public void attack() {
         if (mTargets.size > 0) {
             mGame.getListener().onBulletAttack(this, mTargets.get(0));
@@ -112,7 +121,7 @@ abstract public class AbstractBullet extends GameUnit {
         return Math.abs(dist) <= mInfo.getAttackDistance();
     }
 
-    public void removeTarget(AbstractBullet unit) {
+    public void removeTarget(GameUnit unit) {
         Iterator<GameUnit> iter = mTargets.iterator();
 
         while (iter.hasNext()) {

@@ -61,6 +61,7 @@ public class Game {
 
         ArrayMap<Class<? extends AbstractBullet>, Integer> bulletLevels = new ArrayMap<Class<? extends AbstractBullet>, Integer>();
         bulletLevels.put(Big.class, 3);
+        bulletLevels.put(Simple.class, 8);
         getPlayerTower().setBulletLevels(bulletLevels);
 
         ArrayMap<Class<? extends AbstractBullet>, Integer> levels = mPlayerTower.getBulletLevels();
@@ -142,7 +143,7 @@ public class Game {
         bullet.setMaxHp(bi.getMaxHp());
         bullet.setHp(bullet.getMaxHp());
         bullet.setVelocity(bi.getMoveSpeed() * tower.getSpeedRatio());
-        bullet.setX(tower.getX());
+        bullet.setX(tower.getX() + tower.getWidth() / 2);
 
         tower.setCash(tower.getCash() - bi.getCost());
         tower.addUnit(bullet);

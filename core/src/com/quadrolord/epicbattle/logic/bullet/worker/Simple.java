@@ -51,13 +51,43 @@ public class Simple extends AbstractBullet {
                 new BulletLevelUp() {
                     @Override
                     public BulletLevelUpDto action() {
-                        return getDdo().setAttackDamageDelta(5);
+                        return getDdo().setMaxHpDelta(10).setAttackDamageDelta(5);
                     }
                 },
                 new BulletLevelUp() {
                     @Override
                     public BulletLevelUpDto action() {
-                        return getDdo().setAttackDamageDelta(10);
+                        return getDdo().setMaxHpDelta(20).setAttackDamageDelta(10);
+                    }
+                },
+                new BulletLevelUp() {
+                    @Override
+                    public BulletLevelUpDto action() {
+                        return getDdo().setMaxHpDelta(25).setAttackDamageDelta(15);
+                    }
+                },
+                new BulletLevelUp() {
+                    @Override
+                    public BulletLevelUpDto action() {
+                        return getDdo().setMaxHpDelta(25).setAttackDamageDelta(15);
+                    }
+                },
+                new BulletLevelUp() {
+                    @Override
+                    public BulletLevelUpDto action() {
+                        return getDdo().setMaxHpDelta(30).setAttackDamageDelta(20);
+                    }
+                },
+                new BulletLevelUp() {
+                    @Override
+                    public BulletLevelUpDto action() {
+                        return getDdo().setMaxHpDelta(30).setAttackDamageDelta(20);
+                    }
+                },
+                new BulletLevelUp() {
+                    @Override
+                    public BulletLevelUpDto action() {
+                        return getDdo().setMaxHpDelta(35).setAttackDamageDelta(25);
                     }
                 }
         }));

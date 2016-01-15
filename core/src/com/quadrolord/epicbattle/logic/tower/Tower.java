@@ -62,7 +62,7 @@ public class Tower extends GameUnit {
 
         for (Iterator<AbstractSkill> skill_iter = mActSkills.iterator(); skill_iter.hasNext(); ) {
             AbstractSkill skill = skill_iter.next();
-            Gdx.app.log("tower", "act skill " + skill.getClass().getName() + " " + delta);
+            //Gdx.app.log("tower", "act skill " + skill.getClass().getName() + " " + delta);
             skill.act(delta);
         }
     }

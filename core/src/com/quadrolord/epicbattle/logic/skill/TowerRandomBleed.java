@@ -15,7 +15,7 @@ public class TowerRandomBleed extends AbstractSkill {
     @Override
     public void act(float delta) {
         mTime += delta;
-        Gdx.app.log("TowerRandomBleed.act", "mTime = " + mTime);
+        //Gdx.app.log("TowerRandomBleed.act", "mTime = " + mTime);
         if (mTime < 3) {
             return ;
         }
