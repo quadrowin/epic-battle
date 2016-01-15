@@ -16,7 +16,7 @@ public class DebugPanel extends Group {
     public DebugPanel(final AbstractScreen screen, Stage stage) {
         TextButton btnSaveProfile = new TextButton("Save Profile", screen.getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
         btnSaveProfile.setBounds(
-                300,
+                250,
                 250,
                 80,
                 40
@@ -35,7 +35,7 @@ public class DebugPanel extends Group {
 
         TextButton btnLoadProfile = new TextButton("Load Profile", screen.getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
         btnLoadProfile.setBounds(
-                200,
+                150,
                 250,
                 80,
                 40

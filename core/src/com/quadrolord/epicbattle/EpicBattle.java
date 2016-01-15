@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.quadrolord.epicbattle.logic.Game;
+import com.quadrolord.epicbattle.logic.utils.PlatformServices;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.BattleScreen;
 
@@ -25,10 +26,16 @@ public class EpicBattle extends ApplicationAdapter {
 	private Skin mSkin;
 
 	private AbstractScreen mScreen;
+
+	private PlatformServices mPlatformServices;
+
+	public EpicBattle(PlatformServices platformServices) {
+		mPlatformServices = platformServices;
+	}
 	
 	@Override
 	public void create () {
-		mGame = new Game();
+		mGame = new Game(mPlatformServices);
 		mFps = new FPSLogger();
 		mScreen = new BattleScreen(this, null);
 	}

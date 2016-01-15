@@ -4,13 +4,19 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.quadrolord.epicbattle.EpicBattle;
+import com.quadrolord.epicbattle.logic.utils.AndroidFileService;
+import com.quadrolord.epicbattle.logic.utils.PlatformServices;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new EpicBattle(), config);
+
+		PlatformServices ps = new PlatformServices(
+				new AndroidFileService()
+		);
+
+		initialize(new EpicBattle(ps), config);
 	}
 }

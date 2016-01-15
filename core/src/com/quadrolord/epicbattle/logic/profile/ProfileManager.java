@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Json;
 import com.quadrolord.epicbattle.logic.skill.AbstractSkill;
 import com.quadrolord.epicbattle.logic.skill.TowerMaxHp;
 import com.quadrolord.epicbattle.logic.skill.TowerRandomBleed;
+import com.quadrolord.epicbattle.logic.utils.PlatformServices;
 
 /**
  * Created by Quadrowin on 14.01.2016.
@@ -16,11 +17,21 @@ public class ProfileManager {
 
     private PlayerProfile mProfile;
 
+    private PlatformServices mPlatformServices;
+
+    public ProfileManager(PlatformServices platformServices) {
+        mPlatformServices = platformServices;
+    }
+
     public PlayerProfile getProfile() {
         if (mProfile == null) {
             loadProfile();
         }
         return mProfile;
+    }
+
+    private FileHandle getProfileFileHandle() {
+        return mPlatformServices.getFileService().getUserStorageFile(PROFILE_FILE);
     }
 
     private Json createJson() {
@@ -31,7 +42,7 @@ public class ProfileManager {
     }
 
     private void loadProfile() {
-        FileHandle file = Gdx.files.external(PROFILE_FILE);
+        FileHandle file = getProfileFileHandle();
 
         if (file.exists()) {
             Json json = createJson();
@@ -57,7 +68,7 @@ public class ProfileManager {
     }
 
     public void saveProfile() {
-        FileHandle file = Gdx.files.external(PROFILE_FILE);
+        FileHandle file = getProfileFileHandle();
         Gdx.app.log("saveProfile", file.path());
         Json json = createJson();
         file.writeString(

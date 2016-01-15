@@ -18,6 +18,7 @@ import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.logic.tower.controller.AbstractController;
 import com.quadrolord.epicbattle.logic.tower.controller.ControllerAi;
 import com.quadrolord.epicbattle.logic.tower.controller.ControllerPlayer;
+import com.quadrolord.epicbattle.logic.utils.PlatformServices;
 import com.quadrolord.epicbattle.view.sounds.SoundManager;
 
 import java.util.Iterator;
@@ -45,14 +46,19 @@ public class Game {
 
     private CampaignManager mCampaignManager = new CampaignManager();
 
-    private ProfileManager mProfileManager = new ProfileManager();
+    private PlatformServices mPlatformServices;
+
+    private ProfileManager mProfileManager;
 
     private SoundManager mSoundManager = new SoundManager();
 
     private Tower mPlayerTower;
     private Tower mEnemyTower;
 
-    public Game() {
+    public Game(PlatformServices platformServices) {
+        mPlatformServices = platformServices;
+        mProfileManager = new ProfileManager(mPlatformServices);
+
         mPlayerTower = new Tower(this);
         mEnemyTower = new Tower(this);
 
@@ -176,6 +182,7 @@ public class Game {
 
     public ProfileManager getProfileManager() {
         return mProfileManager;
+
     }
 
     public SoundManager getSoundManager() {
