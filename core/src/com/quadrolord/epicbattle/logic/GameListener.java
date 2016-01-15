@@ -21,6 +21,8 @@ public interface GameListener {
 
     void onLevelDefeat();
 
+    void onLevelStart();
+
     void onLevelVictory();
 
     void onTowerCreate(com.quadrolord.epicbattle.logic.tower.Tower tower);

@@ -18,7 +18,7 @@ public class DebugPanel extends Group {
         btnSaveProfile.setBounds(
                 300,
                 250,
-                40,
+                80,
                 40
         );
         stage.addActor(btnSaveProfile);
@@ -26,8 +26,27 @@ public class DebugPanel extends Group {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("", "pause click");
+                Gdx.app.log("debug panel", "click Save Profile");
                 screen.getGame().getProfileManager().saveProfile();
+            }
+
+        });
+
+
+        TextButton btnLoadProfile = new TextButton("Load Profile", screen.getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
+        btnLoadProfile.setBounds(
+                200,
+                250,
+                80,
+                40
+        );
+        stage.addActor(btnLoadProfile);
+        btnLoadProfile.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("debug panel", "click Load Profile");
+                screen.getGame().getProfileManager().getProfile();
             }
 
         });

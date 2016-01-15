@@ -225,6 +225,8 @@ public class Game {
         mEnemyTower.setHp(level.getEnemyTower().getMaxHp());
 
         mLevelTime = 0;
+
+        mListener.onLevelStart();
     }
 
     public void towerDeath(Tower tower) {

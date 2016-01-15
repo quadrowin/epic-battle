@@ -42,7 +42,6 @@ public class TowerDeath extends Group {
             return;
         }
 
-        setX(mOriginalX + getWidth() * 0.5f * mTime);
         setScaleY(1 - mTime);
     }
 

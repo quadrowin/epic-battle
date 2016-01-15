@@ -21,11 +21,11 @@ public class TowerView extends Group {
         mTower = tower;
         tower.setViewObject(this);
 
-        setBounds(mTower.getX(), 20, 200, 200);
+        setBounds(mTower.getX() - tower.getWidth() / 2, 45, tower.getWidth(), tower.getWidth());
         screen.getStage().addActor(this);
 
         mView = new ImageButton(screen.getSkin().getDrawable("tower"));
-        mView.setBounds(0, 25, getWidth(), getHeight());
+        mView.setBounds(0, 0, getWidth(), getHeight());
         addActor(mView);
     }
 

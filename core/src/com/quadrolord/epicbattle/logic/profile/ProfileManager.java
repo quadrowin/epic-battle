@@ -31,7 +31,7 @@ public class ProfileManager {
     }
 
     private void loadProfile() {
-        FileHandle file = Gdx.files.local(PROFILE_FILE);
+        FileHandle file = Gdx.files.external(PROFILE_FILE);
 
         if (file.exists()) {
             Json json = createJson();
@@ -57,7 +57,8 @@ public class ProfileManager {
     }
 
     public void saveProfile() {
-        FileHandle file = Gdx.files.local(PROFILE_FILE);
+        FileHandle file = Gdx.files.external(PROFILE_FILE);
+        Gdx.app.log("saveProfile", file.path());
         Json json = createJson();
         file.writeString(
                 json.prettyPrint(getProfile()),

@@ -162,6 +162,12 @@ public class BattleScreen extends AbstractScreen {
             }
 
             @Override
+            public void onLevelStart() {
+                Level level = mGame.getLevel();
+                new LevelName(level, mSkin, mFrontStage);
+            }
+
+            @Override
             public void onLevelVictory() {
                 VictoryScreen vs = new VictoryScreen(screen);
                 mAdapter.switchToScreen(vs, false);
@@ -206,7 +212,6 @@ public class BattleScreen extends AbstractScreen {
             level = mGame.getCampaignManager().getLevel(0, 0);
         }
 
-        new LevelName(level, mSkin, mFrontStage);
         mGame.startLevel(level);
 
         new DebugPanel(this, mFrontStage);

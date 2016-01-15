@@ -57,16 +57,12 @@ public class PauseScreen extends AbstractScreen {
     @Override
     public void draw(float delta) {
         mPausedScreen.draw(0);
+        mStage.act(delta);
         mStage.draw();
     }
 
     public AbstractScreen getPausedScreen() {
         return mPausedScreen;
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        mStage.getViewport().update(width, height, true);
     }
 
     @Override

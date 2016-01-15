@@ -89,8 +89,8 @@ public abstract class AbstractScreen implements Screen {
     }
 
     @Override
-    public void resize (int width, int height) {
-
+    public void resize(int width, int height) {
+        mStage.getViewport().update(width, height, true);
     }
 
     @Override
