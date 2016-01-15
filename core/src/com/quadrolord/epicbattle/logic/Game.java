@@ -107,15 +107,18 @@ public class Game {
         if (position < mTowerLeft) {
             mTowerLeft = position;
         }
+
         if (position > mTowerRight) {
             mTowerRight = position;
         }
+
         tower.spawnReset();
         tower.setX(position);
         tower.setSpeedRatio(speedRatio);
         tower.setWidth(60);
         tower.setCash(0);
         controller.setTower(tower);
+
         mControllers.add(controller);
         mTowers.add(tower);
 
