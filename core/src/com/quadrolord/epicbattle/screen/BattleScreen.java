@@ -25,6 +25,7 @@ import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
 import com.quadrolord.epicbattle.view.TowerDeath;
 import com.quadrolord.epicbattle.view.TowerView;
 import com.quadrolord.epicbattle.view.ViewLoader;
+import com.quadrolord.epicbattle.view.sounds.SoundManager;
 import com.quadrolord.epicbattle.view.visualization.AbstractVisualization;
 import com.quadrolord.epicbattle.view.visualization.TowerRandomBleedView;
 
@@ -52,6 +53,16 @@ public class BattleScreen extends AbstractScreen {
 
     public BattleScreen(EpicBattle adapter, Level level) {
         super(adapter);
+
+        mGame.getSoundManager().loadSounds(
+                this,
+                new String[] {
+                        SoundManager.EVENT_DEFEAT,
+                        SoundManager.MENU_CLICK,
+                        SoundManager.SKILL_TOWER_BLEED1,
+//                        SoundManager.SKILL_TOWER_CREAK1,
+                }
+        );
 
         mStage.setViewport(new FitViewport(400 * mPx, 300 * mPx));
         mStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);

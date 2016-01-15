@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.PauseScreen;
+import com.quadrolord.epicbattle.view.sounds.SoundManager;
 
 /**
  * Created by Quadrowin on 10.01.2016.
@@ -30,6 +31,7 @@ public class PauseButton {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("", "pause click");
+                screen.getGame().getSoundManager().play(SoundManager.MENU_CLICK);
                 screen.getAdapter().switchToScreen(getPausedScreen(screen), true);
             }
 
