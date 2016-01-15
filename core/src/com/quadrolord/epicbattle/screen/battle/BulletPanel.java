@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.epicbattle.view.sounds.SoundManager;
 
 import java.util.Iterator;
 
@@ -21,6 +22,7 @@ public class BulletPanel extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 BulletButton btn = (BulletButton)event.getListenerActor();
+                screen.getGame().getSoundManager().play(SoundManager.MENU_CLICK);
                 screen.getGame().getPlayerController().callFire(btn.getBulletClass());
             }
 
