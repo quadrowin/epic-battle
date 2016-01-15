@@ -111,6 +111,7 @@ public class Game {
         tower.setX(position);
         tower.setSpeedRatio(speedRatio);
         tower.setWidth(60);
+        tower.setCash(0);
         controller.setTower(tower);
         mControllers.add(controller);
         mTowers.add(tower);

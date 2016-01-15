@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.epicbattle.screen.battle.Shadow;
 
 /**
  * Created by Quadrowin on 09.01.2016.
@@ -39,6 +40,9 @@ public abstract class BulletUnitView extends Group {
 
         mAnimation = new SpriteAnimationActor();
         mAnimation.setAnimationLooped(mRunningAnim);
+
+        new Shadow(this, screen);
+
         addActor(mAnimation);
     }
 

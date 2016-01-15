@@ -73,7 +73,7 @@ abstract public class AbstractBullet extends GameUnit {
         mTime += delta;
         Tower enemyTower = getTower().getEnemy();
 
-        if (isAttackingTower(enemyTower)) {
+        if (isAttackingTower(enemyTower) && getTower().getEnemy().getUnits().size > 0) {
             removeTarget(enemyTower);
         }
 
