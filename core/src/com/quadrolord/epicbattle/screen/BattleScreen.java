@@ -17,6 +17,7 @@ import com.quadrolord.epicbattle.screen.battle.AttackAnimation;
 import com.quadrolord.epicbattle.screen.battle.Background;
 import com.quadrolord.epicbattle.screen.battle.BulletPanel;
 import com.quadrolord.epicbattle.screen.battle.Cash;
+import com.quadrolord.epicbattle.screen.battle.DebugPanel;
 import com.quadrolord.epicbattle.screen.battle.LevelName;
 import com.quadrolord.epicbattle.screen.battle.PauseButton;
 import com.quadrolord.epicbattle.screen.battle.TowerHp;
@@ -207,6 +208,8 @@ public class BattleScreen extends AbstractScreen {
 
         new LevelName(level, mSkin, mFrontStage);
         mGame.startLevel(level);
+
+        new DebugPanel(this, mFrontStage);
     }
 
     @Override

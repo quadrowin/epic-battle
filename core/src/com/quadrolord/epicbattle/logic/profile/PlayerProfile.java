@@ -20,9 +20,36 @@ public class PlayerProfile {
      */
     private int battlesDefeat = 0;
 
+    /**
+     * Текущий опыт
+     */
+    private long experience = 0;
+
+    /**
+     * Всего получено опыта
+     */
+    private long experienceTotal = 0;
+
     private String name;
 
     private ProfileSkill[] skills;
+
+    public long decExperience(long value) {
+        return experience -= value;
+    }
+
+    public long getExperience() {
+        return experience;
+    }
+
+    public long getExperienceTotal() {
+        return experienceTotal;
+    }
+
+    public long incExperience(long value) {
+        experienceTotal += value;
+        return experience += value;
+    }
 
     public String getName() {
         return name;

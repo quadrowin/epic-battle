@@ -171,6 +171,10 @@ public class Game {
         return mPlayerController;
     }
 
+    public ProfileManager getProfileManager() {
+        return mProfileManager;
+    }
+
     public SoundManager getSoundManager() {
         return mSoundManager;
     }
