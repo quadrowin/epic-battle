@@ -199,8 +199,8 @@ public class Game {
     private void initPlayerTower() {
         spawnTower(mPlayerTower, 10, 1, mPlayerController);
         PlayerProfile profile = mProfileManager.getProfile();
-        for (int i = 0; i < profile.getSkills().length; i++) {
-            ProfileSkill skillInfo = profile.getSkills()[i];
+        for (Iterator<ProfileSkill> iter = profile.getSkills().iterator(); iter.hasNext(); ) {
+            ProfileSkill skillInfo = iter.next();
             AbstractSkill skill;
             try {
                 skill = skillInfo.getSkillClass().newInstance();
