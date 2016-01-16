@@ -1,6 +1,7 @@
 package com.quadrolord.epicbattle.logic.tower;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -10,6 +11,9 @@ import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.logic.skill.AbstractSkill;
+import com.quadrolord.epicbattle.view.TowerView;
+
+import org.w3c.dom.css.Rect;
 
 import java.util.Iterator;
 
@@ -77,6 +81,19 @@ public class Tower extends GameUnit {
         super.harm(damage);
 
         mGame.getListener().onTowerInjure(this);
+    }
+
+    public float getRealWidth() {
+        return ((TowerView)getViewObject()).getWidth();
+    }
+
+    public Rectangle getBounds() {
+        TowerView tv = (TowerView)getViewObject();
+
+        mBounds.setPosition(getX(), tv.getY());
+        mBounds.setSize(getRealWidth(), tv.getHeight());
+
+        return super.getBounds();
     }
 
     public void spawnReset() {

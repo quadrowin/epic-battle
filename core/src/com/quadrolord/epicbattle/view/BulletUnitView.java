@@ -28,6 +28,9 @@ public abstract class BulletUnitView extends Group {
     protected float mScaleHeight = 1.0f;
     protected float mUnitY = 60.0f;
 
+    protected float mRealWidth;
+    protected float mRealHeight;
+
     public BulletUnitView(AbstractBullet bullet, AbstractScreen screen) {
         mBullet = bullet;
         mBullet.setViewObject(this);
@@ -41,6 +44,9 @@ public abstract class BulletUnitView extends Group {
 
         mAnimation = new SpriteAnimationActor();
         mAnimation.setAnimationLooped(mRunningAnim);
+
+        mRealWidth = mAnimation.getAnimation().getTexture().getRegionWidth();
+        mRealHeight = mAnimation.getAnimation().getTexture().getRegionHeight();
 
         new Shadow(this, screen);
 
@@ -64,6 +70,14 @@ public abstract class BulletUnitView extends Group {
         }
 
         super.act(delta);
+    }
+
+    public float getRealWidth() {
+        return mRealWidth * getScaleX();
+    }
+
+    public float getRealHeight() {
+        return mRealHeight * getScaleY();
     }
 
     public void startAttackAnimation() {

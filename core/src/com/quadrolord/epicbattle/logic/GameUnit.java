@@ -1,6 +1,7 @@
 package com.quadrolord.epicbattle.logic;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.quadrolord.epicbattle.view.visualization.AbstractVisualization;
 
@@ -24,6 +25,8 @@ public class GameUnit {
     protected Game mGame;
 
     protected boolean mIsUnderAttack = false;
+
+    protected Rectangle mBounds = new Rectangle();
 
     private ArrayMap<Class, Class<? extends AbstractVisualization>> mVisualization = new ArrayMap<Class, Class<? extends AbstractVisualization>>();
 
@@ -76,8 +79,16 @@ public class GameUnit {
         return (mHp <= 0);
     }
 
+    public Rectangle getBounds() {
+        return mBounds;
+    }
+
     public void onDeath() {
 
+    }
+
+    public float getRealWidth() {
+        return getWidth();
     }
 
     public boolean isUnderAttack() {

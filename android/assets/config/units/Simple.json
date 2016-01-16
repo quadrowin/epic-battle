@@ -3,7 +3,7 @@
   "cost": 50,
   "construction_time": 3,
   "attack_damage": 50,
-  "attack_distance": 1,
+  "attack_distance": 20,
   "attack_time": 1,
   "move_speed": 50,
   "target_count": 1,

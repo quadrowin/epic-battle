@@ -1,12 +1,14 @@
 package com.quadrolord.epicbattle.logic.bullet.worker;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.GameUnit;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.screen.battle.BleedAnimation;
+import com.quadrolord.epicbattle.view.BulletUnitView;
 
 import java.util.Iterator;
 
@@ -75,6 +77,7 @@ abstract public class AbstractBullet extends GameUnit {
 
     public void act(float delta) {
         mTime += delta;
+
         Tower enemyTower = getTower().getEnemy();
 
         if (isAttackingTower(enemyTower) && enemyTower.getUnits().size > 0) {
@@ -103,6 +106,13 @@ abstract public class AbstractBullet extends GameUnit {
         if (mIsRunning) {
             setX(getX() + getVelocity() * delta * mTower.getTimeUp());
         }
+
+        BulletUnitView bv = (BulletUnitView)getViewObject();
+
+        mBounds.setWidth(getRealWidth() / 2 + mInfo.getAttackDistance() * Math.abs(bv.getScaleX()));
+        mBounds.setHeight(bv.getRealHeight());
+        mBounds.setY(bv.getY() + 15);
+        mBounds.setX(bv.getX() - getRealWidth() / 2);
     }
 
     public boolean isAttackingTower(Tower tower) {
@@ -128,11 +138,21 @@ abstract public class AbstractBullet extends GameUnit {
         mTower.getGame().getListener().onBulletInjure(this);
     }
 
+    public Rectangle getBounds() {
+        return super.getBounds();
+    }
+
     public boolean canAttack(GameUnit unit) {
-        float dist = getX() < unit.getX()
-                ? unit.getX() - getX() - getWidth()
-                : getX() - unit.getX() - unit.getWidth();
-        return Math.abs(dist) <= mInfo.getAttackDistance();
+        /*float dist = getX() < unit.getX()
+                ? (unit.getX() + unit.getRealWidth() / 2 + 20) - (getX() + getRealWidth() / 2 + 20)
+                : (getX() + getRealWidth() / 2 + 20) - (unit.getX() + unit.getRealWidth() / 2 + 20);
+
+        Gdx.app.log(getClass().getSimpleName() + ", " + unit.getClass().getSimpleName(), getRealWidth() + ", " + unit.getRealWidth());
+        Gdx.app.log(getClass().getSimpleName() + ", " + unit.getClass().getSimpleName(), getX() + ", " + unit.getX() + ", " + dist);
+
+        return Math.abs(dist) <= mInfo.getAttackDistance();*/
+
+        return getBounds().overlaps(unit.getBounds());
     }
 
     public void removeTarget(GameUnit unit) {

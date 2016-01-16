@@ -5,7 +5,7 @@
     "enemyTower": {
       "class": "EnemyTower",
       "maxHp": 5000,
-      "x": 300,
+      "x": 500,
       "units": [
         {
           "class": "Unit",

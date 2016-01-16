@@ -20,5 +20,4 @@ public class Big extends AbstractBullet {
         mInfo.setBulletClass(getClass());
         mInfo.setLevelingStrategy(new SimpleStrategy());
     }
-
 }
