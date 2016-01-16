@@ -13,8 +13,6 @@ import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.logic.skill.AbstractSkill;
 import com.quadrolord.epicbattle.view.TowerView;
 
-import org.w3c.dom.css.Rect;
-
 import java.util.Iterator;
 
 /**
