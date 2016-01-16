@@ -6,12 +6,8 @@ import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.GameUnit;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
-<<<<<<< HEAD
-import com.quadrolord.epicbattle.screen.battle.BleedAnimation;
 import com.quadrolord.epicbattle.view.BulletUnitView;
-=======
 import com.quadrolord.epicbattle.logic.tower.Tower;
->>>>>>> a1a2db8f8f870591967019660eec3ca655e83fbe
 
 import java.util.Iterator;
 
