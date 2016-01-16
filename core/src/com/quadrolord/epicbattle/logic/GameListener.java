@@ -11,6 +11,8 @@ public interface GameListener {
 
     void onBulletAttack(AbstractBullet attacker, GameUnit target);
 
+    void onBulletInjure(AbstractBullet target);
+
     void onBulletCreate(AbstractBullet bullet);
 
     void onBulletCreateFailCash(float current, int required);

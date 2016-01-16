@@ -15,6 +15,7 @@ import com.quadrolord.epicbattle.logic.skill.TowerRandomBleed;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.screen.battle.AttackAnimation;
 import com.quadrolord.epicbattle.screen.battle.Background;
+import com.quadrolord.epicbattle.screen.battle.BleedAnimation;
 import com.quadrolord.epicbattle.screen.battle.BulletPanel;
 import com.quadrolord.epicbattle.screen.battle.Cash;
 import com.quadrolord.epicbattle.screen.battle.DebugPanel;
@@ -57,7 +58,7 @@ public class BattleScreen extends AbstractScreen {
 
         mGame.getSoundManager().loadSounds(
                 this,
-                new String[] {
+                new String[]{
                         SoundManager.EVENT_DEFEAT,
                         SoundManager.MENU_CLICK,
                         SoundManager.SKILL_TOWER_BLEED1,
@@ -106,6 +107,14 @@ public class BattleScreen extends AbstractScreen {
                 BulletUnitView buv = ((BulletUnitView) attacker.getViewObject());
                 buv.startAttackAnimation();
                 new AttackAnimation(attacker, target, mSkin, mStage);
+            }
+
+            @Override
+            public void onBulletInjure(AbstractBullet target) {
+                BulletUnitView buv = ((BulletUnitView) target.getViewObject());
+                float x = target.getX() - buv.getScaleX() * target.getWidth() / 2 + 15;
+
+                new BleedAnimation(screen, x, buv.getHeight() / 2 - 15 + buv.getY());
             }
 
             @Override
@@ -198,7 +207,7 @@ public class BattleScreen extends AbstractScreen {
 
             @Override
             public void onVisualEvent(float x, float y, Class visualEventClass) {
-                Class <? extends AbstractVisualization> avc = mVisualization.get(visualEventClass);
+                Class<? extends AbstractVisualization> avc = mVisualization.get(visualEventClass);
                 try {
                     avc.getConstructor(AbstractScreen.class, Float.TYPE, Float.TYPE).newInstance(screen, x, y);
                 } catch (Exception e) {

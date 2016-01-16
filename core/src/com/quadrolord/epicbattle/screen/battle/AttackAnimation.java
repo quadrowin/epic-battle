@@ -45,7 +45,7 @@ public class AttackAnimation extends Group {
         TextureRegion frame = mAnim.getKeyFrame(mStateTime);
         Matrix4 transform = computeTransform();
         applyTransform(batch, transform);
-        batch.draw(frame, 0, 0, 30, 30);
+        batch.draw(frame, 0, 20, 30, 30);
         resetTransform(batch);
     }
 

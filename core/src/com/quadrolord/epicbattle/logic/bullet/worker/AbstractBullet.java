@@ -6,6 +6,7 @@ import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.GameUnit;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
+import com.quadrolord.epicbattle.screen.battle.BleedAnimation;
 
 import java.util.Iterator;
 
@@ -83,6 +84,8 @@ abstract public class AbstractBullet extends GameUnit {
             findTargets();
         }
 
+        mIsUnderAttack = false;
+
         if (mTargets.size > 0) {
             mIsRunning = false;
             mIsAttacking = true;
@@ -116,6 +119,14 @@ abstract public class AbstractBullet extends GameUnit {
         }
     }
 
+    @Override
+    public void harm(float damage) {
+        super.harm(damage);
+
+        mIsUnderAttack = true;
+        mTower.getGame().getListener().onBulletInjure(this);
+    }
+
     public boolean canAttack(GameUnit unit) {
         float dist = getX() < unit.getX()
                 ? unit.getX() - getX() - getWidth()
@@ -130,7 +141,6 @@ abstract public class AbstractBullet extends GameUnit {
             GameUnit next = iter.next();
 
             if (next.equals(unit)) {
-                Gdx.app.log("bullets", "unit removed from targets");
                 iter.remove();
             }
         }

@@ -9,7 +9,10 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
+import com.quadrolord.epicbattle.logic.GameUnit;
+import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.epicbattle.view.BulletUnitView;
 
 /**
  * Created by Quadrowin on 14.01.2016.
@@ -45,17 +48,18 @@ public class BleedAnimation extends Group {
     }
 
     private Animation getAnimation1(Skin skin) {
-        if (skin.has("cut-animation-1", Animation.class)) {
-            return skin.get("cut-animation-1", Animation.class);
+        if (skin.has("bleed-animation-1", Animation.class)) {
+            return skin.get("bleed-animation-1", Animation.class);
         }
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        frames.add(new TextureRegion(new Texture("animation/cut_a/cut_a_0001.png")));
-        frames.add(new TextureRegion(new Texture("animation/cut_a/cut_a_0002.png")));
-        frames.add(new TextureRegion(new Texture("animation/cut_a/cut_a_0003.png")));
-        frames.add(new TextureRegion(new Texture("animation/cut_a/cut_a_0004.png")));
-        frames.add(new TextureRegion(new Texture("animation/cut_a/cut_a_0005.png")));
+        frames.add(new TextureRegion(new Texture("animation/blood_d/blood_d_0001.png")));
+        frames.add(new TextureRegion(new Texture("animation/blood_d/blood_d_0002.png")));
+        frames.add(new TextureRegion(new Texture("animation/blood_d/blood_d_0003.png")));
+        frames.add(new TextureRegion(new Texture("animation/blood_d/blood_d_0004.png")));
+        frames.add(new TextureRegion(new Texture("animation/blood_d/blood_d_0005.png")));
+        frames.add(new TextureRegion(new Texture("animation/blood_d/blood_d_0006.png")));
         Animation anim = new Animation(0.1f, frames);
-        skin.add("cut-animation-1", anim);
+        skin.add("bleed-animation-1", anim);
         return anim;
     }
 

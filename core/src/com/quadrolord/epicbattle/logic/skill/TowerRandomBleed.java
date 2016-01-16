@@ -22,7 +22,7 @@ public class TowerRandomBleed extends AbstractSkill {
         mTime = 0;
         mTower.getGame().getListener().onVisualEvent(
                 mTower.getX(),
-                20,
+                60,
                 getClass()
         );
     }

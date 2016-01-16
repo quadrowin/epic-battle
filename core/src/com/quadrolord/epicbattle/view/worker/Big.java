@@ -21,7 +21,7 @@ public class Big extends BulletUnitView {
     protected SpriteAnimationDrawable getRunningAnimation(AbstractScreen screen) {
         return screen.getSpriteAnimationLoader().createDrawable(
                 screen.getSkin(),
-                "animation_ninja/ninja_run.png",
+                "animation/ninja_a/ninja_run.png",
                 70,
                 89,
                 10,
@@ -36,7 +36,7 @@ public class Big extends BulletUnitView {
     protected SpriteAnimationDrawable getAttackingAnimation(AbstractScreen screen) {
         return screen.getSpriteAnimationLoader().createDrawable(
                 screen.getSkin(),
-                "animation_ninja/ninja_attack.png",
+                "animation/ninja_a/ninja_attack.png",
                 95,
                 89,
                 10,
@@ -51,7 +51,7 @@ public class Big extends BulletUnitView {
     protected SpriteAnimationDrawable getDeadAnimation(AbstractScreen screen) {
         return screen.getSpriteAnimationLoader().createDrawable(
                 screen.getSkin(),
-                "animation_ninja/ninja_dead.png",
+                "animation/ninja_a/ninja_dead.png",
                 85,
                 89,
                 10,

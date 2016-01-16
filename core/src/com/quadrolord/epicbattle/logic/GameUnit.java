@@ -1,6 +1,8 @@
 package com.quadrolord.epicbattle.logic;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.ArrayMap;
+import com.quadrolord.epicbattle.view.visualization.AbstractVisualization;
 
 /**
  * Created by Quadrowin on 09.01.2016.
@@ -20,6 +22,10 @@ public class GameUnit {
     protected float mWidth = 10;
 
     protected Game mGame;
+
+    protected boolean mIsUnderAttack = false;
+
+    private ArrayMap<Class, Class<? extends AbstractVisualization>> mVisualization = new ArrayMap<Class, Class<? extends AbstractVisualization>>();
 
     public GameUnit(Game game) {
         mGame = game;
@@ -72,6 +78,10 @@ public class GameUnit {
 
     public void onDeath() {
 
+    }
+
+    public boolean isUnderAttack() {
+        return isUnderAttack();
     }
 
     public void setHp(float hp) {
