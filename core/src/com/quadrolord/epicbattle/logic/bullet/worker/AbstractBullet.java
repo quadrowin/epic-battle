@@ -63,6 +63,7 @@ abstract public class AbstractBullet extends GameUnit {
         }
 
         GameUnit enemyTower = mTower.getEnemy();
+
         if (canAttack(enemyTower)) {
             mTargets.add(enemyTower);
         }

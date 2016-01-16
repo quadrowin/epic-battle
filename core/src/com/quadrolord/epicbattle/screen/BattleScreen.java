@@ -15,6 +15,7 @@ import com.quadrolord.epicbattle.logic.skill.TowerRandomBleed;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.screen.battle.AttackAnimation;
 import com.quadrolord.epicbattle.screen.battle.Background;
+import com.quadrolord.epicbattle.screen.battle.BangAnimation;
 import com.quadrolord.epicbattle.screen.battle.BleedAnimation;
 import com.quadrolord.epicbattle.screen.battle.BulletPanel;
 import com.quadrolord.epicbattle.screen.battle.Cash;
@@ -196,6 +197,11 @@ public class BattleScreen extends AbstractScreen {
                 TowerHp twHp = new TowerHp(tower, screen);
                 tv.setHpLabel(twHp);
                 mLevelViews.add(twHp);
+            }
+
+            @Override
+            public void onTowerInjure(Tower tower) {
+                new BangAnimation(screen, tower);
             }
 
             @Override

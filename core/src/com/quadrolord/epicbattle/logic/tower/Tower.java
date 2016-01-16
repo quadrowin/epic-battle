@@ -72,6 +72,13 @@ public class Tower extends GameUnit {
         Gdx.app.log("tower", "addActSkill len: " + mActSkills.size);
     }
 
+    @Override
+    public void harm(float damage) {
+        super.harm(damage);
+
+        mGame.getListener().onTowerInjure(this);
+    }
+
     public void spawnReset() {
         setHp(getMaxHp());
         mActSkills.clear();

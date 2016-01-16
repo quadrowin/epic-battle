@@ -1,6 +1,8 @@
 package com.quadrolord.epicbattle.logic;
 
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
+import com.quadrolord.epicbattle.logic.tower.Tower;
+import com.quadrolord.epicbattle.screen.AbstractScreen;
 
 /**
  * Created by Quadrowin on 09.01.2016.
@@ -27,9 +29,11 @@ public interface GameListener {
 
     void onLevelVictory();
 
-    void onTowerCreate(com.quadrolord.epicbattle.logic.tower.Tower tower);
+    void onTowerCreate(Tower tower);
 
-    void onTowerDeath(com.quadrolord.epicbattle.logic.tower.Tower tower);
+    void onTowerInjure(Tower tower);
+
+    void onTowerDeath(Tower tower);
 
     /**
      * Вызов визуального эффекта
