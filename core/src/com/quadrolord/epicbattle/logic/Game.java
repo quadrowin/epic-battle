@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
+import com.quadrolord.epicbattle.logic.bullet.BulletInfoManager;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.Big;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
@@ -49,6 +50,8 @@ public class Game {
     private PlatformServices mPlatformServices;
 
     private ProfileManager mProfileManager;
+
+    private BulletInfoManager mBulletInfoManager = new BulletInfoManager();
 
     private SoundManager mSoundManager = new SoundManager();
 
@@ -183,6 +186,10 @@ public class Game {
     public ProfileManager getProfileManager() {
         return mProfileManager;
 
+    }
+
+    public BulletInfoManager getBulletInfoManager() {
+        return mBulletInfoManager;
     }
 
     public SoundManager getSoundManager() {

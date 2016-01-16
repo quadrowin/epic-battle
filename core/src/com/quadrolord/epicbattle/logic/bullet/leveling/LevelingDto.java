@@ -1,13 +1,14 @@
-package com.quadrolord.epicbattle.logic.bullet;
+package com.quadrolord.epicbattle.logic.bullet.leveling;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 
 /**
  * Created by morph on 13.01.2016.
  */
-public class BulletLevelUpDto {
+public class LevelingDto {
     private int mCostDelta;
 
     private float mAttackDamageDelta;
@@ -32,11 +33,22 @@ public class BulletLevelUpDto {
 
     private Texture mIcon;
 
+    private AbstractStrategy mLevelingStrategy;
+
+    public AbstractStrategy getLevelingStrategy() {
+        return mLevelingStrategy;
+    }
+
+    public LevelingDto setLevelingStrategy(AbstractStrategy levelingStrategy) {
+        mLevelingStrategy = levelingStrategy;
+        return this;
+    }
+
     public int getCostDelta() {
         return mCostDelta;
     }
 
-    public BulletLevelUpDto setCostDelta(int costDelta) {
+    public LevelingDto setCostDelta(int costDelta) {
         this.mCostDelta = costDelta;
         return this;
     }
@@ -45,7 +57,7 @@ public class BulletLevelUpDto {
         return mAttackDamageDelta;
     }
 
-    public BulletLevelUpDto setAttackDamageDelta(float attackDamageDelta) {
+    public LevelingDto setAttackDamageDelta(float attackDamageDelta) {
         this.mAttackDamageDelta = attackDamageDelta;
         return this;
     }
@@ -54,7 +66,7 @@ public class BulletLevelUpDto {
         return mAttackDistanceDelta;
     }
 
-    public BulletLevelUpDto setAttackDistanceDelta(float attackDistanceDelta) {
+    public LevelingDto setAttackDistanceDelta(float attackDistanceDelta) {
         this.mAttackDistanceDelta = attackDistanceDelta;
         return this;
     }
@@ -63,7 +75,7 @@ public class BulletLevelUpDto {
         return mAttackTimeDelta;
     }
 
-    public BulletLevelUpDto setAttackTimeDelta(float attackTimeDelta) {
+    public LevelingDto setAttackTimeDelta(float attackTimeDelta) {
         this.mAttackTimeDelta = attackTimeDelta;
         return this;
     }
@@ -72,7 +84,7 @@ public class BulletLevelUpDto {
         return mConstructionTimeDelta;
     }
 
-    public BulletLevelUpDto setConstructionTimeDelta(float constructionTimeDelta) {
+    public LevelingDto setConstructionTimeDelta(float constructionTimeDelta) {
         this.mConstructionTimeDelta = constructionTimeDelta;
         return this;
     }
@@ -81,7 +93,7 @@ public class BulletLevelUpDto {
         return mMoveSpeedDelta;
     }
 
-    public BulletLevelUpDto setMoveSpeedDelta(float moveSpeedDelta) {
+    public LevelingDto setMoveSpeedDelta(float moveSpeedDelta) {
         this.mMoveSpeedDelta = moveSpeedDelta;
         return this;
     }
@@ -90,7 +102,7 @@ public class BulletLevelUpDto {
         return mMaxHpDelta;
     }
 
-    public BulletLevelUpDto setMaxHpDelta(int maxHpDelta) {
+    public LevelingDto setMaxHpDelta(int maxHpDelta) {
         this.mMaxHpDelta = maxHpDelta;
         return this;
     }
@@ -99,7 +111,7 @@ public class BulletLevelUpDto {
         return mMaxTargetCountDelta;
     }
 
-    public BulletLevelUpDto setMaxTargetCountDelta(int maxTargetCountDelta) {
+    public LevelingDto setMaxTargetCountDelta(int maxTargetCountDelta) {
         this.mMaxTargetCountDelta = maxTargetCountDelta;
         return this;
     }
@@ -108,7 +120,7 @@ public class BulletLevelUpDto {
         return mTitle;
     }
 
-    public BulletLevelUpDto setTitle(String title) {
+    public LevelingDto setTitle(String title) {
         this.mTitle = title;
         return this;
     }
@@ -117,7 +129,7 @@ public class BulletLevelUpDto {
         return mViewClass;
     }
 
-    public BulletLevelUpDto setViewClass(Class<? extends BulletUnitView> viewClass) {
+    public LevelingDto setViewClass(Class<? extends BulletUnitView> viewClass) {
         this.mViewClass = viewClass;
         return this;
     }
@@ -126,7 +138,7 @@ public class BulletLevelUpDto {
         return mIcon;
     }
 
-    public BulletLevelUpDto setIcon(Texture icon) {
+    public LevelingDto setIcon(Texture icon) {
         this.mIcon = icon;
         return this;
     }
@@ -135,7 +147,7 @@ public class BulletLevelUpDto {
         return mBulletClass;
     }
 
-    public BulletLevelUpDto setBulletClass(Class<? extends AbstractBullet> bulletClass) {
+    public LevelingDto setBulletClass(Class<? extends AbstractBullet> bulletClass) {
         mBulletClass = bulletClass;
         return this;
     }

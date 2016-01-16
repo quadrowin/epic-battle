@@ -36,7 +36,9 @@ abstract public class AbstractBullet extends GameUnit {
         mAttackers.add(unit);
     }
 
-    abstract public void initInfo(BulletInfo info);
+    public void initInfo() {
+        mInfo = mGame.getBulletInfoManager().getBulletInfo(getClass());
+    }
 
     public void findTargets() {
         Array<AbstractBullet> enemies = mTower.getEnemy().getUnits();
@@ -73,7 +75,7 @@ abstract public class AbstractBullet extends GameUnit {
         mTime += delta;
         Tower enemyTower = getTower().getEnemy();
 
-        if (isAttackingTower(enemyTower) && getTower().getEnemy().getUnits().size > 0) {
+        if (isAttackingTower(enemyTower) && enemyTower.getUnits().size > 0) {
             removeTarget(enemyTower);
         }
 

@@ -22,7 +22,7 @@ public class Tower extends GameUnit {
 
     private float mCash = 0;
 
-    private float mCashGrowth = 10;
+    private float mCashGrowth = 50;
 
     private float mConstuctionMultiplier = 1.0f;
 
@@ -80,16 +80,20 @@ public class Tower extends GameUnit {
 
     public BulletInfo getBulletInfo(Class<? extends AbstractBullet> workerClass) {
         BulletInfo bi = mBulletInfos.get(workerClass);
+
         if (bi == null) {
-            bi = new BulletInfo();
-            mBulletInfos.put(workerClass, bi);
             AbstractBullet bullet;
+
             try {
                 bullet = workerClass.getConstructor(Game.class).newInstance(getGame());
             } catch (Exception e) {
                 bullet = new Simple(getGame());
             }
-            bullet.initInfo(bi);
+
+            bullet.initInfo();
+            bi = bullet.getInfo();
+
+            mBulletInfos.put(workerClass, bi);
         }
         return bi;
     }

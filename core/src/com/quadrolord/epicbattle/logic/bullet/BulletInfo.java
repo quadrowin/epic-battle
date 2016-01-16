@@ -3,6 +3,8 @@ package com.quadrolord.epicbattle.logic.bullet;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
+import com.quadrolord.epicbattle.logic.bullet.leveling.AbstractStrategy;
+import com.quadrolord.epicbattle.logic.bullet.leveling.LevelingDto;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 
@@ -13,10 +15,6 @@ public class BulletInfo {
 
     public BulletInfo() {
 
-    }
-
-    public BulletInfo(BulletInfoDto dto) {
-        setInfo(dto);
     }
 
     private int mCost;
@@ -45,15 +43,23 @@ public class BulletInfo {
 
     private int mLevel = 0;
 
-    protected Array<BulletLevelUp> mLevelUps = new Array<BulletLevelUp>() {
+    protected Array<LevelingDto> mLevelUps = new Array<LevelingDto>();
 
-    };
+    protected AbstractStrategy mLevelingStrategy;
 
-    public Array<BulletLevelUp> getLevelUps() {
+    public AbstractStrategy getLevelingStrategy() {
+        return mLevelingStrategy;
+    }
+
+    public void setLevelingStrategy(AbstractStrategy levelingStrategy) {
+        mLevelingStrategy = levelingStrategy;
+    }
+
+    public Array<LevelingDto> getLevelUps() {
         return mLevelUps;
     }
 
-    public void setLevelUps(Array<BulletLevelUp> levelUps) {
+    public void setLevelUps(Array<LevelingDto> levelUps) {
         mLevelUps = levelUps;
     }
 
@@ -114,14 +120,10 @@ public class BulletInfo {
     }
 
     public void setLevel(int level) {
-        for (int i = 2; i <= level; i++) {
+        mLevel = level;
+        mLevelingStrategy.setLevel(this, mLevel);
 
-            BulletLevelUp levelUp = getLevelUps().get(i - 2);
-
-            if (levelUp != null) {
-                levelUp.action().updateInfo(this);
-            }
-        }
+        Gdx.app.log("bullets", "Set level of " + mBulletClass.getSimpleName() + " to " + mLevel);
     }
 
     public void setBulletClass(Class<? extends AbstractBullet> bulletClass) {
@@ -163,46 +165,4 @@ public class BulletInfo {
     public void setConstructionTime(float constructionTime) {
         mConstructionTime = constructionTime;
     }
-
-    public void setInfo(
-            String title,
-            int cost,
-            float constructionTime,
-            float attackDamage,
-            float attackDistance,
-            float attackTime,
-            float moveSpeed,
-            int maxTargetCount,
-            int maxHp
-    ) {
-        mTitle = title;
-        mCost = cost;
-        mConstructionTime = constructionTime;
-        mAttackDamage = attackDamage;
-        mAttackDistance = attackDistance;
-        mAttackTime = attackTime;
-        mMoveSpeed = moveSpeed;
-        mMaxTargetCount = maxTargetCount;
-        mMaxHp = maxHp;
-        mViewClass = BulletUnitView.class;
-    }
-
-    public void setInfo(BulletInfoDto dto) {
-        setInfo(
-                dto.getTitle(),
-                dto.getCost(),
-                dto.getConstructionTime(),
-                dto.getAttackDamage(),
-                dto.getAttackDistance(),
-                dto.getAttackTime(),
-                dto.getMoveSpeed(),
-                dto.getMaxTargetCount(),
-                dto.getMaxHp()
-        );
-
-        setViewClass(dto.getViewClass());
-        setIcon(dto.getIcon());
-        setBulletClass(dto.getBulletClass());
-    }
-
 }
