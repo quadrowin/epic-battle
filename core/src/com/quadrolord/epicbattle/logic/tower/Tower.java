@@ -38,7 +38,7 @@ public class Tower extends GameUnit {
 
     protected float mMaxHp = 4000;
 
-    private ArrayMap<Class<? extends AbstractBullet>, Float> cooldown = new ArrayMap<Class<? extends AbstractBullet>, Float>();
+    private ArrayMap<Class<? extends AbstractBullet>, Float> mCooldown = new ArrayMap<Class<? extends AbstractBullet>, Float>();
     private Array<AbstractSkill> mActSkills = new Array<AbstractSkill>();
     private Array<AbstractBullet> mBullets = new Array<AbstractBullet>();
     private ArrayMap<Class<? extends AbstractBullet>, Integer> mBulletLevels = new ArrayMap<Class<? extends AbstractBullet>, Integer>();
@@ -56,7 +56,7 @@ public class Tower extends GameUnit {
         mTime += delta;
         mCash += mCashGrowth * delta * mTimeUp;
 
-        Iterator<ObjectMap.Entry<Class<? extends AbstractBullet>, Float>> iter = cooldown.iterator();
+        Iterator<ObjectMap.Entry<Class<? extends AbstractBullet>, Float>> iter = mCooldown.iterator();
 
         while (iter.hasNext()) {
             if (mTime >= iter.next().value) {
@@ -66,14 +66,12 @@ public class Tower extends GameUnit {
 
         for (Iterator<AbstractSkill> skill_iter = mActSkills.iterator(); skill_iter.hasNext(); ) {
             AbstractSkill skill = skill_iter.next();
-            //Gdx.app.log("tower", "act skill " + skill.getClass().getName() + " " + delta);
             skill.act(delta);
         }
     }
 
     public void addActSkill(AbstractSkill skill) {
         mActSkills.add(skill);
-        Gdx.app.log("tower", "addActSkill len: " + mActSkills.size);
     }
 
     @Override
@@ -98,6 +96,8 @@ public class Tower extends GameUnit {
 
     public void spawnReset() {
         setHp(getMaxHp());
+        mCooldown.clear();
+        mBullets.clear();
         mActSkills.clear();
         Gdx.app.log("tower", "spawnReset");
     }
@@ -156,23 +156,23 @@ public class Tower extends GameUnit {
     }
 
     public void toCooldown(AbstractBullet unit) {
-        cooldown.put(unit.getClass(), mTime + getConstructionTime(unit));
+        mCooldown.put(unit.getClass(), mTime + getConstructionTime(unit));
     }
 
     public boolean isInCooldown(AbstractBullet unit) {
-        return cooldown.containsKey(unit.getClass());
+        return mCooldown.containsKey(unit.getClass());
     }
 
     public boolean isInCooldown(Class<? extends AbstractBullet> bulletClass) {
-        return cooldown.containsKey(bulletClass);
+        return mCooldown.containsKey(bulletClass);
     }
 
     public float getCooldownTime(Class<? extends AbstractBullet> bulletClass) {
-        if (!cooldown.containsKey(bulletClass)) {
+        if (!mCooldown.containsKey(bulletClass)) {
             return 0.0f;
         }
 
-        return cooldown.get(bulletClass) - mTime;
+        return mCooldown.get(bulletClass) - mTime;
     }
 
     public boolean isPlayer() {

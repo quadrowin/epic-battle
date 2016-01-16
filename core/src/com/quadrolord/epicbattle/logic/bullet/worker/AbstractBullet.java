@@ -5,10 +5,13 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.GameUnit;
-import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
+<<<<<<< HEAD
 import com.quadrolord.epicbattle.screen.battle.BleedAnimation;
 import com.quadrolord.epicbattle.view.BulletUnitView;
+=======
+import com.quadrolord.epicbattle.logic.tower.Tower;
+>>>>>>> a1a2db8f8f870591967019660eec3ca655e83fbe
 
 import java.util.Iterator;
 
@@ -143,15 +146,6 @@ abstract public class AbstractBullet extends GameUnit {
     }
 
     public boolean canAttack(GameUnit unit) {
-        /*float dist = getX() < unit.getX()
-                ? (unit.getX() + unit.getRealWidth() / 2 + 20) - (getX() + getRealWidth() / 2 + 20)
-                : (getX() + getRealWidth() / 2 + 20) - (unit.getX() + unit.getRealWidth() / 2 + 20);
-
-        Gdx.app.log(getClass().getSimpleName() + ", " + unit.getClass().getSimpleName(), getRealWidth() + ", " + unit.getRealWidth());
-        Gdx.app.log(getClass().getSimpleName() + ", " + unit.getClass().getSimpleName(), getX() + ", " + unit.getX() + ", " + dist);
-
-        return Math.abs(dist) <= mInfo.getAttackDistance();*/
-
         return getBounds().overlaps(unit.getBounds());
     }
 
