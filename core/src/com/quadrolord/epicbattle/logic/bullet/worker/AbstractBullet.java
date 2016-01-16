@@ -4,9 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.GameUnit;
-import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
-import com.quadrolord.epicbattle.screen.battle.BleedAnimation;
+import com.quadrolord.epicbattle.logic.tower.Tower;
 
 import java.util.Iterator;
 
@@ -129,10 +128,8 @@ abstract public class AbstractBullet extends GameUnit {
     }
 
     public boolean canAttack(GameUnit unit) {
-        float dist = getX() < unit.getX()
-                ? unit.getX() - getX() - getWidth()
-                : getX() - unit.getX() - unit.getWidth();
-        return Math.abs(dist) <= mInfo.getAttackDistance();
+        float dist = Math.abs(getX() - unit.getX()) - (getWidth() + unit.getWidth()) / 2;
+        return dist <= mInfo.getAttackDistance();
     }
 
     public void removeTarget(GameUnit unit) {
