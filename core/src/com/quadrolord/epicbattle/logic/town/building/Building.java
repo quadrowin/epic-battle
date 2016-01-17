@@ -11,6 +11,7 @@ public abstract class Building {
     protected Vector2 mPosition;
     protected Vector2 mSize;
     protected boolean mIsRotated = false;
+    protected int mLevel = 1;
 
     protected BuildingView mView;
     protected BuildingInfo mInfo;
