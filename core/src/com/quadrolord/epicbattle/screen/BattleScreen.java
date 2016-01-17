@@ -23,7 +23,7 @@ import com.quadrolord.epicbattle.screen.battle.BangAnimation;
 import com.quadrolord.epicbattle.screen.battle.BleedAnimation;
 import com.quadrolord.epicbattle.screen.battle.BulletPanel;
 import com.quadrolord.epicbattle.screen.battle.Cash;
-import com.quadrolord.epicbattle.screen.battle.DebugPanel;
+import com.quadrolord.epicbattle.screen.debug.DebugPanel;
 import com.quadrolord.epicbattle.screen.battle.LevelName;
 import com.quadrolord.epicbattle.screen.battle.PauseButton;
 import com.quadrolord.epicbattle.screen.battle.TowerHp;
