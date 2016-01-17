@@ -2,6 +2,7 @@ package com.quadrolord.epicbattle.logic.town.building;
 
 import com.badlogic.gdx.math.Vector2;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
+import com.quadrolord.epicbattle.view.town.building.BuildingView;
 
 /**
  * Created by morph on 17.01.2016.

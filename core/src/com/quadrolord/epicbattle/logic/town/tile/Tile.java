@@ -2,6 +2,7 @@ package com.quadrolord.epicbattle.logic.town.tile;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.quadrolord.epicbattle.view.town.tile.TileView;
 
 /**
  * Created by morph on 17.01.2016.
