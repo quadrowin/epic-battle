@@ -102,6 +102,7 @@ public class Tower extends GameUnit {
         mActSkills.clear();
         mBulletSkills.clear();
         mBullets.clear();
+
         Gdx.app.log("tower", "spawnReset");
     }
 
@@ -230,7 +231,7 @@ public class Tower extends GameUnit {
         mGame.towerDeath(this);
     }
 
-    public void incCash(AbstractBullet bullet) {
+    public void reward(AbstractBullet bullet) {
         mCash += bullet.getInfo().getCost() / 3 * mRewardMultiplier;
     }
 

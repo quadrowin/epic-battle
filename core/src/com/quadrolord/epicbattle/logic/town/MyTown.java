@@ -5,11 +5,13 @@ import com.quadrolord.epicbattle.logic.Game;
 /**
  * Created by Quadrowin on 16.01.2016.
  */
-public class TownLogic {
+public class MyTown {
 
     private Game mGame;
 
-    public TownLogic(Game game) {
+    private Array<Building> buildings = new Array<Building>();
+
+    public MyTown(Game game) {
         mGame = game;
     }
 
