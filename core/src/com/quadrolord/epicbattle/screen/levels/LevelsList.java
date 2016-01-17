@@ -18,9 +18,9 @@ public class LevelsList extends Group {
             final Level level = levels[i];
             TextButton btnLevel = new TextButton(level.getName(), screen.getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
             btnLevel.setBounds(
-                    40,
-                    40 + i * 60,
-                    200,
+                    10,
+                    10 + i * 60,
+                    180,
                     50
             );
             screen.getStage().addActor(btnLevel);

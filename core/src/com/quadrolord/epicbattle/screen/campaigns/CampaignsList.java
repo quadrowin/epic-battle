@@ -18,9 +18,9 @@ public class CampaignsList extends Group {
             final AbstractCampaign campaign = campaigns[i];
             TextButton btnLevel = new TextButton(campaign.getName(), screen.getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
             btnLevel.setBounds(
-                    40,
-                    40 + i * 60,
-                    200,
+                    10,
+                    10 + i * 60,
+                    180,
                     50
             );
             screen.getStage().addActor(btnLevel);

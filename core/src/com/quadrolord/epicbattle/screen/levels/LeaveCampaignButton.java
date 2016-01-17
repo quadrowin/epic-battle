@@ -14,9 +14,9 @@ public class LeaveCampaignButton {
     public LeaveCampaignButton(final AbstractScreen screen) {
         TextButton btnLevel = new TextButton("Leave campaign", screen.getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
         btnLevel.setBounds(
-                250,
-                200,
-                150,
+                210,
+                190,
+                180,
                 50
         );
         screen.getStage().addActor(btnLevel);
