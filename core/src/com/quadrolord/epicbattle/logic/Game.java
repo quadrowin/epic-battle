@@ -2,15 +2,15 @@ package com.quadrolord.epicbattle.logic;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ArrayMap;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfoManager;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
-import com.quadrolord.epicbattle.logic.bullet.worker.Big;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.logic.campaign.CampaignManager;
+import com.quadrolord.epicbattle.logic.campaign.EnemyTower;
 import com.quadrolord.epicbattle.logic.campaign.Level;
 import com.quadrolord.epicbattle.logic.profile.PlayerProfile;
+import com.quadrolord.epicbattle.logic.profile.ProfileBullet;
 import com.quadrolord.epicbattle.logic.profile.ProfileManager;
 import com.quadrolord.epicbattle.logic.profile.ProfileSkill;
 import com.quadrolord.epicbattle.logic.skill.AbstractSkill;
@@ -67,44 +67,24 @@ public class Game {
 
         mTowers.add(mPlayerTower);
         mTowers.add(mEnemyTower);
-
-        mPlayerTower.getBulletClasses().add(Simple.class);
-        mPlayerTower.getBulletClasses().add(Big.class);
-
-        ArrayMap<Class<? extends AbstractBullet>, Integer> bulletLevels = new ArrayMap<Class<? extends AbstractBullet>, Integer>();
-        bulletLevels.put(Big.class, 3);
-        bulletLevels.put(Simple.class, 8);
-        getPlayerTower().setBulletLevels(bulletLevels);
-
-        ArrayMap<Class<? extends AbstractBullet>, Integer> levels = mPlayerTower.getBulletLevels();
-        Iterator<Class<? extends AbstractBullet>> iter = mPlayerTower.getBulletClasses().iterator();
-
-        while (iter.hasNext()) {
-            Class<? extends AbstractBullet> bulletClass = iter.next();
-
-            if (levels.containsKey(bulletClass)) {
-                mPlayerTower.getBulletInfo(bulletClass).setLevel(levels.get(bulletClass));
-            }
-        }
     }
 
     public void act(float delta) {
         mLevelTime += delta;
 
-        for (Iterator<AbstractController> iter = mControllers.iterator(); iter.hasNext(); ) {
-            iter.next().act(delta);
+        for (Iterator<AbstractController> it = mControllers.iterator(); it.hasNext(); ) {
+            it.next().act(delta);
         }
 
-        for (Iterator<Tower> towers = mTowers.iterator(); towers.hasNext(); ) {
-            towers.next().act(delta);
+        for (Iterator<Tower> it = mTowers.iterator(); it.hasNext(); ) {
+            it.next().act(delta);
         }
 
-        int i = 0;
-        for (Iterator<AbstractBullet> units = mBullets.iterator(); units.hasNext(); i++) {
-            AbstractBullet unit = units.next();
+        for (Iterator<AbstractBullet> it = mBullets.iterator(); it.hasNext(); ) {
+            AbstractBullet unit = it.next();
 
             if (unit.isDied()) {
-                units.remove();
+                it.remove();
                 mListener.onBulletRemove(unit);
             } else {
                 unit.act(delta);
@@ -112,7 +92,7 @@ public class Game {
         }
     }
 
-    public void spawnTower(Tower tower, float position, float speedRatio, AbstractController controller) {
+    public void towerReset(Tower tower, float position, float speedRatio) {
         if (position < mTowerLeft) {
             mTowerLeft = position;
         }
@@ -126,6 +106,9 @@ public class Game {
         tower.setSpeedRatio(speedRatio);
         tower.setWidth(60);
         tower.setCash(0);
+    }
+
+    public void towerFinish(Tower tower, AbstractController controller) {
         controller.setTower(tower);
 
         mControllers.add(controller);
@@ -134,26 +117,37 @@ public class Game {
         mListener.onTowerCreate(tower);
     }
 
-    public void createUnit(Tower tower, Class<? extends AbstractBullet> workerClass) {
+    public AbstractBullet createUnit(Tower tower, Class<? extends AbstractBullet> workerClass) {
+        BulletInfo bi = tower.getBulletInfo(workerClass);
+
+        if (tower.isInCooldown(workerClass)) {
+            mListener.onBulletCreateFailCooldown();
+            return null;
+        }
+
+        if (!tower.hasCash(workerClass)) {
+            mListener.onBulletCreateFailCash(tower.getCash(), bi.getCost());
+            return null;
+        }
+
+        return createUnitEx(tower, bi);
+    }
+
+    /**
+     * Создание юнита без проверок
+     * @param tower
+     * @param bi
+     */
+    public AbstractBullet createUnitEx(Tower tower, BulletInfo bi) {
         AbstractBullet bullet;
         try {
-            bullet = workerClass.getConstructor(Game.class).newInstance(this);
+            bullet = bi.getBulletClass().getConstructor(Game.class).newInstance(this);
         } catch (Exception e) {
+            Gdx.app.error("Game.createUnit", "error create bullet " + bi.getBulletClass().getName());
+            e.printStackTrace();
             bullet = new Simple(this);
         }
-
-        BulletInfo bi = tower.getBulletInfo(workerClass);
         bullet.setInfo(bi);
-
-        if (tower.isInCooldown(bullet)) {
-            mListener.onBulletCreateFailCooldown();
-            return ;
-        }
-
-        if (!tower.hasCash(bullet)) {
-            mListener.onBulletCreateFailCash(tower.getCash(), bi.getCost());
-            return;
-        }
 
         bullet.setWidth(30);
         bullet.setMaxHp(bi.getMaxHp());
@@ -169,6 +163,7 @@ public class Game {
         mListener.onBulletCreate(bullet);
 
         mListener.onBulletAttack(bullet, tower);
+        return bullet;
     }
 
     public Array<AbstractBullet> getBullets() {
@@ -196,11 +191,25 @@ public class Game {
         return mSoundManager;
     }
 
-    private void initPlayerTower() {
-        spawnTower(mPlayerTower, 10, 1, mPlayerController);
+    private void initAiTower(Tower tower, EnemyTower enemyTower) {
+        ControllerAi ai = new ControllerAi(this);
+        ai.setEnemyParams(enemyTower);
+
+        towerReset(tower, enemyTower.getX(), -1);
+
+        tower.addBulletSkill(Simple.class, 1);
+        tower.setMaxHp(enemyTower.getMaxHp());
+        tower.setHp(enemyTower.getMaxHp());
+
+        towerFinish(tower, ai);
+    }
+
+    private void initPlayerTower(Tower tower) {
+        towerReset(tower, 10, 1);
         PlayerProfile profile = mProfileManager.getProfile();
-        for (Iterator<ProfileSkill> iter = profile.getSkills().iterator(); iter.hasNext(); ) {
-            ProfileSkill skillInfo = iter.next();
+        // доступные скилы
+        for (Iterator<ProfileSkill> it = profile.getSkills().iterator(); it.hasNext(); ) {
+            ProfileSkill skillInfo = it.next();
             AbstractSkill skill;
             try {
                 skill = skillInfo.getSkillClass().newInstance();
@@ -210,8 +219,23 @@ public class Game {
                 skill = new DummySkill();
             }
             skill.setLevel(skillInfo.getLevel());
-            skill.initTower(mPlayerTower);
+            skill.initTower(tower);
         }
+        // доступные виды юнитов
+        for (Iterator<ProfileBullet> it = profile.getBullets().iterator(); it.hasNext(); ) {
+            ProfileBullet pb = it.next();
+            Gdx.app.log("Game.initPlayerTower", "create " +  pb.getBulletName());
+            try {
+                tower.addBulletSkill(
+                        (Class<? extends AbstractBullet>)Class.forName(pb.getBulletName()),
+                        pb.getLevel()
+                );
+            } catch (Exception e) {
+                Gdx.app.error("Game.initPlayerTower", "Bullet skill class not found: " + pb.getBulletName());
+            }
+        }
+        Gdx.app.log("Game.initPlayerTower", "player bullet skills: " + tower.getBulletSkills().size);
+        towerFinish(tower, mPlayerController);
     }
 
     public void setListener(GameListener listener) {
@@ -229,14 +253,9 @@ public class Game {
         mTowerLeft = 10;
         mTowerRight = 640;
 
-        initPlayerTower();
+        initPlayerTower(mPlayerTower);
 
-        ControllerAi ai = new ControllerAi(this);
-        ai.setEnemyParams(level.getEnemyTower());
-
-        spawnTower(mEnemyTower, level.getEnemyTower().getX(), -1, ai);
-        mEnemyTower.setMaxHp(level.getEnemyTower().getMaxHp());
-        mEnemyTower.setHp(level.getEnemyTower().getMaxHp());
+        initAiTower(mEnemyTower, level.getEnemyTower());
 
         mLevelTime = 0;
 

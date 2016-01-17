@@ -3,6 +3,8 @@ package com.quadrolord.epicbattle.logic.profile;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
+import com.quadrolord.epicbattle.logic.bullet.worker.Big;
+import com.quadrolord.epicbattle.logic.bullet.worker.Forks;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.logic.skill.TowerMaxHp;
 import com.quadrolord.epicbattle.logic.skill.TowerRandomBleed;
@@ -57,9 +59,13 @@ public class ProfileManager {
             mProfile.addSkill(TowerRandomBleed.class, 1);
         }
 
-        if (mProfile.getBullets().size < 1) {
-            mProfile.addBullet(Simple.class);
-        }
+//        if (mProfile.getBullets().size < 1) {
+//            mProfile.addBullet(Simple.class);
+//        }
+        mProfile.getBullets().clear();
+        mProfile.addBulletSafe(Simple.class).setLevel(8);
+        mProfile.addBulletSafe(Big.class).setLevel(3);
+        mProfile.addBulletSafe(Forks.class);
     }
 
     public void saveProfile() {

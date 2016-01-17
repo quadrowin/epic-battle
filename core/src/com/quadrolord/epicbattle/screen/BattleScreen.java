@@ -87,8 +87,6 @@ public class BattleScreen extends AbstractScreen {
 
         new PauseButton(this, mFrontStage);
 
-        new BulletPanel(this, mFrontStage);
-
         ViewLoader vl = new ViewLoader();
         vl.loadTextures(
                 mSkin,
@@ -192,7 +190,9 @@ public class BattleScreen extends AbstractScreen {
 
                 if (tower.getSpeedRatio() > 0) {
                     Cash cl = new Cash(tower, screen, mFrontStage);
+                    BulletPanel bp = new BulletPanel(screen, mFrontStage);
                     mLevelViews.add(cl);
+                    mLevelViews.add(bp);
                 }
 
                 TowerView tv = new TowerView(tower, screen);

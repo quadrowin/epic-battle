@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -33,6 +32,7 @@ public class BulletButton extends Group {
         mGame = screen.getGame();
 
         BulletInfo bi = screen.getGame().getPlayerTower().getBulletInfo(bulletClass);
+        Gdx.app.log("BulletButton create", bi.getTitle() + " " + bi.getIcon().toString());
 
         mFireButton = new ImageButton(new Image(bi.getIcon()).getDrawable());
 

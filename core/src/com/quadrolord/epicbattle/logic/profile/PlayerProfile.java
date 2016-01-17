@@ -4,6 +4,8 @@ import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.skill.AbstractSkill;
 
+import java.util.Iterator;
+
 /**
  * Created by Quadrowin on 14.01.2016.
  */
@@ -44,10 +46,18 @@ public class PlayerProfile {
         return bullets;
     }
 
-    public void addBullet(Class<? extends AbstractBullet> bulletClass) {
+    public ProfileBullet addBullet(Class<? extends AbstractBullet> bulletClass) {
         ProfileBullet bullet = new ProfileBullet();
         bullet.setBulletClass(bulletClass);
         bullets.add(bullet);
+        return bullet;
+    }
+
+    public ProfileBullet addBulletSafe(Class<? extends AbstractBullet> bulletClass) {
+        if (hasBullet(bulletClass)) {
+            return null;
+        }
+        return addBullet(bulletClass);
     }
 
     public void addSkill(Class<? extends AbstractSkill> skillClass, int level) {
@@ -67,6 +77,17 @@ public class PlayerProfile {
 
     public long getExperienceTotal() {
         return experienceTotal;
+    }
+
+    public boolean hasBullet(Class<? extends AbstractBullet> bulletClass) {
+        String bulletClassName = bulletClass.getName();
+        for (Iterator<ProfileBullet> it = bullets.iterator(); it.hasNext(); ) {
+            ProfileBullet pb = it.next();
+            if (pb.getBulletName().equals(bulletClassName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public long incExperience(long value) {

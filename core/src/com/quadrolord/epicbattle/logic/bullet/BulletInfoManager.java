@@ -21,6 +21,7 @@ public class BulletInfoManager {
     public BulletInfo getBulletInfo(Class<? extends AbstractBullet> bulletClass) {
         String fileName = "config/units/" + bulletClass.getSimpleName() + ".json";
         BulletInfo info = new BulletInfo();
+        info.setBulletClass(bulletClass);
         JsonValue json;
 
         Gdx.app.log("bullets", "Loaded unit config: " + fileName);

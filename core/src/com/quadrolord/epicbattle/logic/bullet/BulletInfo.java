@@ -47,6 +47,10 @@ public class BulletInfo {
 
     protected AbstractStrategy mLevelingStrategy;
 
+    public Class<? extends AbstractBullet> getBulletClass() {
+        return mBulletClass;
+    }
+
     public AbstractStrategy getLevelingStrategy() {
         return mLevelingStrategy;
     }
