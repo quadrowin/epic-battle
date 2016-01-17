@@ -31,6 +31,8 @@ public abstract class BulletUnitView extends Group {
     protected float mRealWidth;
     protected float mRealHeight;
 
+    private Shadow mShadow;
+
     public BulletUnitView(AbstractBullet bullet, AbstractScreen screen) {
         mBullet = bullet;
         mBullet.setViewObject(this);
@@ -48,7 +50,7 @@ public abstract class BulletUnitView extends Group {
         mRealWidth = mAnimation.getAnimation().getTexture().getRegionWidth();
         mRealHeight = mAnimation.getAnimation().getTexture().getRegionHeight();
 
-        new Shadow(this, screen);
+        mShadow = new Shadow(this, screen);
 
         addActor(mAnimation);
     }
@@ -85,6 +87,8 @@ public abstract class BulletUnitView extends Group {
     }
 
     public void startDeadAnimation() {
+        mShadow.remove();
+
         final Actor self = this;
         mAnimation.setAnimationCallback(
                 mDeadAnim,

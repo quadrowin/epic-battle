@@ -48,8 +48,8 @@ public class Tower extends GameUnit {
 
     public Tower(Game game) {
         super(game);
+
         mHp = mMaxHp;
-        mWidth = 200;
     }
 
     public void act(float delta) {
