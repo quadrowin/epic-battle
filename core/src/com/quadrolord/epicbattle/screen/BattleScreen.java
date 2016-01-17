@@ -1,9 +1,11 @@
 package com.quadrolord.epicbattle.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
@@ -84,8 +86,6 @@ public class BattleScreen extends AbstractScreen {
         new Background(this, mBackStage, mStage.getCamera());
 
         new PauseButton(this, mFrontStage);
-
-        new BulletPanel(this, mFrontStage);
 
         ViewLoader vl = new ViewLoader();
         vl.loadTextures(
@@ -190,7 +190,9 @@ public class BattleScreen extends AbstractScreen {
 
                 if (tower.getSpeedRatio() > 0) {
                     Cash cl = new Cash(tower, screen, mFrontStage);
+                    BulletPanel bp = new BulletPanel(screen, mFrontStage);
                     mLevelViews.add(cl);
+                    mLevelViews.add(bp);
                 }
 
                 TowerView tv = new TowerView(tower, screen);
@@ -230,6 +232,35 @@ public class BattleScreen extends AbstractScreen {
         }
 
         mGame.startLevel(level);
+
+        mFrontStage.addListener(new EventListener() {
+
+            @Override
+            public boolean handle(Event event) {
+                if (!(event instanceof InputEvent)) {
+                    return false;
+                }
+                InputEvent ie = ((InputEvent) event);
+                if (ie.getType() != InputEvent.Type.scrolled) {
+                    return false;
+                }
+                float deltaX = ie.getScrollAmount();
+                OrthographicCamera oc = (OrthographicCamera)mStage.getCamera();
+
+                float maxZoom = 3;
+                float minZoom = 0.5f;
+                oc.zoom = Math.max(
+                        minZoom,
+                        Math.min(
+                                maxZoom,
+                                oc.zoom + deltaX * 0.1f
+                        )
+                );
+                float zeroY = 45; // земля - нулевая высота, на которой стоят башни
+                oc.position.y = oc.zoom * oc.viewportHeight / 2 + zeroY * (1 - oc.zoom) * getPx();
+                return true;
+            }
+        });
 
         new DebugPanel(this, mFrontStage);
     }

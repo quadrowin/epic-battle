@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
+import com.quadrolord.epicbattle.logic.tower.TowerBulletSkill;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.view.sounds.SoundManager;
 
@@ -29,10 +29,8 @@ public class BulletPanel extends Group {
         };
 
         int i = 0;
-        Iterator<Class<? extends AbstractBullet>> iter = screen.getGame().getPlayerTower().getBulletClasses().iterator();
-
-        while (iter.hasNext()) {
-            BulletButton btn = new BulletButton(screen, iter.next());
+        for (Iterator<TowerBulletSkill> it = screen.getGame().getPlayerTower().getBulletSkills().values().iterator(); it.hasNext(); ) {
+            BulletButton btn = new BulletButton(screen, it.next().getBulletInfo().getBulletClass());
             btn.setBounds(i * 50, 0, 40, 40);
             btn.addListener(clickListener);
             addActor(btn);

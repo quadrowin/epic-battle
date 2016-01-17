@@ -3,7 +3,9 @@ package com.quadrolord.epicbattle.logic.profile;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
-import com.quadrolord.epicbattle.logic.skill.AbstractSkill;
+import com.quadrolord.epicbattle.logic.bullet.worker.Big;
+import com.quadrolord.epicbattle.logic.bullet.worker.Forks;
+import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.logic.skill.TowerMaxHp;
 import com.quadrolord.epicbattle.logic.skill.TowerRandomBleed;
 import com.quadrolord.epicbattle.logic.utils.PlatformServices;
@@ -53,18 +55,17 @@ public class ProfileManager {
             mProfile = new PlayerProfile();
             mProfile.setName("An elf");
 
-            mProfile.setSkills(new ProfileSkill[] {
-                    createProfileSkill(TowerMaxHp.class, 0),
-                    createProfileSkill(TowerRandomBleed.class, 1),
-            });
+            mProfile.addSkill(TowerMaxHp.class, 0);
+            mProfile.addSkill(TowerRandomBleed.class, 1);
         }
-    }
 
-    private ProfileSkill createProfileSkill(Class<? extends AbstractSkill> skillClass, int level) {
-        ProfileSkill sk = new ProfileSkill();
-        sk.setSkillClass(skillClass);
-        sk.setLevel(level);
-        return sk;
+//        if (mProfile.getBullets().size < 1) {
+//            mProfile.addBullet(Simple.class);
+//        }
+        mProfile.getBullets().clear();
+        mProfile.addBulletSafe(Simple.class).setLevel(8);
+        mProfile.addBulletSafe(Big.class).setLevel(3);
+        mProfile.addBulletSafe(Forks.class);
     }
 
     public void saveProfile() {
