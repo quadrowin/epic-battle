@@ -9,7 +9,6 @@ import com.quadrolord.epicbattle.view.town.tile.TileView;
  */
 public abstract class Tile {
     protected Vector2 mPosition;
-    protected Texture mTexture;
     protected TileView mView;
 
     public Tile() {
@@ -38,14 +37,6 @@ public abstract class Tile {
         return mPosition;
     }
 
-    public Texture getTexture() {
-        return mTexture;
-    }
-
-    public void setTexture(Texture texture) {
-        mTexture = texture;
-    }
-
     public int getX() {
         return (int)mPosition.x;
     }
@@ -64,5 +55,9 @@ public abstract class Tile {
 
     public TileView getView() {
         return mView;
+    }
+
+    public void setView(TileView view) {
+        mView = view;
     }
 }
