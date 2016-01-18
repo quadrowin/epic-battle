@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.epicbattle.screen.MyTownScreen;
 
 /**
  * Created by Quadrowin on 15.01.2016.
@@ -22,9 +23,14 @@ public class DebugPanel extends Group {
 
     private Group mPanel;
 
+    private AbstractScreen mScreen;
+
     private Actor mToggleButton;
 
+    private int mButtonsCount = 0;
+
     public DebugPanel(final AbstractScreen screen, Stage stage) {
+        mScreen = screen;
 
         Texture texture = new Texture("ui/panel-64.png");
         NinePatch ninePatch = new NinePatch(
@@ -37,43 +43,6 @@ public class DebugPanel extends Group {
         mPanel.setBounds(30, 30, 340, 240);
         mPanel.setVisible(mOpened);
         stage.addActor(mPanel);
-
-        TextButton btnSaveProfile = new TextButton("Save Profile", screen.getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnSaveProfile.setBounds(
-                10,
-                10,
-                100,
-                40
-        );
-        mPanel.addActor(btnSaveProfile);
-        btnSaveProfile.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("debug panel", "click Save Profile");
-                screen.getGame().getProfileManager().saveProfile();
-            }
-
-        });
-
-
-        TextButton btnLoadProfile = new TextButton("Load Profile", screen.getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnLoadProfile.setBounds(
-                110,
-                10,
-                100,
-                40
-        );
-        mPanel.addActor(btnLoadProfile);
-        btnLoadProfile.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("debug panel", "click Load Profile");
-                screen.getGame().getProfileManager().getProfile();
-            }
-
-        });
 
         mToggleButton = new TextButton("debug", screen.getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
         mToggleButton.setBounds(
@@ -92,6 +61,48 @@ public class DebugPanel extends Group {
             }
 
         });
+
+        addButton("Save Profile", new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("debug panel", "click Save Profile");
+                screen.getGame().getProfileManager().saveProfile();
+            }
+
+        });
+
+        addButton("Load Profile", new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("debug panel", "click Load Profile");
+                screen.getGame().getProfileManager().getProfile();
+            }
+
+        });
+
+        addButton("To my town", new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mScreen.getAdapter().switchToScreen(MyTownScreen.class);
+            }
+
+        });
+    }
+
+    public void addButton(String title, ClickListener listener) {
+        TextButton button = new TextButton(title, mScreen.getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
+        button.setBounds(
+                10 + 90 * (mButtonsCount % 3),
+                10 + 50 * Math.round(mButtonsCount / 3),
+                90,
+                40
+        );
+        mPanel.addActor(button);
+        button.addListener(listener);
+        mButtonsCount++;
     }
 
 }
