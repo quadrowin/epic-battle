@@ -5,23 +5,29 @@ import com.quadrolord.epicbattle.logic.town.resource.Resource;
 /**
  * Created by morph on 17.01.2016.
  */
-public abstract class ResourceBuilding extends Building{
-    protected Resource mProductionResource;
-    protected float mProductionTime;
+public abstract class ResourceBuilding extends Building {
+    protected Resource mResource;
 
-    public float getProductionTime() {
-        return mProductionTime;
+    protected float mLastYield = 0;
+    protected float mYieldCount = 0;
+
+    public Resource getResource() {
+        return mResource;
     }
 
-    public void setProductionTime(float productionTime) {
-        mProductionTime = productionTime;
+    public float getLastYield() {
+        return mLastYield;
     }
 
-    public Resource getProductionResource() {
-        return mProductionResource;
+    public void setLastYield(float yield) {
+        mLastYield = yield;
     }
 
-    public void setProductionResource(Resource productionResource) {
-        mProductionResource = productionResource;
+    public float getYieldCount() {
+        return mYieldCount;
+    }
+
+    public void setYieldCount(float count) {
+        mYieldCount = count;
     }
 }

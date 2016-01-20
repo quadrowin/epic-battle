@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.town.building.Building;
+import com.quadrolord.epicbattle.logic.town.building.ResourceBuilding;
 import com.quadrolord.epicbattle.logic.town.resource.Resource;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
 
@@ -18,12 +19,70 @@ public class MyTown {
     private Game mGame;
 
     private Array<Building> mBuildings = new Array<Building>();
-    private ArrayMap<Resource, Integer> mResources = new ArrayMap<Resource, Integer>();
     private Tile[][] mMap = new Tile[][]{};
     private int mLevel = 1;
 
+    private ArrayMap<Resource, Float> mResourceCount = new ArrayMap<Resource, Float>();
+
+    private float mTime = 0;
+
     public MyTown(Game game) {
         mGame = game;
+    }
+
+    public void act(float delta) {
+        mTime += delta;
+
+    }
+
+    public float getYieldDelta(ResourceBuilding building) {
+        return Math.max(0, building.getInfo().getYieldTime() - building.getLastYield());
+    }
+
+    public void yieldResources(float delta) {
+        for (Building building : mBuildings) {
+            if (!(building instanceof ResourceBuilding)) {
+                continue;
+            }
+
+            ResourceBuilding resourceBuilding = (ResourceBuilding)building;
+
+            if (getYieldDelta(resourceBuilding) < 0.00001f) {
+                float count = resourceBuilding.getYieldCount();
+                float yieldTime = resourceBuilding.getInfo().getYieldTime();
+
+                if (delta < yieldTime) {
+                    count += 1;
+                } else {
+                    count += delta / yieldTime;
+                }
+
+                resourceBuilding.setLastYield(0.0f);
+                resourceBuilding.setYieldCount(count);
+            } else {
+                resourceBuilding.setLastYield(resourceBuilding.getLastYield() + delta);
+            }
+        }
+    }
+
+    public boolean takeResources(ResourceBuilding building) {
+        if (building.getYieldCount() >= 1) {
+            float count = 0;
+            Resource resource = building.getResource();
+
+            if (mResourceCount.containsKey(resource)) {
+                count = mResourceCount.get(resource);
+            }
+
+            count += building.getYieldCount();
+
+            building.setYieldCount(0.0f);
+            mResourceCount.put(resource, count);
+
+            return true;
+        }
+
+        return false;
     }
 
     public boolean haveLevel(int level) {
@@ -31,14 +90,14 @@ public class MyTown {
     }
 
     public boolean haveResources(Building building) {
-        Iterator<ObjectMap.Entry<Resource, Integer>> iter = building.getInfo().getResources().iterator();
+        Iterator<ObjectMap.Entry<Resource, Integer>> iter = building.getInfo().getRequiredResources().iterator();
 
         while (iter.hasNext()) {
             ObjectMap.Entry<Resource, Integer> next = iter.next();
             Resource resource = next.key;
             int cost = next.value;
 
-            if (!mResources.containsKey(resource) || mResources.get(resource) < cost) {
+            if (!mResourceCount.containsKey(resource) || mResourceCount.get(resource) < cost) {
                 return false;
             }
         }
@@ -76,8 +135,6 @@ public class MyTown {
                 }
             }
 
-
-
             return true;
         }
 
@@ -85,16 +142,16 @@ public class MyTown {
     }
 
     public void takeAwayResources(Building building) {
-        Iterator<ObjectMap.Entry<Resource, Integer>> iter = building.getInfo().getResources().iterator();
+        Iterator<ObjectMap.Entry<Resource, Integer>> iter = building.getInfo().getRequiredResources().iterator();
 
         while (iter.hasNext()) {
             ObjectMap.Entry<Resource, Integer> next = iter.next();
             Resource resource = next.key;
             int cost = next.value;
 
-            if (mResources.containsKey(resource)) {
-                int oldValue = mResources.get(resource);
-                mResources.put(resource, oldValue - cost);
+            if (mResourceCount.containsKey(resource)) {
+                float oldValue = mResourceCount.get(resource);
+                mResourceCount.put(resource, oldValue - cost);
             }
         }
     }

@@ -18,15 +18,20 @@ public class BuildingInfo {
     protected Texture mIcon;
     protected Array<LevelingDto> mLevelUps = new Array<LevelingDto>();
     protected Class<? extends Tile> mTileClass;
-    protected ArrayMap<Resource, Integer> mResources = new ArrayMap<Resource, Integer>();
+    protected ArrayMap<Resource, Integer> mRequiredResources = new ArrayMap<Resource, Integer>();
     protected int mRequiredLevel = 1;
+    protected float mYieldTime;
 
-    public ArrayMap<Resource, Integer> getResources() {
-        return mResources;
+    public ArrayMap<Resource, Integer> getRequiredResources() {
+        return mRequiredResources;
     }
 
     public int getRequiredLevel() {
         return mRequiredLevel;
+    }
+
+    public float getYieldTime() {
+        return mYieldTime;
     }
 
 }
