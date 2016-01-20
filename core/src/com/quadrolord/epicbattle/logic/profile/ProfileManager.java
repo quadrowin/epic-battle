@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.quadrolord.epicbattle.logic.bullet.worker.Big;
 import com.quadrolord.epicbattle.logic.bullet.worker.Forks;
+import com.quadrolord.epicbattle.logic.bullet.worker.Girl;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.logic.skill.TowerMaxHp;
 import com.quadrolord.epicbattle.logic.skill.TowerRandomBleed;
@@ -66,6 +67,7 @@ public class ProfileManager {
         mProfile.addBulletSafe(Simple.class).setLevel(8);
         mProfile.addBulletSafe(Big.class).setLevel(3);
         mProfile.addBulletSafe(Forks.class);
+        mProfile.addBulletSafe(Girl.class);
     }
 
     public void saveProfile() {
