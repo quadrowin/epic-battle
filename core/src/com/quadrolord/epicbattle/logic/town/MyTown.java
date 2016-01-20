@@ -33,6 +33,7 @@ public class MyTown {
     public void act(float delta) {
         mTime += delta;
 
+        yieldResources(delta);
     }
 
     public float getYieldDelta(ResourceBuilding building) {
