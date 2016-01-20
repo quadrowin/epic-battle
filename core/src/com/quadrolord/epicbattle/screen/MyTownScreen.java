@@ -2,9 +2,9 @@ package com.quadrolord.epicbattle.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -14,9 +14,13 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
+
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.quadrolord.epicbattle.EpicBattle;
 
 /**
@@ -24,15 +28,11 @@ import com.quadrolord.epicbattle.EpicBattle;
  */
 public class MyTownScreen extends AbstractScreen {
 
-    OrthographicCamera mMapCamera = new OrthographicCamera(400, 300);
+    private int mSizeX = 8;
+    private int mSizeY = 8;
 
-    private int mSizeX = 17;
-    private int mSizeY = 17;
     private int mCellWidth = 32;
     private int mCellHeight = 32;
-
-    private TiledMap mMap;
-    private TiledMapRenderer mRenderer;
 
     private float mDeltaX, mDeltaY;
 
@@ -53,37 +53,45 @@ public class MyTownScreen extends AbstractScreen {
         });
 
         {
-            Texture tiles = new Texture(Gdx.files.internal("town/wood_tileset.png"));
-            TextureRegion[][] splitTiles = TextureRegion.split(tiles, mCellWidth, mCellHeight);
-            mMap = new TiledMap();
-            MapLayers layers = mMap.getLayers();
-            for (int l = 0; l < 3; l++) {
-                TiledMapTileLayer layer = new TiledMapTileLayer(mSizeX, mSizeY, mCellWidth, mCellHeight);
-                for (int x = 0; x < mSizeX; x++) {
-                    for (int y = 0; y < mSizeY; y++) {
-                        int ty = 0;
-                        int tx = 0;
-                        if (l == 0) {
-                            tx = (int)(Math.random() * 8);
-                        } else if (Math.random() > 0.8) {
-                            ty = (int)(Math.random() * 8);
-                            tx = (int)(Math.random() * 8);
-                        }
-                        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-                        cell.setTile(new StaticTiledMapTile(splitTiles[ty][tx]));
-                        layer.setCell(x, y, cell);
-                    }
+
+            Texture txMap = new Texture("town/map-bg.png");
+            Drawable drMap = new TextureRegionDrawable(new TextureRegion(txMap));
+            ImageButton ibMap = new ImageButton(drMap);
+            ibMap.setBounds(0, 0, 400, 220);
+            mStage.addActor(ibMap);
+
+            Texture txLeftHand = new Texture("town/left-hand-tower.png");
+            Drawable drLeftHand = new TextureRegionDrawable(new TextureRegion(txLeftHand));
+            final ImageButton ibLeft = new ImageButton(drLeftHand);
+            ibLeft.setBounds(200 - 30, 150 - 30, 30, 60);
+            ibMap.addActor(ibLeft);
+            final AbstractScreen screen = this;
+            ibLeft.addListener(new ClickListener() {
+
+                @Override
+                public void clicked (InputEvent event, float x, float y) {
+                    HintScreen hs = new HintScreen(screen, ibLeft.getX(), ibLeft.getY(), "It's your left hand");
+                    mAdapter.switchToScreen(hs, false);
+
                 }
-                layers.add(layer);
-            }
+
+            });
+
+            Drawable drRightHand = new TextureRegionDrawable(new TextureRegion(txLeftHand, 1, 0, 0.1f, 1));
+            final ImageButton ibRight = new ImageButton(drRightHand);
+            ibRight.setBounds(200, 150 - 30, 30, 60);
+            ibMap.addActor(ibRight);
+            ibRight.addListener(new ClickListener() {
+
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    HintScreen hs = new HintScreen(screen, ibRight.getX(), ibRight.getY(), "It's your right hand");
+                    mAdapter.switchToScreen(hs, false);
+                }
+
+            });
+
         }
-
-//        mRenderer = new IsometricTiledMapRenderer(mMap);
-        mRenderer = new IsometricTiledMapRenderer(mMap);
-        //mRenderer.getSpriteBatch().setShader(null);
-
-        mMapCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        mMapCamera.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
 
     }
 
@@ -93,18 +101,8 @@ public class MyTownScreen extends AbstractScreen {
         float width = mSizeX * mCellWidth + mDeltaX;
         float height = mSizeY * mCellHeight + mDeltaY;
 
-        mMapCamera.update();
-
-        mRenderer.setView(mMapCamera);
-        mRenderer.render();
-
         mStage.act(delta);
         mStage.draw();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        mStage.getViewport().update(width, height, true);
     }
 
     @Override
