@@ -9,8 +9,11 @@ import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -23,8 +26,8 @@ public class MyTownScreen extends AbstractScreen {
 
     OrthographicCamera mMapCamera = new OrthographicCamera(400, 300);
 
-    private int mSizeX = 7;
-    private int mSizeY = 7;
+    private int mSizeX = 17;
+    private int mSizeY = 17;
     private int mCellWidth = 32;
     private int mCellHeight = 32;
 
@@ -36,8 +39,6 @@ public class MyTownScreen extends AbstractScreen {
     public MyTownScreen(EpicBattle adapter) {
         super(adapter);
         initFitViewport();
-        mMapCamera.position.set(mSizeX * mCellWidth / 2, mSizeY * mCellHeight / 2, 0);
-        mMapCamera.update();
 
         TextButton btnToCampaignSelect = new TextButton("Select campaign", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
         btnToCampaignSelect.setBounds(10, 240, 180, 50);
@@ -58,8 +59,8 @@ public class MyTownScreen extends AbstractScreen {
             MapLayers layers = mMap.getLayers();
             for (int l = 0; l < 3; l++) {
                 TiledMapTileLayer layer = new TiledMapTileLayer(mSizeX, mSizeY, mCellWidth, mCellHeight);
-                for (int x = 0; x < 7; x++) {
-                    for (int y = 0; y < 7; y++) {
+                for (int x = 0; x < mSizeX; x++) {
+                    for (int y = 0; y < mSizeY; y++) {
                         int ty = 0;
                         int tx = 0;
                         if (l == 0) {
@@ -78,7 +79,12 @@ public class MyTownScreen extends AbstractScreen {
         }
 
 //        mRenderer = new IsometricTiledMapRenderer(mMap);
-        mRenderer = new OrthogonalTiledMapRenderer(mMap);
+        mRenderer = new IsometricTiledMapRenderer(mMap);
+        //mRenderer.getSpriteBatch().setShader(null);
+
+        mMapCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        mMapCamera.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
+
     }
 
     @Override
@@ -86,14 +92,10 @@ public class MyTownScreen extends AbstractScreen {
 
         float width = mSizeX * mCellWidth + mDeltaX;
         float height = mSizeY * mCellHeight + mDeltaY;
-        mRenderer.setView(
-                mMapCamera.combined,
-                0, 0,
-                width,
-                height
-        );
-//            Gdx.app.log("map size", "" + width + "x" + height);
 
+        mMapCamera.update();
+
+        mRenderer.setView(mMapCamera);
         mRenderer.render();
 
         mStage.act(delta);
@@ -108,6 +110,7 @@ public class MyTownScreen extends AbstractScreen {
     @Override
     public void update(float delta) {
         float dx = delta * 10;
+
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             mDeltaX -= dx;
         }

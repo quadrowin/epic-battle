@@ -22,6 +22,41 @@ public class MyTown {
         mGame = game;
     }
 
+    public boolean canBuild(Building building, int col, int row) {
 
+
+        for (int i = col; i < col + building.getWidth(); i++) {
+            for (int j = row; j < row + building.getHeight(); j++) {
+                if (mMap[i] == null || mMap[i][j] == null || !mMap[i][j].isFree()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public boolean build(Building building, int col, int row, boolean isRorated) {
+        if (isRorated && !building.isRotated()) {
+            building.rotate();
+        }
+
+        if (canBuild(building, col, row)) {
+            building.setX(col);
+            building.setY(row);
+
+            mBuildings.add(building);
+
+            for (int i = col; i < col + building.getWidth(); i++) {
+                for (int j = row; j < row + building.getHeight(); j++) {
+                    mMap[i][j].markAsBusy();
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
 
 }

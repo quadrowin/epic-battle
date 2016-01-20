@@ -10,6 +10,7 @@ import com.quadrolord.epicbattle.view.town.tile.TileView;
 public abstract class Tile {
     protected Vector2 mPosition;
     protected TileView mView;
+    protected boolean mIsFree;
 
     public Tile() {
 
@@ -59,5 +60,17 @@ public abstract class Tile {
 
     public void setView(TileView view) {
         mView = view;
+    }
+
+    public boolean isFree() {
+        return mIsFree;
+    }
+
+    public void markAsFree() {
+        mIsFree = true;
+    }
+
+    public void markAsBusy() {
+        mIsFree = false;
     }
 }
