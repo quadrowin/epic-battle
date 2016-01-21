@@ -20,6 +20,8 @@ public class GameUnit {
 
     private float mX;
 
+    private float mY;
+
     protected float mWidth = 10;
 
     protected Game mGame;
@@ -60,6 +62,10 @@ public class GameUnit {
 
     public float getX() {
         return mX;
+    }
+
+    public float getY() {
+        return mY;
     }
 
     public void harm(float damage) {
@@ -103,12 +109,21 @@ public class GameUnit {
         mMaxHp = hp;
     }
 
+    public void setPosition(float x, float y) {
+        mX = x;
+        mY = y;
+    }
+
     public void setVelocity(float velocity) {
         mVelocity = velocity;
     }
 
     public void setX(float x) {
         mX = x;
+    }
+
+    public void setY(float y) {
+        mY = y;
     }
 
     public void setWidth(float width) {

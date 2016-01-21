@@ -19,6 +19,8 @@ import java.util.Iterator;
  */
 public class Tower extends GameUnit {
 
+    private AbstractSkill mActiveSkill;
+
     private float mSpeedRatio = 1;
 
     private float mCash = 0;
@@ -77,6 +79,10 @@ public class Tower extends GameUnit {
         mActSkills.add(skill);
     }
 
+    public AbstractSkill getActiveSkill() {
+        return mActiveSkill;
+    }
+
     @Override
     public void harm(float damage) {
         super.harm(damage);
@@ -97,13 +103,16 @@ public class Tower extends GameUnit {
         return super.getBounds();
     }
 
+    public void setActiveSkill(AbstractSkill skill) {
+        mActiveSkill = skill;
+        Gdx.app.log("setActiveSkill", skill.getClass().getName());
+    }
+
     public void spawnReset() {
         setHp(getMaxHp());
         mActSkills.clear();
         mBulletSkills.clear();
         mBullets.clear();
-
-        Gdx.app.log("tower", "spawnReset");
     }
 
     public BulletInfo getBulletInfo(Class<? extends AbstractBullet> workerClass) {
@@ -237,6 +246,13 @@ public class Tower extends GameUnit {
 
     public float getTimeUp() {
         return mTimeUp;
+    }
+
+    public void useActiveSkill() {
+        if (mActiveSkill == null) {
+            return;
+        }
+        mActiveSkill.use();
     }
 
 }

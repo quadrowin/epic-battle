@@ -17,16 +17,17 @@ import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.campaign.Level;
 import com.quadrolord.epicbattle.logic.skill.TowerRandomBleed;
 import com.quadrolord.epicbattle.logic.tower.Tower;
+import com.quadrolord.epicbattle.screen.battle.ActiveSkillButton;
 import com.quadrolord.epicbattle.screen.battle.AttackAnimation;
 import com.quadrolord.epicbattle.screen.battle.Background;
 import com.quadrolord.epicbattle.screen.battle.BangAnimation;
 import com.quadrolord.epicbattle.screen.battle.BleedAnimation;
 import com.quadrolord.epicbattle.screen.battle.BulletPanel;
 import com.quadrolord.epicbattle.screen.battle.Cash;
-import com.quadrolord.epicbattle.screen.debug.DebugPanel;
 import com.quadrolord.epicbattle.screen.battle.LevelName;
 import com.quadrolord.epicbattle.screen.battle.PauseButton;
 import com.quadrolord.epicbattle.screen.battle.TowerHp;
+import com.quadrolord.epicbattle.screen.debug.DebugPanel;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
 import com.quadrolord.epicbattle.view.TowerDeath;
@@ -189,10 +190,17 @@ public class BattleScreen extends AbstractScreen {
             public void onTowerCreate(final Tower tower) {
 
                 if (tower.getSpeedRatio() > 0) {
+                    // башня игрока
                     Cash cl = new Cash(tower, screen, mFrontStage);
-                    BulletPanel bp = new BulletPanel(screen, mFrontStage);
                     mLevelViews.add(cl);
+
+                    // панель вызова юнитов
+                    BulletPanel bp = new BulletPanel(screen, mFrontStage);
                     mLevelViews.add(bp);
+
+                    // активный скил
+                    ActiveSkillButton asb = new ActiveSkillButton(screen, mFrontStage);
+                    mLevelViews.add(asb);
                 }
 
                 TowerView tv = new TowerView(tower, screen);

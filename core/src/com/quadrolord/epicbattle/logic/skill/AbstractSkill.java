@@ -9,6 +9,14 @@ abstract public class AbstractSkill {
 
     private int mLevel;
 
+    /**
+     * Иконка (для активных скилов)
+     * @return Путь до файла с иконкой
+     */
+    public String getIcon() {
+        return null;
+    }
+
     public int getLevel() {
         return mLevel;
     }
@@ -27,6 +35,13 @@ abstract public class AbstractSkill {
 
     public void setLevel(int level) {
         mLevel = level;
+    }
+
+    /**
+     * Использование скила в битве. Только для активных скилов.
+     */
+    public void use() {
+
     }
 
 }

@@ -7,6 +7,7 @@ import com.quadrolord.epicbattle.logic.bullet.worker.Big;
 import com.quadrolord.epicbattle.logic.bullet.worker.Forks;
 import com.quadrolord.epicbattle.logic.bullet.worker.Girl;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
+import com.quadrolord.epicbattle.logic.skill.PowerWave;
 import com.quadrolord.epicbattle.logic.skill.TowerMaxHp;
 import com.quadrolord.epicbattle.logic.skill.TowerRandomBleed;
 import com.quadrolord.epicbattle.logic.utils.PlatformServices;
@@ -55,10 +56,13 @@ public class ProfileManager {
         if (mProfile == null) {
             mProfile = new PlayerProfile();
             mProfile.setName("An elf");
-
-            mProfile.addSkill(TowerMaxHp.class, 0);
-            mProfile.addSkill(TowerRandomBleed.class, 1);
         }
+
+        mProfile.getSkills().clear();
+
+        mProfile.addSkill(TowerMaxHp.class, 0);
+        mProfile.addSkill(TowerRandomBleed.class, 1);
+        mProfile.addSkill(PowerWave.class, 0);
 
 //        if (mProfile.getBullets().size < 1) {
 //            mProfile.addBullet(Simple.class);

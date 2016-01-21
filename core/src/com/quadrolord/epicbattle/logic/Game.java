@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfoManager;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
+import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.logic.campaign.CampaignManager;
 import com.quadrolord.epicbattle.logic.campaign.EnemyTower;
@@ -90,6 +91,10 @@ public class Game {
                 unit.act(delta);
             }
         }
+    }
+
+    public void foldBackUnit(AbstractBullet blt) {
+        blt.setState(BulletState.FOLD_BACK);
     }
 
     public void towerReset(Tower tower, float position, float speedRatio) {

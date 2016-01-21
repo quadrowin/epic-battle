@@ -3,8 +3,8 @@ package com.quadrolord.epicbattle.view;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
+import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
-import com.quadrolord.epicbattle.screen.battle.BleedAnimation;
 import com.quadrolord.epicbattle.screen.battle.Shadow;
 
 /**
@@ -65,7 +65,13 @@ public abstract class BulletUnitView extends Group {
             setScale(-getScaleWidth(), getScaleHeight());
         }
 
-        if (mBullet.isRunning()) {
+        if (mBullet.getState() == BulletState.FOLD_BACK) {
+            float dy = (float)Math.sin(3.14f * mBullet.getStateTime() / AbstractBullet.FOLD_BACK_TIME);
+            setY(mUnitY + dy * 10);
+            if (mAnimation.getAnimation() != mRunningAnim) {
+                mAnimation.setAnimationLooped(mRunningAnim);
+            }
+        } else if (mBullet.isRunning()) {
             if (mAnimation.getAnimation() != mRunningAnim) {
                 mAnimation.setAnimationLooped(mRunningAnim);
             }

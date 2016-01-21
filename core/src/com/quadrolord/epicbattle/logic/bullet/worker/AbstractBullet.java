@@ -16,6 +16,10 @@ import java.util.Iterator;
  */
 abstract public class AbstractBullet extends GameUnit {
 
+    private static float IDLE_TIME = 0.5f;
+
+    public static float FOLD_BACK_TIME = 1;
+
     protected BulletInfo mInfo;
 
     protected Tower mTower;
@@ -24,8 +28,15 @@ abstract public class AbstractBullet extends GameUnit {
 
     private Array<AbstractBullet> mAttackers = new Array<AbstractBullet>();
 
-    private boolean mIsRunning = true;
-    private boolean mIsAttacking = false;
+    /**
+     * Состояние
+     */
+    private BulletState mState;
+
+    /**
+     * Время в текущем состоянии
+     */
+    private float mStateTime = 0;
 
     private float mLastAttackedTime;
     private float mTime = 0;
@@ -76,6 +87,7 @@ abstract public class AbstractBullet extends GameUnit {
 
     public void act(float delta) {
         mTime += delta;
+        mStateTime += delta;
 
         Tower enemyTower = getTower().getEnemy();
 
@@ -88,21 +100,36 @@ abstract public class AbstractBullet extends GameUnit {
         }
 
         mIsUnderAttack = false;
+        boolean isStateFree = false;
 
-        if (mTargets.size > 0) {
-            mIsRunning = false;
-            mIsAttacking = true;
-
-            if ((mTime - mLastAttackedTime) >= mInfo.getAttackTime() / mTower.getTimeUp()) {
-                attack();
-                mLastAttackedTime = mTime;
+        if (mState == BulletState.FOLD_BACK) {
+            if (mStateTime >= FOLD_BACK_TIME) {
+                setState(BulletState.IDLE);
+            } else {
+                setX(getX() - 5 * Math.signum(getVelocity()) * delta * mTower.getTimeUp());
+            }
+        } else if (mState == BulletState.IDLE) {
+            if (mStateTime >= IDLE_TIME) {
+                isStateFree = true;
             }
         } else {
-            mIsRunning = true;
-            mIsAttacking = false;
+            isStateFree = true;
         }
 
-        if (mIsRunning) {
+        if (isStateFree) {
+            if (mTargets.size > 0) {
+                setState(BulletState.ATTACK);
+
+                if ((mTime - mLastAttackedTime) >= mInfo.getAttackTime() / mTower.getTimeUp()) {
+                    attack();
+                    mLastAttackedTime = mTime;
+                }
+            } else {
+                setState(BulletState.RUN);
+            }
+        }
+
+        if (isRunning()) {
             setX(getX() + getVelocity() * delta * mTower.getTimeUp());
         }
 
@@ -141,6 +168,14 @@ abstract public class AbstractBullet extends GameUnit {
         return super.getBounds();
     }
 
+    public BulletState getState() {
+        return mState;
+    }
+
+    public float getStateTime() {
+        return mStateTime;
+    }
+
     public boolean canAttack(GameUnit unit) {
         return getBounds().overlaps(unit.getBounds());
     }
@@ -159,8 +194,7 @@ abstract public class AbstractBullet extends GameUnit {
 
     @Override
     public void onDeath() {
-        mIsRunning = false;
-        mIsAttacking = false;
+        setState(BulletState.DEATH);
 
         for (Iterator<AbstractBullet> iter = mAttackers.iterator(); iter.hasNext(); ) {
             iter.next().removeTarget(this);
@@ -180,15 +214,18 @@ abstract public class AbstractBullet extends GameUnit {
         mTower = tower;
     }
 
+    public void setState(BulletState state) {
+        if (mState != state) {
+            mState = state;
+            mStateTime = 0;
+        }
+    }
+
     public void setInfo(BulletInfo info) {
         mInfo = info;
     }
 
-    public boolean isAttacking() {
-        return mIsAttacking;
-    }
-
     public boolean isRunning() {
-        return mIsRunning;
+        return mState == BulletState.RUN;
     }
 }
