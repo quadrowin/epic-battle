@@ -1,7 +1,7 @@
 {
   "title": "A beautiful ninja",
   "cost": 50,
-  "construction_time": 3,
+  "construction_time": 9,
   "attack_damage": 50,
   "attack_distance": 20,
   "attack_time": 1,
