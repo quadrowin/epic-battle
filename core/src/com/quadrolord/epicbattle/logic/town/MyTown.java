@@ -28,12 +28,19 @@ public class MyTown {
 
     public MyTown(Game game) {
         mGame = game;
+        mBuildings.add(new Building() {
+
+        });
     }
 
     public void act(float delta) {
         mTime += delta;
 
         yieldResources(delta);
+    }
+
+    public Array<Building> getBuildings() {
+        return mBuildings;
     }
 
     public float getYieldDelta(ResourceBuilding building) {

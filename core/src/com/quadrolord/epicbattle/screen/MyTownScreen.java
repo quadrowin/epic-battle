@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -12,6 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.quadrolord.epicbattle.EpicBattle;
+import com.quadrolord.epicbattle.logic.town.MyTown;
+import com.quadrolord.epicbattle.logic.town.building.Building;
+import com.quadrolord.epicbattle.view.town.building.BuildingView;
+
+import java.util.Iterator;
 
 /**
  * Created by Quadrowin on 16.01.2016.
@@ -24,11 +28,17 @@ public class MyTownScreen extends AbstractScreen {
     private int mCellWidth = 32;
     private int mCellHeight = 32;
 
-    private float mDeltaX, mDeltaY;
+    private float mDeltaX;
+    private float mDeltaY;
+
+    private MyTown mTown;
 
     public MyTownScreen(EpicBattle adapter) {
         super(adapter);
         initFitViewport();
+
+        mTown = new MyTown(mGame);
+
 
         TextButton btnToCampaignSelect = new TextButton("Select campaign", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
         btnToCampaignSelect.setBounds(10, 240, 180, 50);
@@ -81,6 +91,11 @@ public class MyTownScreen extends AbstractScreen {
 
             });
 
+        }
+
+        for (Iterator<Building> it = mTown.getBuildings().iterator(); it.hasNext(); ) {
+            Building bld = it.next();
+            new BuildingView(this, bld);
         }
 
     }

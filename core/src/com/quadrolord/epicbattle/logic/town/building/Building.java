@@ -1,15 +1,14 @@
 package com.quadrolord.epicbattle.logic.town.building;
 
 import com.badlogic.gdx.math.Vector2;
-import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.view.town.building.BuildingView;
 
 /**
  * Created by morph on 17.01.2016.
  */
 public abstract class Building {
-    protected Vector2 mPosition;
-    protected Vector2 mSize;
+    protected Vector2 mPosition = new Vector2(0, 0);
+    protected Vector2 mSize = new Vector2(50, 50);
     protected boolean mIsRotated = false;
     protected int mLevel = 1;
 
