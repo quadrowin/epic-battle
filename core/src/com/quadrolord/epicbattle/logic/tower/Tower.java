@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.ArrayMap;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.GameUnit;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
+import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.logic.skill.AbstractSkill;
@@ -37,7 +38,7 @@ public class Tower extends GameUnit {
 
     protected float mMaxHp = 4000;
 
-    private ArrayMap<Class<? extends AbstractBullet>, TowerBulletSkill> mBulletSkills = new ArrayMap<Class<? extends AbstractBullet>, TowerBulletSkill>();
+    private ArrayMap<Class<? extends AbstractBullet>, BulletSkill> mBulletSkills = new ArrayMap<Class<? extends AbstractBullet>, BulletSkill>();
 
     private Array<AbstractSkill> mActSkills = new Array<AbstractSkill>();
     private Array<AbstractBullet> mBullets = new Array<AbstractBullet>();
@@ -49,9 +50,8 @@ public class Tower extends GameUnit {
         mHp = mMaxHp;
     }
 
-    public TowerBulletSkill addBulletSkill(Class<? extends AbstractBullet> bulletClass, int level) {
-        TowerBulletSkill bulletSkill = new TowerBulletSkill();
-        bulletSkill.setBulletInfo(getBulletInfo(bulletClass));
+    public BulletSkill addBulletSkill(Class<? extends AbstractBullet> bulletClass, int level) {
+        BulletSkill bulletSkill = new BulletSkill(getBulletInfo(bulletClass));
         bulletSkill.setLevel(level);
         bulletSkill.setCooldown(0);
         mBulletSkills.put(bulletClass, bulletSkill);
@@ -62,8 +62,8 @@ public class Tower extends GameUnit {
         mTime += delta;
         mCash += mCashGrowth * delta * mTimeUp;
 
-        for (Iterator<TowerBulletSkill> it = mBulletSkills.values().iterator(); it.hasNext(); ) {
-            TowerBulletSkill tbs = it.next();
+        for (Iterator<BulletSkill> it = mBulletSkills.values().iterator(); it.hasNext(); ) {
+            BulletSkill tbs = it.next();
             if (mTime >= tbs.getCooldown()) {
                 tbs.setCooldown(0);
             }
@@ -126,18 +126,22 @@ public class Tower extends GameUnit {
             } catch (Exception e) {
                 Gdx.app.error("Tower.getBulletInfo", "error create bullet worker " + workerClass.getName());
                 e.printStackTrace();
-                bullet = new Simple(getGame());
+                bullet = new Simple(mGame);
             }
 
-            bullet.initInfo();
-            bi = bullet.getInfo();
+            bi = mGame.getBulletInfoManager().getBulletInfo(workerClass);
+            bullet.initInfo(bi);
 
             mBulletInfos.put(workerClass, bi);
         }
         return bi;
     }
 
-    public ArrayMap<Class<? extends AbstractBullet>, TowerBulletSkill> getBulletSkills() {
+    public BulletSkill getBulletSkill(Class<? extends AbstractBullet> workerClass) {
+        return mBulletSkills.get(workerClass);
+    }
+
+    public ArrayMap<Class<? extends AbstractBullet>, BulletSkill> getBulletSkills() {
         return mBulletSkills;
     }
 
@@ -159,7 +163,7 @@ public class Tower extends GameUnit {
     }
 
     public long getConstructionTime(AbstractBullet unit) {
-        return Math.round(unit.getInfo().getConstructionTime() * mConstuctionMultiplier / mTimeUp);
+        return Math.round(unit.getSkill().getConstructionTime() * mConstuctionMultiplier / mTimeUp);
     }
 
     public long getConstructionTime(Class<? extends AbstractBullet> bulletClass) {
@@ -241,7 +245,7 @@ public class Tower extends GameUnit {
     }
 
     public void reward(AbstractBullet bullet) {
-        mCash += bullet.getInfo().getCost() / 3 * mRewardMultiplier;
+        mCash += bullet.getSkill().getCost() / 3 * mRewardMultiplier;
     }
 
     public float getTimeUp() {

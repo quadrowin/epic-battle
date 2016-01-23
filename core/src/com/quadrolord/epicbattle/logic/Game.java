@@ -2,8 +2,8 @@ package com.quadrolord.epicbattle.logic;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
-import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfoManager;
+import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
@@ -123,7 +123,7 @@ public class Game {
     }
 
     public AbstractBullet createUnit(Tower tower, Class<? extends AbstractBullet> workerClass) {
-        BulletInfo bi = tower.getBulletInfo(workerClass);
+        BulletSkill skill = tower.getBulletSkill(workerClass);
 
         if (tower.isInCooldown(workerClass)) {
             mListener.onBulletCreateFailCooldown();
@@ -131,11 +131,11 @@ public class Game {
         }
 
         if (!tower.hasCash(workerClass)) {
-            mListener.onBulletCreateFailCash(tower.getCash(), bi.getCost());
+            mListener.onBulletCreateFailCash(tower.getCash(), skill.getCost());
             return null;
         }
 
-        return createUnitEx(tower, bi);
+        return createUnitEx(tower, skill);
     }
 
     /**
@@ -143,24 +143,24 @@ public class Game {
      * @param tower
      * @param bi
      */
-    public AbstractBullet createUnitEx(Tower tower, BulletInfo bi) {
+    public AbstractBullet createUnitEx(Tower tower, BulletSkill skill) {
         AbstractBullet bullet;
         try {
-            bullet = bi.getBulletClass().getConstructor(Game.class).newInstance(this);
+            bullet = skill.getBulletClass().getConstructor(Game.class).newInstance(this);
         } catch (Exception e) {
-            Gdx.app.error("Game.createUnit", "error create bullet " + bi.getBulletClass().getName());
+            Gdx.app.error("Game.createUnit", "error create bullet " + skill.getBulletClass().getName());
             e.printStackTrace();
             bullet = new Simple(this);
         }
-        bullet.setInfo(bi);
+        bullet.setSkill(skill);
 
         bullet.setWidth(30);
-        bullet.setMaxHp(bi.getMaxHp());
+        bullet.setMaxHp(skill.getMaxHp());
         bullet.setHp(bullet.getMaxHp());
-        bullet.setVelocity(bi.getMoveSpeed() * tower.getSpeedRatio());
+        bullet.setVelocity(skill.getMoveSpeed() * tower.getSpeedRatio());
         bullet.setX(tower.getX() + tower.getWidth() / 2);
 
-        tower.setCash(tower.getCash() - bi.getCost());
+        tower.setCash(tower.getCash() - skill.getCost());
         tower.addUnit(bullet);
         tower.toCooldown(bullet);
 

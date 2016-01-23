@@ -1,10 +1,12 @@
 package com.quadrolord.epicbattle.logic.bullet.leveling;
 
-import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
+import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
 
 /**
  * Created by Quadrowin on 15.01.2016.
  */
 public abstract class AbstractStrategy {
-    public abstract void setLevel(BulletInfo bulletInfo, int level);
+
+    public abstract void setLevel(BulletSkill skill, int level);
+
 }

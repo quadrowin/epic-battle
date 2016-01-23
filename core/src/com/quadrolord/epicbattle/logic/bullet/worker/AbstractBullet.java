@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.GameUnit;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
+import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 
@@ -20,7 +21,7 @@ abstract public class AbstractBullet extends GameUnit {
 
     public static float FOLD_BACK_TIME = 1;
 
-    protected BulletInfo mInfo;
+    protected BulletSkill mSkill;
 
     protected Tower mTower;
 
@@ -49,20 +50,17 @@ abstract public class AbstractBullet extends GameUnit {
         mAttackers.add(unit);
     }
 
-    public void initInfo() {
-        mInfo = mGame.getBulletInfoManager().getBulletInfo(getClass());
-    }
+    abstract public void initInfo(BulletInfo info);
 
     public void findTargets() {
         Array<AbstractBullet> enemies = mTower.getEnemy().getUnits();
-        Iterator<AbstractBullet> iter = enemies.iterator();
 
-        while (iter.hasNext()) {
-            if (mInfo.getMaxTargetCount() <= mTargets.size) {
+        for (Iterator<AbstractBullet> it = enemies.iterator(); it.hasNext(); ) {
+            if (mSkill.getMaxTargetCount() <= mTargets.size) {
                 return;
             }
 
-            AbstractBullet unit = iter.next();
+            AbstractBullet unit = it.next();
 
             if (canAttack(unit) && !unit.isDied()) {
                 mTargets.add(unit);
@@ -70,7 +68,7 @@ abstract public class AbstractBullet extends GameUnit {
             }
         }
 
-        if (mInfo.getMaxTargetCount() <= mTargets.size) {
+        if (mSkill.getMaxTargetCount() <= mTargets.size) {
             return;
         }
 
@@ -81,8 +79,8 @@ abstract public class AbstractBullet extends GameUnit {
         }
     }
 
-    public BulletInfo getInfo() {
-        return mInfo;
+    public BulletSkill getSkill() {
+        return mSkill;
     }
 
     public void act(float delta) {
@@ -95,7 +93,7 @@ abstract public class AbstractBullet extends GameUnit {
             removeTarget(enemyTower);
         }
 
-        if (mInfo.getMaxTargetCount() > mTargets.size) {
+        if (mSkill.getMaxTargetCount() > mTargets.size) {
             findTargets();
         }
 
@@ -120,7 +118,7 @@ abstract public class AbstractBullet extends GameUnit {
             if (mTargets.size > 0) {
                 setState(BulletState.ATTACK);
 
-                if ((mTime - mLastAttackedTime) >= mInfo.getAttackTime() / mTower.getTimeUp()) {
+                if ((mTime - mLastAttackedTime) >= mSkill.getAttackTime() / mTower.getTimeUp()) {
                     attack();
                     mLastAttackedTime = mTime;
                 }
@@ -135,7 +133,7 @@ abstract public class AbstractBullet extends GameUnit {
 
         BulletUnitView bv = (BulletUnitView)getViewObject();
 
-        mBounds.setWidth(getRealWidth() / 2 + mInfo.getAttackDistance() * Math.abs(bv.getScaleX()));
+        mBounds.setWidth(getRealWidth() / 2 + mSkill.getAttackDistance() * Math.abs(bv.getScaleX()));
         mBounds.setHeight(bv.getRealHeight());
         mBounds.setY(bv.getY() + 15);
         mBounds.setX(bv.getX() - getRealWidth() / 2);
@@ -151,7 +149,7 @@ abstract public class AbstractBullet extends GameUnit {
         }
         for (int i = 0; i < mTargets.size; i++) {
             if (!mTargets.get(i).isDied()) {
-                mTargets.get(i).harm(mInfo.getAttackDamage());
+                mTargets.get(i).harm(mSkill.getAttackDamage());
             }
         }
     }
@@ -214,15 +212,15 @@ abstract public class AbstractBullet extends GameUnit {
         mTower = tower;
     }
 
+    public void setSkill(BulletSkill skill) {
+        mSkill = skill;
+    }
+
     public void setState(BulletState state) {
         if (mState != state) {
             mState = state;
             mStateTime = 0;
         }
-    }
-
-    public void setInfo(BulletInfo info) {
-        mInfo = info;
     }
 
     public boolean isRunning() {

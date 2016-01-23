@@ -1,7 +1,5 @@
 package com.quadrolord.epicbattle.logic.bullet.leveling;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 
@@ -31,7 +29,7 @@ public class LevelingDto {
 
     private Class<? extends AbstractBullet> mBulletClass;
 
-    private Texture mIcon;
+    private String mIcon;
 
     private AbstractStrategy mLevelingStrategy;
 
@@ -134,12 +132,12 @@ public class LevelingDto {
         return this;
     }
 
-    public Texture getIcon() {
+    public String getIcon() {
         return mIcon;
     }
 
-    public LevelingDto setIcon(Texture icon) {
-        this.mIcon = icon;
+    public LevelingDto setIcon(String icon) {
+        mIcon = icon;
         return this;
     }
 

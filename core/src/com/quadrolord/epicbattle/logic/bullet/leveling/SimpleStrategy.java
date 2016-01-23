@@ -1,6 +1,7 @@
 package com.quadrolord.epicbattle.logic.bullet.leveling;
 
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
+import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
 
 /**
  * Created by Quadrowin on 15.01.2016.
@@ -8,7 +9,8 @@ import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 public class SimpleStrategy extends AbstractStrategy {
 
     @Override
-    public void setLevel(BulletInfo info, int level) {
+    public void setLevel(BulletSkill skill, int level) {
+        BulletInfo info = skill.getInfo();
         for (int i = 2; i <= level; i++) {
 
             LevelingDto dto = info.getLevelUps().get(i - 2);
@@ -18,29 +20,29 @@ public class SimpleStrategy extends AbstractStrategy {
             }
 
             if (dto.getBulletClass() != null) {
-                info.setBulletClass(dto.getBulletClass());
+                skill.setBulletClass(dto.getBulletClass());
             }
 
             if (dto.getTitle() != "") {
-                info.setTitle(dto.getTitle());
+                skill.setTitle(dto.getTitle());
             }
 
             if (dto.getIcon() != null) {
-                info.setIcon(dto.getIcon());
+                skill.setIcon(dto.getIcon());
             }
 
             if (dto.getViewClass() != null) {
-                info.setViewClass(dto.getViewClass());
+                skill.setViewClass(dto.getViewClass());
             }
 
-            info.setAttackDamage(info.getAttackDamage() + dto.getAttackDamageDelta());
-            info.setAttackTime(info.getAttackTime() + dto.getAttackTimeDelta());
-            info.setAttackDistance(info.getAttackDistance() + dto.getAttackDistanceDelta());
-            info.setMaxHp(info.getMaxHp() + dto.getMaxHpDelta());
-            info.setMoveSpeed(info.getMoveSpeed() + dto.getMoveSpeedDelta());
-            info.setMaxTargetCount(info.getMaxTargetCount() + dto.getMaxTargetCountDelta());
-            info.setCost(info.getCost() + dto.getCostDelta());
-            info.setConstructionTime(info.getConstructionTime() + dto.getConstructionTimeDelta());
+            skill.setAttackDamage(info.getAttackDamage() + dto.getAttackDamageDelta());
+            skill.setAttackTime(info.getAttackTime() + dto.getAttackTimeDelta());
+            skill.setAttackDistance(info.getAttackDistance() + dto.getAttackDistanceDelta());
+            skill.setMaxHp(info.getMaxHp() + dto.getMaxHpDelta());
+            skill.setMoveSpeed(info.getMoveSpeed() + dto.getMoveSpeedDelta());
+            skill.setMaxTargetCount(info.getMaxTargetCount() + dto.getMaxTargetCountDelta());
+            skill.setCost(info.getCost() + dto.getCostDelta());
+            skill.setConstructionTime(info.getConstructionTime() + dto.getConstructionTimeDelta());
         }
     }
 }

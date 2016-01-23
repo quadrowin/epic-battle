@@ -1,7 +1,5 @@
 package com.quadrolord.epicbattle.logic.bullet;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.bullet.leveling.AbstractStrategy;
 import com.quadrolord.epicbattle.logic.bullet.leveling.LevelingDto;
@@ -9,7 +7,7 @@ import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 
 /**
- * Created by Quadrowin on 09.01.2016.
+ * Базовое описание скила-выстрела
  */
 public class BulletInfo {
 
@@ -39,9 +37,7 @@ public class BulletInfo {
 
     private Class<? extends AbstractBullet> mBulletClass;
 
-    private Texture mIcon;
-
-    private int mLevel = 0;
+    private String mIcon;
 
     protected Array<LevelingDto> mLevelUps = new Array<LevelingDto>();
 
@@ -111,23 +107,12 @@ public class BulletInfo {
         mViewClass = viewClass;
     }
 
-    public Texture getIcon() {
+    public String getIcon() {
         return mIcon;
     }
 
-    public void setIcon(Texture mIcon) {
+    public void setIcon(String mIcon) {
         this.mIcon = mIcon;
-    }
-
-    public int getLevel() {
-        return mLevel;
-    }
-
-    public void setLevel(int level) {
-        mLevel = level;
-        mLevelingStrategy.setLevel(this, mLevel);
-
-        Gdx.app.log("bullets", "Set level of " + mBulletClass.getSimpleName() + " to " + mLevel);
     }
 
     public void setBulletClass(Class<? extends AbstractBullet> bulletClass) {

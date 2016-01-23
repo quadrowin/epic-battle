@@ -5,12 +5,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
@@ -39,7 +42,10 @@ public class BulletButton extends Group {
         BulletInfo bi = screen.getGame().getPlayerTower().getBulletInfo(bulletClass);
         Gdx.app.log("BulletButton create", bi.getTitle() + " " + bi.getIcon().toString());
 
-        mFireButton = new ImageButton(new Image(bi.getIcon()).getDrawable());
+        Texture iconTexture = new Texture(bi.getIcon());
+//        Drawable iconDrawable = new Image(iconTexture).getDrawable();
+        Drawable iconDrawable = new TextureRegionDrawable(new TextureRegion(iconTexture));
+        mFireButton = new ImageButton(iconDrawable);
 
         mFireButton.setBounds(
                 0,
@@ -144,7 +150,6 @@ public class BulletButton extends Group {
             float constructionTime = mGame.getPlayerTower().getConstructionTime(mBulletClass);
             float timeDelta = constructionTime - mGame.getPlayerTower().getCooldownTime(mBulletClass);
             float part = timeDelta / constructionTime;
-            Gdx.app.log("cd", part + "   " + timeDelta + "   " + constructionTime);
 
             float cdColor = mCooldownColor;
             float w = getWidth();

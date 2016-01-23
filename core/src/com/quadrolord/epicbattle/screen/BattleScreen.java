@@ -123,14 +123,15 @@ public class BattleScreen extends AbstractScreen {
 
             @Override
             public void onBulletCreate(AbstractBullet bullet) {
-                Gdx.app.log("", "fire with " + bullet.getInfo().getTitle() + " at " + bullet.getX());
+                Gdx.app.log("", "fire with " + bullet.getSkill().getTitle() + " at " + bullet.getX());
 
-                Class<? extends BulletUnitView> viewClass = bullet.getInfo().getViewClass();
+                Class<? extends BulletUnitView> viewClass = bullet.getSkill().getViewClass();
                 BulletUnitView view;
 
                 try {
                     view = viewClass.getConstructor(AbstractBullet.class, AbstractScreen.class).newInstance(bullet, screen);
                 } catch (Exception e) {
+                    Gdx.app.error(screen.getClass().getName(), "Bullet view class not found: " + viewClass.getName());
                     view = new BulletUnitView(bullet, screen) {
                         @Override
                         protected SpriteAnimationDrawable getRunningAnimation(AbstractScreen screen) {
