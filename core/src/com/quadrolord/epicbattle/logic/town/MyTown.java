@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuilding;
 import com.quadrolord.epicbattle.logic.town.building.BuildingInfo;
-import com.quadrolord.epicbattle.logic.town.building.ResourceAbstractBuilding;
+import com.quadrolord.epicbattle.logic.town.building.ResourceBuilding;
 import com.quadrolord.epicbattle.logic.town.resource.Resource;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
 
@@ -49,7 +49,7 @@ public class MyTown {
         return mBuildings;
     }
 
-    public float getYieldDelta(ResourceAbstractBuilding building) {
+    public float getYieldDelta(ResourceBuilding building) {
         return Math.max(0, building.getInfo().getYieldTime() - building.getLastYield());
     }
 
@@ -59,11 +59,11 @@ public class MyTown {
 
     public void yieldResources(float delta) {
         for (AbstractBuilding building : mBuildings) {
-            if (!(building instanceof ResourceAbstractBuilding)) {
+            if (!(building instanceof ResourceBuilding)) {
                 continue;
             }
 
-            ResourceAbstractBuilding resourceBuilding = (ResourceAbstractBuilding)building;
+            ResourceBuilding resourceBuilding = (ResourceBuilding)building;
 
             if (getYieldDelta(resourceBuilding) < 0.00001f) {
                 float count = resourceBuilding.getYieldCount();
@@ -83,7 +83,7 @@ public class MyTown {
         }
     }
 
-    public boolean takeResources(ResourceAbstractBuilding building) {
+    public boolean takeResources(ResourceBuilding building) {
         if (building.getYieldCount() >= 1) {
             float count = 0;
             Class<? extends Resource> resource = building.getResourceClass();
