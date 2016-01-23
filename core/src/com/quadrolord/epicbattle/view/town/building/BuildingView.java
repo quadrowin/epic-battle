@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.quadrolord.epicbattle.logic.town.building.Building;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuilding;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 
 /**
@@ -18,11 +18,11 @@ public class BuildingView extends Group {
 
     protected Texture mIcon;
 
-    private Building mBuilding;
+    private AbstractBuilding mBuilding;
 
     private ImageButton mBtn;
 
-    public BuildingView(final AbstractScreen screen, Building building) {
+    public BuildingView(final AbstractScreen screen, AbstractBuilding building) {
         mBuilding = building;
 
         setBounds(

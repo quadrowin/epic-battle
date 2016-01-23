@@ -151,31 +151,4 @@ public class LevelingDto {
         mBulletClass = bulletClass;
         return this;
     }
-
-    public void updateInfo(BulletInfo info) {
-        if (getBulletClass() != null) {
-            info.setBulletClass(getBulletClass());
-        }
-
-        if (getTitle() != "") {
-            info.setTitle(getTitle());
-        }
-
-        if (getIcon() != null) {
-            info.setIcon(getIcon());
-        }
-
-        if (getViewClass() != null) {
-            info.setViewClass(getViewClass());
-        }
-
-        info.setAttackDamage(info.getAttackDamage() + getAttackDamageDelta());
-        info.setAttackTime(info.getAttackTime() + getAttackTimeDelta());
-        info.setAttackDistance(info.getAttackDistance() + getAttackDistanceDelta());
-        info.setMaxHp(info.getMaxHp() + getMaxHpDelta());
-        info.setMoveSpeed(info.getMoveSpeed() + getMoveSpeedDelta());
-        info.setMaxTargetCount(info.getMaxTargetCount() + getMaxTargetCountDelta());
-        info.setCost(info.getCost() + getCostDelta());
-        info.setConstructionTime(info.getConstructionTime() + getConstructionTimeDelta());
-    }
 }

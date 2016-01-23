@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.town.MyTown;
-import com.quadrolord.epicbattle.logic.town.building.Building;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuilding;
 import com.quadrolord.epicbattle.view.town.building.BuildingView;
 
 import java.util.Iterator;
@@ -93,8 +93,8 @@ public class MyTownScreen extends AbstractScreen {
 
         }
 
-        for (Iterator<Building> it = mTown.getBuildings().iterator(); it.hasNext(); ) {
-            Building bld = it.next();
+        for (Iterator<AbstractBuilding> it = mTown.getBuildings().iterator(); it.hasNext(); ) {
+            AbstractBuilding bld = it.next();
             new BuildingView(this, bld);
         }
 

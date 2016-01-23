@@ -1,12 +1,13 @@
 package com.quadrolord.epicbattle.logic.town.building;
 
 import com.badlogic.gdx.math.Vector2;
+import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.view.town.building.BuildingView;
 
 /**
  * Created by morph on 17.01.2016.
  */
-public abstract class Building {
+public abstract class AbstractBuilding {
     protected Vector2 mPosition = new Vector2(0, 0);
     protected Vector2 mSize = new Vector2(50, 50);
     protected boolean mIsRotated = false;
@@ -15,8 +16,18 @@ public abstract class Building {
     protected BuildingView mView;
     protected BuildingInfo mInfo;
 
-    public Building() {
+    protected MyTown mTown;
 
+    public AbstractBuilding(MyTown myTowm) {
+        myTowm = myTowm;
+    }
+
+    public MyTown getTown() {
+        return mTown;
+    }
+
+    public void initInfo() {
+        mInfo = mTown.getBuildingInfoManager().getBuildingInfo(getClass());
     }
 
     public Vector2 getPosition() {
@@ -97,5 +108,13 @@ public abstract class Building {
 
     public void setInfo(BuildingInfo info) {
         mInfo = info;
+    }
+
+    public boolean canLevelUp() {
+        return mLevel <= getInfo().getLevelUps().size - 1;
+    }
+
+    public void levelUp() {
+        getInfo().setLevel(mLevel + 1);
     }
 }

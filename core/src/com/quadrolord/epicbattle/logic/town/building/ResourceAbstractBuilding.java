@@ -5,14 +5,14 @@ import com.quadrolord.epicbattle.logic.town.resource.Resource;
 /**
  * Created by morph on 17.01.2016.
  */
-public abstract class ResourceBuilding extends Building {
-    protected Resource mResource;
+public abstract class ResourceAbstractBuilding extends AbstractBuilding {
+    protected Class<? extends Resource> mResourceClass;
 
     protected float mLastYield = 0;
     protected float mYieldCount = 0;
 
-    public Resource getResource() {
-        return mResource;
+    public Class<? extends Resource> getResourceClass() {
+        return mResourceClass;
     }
 
     public float getLastYield() {
