@@ -30,7 +30,7 @@ public class BulletPanel extends Group {
 
         int i = 0;
         for (Iterator<BulletSkill> it = screen.getGame().getPlayerTower().getBulletSkills().values().iterator(); it.hasNext(); ) {
-            BulletButton btn = new BulletButton(screen, it.next().getInfo().getBulletClass());
+            BulletButton btn = new BulletButton(screen, it.next());
             btn.setBounds(i * 50, 0, 40, 40);
             btn.addListener(clickListener);
             addActor(btn);

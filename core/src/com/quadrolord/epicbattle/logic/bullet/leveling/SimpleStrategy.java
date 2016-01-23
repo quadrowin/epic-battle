@@ -13,6 +13,10 @@ public class SimpleStrategy extends AbstractStrategy {
         BulletInfo info = skill.getInfo();
         for (int i = 2; i <= level; i++) {
 
+            if (info.getLevelUps().size <= i - 2) {
+                continue;
+            }
+
             LevelingDto dto = info.getLevelUps().get(i - 2);
 
             if (dto == null) {

@@ -15,6 +15,7 @@ public class X15Strategy extends AbstractStrategy {
         float factor = (float) Math.pow(1.15, level);
         skill.setAttackDamage(info.getAttackDamage() * factor);
         skill.setMaxHp((int)(info.getMaxHp() * factor));
+        skill.setCost((int)(info.getCost() * factor));
     }
 
 }

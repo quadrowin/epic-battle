@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.quadrolord.epicbattle.logic.Game;
-import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
+import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 
@@ -25,7 +25,7 @@ import com.quadrolord.epicbattle.screen.AbstractScreen;
  */
 public class BulletButton extends Group {
 
-    private Class<? extends AbstractBullet> mBulletClass;
+    private BulletSkill mBulletSkill;
     private Game mGame;
     private ImageButton mFireButton;
     private ProgressBar mProgressBar;
@@ -35,14 +35,13 @@ public class BulletButton extends Group {
 
     private float mCooldownColor = new Color(0x7f7f7f77).toFloatBits();
 
-    public BulletButton(AbstractScreen screen, Class<? extends AbstractBullet> bulletClass) {
-        mBulletClass = bulletClass;
+    public BulletButton(AbstractScreen screen, BulletSkill skill) {
+        mBulletSkill = skill;
         mGame = screen.getGame();
 
-        BulletInfo bi = screen.getGame().getPlayerTower().getBulletInfo(bulletClass);
-        Gdx.app.log("BulletButton create", bi.getTitle() + " " + bi.getIcon().toString());
+        Gdx.app.log("BulletButton create", skill.getTitle() + " " + skill.getIcon().toString());
 
-        Texture iconTexture = new Texture(bi.getIcon());
+        Texture iconTexture = new Texture(skill.getIcon());
 //        Drawable iconDrawable = new Image(iconTexture).getDrawable();
         Drawable iconDrawable = new TextureRegionDrawable(new TextureRegion(iconTexture));
         mFireButton = new ImageButton(iconDrawable);
@@ -71,7 +70,7 @@ public class BulletButton extends Group {
 
         this.addActor(mFireButton);
 
-        mCost = new Label(Integer.toString(bi.getCost()), screen.getSkin(), "default", Color.WHITE);
+        mCost = new Label(Integer.toString(skill.getCost()), screen.getSkin(), "default", Color.WHITE);
         mCost.setBounds(0, 0, mFireButton.getWidth(), mFireButton.getHeight());
         mCost.setAlignment(Align.bottom, Align.center);
         mCost.setFontScale(0.7f, 0.7f);
@@ -105,36 +104,27 @@ public class BulletButton extends Group {
     }
 
     public Class<? extends AbstractBullet> getBulletClass() {
-        return mBulletClass;
+        return mBulletSkill.getBulletClass();
     }
 
     public void act(float delta) {
-        boolean isInCooldown = mGame.getPlayerTower().isInCooldown(mBulletClass);
-
-        if (isInCooldown) {
-            float constructionTime = mGame.getPlayerTower().getConstructionTime(mBulletClass);
-            float timeDelta = constructionTime - mGame.getPlayerTower().getCooldownTime(mBulletClass);
-
+        if (mBulletSkill.isInCooldown()) {
+            float constructionTime = mGame.getPlayerTower().getConstructionTime(mBulletSkill.getBulletClass());
+            float timeDelta = constructionTime - mGame.getPlayerTower().getCooldownTime(mBulletSkill.getBulletClass());
             mProgressBar.setValue(timeDelta / constructionTime * 100);
-
-            if (mCost.isVisible()) {
-                mCost.setVisible(false);
-            }
         } else {
             mProgressBar.setValue(mProgressBar.getMaxValue());
-
-            if (!mCost.isVisible()) {
-                mCost.setVisible(true);
-            }
         }
 
         Color color = mFireButton.getColor();
 
-        if (isInCooldown || !mGame.getPlayerTower().hasCash(mBulletClass)) {
+        if (!mGame.getPlayerTower().hasCash(mBulletSkill.getBulletClass())) {
             mFireButton.setColor(color.r, color.b, color.g, 0.5f);
         } else {
             mFireButton.setColor(color.r, color.b, color.g, 1.0f);
         }
+
+        mCost.setText(Integer.toString(mBulletSkill.getCost()));
     }
 
     public void draw (Batch batch, float parentAlpha) {
@@ -145,142 +135,132 @@ public class BulletButton extends Group {
     }
 
     private void drawCooldown(Batch batch) {
-        boolean isInCooldown = mGame.getPlayerTower().isInCooldown(mBulletClass);
-        if (isInCooldown) {
-            float constructionTime = mGame.getPlayerTower().getConstructionTime(mBulletClass);
-            float timeDelta = constructionTime - mGame.getPlayerTower().getCooldownTime(mBulletClass);
-            float part = timeDelta / constructionTime;
+        if (!mBulletSkill.isInCooldown()) {
+            return;
+        }
+        float constructionTime = mGame.getPlayerTower().getConstructionTime(mBulletSkill.getBulletClass());
+        float timeDelta = constructionTime - mGame.getPlayerTower().getCooldownTime(mBulletSkill.getBulletClass());
+        float part = timeDelta / constructionTime;
 
-            float cdColor = mCooldownColor;
-            float w = getWidth();
-            float h = getHeight();
+        float cdColor = mCooldownColor;
+        float w = getWidth();
+        float h = getHeight();
 
-            float[] leftPart;
-            if (part < 0.5f) {
-                leftPart = new float[] {
-                        0, 0,
+        float[] leftPart;
+        if (part < 0.5f) {
+            leftPart = new float[] {
+                    0, 0,
+                    cdColor, 0, 0,
+
+                    w / 2, 0,
+                    cdColor, 0, 0,
+
+                    w / 2, h,
+                    cdColor, 0, 0,
+
+                    0, h,
+                    cdColor, 0, 0,
+            };
+            float[] rightPart;
+            if (part < 0.25f) {
+                rightPart = new float[] {
+                        // правый верхний
+                        w / 2, h / 2,
+                        cdColor, 0, 0,
+
+                        part < 0.125f ? w / 2 + w / 2 * part * 8 : w,
+                        part < 0.125f ? h : h - h / 2 * (part - 0.125f) * 8,
+                        cdColor, 0, 0,
+
+                        w,
+                        part < 0.125f ? h : h - h / 2 * (part - 0.125f) * 8,
+                        cdColor, 0, 0,
+
+                        w, h / 2,
+                        cdColor, 0, 0,
+
+                        // правый нижний
+                        w, h / 2,
+                        cdColor, 0, 0,
+
+                        w, 0,
                         cdColor, 0, 0,
 
                         w / 2, 0,
                         cdColor, 0, 0,
 
-                        w / 2, h,
+                        w / 2, h / 2,
+                        cdColor, 0, 0,
+                };
+            } else {
+                rightPart = new float[] {
+                        part < 0.375f ? w : w - w / 2 * (part - 0.375f) * 8,
+                        part < 0.375f ? h / 2 - h / 2 * (part - 0.25f) * 8 : 0,
+                        cdColor, 0, 0,
+
+                        part < 0.375f ? w : w - w / 2 * (part - 0.375f) * 8,
+                        0,
+                        cdColor, 0, 0,
+
+                        w / 2, 0,
+                        cdColor, 0, 0,
+
+                        w / 2, h / 2,
+                        cdColor, 0, 0,
+                };
+            }
+            batch.draw(mWhiteTexture, leftPart, 0, leftPart.length);
+            batch.draw(mWhiteTexture, rightPart, 0, rightPart.length);
+        } else {
+            if (part < 0.75f) {
+                leftPart = new float[] {
+                        // левый верхний
+                        0, h / 2,
                         cdColor, 0, 0,
 
                         0, h,
                         cdColor, 0, 0,
+
+                        w / 2, h,
+                        cdColor, 0, 0,
+
+                        w / 2, h / 2,
+                        cdColor, 0, 0,
+
+                        // левый нижний
+                        w / 2, h / 2,
+                        cdColor, 0, 0,
+
+                        part < 0.625f ? w / 2 - w / 2 * (part - 0.5f) * 8 : 0,
+                        part < 0.625f ? 0 : h / 2 * (part - 0.625f) * 8,
+                        cdColor, 0, 0,
+
+                        0,
+                        part < 0.625f ? 0 : h / 2 * (part - 0.625f) * 8,
+                        cdColor, 0, 0,
+
+                        0, h / 2,
+                        cdColor, 0, 0,
                 };
-                float[] rightPart;
-                if (part < 0.25f) {
-                    rightPart = new float[] {
-                            // правый верхний
-                            w / 2, h / 2,
-                            cdColor, 0, 0,
-
-                            part < 0.125f ? w / 2 + w / 2 * part * 8 : w,
-                            part < 0.125f ? h : h - h / 2 * (part - 0.125f) * 8,
-                            cdColor, 0, 0,
-
-                            w,
-                            part < 0.125f ? h : h - h / 2 * (part - 0.125f) * 8,
-                            cdColor, 0, 0,
-
-                            w, h / 2,
-                            cdColor, 0, 0,
-
-                            // правый нижний
-                            w, h / 2,
-                            cdColor, 0, 0,
-
-                            w, 0,
-                            cdColor, 0, 0,
-
-                            w / 2, 0,
-                            cdColor, 0, 0,
-
-                            w / 2, h / 2,
-                            cdColor, 0, 0,
-                    };
-                } else {
-                    rightPart = new float[] {
-                            part < 0.375f ? w : w - w / 2 * (part - 0.375f) * 8,
-                            part < 0.375f ? h / 2 - h / 2 * (part - 0.25f) * 8 : 0,
-                            cdColor, 0, 0,
-
-                            part < 0.375f ? w : w - w / 2 * (part - 0.375f) * 8,
-                            0,
-                            cdColor, 0, 0,
-
-                            w / 2, 0,
-                            cdColor, 0, 0,
-
-                            w / 2, h / 2,
-                            cdColor, 0, 0,
-                    };
-                }
-                batch.draw(mWhiteTexture, leftPart, 0, leftPart.length);
-                batch.draw(mWhiteTexture, rightPart, 0, rightPart.length);
             } else {
-                if (part < 0.75f) {
-                    leftPart = new float[] {
-                            // левый верхний
-                            0, h / 2,
-                            cdColor, 0, 0,
+                // левый верхний
+                leftPart = new float[] {
+                        w / 2, h / 2,
+                        cdColor, 0, 0,
 
-                            0, h,
-                            cdColor, 0, 0,
+                        part < 0.875f ? 0 : w / 2 * (part - 0.875f) * 8,
+                        part < 0.875f ? h / 2 + h / 2 * (part - 0.75f) * 8 : h,
+                        cdColor, 0, 0,
 
-                            w / 2, h,
-                            cdColor, 0, 0,
+                        part < 0.875f ? 0 : w / 2 * (part - 0.875f) * 8,
+                        h,
+                        cdColor, 0, 0,
 
-                            w / 2, h / 2,
-                            cdColor, 0, 0,
-
-                            // левый нижний
-                            w / 2, h / 2,
-                            cdColor, 0, 0,
-
-                            part < 0.625f ? w / 2 - w / 2 * (part - 0.5f) * 8 : 0,
-                            part < 0.625f ? 0 : h / 2 * (part - 0.625f) * 8,
-                            cdColor, 0, 0,
-
-                            0,
-                            part < 0.625f ? 0 : h / 2 * (part - 0.625f) * 8,
-                            cdColor, 0, 0,
-
-                            0, h / 2,
-                            cdColor, 0, 0,
-                    };
-                } else {
-                    // левый верхний
-                    leftPart = new float[] {
-                            w / 2, h / 2,
-                            cdColor, 0, 0,
-
-                            part < 0.875f ? 0 : w / 2 * (part - 0.875f) * 8,
-                            part < 0.875f ? h / 2 + h / 2 * (part - 0.75f) * 8 : h,
-                            cdColor, 0, 0,
-
-                            part < 0.875f ? 0 : w / 2 * (part - 0.875f) * 8,
-                            h,
-                            cdColor, 0, 0,
-
-                            w / 2, h,
-                            cdColor, 0, 0,
-                    };
-                }
-                batch.draw(mWhiteTexture, leftPart, 0, leftPart.length);
+                        w / 2, h,
+                        cdColor, 0, 0,
+                };
             }
-
-            if (mCost.isVisible()) {
-                mCost.setVisible(false);
-            }
-        } else {
-            mProgressBar.setValue(mProgressBar.getMaxValue());
-
-            if (!mCost.isVisible()) {
-                mCost.setVisible(true);
-            }
+            batch.draw(mWhiteTexture, leftPart, 0, leftPart.length);
         }
     }
 

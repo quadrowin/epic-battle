@@ -123,6 +123,10 @@ public class BulletSkill {
         return mViewClass;
     }
 
+    public boolean isInCooldown() {
+        return mCooldown > 0;
+    }
+
     public void setAttackDistance(float attackDistance) {
         mAttackDistance = attackDistance;
     }
