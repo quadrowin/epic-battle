@@ -21,8 +21,8 @@ public abstract class AbstractBuilding {
 
     protected float mRemainingUpdatingTime = 0;
 
-    public AbstractBuilding(MyTown myTowm) {
-        myTowm = myTowm;
+    public AbstractBuilding(MyTown town) {
+        mTown = town;
     }
 
     public MyTown getTown() {

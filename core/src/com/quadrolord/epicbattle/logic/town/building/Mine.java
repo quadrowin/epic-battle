@@ -9,6 +9,7 @@ import com.quadrolord.epicbattle.logic.town.resource.IronOre;
 public class Mine extends ResourceBuilding {
     public Mine(MyTown myTown) {
         super(myTown);
+        mSize.set(2, 2);
 
         mResourceClass = IronOre.class;
     }
