@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -18,6 +20,10 @@ public class MapGrid extends Group {
 
     private Texture mMapTexture;
 
+    private float mCellSide = 20;
+
+    private ShapeRenderer mSr = new ShapeRenderer();
+
     public MapGrid(final AbstractScreen screen, Stage stage) {
         Skin skin = screen.getSkin();
 
@@ -26,7 +32,6 @@ public class MapGrid extends Group {
         white.fill();
         mWhiteTexture = new Texture(white);
         skin.add("white", mWhiteTexture);
-
 
         mMapTexture = new Texture("town/bg1.jpg");
 
@@ -43,49 +48,46 @@ public class MapGrid extends Group {
 
     private void drawGrid(Batch batch) {
 
-        float cdColor = new Color(0xffffffff).toFloatBits();
-
-        float w = 20;
-        float h = 20;
+        float side = mCellSide;
 
         batch.draw(mMapTexture, 0, 0, 400, 400, 0f, 1f, 0.5f, 0f);
 
         int maxX = 20;
         int maxY = 20;
 
+        batch.end();
+
+        mSr.begin(ShapeRenderer.ShapeType.Line);
+        mSr.setColor(Color.WHITE);
+        mSr.setProjectionMatrix(batch.getProjectionMatrix());
 
         for (int i = -maxX / 3 - 1; i < maxX * 1.3 + 1; i++) {
 
+
             float[] points = new float[] {
                     // вправо вверх
+                    maxX * side, i * side + maxY * side / 3,
 
-                    0, i * h,
-                    cdColor, 0, 0,
-
-                    0, i * h + 1,
-                    cdColor, 0, 0,
-
-                    maxX * w, i * h + maxY * h / 3 + 1,
-                    cdColor, 0, 0,
-
-                    maxX * w, i * h + maxY * h / 3,
-                    cdColor, 0, 0,
+                    0, i * side,
 
                     // вправо вниз
-                    0, i * h,
-                    cdColor, 0, 0,
-
-                    0, i * h + 1,
-                    cdColor, 0, 0,
-
-                    maxX * w, i * h - maxY * h / 3 + 1,
-                    cdColor, 0, 0,
-
-                    maxX * w, i * h - maxY * h / 3,
-                    cdColor, 0, 0,
+                    maxX * side, i * side - maxY * side / 3,
             };
-            batch.draw(mWhiteTexture, points, 0, points.length);
+
+            mSr.polyline(points);
         }
+
+        mSr.end();
+
+        batch.begin();
+    }
+
+    public float getCellSide() {
+        return mCellSide;
+    }
+
+    public void setChildPosition(Actor child, int col, int row) {
+        child.setPosition(col * mCellSide, row * mCellSide);
     }
 
 }
