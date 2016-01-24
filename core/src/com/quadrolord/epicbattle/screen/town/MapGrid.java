@@ -48,7 +48,8 @@ public class MapGrid extends Group {
 
     private void drawGrid(Batch batch) {
 
-        float side = mCellSide;
+        float sideX = mCellSide;
+        float sideY = mCellSide * 1.3f;
 
         batch.draw(mMapTexture, 0, 0, 400, 400, 0f, 1f, 0.5f, 0f);
 
@@ -66,12 +67,12 @@ public class MapGrid extends Group {
 
             float[] points = new float[] {
                     // вправо вверх
-                    maxX * side, i * side + maxY * side / 3,
+                    maxX * sideX, i * sideY + maxY * sideY / 3,
 
-                    0, i * side,
+                    0, i * sideY,
 
                     // вправо вниз
-                    maxX * side, i * side - maxY * side / 3,
+                    maxX * sideX, i * sideY - maxY * sideY / 3,
             };
 
             mSr.polyline(points);
@@ -87,7 +88,16 @@ public class MapGrid extends Group {
     }
 
     public void setChildPosition(Actor child, int col, int row) {
-        child.setPosition(col * mCellSide, row * mCellSide);
+//        // orthogonal
+//        child.setPosition(
+//                col * mCellSide,
+//                row * mCellSide
+//        );
+        // isometric
+        child.setPosition(
+                col * mCellSide / 2 - row * mCellSide / 2 - mCellSide / 2,
+                row * mCellSide / 2 + col * mCellSide / 2
+        );
     }
 
 }

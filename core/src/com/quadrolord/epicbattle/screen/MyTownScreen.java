@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -72,7 +71,7 @@ public class MyTownScreen extends AbstractScreen {
 
         });
 
-        Group map = new MapGrid(this, mMapStage);
+        MapGrid map = new MapGrid(this, mMapStage);
 
         {
 
@@ -117,9 +116,16 @@ public class MyTownScreen extends AbstractScreen {
         new BuildingView(this, map, new Mine(mTown));
 
         Mine mine1 = new Mine(mTown);
-        mine1.setPosition(80, 40);
+        mine1.setPosition(8, 4);
         new BuildingView(this, map, mine1);
 
+        Mine mine2 = new Mine(mTown);
+        mine2.setPosition(9, 4);
+        new BuildingView(this, map, mine2);
+
+        Mine mine3 = new Mine(mTown);
+        mine3.setPosition(8, 5);
+        new BuildingView(this, map, mine3);
 
         mStage.addListener(new EventListener() {
 
