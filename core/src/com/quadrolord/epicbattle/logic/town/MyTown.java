@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuilding;
 import com.quadrolord.epicbattle.logic.town.building.BuildingInfo;
+import com.quadrolord.epicbattle.logic.town.building.Mine;
 import com.quadrolord.epicbattle.logic.town.building.ResourceBuilding;
 import com.quadrolord.epicbattle.logic.town.resource.Resource;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
@@ -34,9 +35,7 @@ public class MyTown {
         mGame = game;
         mBuildingInfoManager = new BuildingInfoManager();
 
-        mBuildings.add(new AbstractBuilding(this) {
-
-        });
+        mBuildings.add(new Mine(this));
     }
 
     public void act(float delta) {
@@ -50,7 +49,7 @@ public class MyTown {
     }
 
     public float getYieldDelta(ResourceBuilding building) {
-        return Math.max(0, building.getInfo().getYieldTime() - building.getLastYield());
+        return Math.max(0, ((ResourceBuilding)building).getInfo().getYieldTime() - building.getLastYield());
     }
 
     public BuildingInfoManager getBuildingInfoManager() {
@@ -184,7 +183,7 @@ public class MyTown {
         BuildingInfo info = building.getInfo();
         boolean hasResources = isByGems ? hasGems(info.getCostGem()) : hasResources(building);
 
-        if (hasResources && hasLevel(info.getRequiredLevel()) && building.canLevelUp()) {
+        if (hasResources && !building.isInUpdating() && hasLevel(info.getRequiredLevel()) && building.canLevelUp()) {
             takeAwayResources(building);
             building.levelUp();
         }

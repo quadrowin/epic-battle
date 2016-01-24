@@ -5,6 +5,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.quadrolord.epicbattle.logic.town.building.leveling.AbstractStrategy;
+import com.quadrolord.epicbattle.logic.town.building.loader.AbstractLoader;
+import com.quadrolord.epicbattle.logic.town.building.loader.ConstructionTime;
+import com.quadrolord.epicbattle.logic.town.building.loader.GemCost;
+import com.quadrolord.epicbattle.logic.town.building.loader.Icon;
+import com.quadrolord.epicbattle.logic.town.building.loader.LevelUps;
+import com.quadrolord.epicbattle.logic.town.building.loader.RequiredLevel;
+import com.quadrolord.epicbattle.logic.town.building.loader.RequiredResources;
+import com.quadrolord.epicbattle.logic.town.building.loader.Size;
 import com.quadrolord.epicbattle.logic.town.resource.Resource;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
 import com.quadrolord.epicbattle.view.town.building.BuildingView;
@@ -16,16 +24,17 @@ public class BuildingInfo {
     protected String mTitle;
     protected Vector2 mSize;
     protected Class<? extends BuildingView> mViewClass;
-    protected Texture mIcon;
+    protected String mIcon;
     protected Class<? extends Tile> mTileClass;
     protected ArrayMap<Class<? extends Resource>, Integer> mRequiredResources = new ArrayMap<Class<? extends Resource>, Integer>();
     protected int mRequiredLevel = 1;
-    protected float mYieldTime;
 
     protected int mCostGem;
     protected float mConstructionTime;
     protected AbstractStrategy mLevelingStrategy;
     protected Array<BuildingInfo> mLevelUps = new Array<BuildingInfo>();
+
+    protected Class<? extends AbstractBuilding> mBuildingClass;
 
     public BuildingInfo() {
 
@@ -47,8 +56,12 @@ public class BuildingInfo {
         return mTileClass;
     }
 
-    public Texture getIcon() {
+    public String getIcon() {
         return mIcon;
+    }
+
+    public Class<? extends AbstractBuilding> getBuildingClass() {
+        return mBuildingClass;
     }
 
     public Class<? extends BuildingView> getViewClass() {
@@ -65,10 +78,6 @@ public class BuildingInfo {
 
     public int getRequiredLevel() {
         return mRequiredLevel;
-    }
-
-    public float getYieldTime() {
-        return mYieldTime;
     }
 
     public int getCostGem() {
@@ -89,9 +98,8 @@ public class BuildingInfo {
         return this;
     }
 
-    public BuildingInfo setIcon(Texture texture)
-    {
-        mIcon = texture;
+    public BuildingInfo setIcon(String icon)  {
+        mIcon = icon;
         return this;
     }
 
@@ -120,11 +128,6 @@ public class BuildingInfo {
         return this;
     }
 
-    public BuildingInfo getYieldTime(float time) {
-        mYieldTime = time;
-        return this;
-    }
-
     public BuildingInfo setCostGem(int cost) {
         mCostGem = cost;
         return this;
@@ -140,12 +143,26 @@ public class BuildingInfo {
         return this;
     }
 
-    public BuildingInfo setYieldTime(float yieldTime) {
-        this.mYieldTime = yieldTime;
+    public void setLevel(int level) {
+        getLevelingStrategy().setLevel(this, level);
+    }
+
+    public BuildingInfo setBuildingClass(Class<? extends AbstractBuilding> buildingClass) {
+        this.mBuildingClass = buildingClass;
         return this;
     }
 
-    public void setLevel(int level) {
-        getLevelingStrategy().setLevel(this, level);
+    public ArrayMap<String, AbstractLoader> getJsonLoaders() {
+        ArrayMap<String, AbstractLoader> loaders = new ArrayMap<String, AbstractLoader>();
+
+        loaders.put("construction_time", new ConstructionTime());
+        loaders.put("cost_gem", new GemCost());
+        loaders.put("icon", new Icon());
+        loaders.put("required_level", new RequiredLevel());
+        loaders.put("size", new Size());
+        loaders.put("level_ups", new LevelUps());
+        loaders.put("required_resources", new RequiredResources());
+
+        return loaders;
     }
 }

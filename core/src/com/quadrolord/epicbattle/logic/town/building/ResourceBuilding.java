@@ -1,6 +1,7 @@
 package com.quadrolord.epicbattle.logic.town.building;
 
 import com.quadrolord.epicbattle.logic.town.MyTown;
+import com.quadrolord.epicbattle.logic.town.building.leveling.ResourceBuildingStrategy;
 import com.quadrolord.epicbattle.logic.town.resource.Resource;
 
 /**
@@ -14,6 +15,16 @@ public abstract class ResourceBuilding extends AbstractBuilding {
 
     public ResourceBuilding(MyTown town) {
         super(town);
+    }
+
+    @Override
+    public void initInfo() {
+        mInfo = mTown.getBuildingInfoManager().getBuildingInfo(getClass(), ResourceBuildingInfo.class);
+        mInfo.setLevelingStrategy(new ResourceBuildingStrategy());
+    }
+
+    public ResourceBuildingInfo getInfo() {
+        return (ResourceBuildingInfo)mInfo;
     }
 
     public Class<? extends Resource> getResourceClass() {

@@ -16,49 +16,49 @@ public class SimpleStrategy extends AbstractStrategy {
                 continue;
             }
 
-            if (newInfo.getTitle() != "") {
-                info.setTitle(newInfo.getTitle());
-            }
+            apply(info, newInfo);
+        }
+    }
 
-            if (newInfo.getRequiredLevel() != 0) {
-                info.setRequiredLevel(newInfo.getRequiredLevel());
-            }
+    protected void apply(BuildingInfo info, BuildingInfo newInfo) {
+        if (newInfo.getTitle() != "") {
+            info.setTitle(newInfo.getTitle());
+        }
 
-            if (newInfo.getConstructionTime() != 0) {
-                info.setConstructionTime(newInfo.getConstructionTime());
-            }
+        if (newInfo.getRequiredLevel() != 0) {
+            info.setRequiredLevel(newInfo.getRequiredLevel());
+        }
 
-            if (newInfo.getCostGem() != 0) {
-                info.setCostGem(newInfo.getCostGem());
-            }
+        if (newInfo.getConstructionTime() != 0) {
+            info.setConstructionTime(newInfo.getConstructionTime());
+        }
 
-            if (newInfo.getIcon() != null) {
-                info.setIcon(newInfo.getIcon());
-            }
+        if (newInfo.getCostGem() != 0) {
+            info.setCostGem(newInfo.getCostGem());
+        }
 
-            if (newInfo.getLevelingStrategy() != null) {
-                info.setLevelingStrategy(newInfo.getLevelingStrategy());
-            }
+        if (newInfo.getIcon() != null) {
+            info.setIcon(newInfo.getIcon());
+        }
 
-            if (newInfo.getSize() != null) {
-                info.setSize(newInfo.getSize());
-            }
+        if (newInfo.getLevelingStrategy() != null) {
+            info.setLevelingStrategy(newInfo.getLevelingStrategy());
+        }
 
-            if (newInfo.getTileClass() != null) {
-                info.setTileClass(newInfo.getTileClass());
-            }
+        if (newInfo.getSize() != null) {
+            info.setSize(newInfo.getSize());
+        }
 
-            if (newInfo.getViewClass() != null) {
-                info.setViewClass(newInfo.getViewClass());
-            }
+        if (newInfo.getTileClass() != null) {
+            info.setTileClass(newInfo.getTileClass());
+        }
 
-            if (newInfo.getRequiredResources() != null) {
-                info.setRequiredResources(newInfo.getRequiredResources());
-            }
+        if (newInfo.getViewClass() != null) {
+            info.setViewClass(newInfo.getViewClass());
+        }
 
-            if (newInfo.getYieldTime() != 0) {
-                info.setYieldTime(newInfo.getYieldTime());
-            }
+        if (newInfo.getRequiredResources() != null) {
+            info.setRequiredResources(newInfo.getRequiredResources());
         }
     }
 }

@@ -17,6 +17,9 @@ public abstract class AbstractBuilding {
     protected BuildingInfo mInfo;
 
     protected MyTown mTown;
+    protected boolean mIsInUpdating = false;
+
+    protected float mRemainingUpdatingTime = 0;
 
     public AbstractBuilding(MyTown myTowm) {
         myTowm = myTowm;
@@ -26,9 +29,7 @@ public abstract class AbstractBuilding {
         return mTown;
     }
 
-    public void initInfo() {
-        mInfo = mTown.getBuildingInfoManager().getBuildingInfo(getClass());
-    }
+    public abstract void initInfo();
 
     public Vector2 getPosition() {
         return mPosition;
@@ -114,7 +115,17 @@ public abstract class AbstractBuilding {
         return mLevel <= getInfo().getLevelUps().size - 1;
     }
 
+    public boolean isInUpdating() {
+        return mIsInUpdating;
+    }
+
+    public float getRemainingUpdatingTime() {
+        return mRemainingUpdatingTime;
+    }
+
     public void levelUp() {
         getInfo().setLevel(mLevel + 1);
+        mRemainingUpdatingTime = getInfo().getConstructionTime();
+        mIsInUpdating = true;
     }
 }
