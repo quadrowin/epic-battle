@@ -11,7 +11,7 @@ import com.quadrolord.epicbattle.logic.campaign.CampaignManager;
 import com.quadrolord.epicbattle.logic.campaign.EnemyTower;
 import com.quadrolord.epicbattle.logic.campaign.Level;
 import com.quadrolord.epicbattle.logic.profile.PlayerProfile;
-import com.quadrolord.epicbattle.logic.profile.ProfileBullet;
+import com.quadrolord.epicbattle.logic.profile.ProfileBuilding;
 import com.quadrolord.epicbattle.logic.profile.ProfileManager;
 import com.quadrolord.epicbattle.logic.profile.ProfileSkill;
 import com.quadrolord.epicbattle.logic.skill.AbstractSkill;
@@ -226,19 +226,19 @@ public class Game {
             skill.setLevel(skillInfo.getLevel());
             skill.initTower(tower);
         }
-        // доступные виды юнитов
-        for (Iterator<ProfileBullet> it = profile.getBullets().iterator(); it.hasNext(); ) {
-            ProfileBullet pb = it.next();
-            Gdx.app.log("Game.initPlayerTower", "create " +  pb.getBulletName());
-            try {
-                tower.addBulletSkill(
-                        (Class<? extends AbstractBullet>)Class.forName(pb.getBulletName()),
-                        pb.getLevel()
-                );
-            } catch (Exception e) {
-                Gdx.app.error("Game.initPlayerTower", "Bullet skill class not found: " + pb.getBulletName());
-            }
-        }
+//        // доступные виды юнитов
+//        for (Iterator<ProfileBuilding> it = profile.getBullets().iterator(); it.hasNext(); ) {
+//            ProfileBuilding pb = it.next();
+//            Gdx.app.log("Game.initPlayerTower", "create " +  pb.getBulletName());
+//            try {
+//                tower.addBulletSkill(
+//                        (Class<? extends AbstractBullet>)Class.forName(pb.getBulletName()),
+//                        pb.getLevel()
+//                );
+//            } catch (Exception e) {
+//                Gdx.app.error("Game.initPlayerTower", "Bullet skill class not found: " + pb.getBulletName());
+//            }
+//        }
         Gdx.app.log("Game.initPlayerTower", "player bullet skills: " + tower.getBulletSkills().size);
         towerFinish(tower, mPlayerController);
     }

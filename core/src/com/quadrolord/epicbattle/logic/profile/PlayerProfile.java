@@ -1,8 +1,8 @@
 package com.quadrolord.epicbattle.logic.profile;
 
 import com.badlogic.gdx.utils.Array;
-import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.skill.AbstractSkill;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuilding;
 
 import java.util.Iterator;
 
@@ -40,24 +40,24 @@ public class PlayerProfile {
 
     private Array<ProfileSkill> skills = new Array<ProfileSkill>();
 
-    private Array<ProfileBullet> bullets = new Array<ProfileBullet>();
+    private Array<ProfileBuilding> buildings = new Array<ProfileBuilding>();
 
-    public Array<ProfileBullet> getBullets() {
-        return bullets;
+    public Array<ProfileBuilding> getBuildings() {
+        return buildings;
     }
 
-    public ProfileBullet addBullet(Class<? extends AbstractBullet> bulletClass) {
-        ProfileBullet bullet = new ProfileBullet();
-        bullet.setBulletClass(bulletClass);
-        bullets.add(bullet);
-        return bullet;
+    public ProfileBuilding addBuilding(Class<? extends AbstractBuilding> buildingClass) {
+        ProfileBuilding building = new ProfileBuilding();
+        building.setBuildingClass(buildingClass);
+        buildings.add(building);
+        return building;
     }
 
-    public ProfileBullet addBulletSafe(Class<? extends AbstractBullet> bulletClass) {
-        if (hasBullet(bulletClass)) {
+    public ProfileBuilding addBuildingSafe(Class<? extends AbstractBuilding> buildingClass) {
+        if (hasBullet(buildingClass)) {
             return null;
         }
-        return addBullet(bulletClass);
+        return addBuilding(buildingClass);
     }
 
     public void addSkill(Class<? extends AbstractSkill> skillClass, int level) {
@@ -79,11 +79,11 @@ public class PlayerProfile {
         return experienceTotal;
     }
 
-    public boolean hasBullet(Class<? extends AbstractBullet> bulletClass) {
-        String bulletClassName = bulletClass.getName();
-        for (Iterator<ProfileBullet> it = bullets.iterator(); it.hasNext(); ) {
-            ProfileBullet pb = it.next();
-            if (pb.getBulletName().equals(bulletClassName)) {
+    public boolean hasBullet(Class<? extends AbstractBuilding> buildingClass) {
+        String bulletClassName = buildingClass.getName();
+        for (Iterator<ProfileBuilding> it = buildings.iterator(); it.hasNext(); ) {
+            ProfileBuilding pb = it.next();
+            if (pb.getBuildingName().equals(bulletClassName)) {
                 return true;
             }
         }

@@ -3,10 +3,6 @@ package com.quadrolord.epicbattle.logic.profile;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
-import com.quadrolord.epicbattle.logic.bullet.worker.Big;
-import com.quadrolord.epicbattle.logic.bullet.worker.Forks;
-import com.quadrolord.epicbattle.logic.bullet.worker.Girl;
-import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.logic.skill.PowerWave;
 import com.quadrolord.epicbattle.logic.skill.TowerMaxHp;
 import com.quadrolord.epicbattle.logic.skill.TowerRandomBleed;
@@ -64,14 +60,19 @@ public class ProfileManager {
         mProfile.addSkill(TowerRandomBleed.class, 1);
         mProfile.addSkill(PowerWave.class, 0);
 
+        // скилы юнитов
+        mProfile.addSkill(com.quadrolord.epicbattle.logic.skill.bullet.Simple.class, 0);
+        mProfile.addSkill(com.quadrolord.epicbattle.logic.skill.bullet.Big.class, 3);
+        mProfile.addSkill(com.quadrolord.epicbattle.logic.skill.bullet.Forks.class, 0);
+        mProfile.addSkill(com.quadrolord.epicbattle.logic.skill.bullet.Girl.class, 0);
+
 //        if (mProfile.getBullets().size < 1) {
 //            mProfile.addBullet(Simple.class);
 //        }
-        mProfile.getBullets().clear();
-        mProfile.addBulletSafe(Simple.class).setLevel(8);
-        mProfile.addBulletSafe(Big.class).setLevel(3);
-        mProfile.addBulletSafe(Forks.class);
-        mProfile.addBulletSafe(Girl.class);
+        mProfile.getBuildings().clear();
+//        mProfile.addBuildingSafe(Big.class).setLevel(3);
+//        mProfile.addBuildingSafe(Forks.class);
+//        mProfile.addBuildingSafe(Girl.class);
     }
 
     public void saveProfile() {
