@@ -20,7 +20,7 @@ public class MapGrid extends Group {
 
     private Texture mMapTexture;
 
-    private float mCellSideX = 30;
+    private float mCellSideX = 40;
     private float mCellSideY = 20;
 
     private int mMapSizeX = 20;
@@ -52,9 +52,13 @@ public class MapGrid extends Group {
 
     private void drawGrid(Batch batch) {
 
+        float maxX = mMapSizeX * mCellSideX;
+        float maxY = mMapSizeY * mCellSideY;
+        float minY = 0;
+
         batch.draw(
                 mMapTexture,
-                0, 0, mMapSizeX * mCellSideX, mMapSizeY * mCellSideY,
+                0, 0, maxX, maxY,
                 0f, 1f, 0.5f, 0f
         );
 
@@ -64,21 +68,47 @@ public class MapGrid extends Group {
         mSr.setColor(Color.WHITE);
         mSr.setProjectionMatrix(batch.getProjectionMatrix());
 
-        for (int i = -mMapSizeX / 3 - 1; i < mMapSizeX * 1.3 + 1; i++) {
+        for (int i = 1; i < mMapSizeY; i++) {
 
+            float deltaY = i * mCellSideY;
+            float topRightY = deltaY;
+            float botRightY = deltaY;
+            float topX = maxX;
+            float topY = deltaY + mMapSizeX * mCellSideY;
+            float botX = maxX;
+            float botY = deltaY - mMapSizeX * mCellSideY;
+            if (topY > maxY) {
+                topRightY = maxY + maxY - topY;
+                topX = topX / (topY - deltaY) * (maxY - deltaY);
+                topY = maxY;
+            }
+            if (botY < minY) {
+                botRightY = minY - botY;
+                botX = botX / (botY - deltaY) * (minY - deltaY);
+                botY = minY;
+            }
 
             float[] points = new float[] {
-                    // вправо вверх
-                    mMapSizeX * mCellSideX, i * mCellSideY + mMapSizeY * mCellSideY,
+                    // точка на правой грани
+                    maxX, topRightY,
 
-                    0, i * mCellSideY,
+                    // точка на верхней грани
+                    topX, topY,
 
-                    // вправо вниз
-                    mMapSizeX * mCellSideX, i * mCellSideY - mMapSizeY * mCellSideY,
+                    // левая грань
+                    0, deltaY,
+
+                    // низ
+                    botX, botY,
+
+                    // правая грань
+                    maxX, botRightY
             };
 
             mSr.polyline(points);
         }
+        mSr.line(0, 0, maxX, maxY);
+        mSr.line(0, maxY, maxX, 0);
 
         mSr.end();
 
