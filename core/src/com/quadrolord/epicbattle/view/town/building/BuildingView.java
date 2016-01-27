@@ -41,9 +41,11 @@ public class BuildingView extends Group {
     }
 
     private void drawBuilding(Batch batch) {
+        float csx = mMap.getCellSideX();
+        float csy = mMap.getCellSideY();
         batch.draw(
                 mBuildingTexture,
-                0, 0, mMap.getCellSide() * mBuilding.getSize().x,  mMap.getCellSide() * mBuilding.getSize().y,
+                -csx / 2, -csy / 2, csx * mBuilding.getSize().x / 2, csy * mBuilding.getSize().y / 2,
                 0f, 1f, 1f, 0f
         );
     }

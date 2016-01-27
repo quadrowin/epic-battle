@@ -20,7 +20,11 @@ public class MapGrid extends Group {
 
     private Texture mMapTexture;
 
-    private float mCellSide = 20;
+    private float mCellSideX = 30;
+    private float mCellSideY = 20;
+
+    private int mMapSizeX = 20;
+    private int mMapSizeY = 20;
 
     private ShapeRenderer mSr = new ShapeRenderer();
 
@@ -48,13 +52,11 @@ public class MapGrid extends Group {
 
     private void drawGrid(Batch batch) {
 
-        float sideX = mCellSide;
-        float sideY = mCellSide * 1.3f;
-
-        batch.draw(mMapTexture, 0, 0, 400, 400, 0f, 1f, 0.5f, 0f);
-
-        int maxX = 20;
-        int maxY = 20;
+        batch.draw(
+                mMapTexture,
+                0, 0, mMapSizeX * mCellSideX, mMapSizeY * mCellSideY,
+                0f, 1f, 0.5f, 0f
+        );
 
         batch.end();
 
@@ -62,17 +64,17 @@ public class MapGrid extends Group {
         mSr.setColor(Color.WHITE);
         mSr.setProjectionMatrix(batch.getProjectionMatrix());
 
-        for (int i = -maxX / 3 - 1; i < maxX * 1.3 + 1; i++) {
+        for (int i = -mMapSizeX / 3 - 1; i < mMapSizeX * 1.3 + 1; i++) {
 
 
             float[] points = new float[] {
                     // вправо вверх
-                    maxX * sideX, i * sideY + maxY * sideY / 3,
+                    mMapSizeX * mCellSideX, i * mCellSideY + mMapSizeY * mCellSideY,
 
-                    0, i * sideY,
+                    0, i * mCellSideY,
 
                     // вправо вниз
-                    maxX * sideX, i * sideY - maxY * sideY / 3,
+                    mMapSizeX * mCellSideX, i * mCellSideY - mMapSizeY * mCellSideY,
             };
 
             mSr.polyline(points);
@@ -83,8 +85,12 @@ public class MapGrid extends Group {
         batch.begin();
     }
 
-    public float getCellSide() {
-        return mCellSide;
+    public float getCellSideX() {
+        return mCellSideX;
+    }
+
+    public float getCellSideY() {
+        return mCellSideY;
     }
 
     public void setChildPosition(Actor child, int col, int row) {
@@ -94,9 +100,14 @@ public class MapGrid extends Group {
 //                row * mCellSide
 //        );
         // isometric
+        // Xis, Yis - координаты центра ячейки в изометрии
+        // Cx, Cy - диагонали ромба ячейки
+        // x, y - координаты ячейки
+        // Xis = (x - y) * Cx
+        // Yis = (x + y + 0.5) * Cy
         child.setPosition(
-                col * mCellSide / 2 - row * mCellSide / 2 - mCellSide / 2,
-                row * mCellSide / 2 + col * mCellSide / 2
+                (col - row) * mCellSideX,
+                (col + row + 0.5f) * mCellSideY
         );
     }
 

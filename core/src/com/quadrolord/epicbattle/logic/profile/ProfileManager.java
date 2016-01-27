@@ -38,6 +38,7 @@ public class ProfileManager {
         Json json = new Json();
         json.addClassTag("profile", PlayerProfile.class);
         json.addClassTag("skill", ProfileSkill.class);
+        json.addClassTag("building", ProfileBuilding.class);
         return json;
     }
 
@@ -46,7 +47,11 @@ public class ProfileManager {
 
         if (file.exists()) {
             Json json = createJson();
-            mProfile = json.fromJson(PlayerProfile.class, file);
+            try {
+                mProfile = json.fromJson(PlayerProfile.class, file);
+            } catch (Exception e) {
+                Gdx.app.error(getClass().getName(), "loadProfile fromJson exception", e);
+            }
         }
 
         if (mProfile == null) {
