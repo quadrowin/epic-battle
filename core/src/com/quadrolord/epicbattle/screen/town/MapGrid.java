@@ -1,5 +1,6 @@
 package com.quadrolord.epicbattle.screen.town;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,8 +8,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 
 /**
@@ -22,6 +25,9 @@ public class MapGrid extends Group {
 
     private float mCellSideX = 40;
     private float mCellSideY = 20;
+
+    private int mSelectedX = -1;
+    private int mSelectedY = -1;
 
     private int mMapSizeX = 20;
     private int mMapSizeY = 20;
@@ -40,6 +46,30 @@ public class MapGrid extends Group {
         mMapTexture = new Texture("town/bg1.jpg");
 
         setBounds(0, 0, 400, 300);
+        addListener(new ClickListener() {
+
+            public void clicked(InputEvent event, float x, float y) {
+                // isometric
+                // Xis, Yis - координаты центра ячейки в изометрии
+                // Cx, Cy - диагонали ромба ячейки
+                // x, y - координаты ячейки
+                // Xis = (x - y) * Cx
+                // Yis = (x + y + 0.5) * Cy
+                // =>
+                // x = (Yis / Cy + Xis / Cx - 0.5) / 2
+                // y = (Yis / Cy - Xis / Cx - 0.5) / 2
+
+                float cx = mCellSideX;
+                float cy = mCellSideY;
+                int col = (int) Math.round((y / cy + x / cx - 0.5) / 2);
+                int row = (int) Math.round((y / cy - x / cx - 0.5) / 2);
+
+                Gdx.app.log("MapGrid", "(" + x + ";" + y + ") -> (" + col + ";" + row + ")");
+                mSelectedX = col;
+                mSelectedY = row;
+            }
+
+        });
         stage.addActor(this);
     }
 
@@ -65,8 +95,9 @@ public class MapGrid extends Group {
         batch.end();
 
         mSr.begin(ShapeRenderer.ShapeType.Line);
-        mSr.setColor(Color.WHITE);
         mSr.setProjectionMatrix(batch.getProjectionMatrix());
+
+        mSr.setColor(Color.WHITE);
 
         for (int i = 1; i < mMapSizeY; i++) {
 
@@ -109,6 +140,66 @@ public class MapGrid extends Group {
         }
         mSr.line(0, 0, maxX, maxY);
         mSr.line(0, maxY, maxX, 0);
+
+        mSr.end();
+        mSr.begin(ShapeRenderer.ShapeType.Filled);
+
+        if (mSelectedX >= 0 || true) {
+            mSr.setColor(Color.RED);
+
+            float botX = (mSelectedX - mSelectedY) * mCellSideX;
+            float botY = (mSelectedX + mSelectedY) * mCellSideY;
+            float lineWidth = 3;
+
+            // низ - лево
+            mSr.rectLine(
+                    botX, botY,
+                    botX - mCellSideX / 2, botY + mCellSideY / 2,
+                    lineWidth
+            );
+            // лево - верх
+            mSr.rectLine(
+                    botX - mCellSideX / 2, botY + mCellSideY / 2,
+                    botX, botY + mCellSideY,
+                    lineWidth
+            );
+            // верх - право
+            mSr.rectLine(
+                    botX, botY + mCellSideY,
+                    botX + mCellSideX / 2, botY + mCellSideY / 2,
+                    lineWidth
+            );
+            // право - низ
+            mSr.rectLine(
+                    botX + mCellSideX / 2, botY + mCellSideY / 2,
+                    botX, botY,
+                    lineWidth
+            );
+//
+//            float[] points = new float[] {
+//                    // нижняя точка
+//                    botX,
+//                    botY,
+//
+//                    // левая точка
+//                    botX - mCellSideX / 2,
+//                    botY + mCellSideY / 2,
+//
+//                    // верх
+//                    botX,
+//                    botY + mCellSideY,
+//
+//                    // право
+//                    botX + mCellSideX / 2,
+//                    botY + mCellSideY / 2,
+//
+//                    // вниз
+//                    botX,
+//                    botY,
+//            };
+//
+//            mSr.polyline(points);
+        }
 
         mSr.end();
 

@@ -39,6 +39,7 @@ public class EpicBattle extends ApplicationAdapter {
 		mFps = new FPSLogger();
 //		mScreen = new BattleScreen(this, null);
 		mScreen = new MyTownScreen(this);
+		mScreen.switchIn();
 	}
 
 	public Game getGame() {

@@ -2,6 +2,7 @@ package com.quadrolord.epicbattle.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -45,7 +46,7 @@ public class MyTownScreen extends AbstractScreen {
     private Camera mMapCamera;
     private Stage mMapStage;
 
-
+    private InputMultiplexer mMultiplexer;
 
     public MyTownScreen(EpicBattle adapter) {
         super(adapter);
@@ -153,6 +154,7 @@ public class MyTownScreen extends AbstractScreen {
             }
         });
 
+        mMultiplexer = new InputMultiplexer(mStage, mMapStage);
     }
 
     @Override
@@ -161,14 +163,24 @@ public class MyTownScreen extends AbstractScreen {
         float width = mSizeX * mCellWidth + mDeltaX;
         float height = mSizeY * mCellHeight + mDeltaY;
 
-        mMapCamera.position.set(mDeltaX, mDeltaY, mDeltaZ);
-        mMapCamera.lookAt(mDeltaX, mDeltaY + 30, 0);
+//        mMapCamera.position.set(mDeltaX, mDeltaY, mDeltaZ);
+//        mMapCamera.lookAt(mDeltaX, mDeltaY + 30, 0);
         mMapCamera.update();
+
         mMapStage.act(delta);
         mMapStage.draw();
 
+        mStage.getCamera().update();
         mStage.act(delta);
         mStage.draw();
+    }
+
+    /**
+     * Переключение на этот скрин с другого
+     */
+    @Override
+    public void switchIn() {
+        Gdx.input.setInputProcessor(mMultiplexer);
     }
 
     @Override
