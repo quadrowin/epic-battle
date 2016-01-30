@@ -23,6 +23,7 @@ import com.quadrolord.epicbattle.logic.town.building.AbstractBuilding;
 import com.quadrolord.epicbattle.logic.town.building.Mine;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
 import com.quadrolord.epicbattle.view.town.building.BuildingView;
+import com.quadrolord.epicbattle.view.town.building.LeftHandTempleView;
 
 import java.util.Iterator;
 
@@ -31,18 +32,13 @@ import java.util.Iterator;
  */
 public class MyTownScreen extends AbstractScreen {
 
-    private int mSizeX = 8;
-    private int mSizeY = 8;
-
-    private int mCellWidth = 32;
-    private int mCellHeight = 32;
-
-    private float mDeltaX = 200;
-    private float mDeltaY = 200;
+    private float mDeltaX = 20;
+    private float mDeltaY = 10;
     private float mDeltaZ = 150;
 
     private MyTown mTown;
 
+    private MapGrid mMap;
     private Camera mMapCamera;
     private Stage mMapStage;
 
@@ -72,31 +68,18 @@ public class MyTownScreen extends AbstractScreen {
 
         });
 
-        MapGrid map = new MapGrid(this, mMapStage);
+        mMap = new MapGrid(this, mMapStage);
 
         {
 
+
             Texture txLeftHand = new Texture("town/left-hand-tower.png");
-            Drawable drLeftHand = new TextureRegionDrawable(new TextureRegion(txLeftHand));
-            final ImageButton ibLeft = new ImageButton(drLeftHand);
-            ibLeft.setBounds(200 - 30, 150 - 30, 30, 60);
-            map.addActor(ibLeft);
             final AbstractScreen screen = this;
-            ibLeft.addListener(new ClickListener() {
-
-                @Override
-                public void clicked (InputEvent event, float x, float y) {
-                    HintScreen hs = new HintScreen(screen, ibLeft.getX(), ibLeft.getY(), "It's your left hand");
-                    mAdapter.switchToScreen(hs, false);
-
-                }
-
-            });
 
             Drawable drRightHand = new TextureRegionDrawable(new TextureRegion(txLeftHand, 1, 0, 0.1f, 1));
             final ImageButton ibRight = new ImageButton(drRightHand);
             ibRight.setBounds(200, 150 - 30, 30, 60);
-            map.addActor(ibRight);
+            mMap.addActor(ibRight);
             ibRight.addListener(new ClickListener() {
 
                 @Override
@@ -111,22 +94,22 @@ public class MyTownScreen extends AbstractScreen {
 
         for (Iterator<AbstractBuilding> it = mTown.getBuildings().iterator(); it.hasNext(); ) {
             AbstractBuilding bld = it.next();
-            new BuildingView(this, map, bld);
+            new BuildingView(this, mMap, bld);
         }
 
-        new BuildingView(this, map, new Mine(mTown));
+        new BuildingView(this, mMap, new Mine(mTown));
 
         Mine mine1 = new Mine(mTown);
-        mine1.setPosition(8, 4);
-        new BuildingView(this, map, mine1);
+        mine1.setPosition(4, 0);
+        new LeftHandTempleView(this, mMap, mine1);
 
         Mine mine2 = new Mine(mTown);
         mine2.setPosition(9, 4);
-        new BuildingView(this, map, mine2);
+        new BuildingView(this, mMap, mine2);
 
         Mine mine3 = new Mine(mTown);
         mine3.setPosition(8, 5);
-        new BuildingView(this, map, mine3);
+        new BuildingView(this, mMap, mine3);
 
         mStage.addListener(new EventListener() {
 
@@ -160,12 +143,10 @@ public class MyTownScreen extends AbstractScreen {
     @Override
     public void draw(float delta) {
 
-        float width = mSizeX * mCellWidth + mDeltaX;
-        float height = mSizeY * mCellHeight + mDeltaY;
-
+        mMap.setPosition(-mDeltaX, -mDeltaY);
 //        mMapCamera.position.set(mDeltaX, mDeltaY, mDeltaZ);
 //        mMapCamera.lookAt(mDeltaX, mDeltaY + 30, 0);
-        mMapCamera.update();
+//        mMapCamera.update();
 
         mMapStage.act(delta);
         mMapStage.draw();

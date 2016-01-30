@@ -23,14 +23,14 @@ public class MapGrid extends Group {
 
     private Texture mMapTexture;
 
-    private float mCellSideX = 40;
-    private float mCellSideY = 20;
+    private float mCellSideX = 60;
+    private float mCellSideY = 40;
 
     private int mSelectedX = -1;
     private int mSelectedY = -1;
 
-    private int mMapSizeX = 20;
-    private int mMapSizeY = 20;
+    private int mMapSizeX = 10;
+    private int mMapSizeY = 10;
 
     private ShapeRenderer mSr = new ShapeRenderer();
 
@@ -45,7 +45,7 @@ public class MapGrid extends Group {
 
         mMapTexture = new Texture("town/bg1.jpg");
 
-        setBounds(0, 0, 400, 300);
+        setBounds(40, 40, 400, 300);
         addListener(new ClickListener() {
 
             public void clicked(InputEvent event, float x, float y) {
@@ -59,10 +59,10 @@ public class MapGrid extends Group {
                 // x = (Yis / Cy + Xis / Cx - 0.5) / 2
                 // y = (Yis / Cy - Xis / Cx - 0.5) / 2
 
-                float cx = mCellSideX;
-                float cy = mCellSideY;
-                int col = (int) Math.round((y / cy + x / cx - 0.5) / 2);
-                int row = (int) Math.round((y / cy - x / cx - 0.5) / 2);
+                float cx = mCellSideX / 2;
+                float cy = mCellSideY / 2;
+                int col = (int) Math.round((y / cy + x / cx - 0.5 - 0.5) / 2);
+                int row = (int) Math.round((y / cy - x / cx - 0.5 - 0.5) / 2);
 
                 Gdx.app.log("MapGrid", "(" + x + ";" + y + ") -> (" + col + ";" + row + ")");
                 mSelectedX = col;
@@ -94,8 +94,9 @@ public class MapGrid extends Group {
 
         batch.end();
 
-        mSr.begin(ShapeRenderer.ShapeType.Line);
         mSr.setProjectionMatrix(batch.getProjectionMatrix());
+        mSr.setTransformMatrix(batch.getTransformMatrix());
+        mSr.begin(ShapeRenderer.ShapeType.Line);
 
         mSr.setColor(Color.WHITE);
 
@@ -147,8 +148,8 @@ public class MapGrid extends Group {
         if (mSelectedX >= 0 || true) {
             mSr.setColor(Color.RED);
 
-            float botX = (mSelectedX - mSelectedY) * mCellSideX;
-            float botY = (mSelectedX + mSelectedY) * mCellSideY;
+            float botX = (mSelectedX - mSelectedY) * mCellSideX / 2;
+            float botY = (mSelectedX + mSelectedY) * mCellSideY / 2;
             float lineWidth = 3;
 
             // низ - лево
@@ -203,6 +204,21 @@ public class MapGrid extends Group {
 
         mSr.end();
 
+        
+//        mSr.setColor(Color.BLUE);
+//        mSr.begin(ShapeRenderer.ShapeType.Line);
+//
+//        mSr.polyline(new float[] {
+//                -mCellSideX / 2, -mCellSideY / 2,
+//                -mCellSideX / 2, +mCellSideY / 2,
+//                +mCellSideX / 2, +mCellSideY / 2,
+//                +mCellSideX / 2, -mCellSideY / 2,
+//                -mCellSideX / 2, -mCellSideY / 2,
+//        });
+//
+//        mSr.end();
+
+
         batch.begin();
     }
 
@@ -227,8 +243,9 @@ public class MapGrid extends Group {
         // Xis = (x - y) * Cx
         // Yis = (x + y + 0.5) * Cy
         child.setPosition(
-                (col - row) * mCellSideX,
-                (col + row + 0.5f) * mCellSideY
+                (col - row) * mCellSideX / 2,
+                (col + row + 0.5f) * mCellSideY / 2
+//                (col + row) * mCellSideY / 2
         );
     }
 

@@ -40,7 +40,7 @@ public class BuildingView extends Group {
         resetTransform(batch);
     }
 
-    private void drawBuilding(Batch batch) {
+    public void drawBuilding(Batch batch) {
         float csx = mMap.getCellSideX();
         float csy = mMap.getCellSideY();
         batch.draw(
@@ -48,6 +48,22 @@ public class BuildingView extends Group {
                 -csx / 2, -csy / 2, csx * mBuilding.getSize().x / 2, csy * mBuilding.getSize().y / 2,
                 0f, 1f, 1f, 0f
         );
+    }
+
+    public AbstractBuilding getBuilding() {
+        return mBuilding;
+    }
+
+    public Texture getBuildingTexture() {
+        return mBuildingTexture;
+    }
+
+    public MapGrid getMap() {
+        return mMap;
+    }
+
+    public void setBuildingTexture(Texture texture) {
+        mBuildingTexture = texture;
     }
 
 }
