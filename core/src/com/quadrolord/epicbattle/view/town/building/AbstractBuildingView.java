@@ -1,7 +1,7 @@
 package com.quadrolord.epicbattle.view.town.building;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
@@ -10,19 +10,22 @@ import com.quadrolord.epicbattle.screen.town.MapGrid;
 /**
  * Created by morph on 17.01.2016.
  */
-public class BuildingView extends Group {
+abstract public class AbstractBuildingView extends Group {
 
     private AbstractBuildingItem mBuilding;
 
-    private Texture mBuildingTexture;
+    private TextureRegion mBuildingTexture;
 
     private MapGrid mMap;
 
-    public BuildingView(AbstractScreen screen, MapGrid map, AbstractBuildingItem building) {
+    private AbstractScreen mScreen;
+
+    public AbstractBuildingView(final AbstractScreen screen, MapGrid map, AbstractBuildingItem building) {
         mBuilding = building;
         mMap = map;
+        mScreen = screen;
 
-        mBuildingTexture = new Texture("town/mine1.png");
+        mBuildingTexture = loadBuildingTexture();
 
         map.setChildPosition(this, building.getX(), building.getY());
         map.addActor(this);
@@ -45,8 +48,7 @@ public class BuildingView extends Group {
         float csy = mMap.getCellSideY();
         batch.draw(
                 mBuildingTexture,
-                0, 0, csx * mBuilding.getSize().x, csy * mBuilding.getSize().y,
-                0f, 1f, 1f, 0f
+                0, 0, csx * mBuilding.getSize().x, csy * mBuilding.getSize().y
         );
     }
 
@@ -54,7 +56,7 @@ public class BuildingView extends Group {
         return mBuilding;
     }
 
-    public Texture getBuildingTexture() {
+    public TextureRegion getBuildingTexture() {
         return mBuildingTexture;
     }
 
@@ -62,7 +64,13 @@ public class BuildingView extends Group {
         return mMap;
     }
 
-    public void setBuildingTexture(Texture texture) {
+    public AbstractScreen getScreen() {
+        return mScreen;
+    }
+
+    abstract public TextureRegion loadBuildingTexture();
+
+    public void setBuildingTexture(TextureRegion texture) {
         mBuildingTexture = texture;
     }
 

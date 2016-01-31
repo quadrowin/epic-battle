@@ -21,13 +21,11 @@ import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.logic.town.TownListener;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
-import com.quadrolord.epicbattle.logic.town.building.ResourceBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.entity.LeftHandTemple;
 import com.quadrolord.epicbattle.logic.town.building.entity.Mine;
+import com.quadrolord.epicbattle.logic.town.building.entity.RightLegTemple;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
-import com.quadrolord.epicbattle.view.town.building.BuildingView;
-import com.quadrolord.epicbattle.view.town.building.LeftHandTempleView;
-
-import java.util.Iterator;
+import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
 
 /**
  * Created by Quadrowin on 16.01.2016.
@@ -78,15 +76,15 @@ public class MyTownScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 mTown.build(
-                        mTown.getBuildingInfoManager().getInfo(Mine.class),
-                        2 + (int)(Math.random() * 4), 2 + (int)(Math.random() * 4),
+                        Mine.class,
+                        2 + mTown.getBuildings().size * 2, 2,
                         false, false
                 );
             }
 
         });
 
-        mMap = new MapGrid(this, mMapStage);
+        mMap = new MapGrid(this, mTown, mMapStage);
         final AbstractScreen screen = this;
 
         {
@@ -109,25 +107,6 @@ public class MyTownScreen extends AbstractScreen {
             });
 
         }
-
-        for (Iterator<AbstractBuildingItem> it = mTown.getBuildings().iterator(); it.hasNext(); ) {
-            AbstractBuildingItem bld = it.next();
-            new BuildingView(this, mMap, bld);
-        }
-
-        new BuildingView(this, mMap, new ResourceBuildingItem());
-
-        ResourceBuildingItem mine1 = new ResourceBuildingItem();
-        mine1.setPosition(4, 0);
-        new LeftHandTempleView(this, mMap, mine1);
-
-        ResourceBuildingItem mine2 = new ResourceBuildingItem();
-        mine2.setPosition(9, 4);
-        new BuildingView(this, mMap, mine2);
-
-        ResourceBuildingItem mine3 = new ResourceBuildingItem();
-        mine3.setPosition(8, 5);
-        new BuildingView(this, mMap, mine3);
 
         mStage.addListener(new EventListener() {
 
@@ -158,7 +137,14 @@ public class MyTownScreen extends AbstractScreen {
         mTown.setListener(new TownListener() {
             @Override
             public void onBuildingAdd(AbstractBuildingItem building) {
-                new BuildingView(screen, mMap, building);
+                Class<AbstractBuildingView> viewClass = building.getInfo().getViewClass();
+                AbstractBuildingView view;
+                try {
+                    view = viewClass.getConstructor(AbstractScreen.class, MapGrid.class, AbstractBuildingItem.class).newInstance(screen, mMap, building);
+                    building.setView(view);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -172,10 +158,24 @@ public class MyTownScreen extends AbstractScreen {
             }
 
             @Override
+            public void onBuildingSelect(AbstractBuildingItem building) {
+
+            }
+
+            @Override
             public void onUserActionFail(BuildingAction action) {
                 Gdx.app.log(screen.getClass().getName(), "Action fail: " + action);
             }
         });
+
+        mTown.build(
+                LeftHandTemple.class,
+                5, 0, false, false
+        );
+        mTown.build(
+                RightLegTemple.class,
+                6, -1, false, false
+        );
 
         mMultiplexer = new InputMultiplexer(mStage, mMapStage);
     }

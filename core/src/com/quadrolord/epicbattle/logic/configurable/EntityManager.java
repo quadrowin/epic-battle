@@ -56,18 +56,22 @@ abstract public class EntityManager<T extends AbstractEntity> {
             e.printStackTrace();
         }
 
+        loadFromJson(info, json);
+
+        mLoaded.put(entityClass, info);
+        return info;
+    }
+
+    public void loadFromJson(T entity, JsonValue json) {
         for (JsonValue.JsonIterator it = json.iterator(); it.hasNext(); ) {
             JsonValue val = it.next();
             String name = val.name();
             if (mLoaders.containsKey(name)) {
-                mLoaders.get(name).assign(info, val);
+                mLoaders.get(name).assign(entity, val);
             } else {
-                Gdx.app.log(getClass().getName(), "Unknown param for " + entityClass.getName() + ": " + name);
+                Gdx.app.log(getClass().getName(), "Unknown param for " + entity.getClass().getName() + ": " + name);
             }
         }
-
-        mLoaded.put(entityClass, info);
-        return info;
     }
 
     /**

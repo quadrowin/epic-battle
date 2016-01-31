@@ -1,9 +1,9 @@
 package com.quadrolord.epicbattle.logic.town.building.entity;
 
-import com.badlogic.gdx.math.Vector2;
 import com.quadrolord.epicbattle.logic.town.building.ResourceBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.ResourceBuildingItem;
 import com.quadrolord.epicbattle.logic.town.resource.IronOre;
+import com.quadrolord.epicbattle.view.town.building.MineView;
 
 /**
  * Created by Quadrowin on 31.01.2016.
@@ -11,12 +11,12 @@ import com.quadrolord.epicbattle.logic.town.resource.IronOre;
 public class Mine extends ResourceBuildingEntity {
 
     public Mine() {
-        mSize = new Vector2(2, 2);
+        setViewClass(MineView.class);
     }
 
     @Override
     public void initItem(ResourceBuildingItem item) {
-        item.getSize().set(mSize.x, mSize.y);
+        item.setSize((int)mSize.x, (int)mSize.y);
         item.setResourceClass(IronOre.class);
     }
 

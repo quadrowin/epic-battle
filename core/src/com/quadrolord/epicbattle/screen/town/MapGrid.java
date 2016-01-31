@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 
 /**
@@ -32,13 +33,16 @@ public class MapGrid extends Group {
     private int mSelectedX = -1;
     private int mSelectedY = -1;
 
+    private MyTown mTown;
+
     private int mMapSizeX = 10;
     private int mMapSizeY = 10;
 
     private ShapeRenderer mSr = new ShapeRenderer();
 
-    public MapGrid(final AbstractScreen screen, Stage stage) {
+    public MapGrid(final AbstractScreen screen, MyTown town, Stage stage) {
         Skin skin = screen.getSkin();
+        mTown = town;
 
         Pixmap white = new Pixmap(1, 5, Pixmap.Format.RGBA8888);
         white.setColor(Color.WHITE);
@@ -70,6 +74,8 @@ public class MapGrid extends Group {
                 Gdx.app.log("MapGrid", "(" + x + ";" + y + ") -> (" + col + ";" + row + ")");
                 mSelectedX = col;
                 mSelectedY = row;
+
+                mTown.setSelected(col, row);
             }
 
         });
@@ -268,8 +274,8 @@ public class MapGrid extends Group {
         // Xis = (x - y) * Cx
         // Yis = (x + y + 0.5) * Cy
         return new Vector2(
-                (col - row) * mCellSideX / 2,
-                (col + row) * mCellSideY / 2 + 0.5f * mCellSideY
+                (col - row - 1) * mCellSideX / 2,
+                (col + row - 1) * mCellSideY / 2 + 0.5f * mCellSideY
 //                (col + row) * mCellSideY / 2
         );
     }

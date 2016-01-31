@@ -2,7 +2,7 @@ package com.quadrolord.epicbattle.logic.town.building;
 
 import com.badlogic.gdx.math.Vector2;
 import com.quadrolord.epicbattle.logic.configurable.AbstractItem;
-import com.quadrolord.epicbattle.view.town.building.BuildingView;
+import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
 
 /**
  * Created by morph on 17.01.2016.
@@ -14,7 +14,7 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
     protected boolean mIsRotated = false;
     protected int mLevel = 1;
 
-    protected BuildingView mView;
+    protected AbstractBuildingView mView;
 
     protected boolean mIsInUpdating = false;
 
@@ -92,7 +92,7 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
         setHeight(width);
     }
 
-    public BuildingView getView() {
+    public AbstractBuildingView getView() {
         return mView;
     }
 
@@ -113,4 +113,9 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
         mRemainingUpdatingTime = getInfo().getConstructionTime();
         mIsInUpdating = true;
     }
+
+    public void setView(AbstractBuildingView view) {
+        mView = view;
+    }
+
 }

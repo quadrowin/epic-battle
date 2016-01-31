@@ -24,6 +24,8 @@ public interface TownListener {
 
     void onBuildingRemove(AbstractBuildingItem building);
 
+    void onBuildingSelect(AbstractBuildingItem building);
+
     void onUserActionFail(BuildingAction action);
 
 }

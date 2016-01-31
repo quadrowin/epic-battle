@@ -141,6 +141,10 @@ public class MyTown {
         return true;
     }
 
+    public AbstractBuildingItem build(Class<? extends AbstractBuildingEntity> entityClass, int col, int row, boolean isRotated, boolean isByGems) {
+        return build(mBuildingInfoManager.getInfo(entityClass), col, row, isRotated, isByGems);
+    }
+
     public AbstractBuildingItem build(AbstractBuildingEntity entity, int col, int row, boolean isRotated, boolean isByGems) {
         boolean hasResources = isByGems ? hasGems(entity.getCostGem()) : hasResources(entity);
         if (!hasResources) {
@@ -168,8 +172,8 @@ public class MyTown {
             return null;
         }
 
+        item.setInfo(entity);
         entity.initItem(item);
-        item.setSize(2, 2);
         item.setX(col);
         item.setY(row);
 
@@ -248,6 +252,16 @@ public class MyTown {
 
     public void setLevel(int level) {
         mLevel = level;
+    }
+
+    public void setSelected(int col, int row) {
+        for (int i = 0; i < mBuildings.size; i++) {
+            AbstractBuildingItem b = mBuildings.get(i);
+            if (col == b.getX() && row == b.getY()) {
+                mListener.onBuildingSelect(b);
+                b.getInfo().runOnSelect(b);
+            }
+        }
     }
 
 }

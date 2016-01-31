@@ -8,11 +8,11 @@ import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
 
 /**
- * Created by Quadrowin on 30.01.2016.
+ * Created by Quadrowin on 31.01.2016.
  */
-public class LeftHandTempleView extends AbstractBuildingView {
+public class RightLegTempleView extends AbstractBuildingView {
 
-    public LeftHandTempleView(final AbstractScreen screen, MapGrid map, AbstractBuildingItem building) {
+    public RightLegTempleView(final AbstractScreen screen, MapGrid map, AbstractBuildingItem building) {
         super(screen, map, building);
     }
 
@@ -36,7 +36,7 @@ public class LeftHandTempleView extends AbstractBuildingView {
     @Override
     public TextureRegion loadBuildingTexture() {
         Texture t = new Texture("town/left-hand-tower.png");
-        return new TextureRegion(t, 0f, 0f, 1f, 1f);
+        return new TextureRegion(t, 1f, 0f, 0f, 1f);
     }
 
 }

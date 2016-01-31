@@ -5,18 +5,17 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.quadrolord.epicbattle.logic.configurable.AbstractEntity;
 import com.quadrolord.epicbattle.logic.town.building.leveling.AbstractStrategy;
-import com.quadrolord.epicbattle.logic.town.building.loader.AbstractLoader;
 import com.quadrolord.epicbattle.logic.town.resource.Resource;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
-import com.quadrolord.epicbattle.view.town.building.BuildingView;
+import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
 
 /**
  * Created by morph on 17.01.2016.
  */
 abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> extends AbstractEntity<T> {
     protected String mTitle;
-    protected Vector2 mSize;
-    protected Class<? extends BuildingView> mViewClass;
+    protected Vector2 mSize = new Vector2(1, 1);
+    protected Class<? extends AbstractBuildingView> mViewClass;
     protected String mIcon;
     protected Class<? extends Tile> mTileClass;
     protected ArrayMap<Class<? extends Resource>, Integer> mRequiredResources = new ArrayMap<Class<? extends Resource>, Integer>();
@@ -47,7 +46,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
         return mIcon;
     }
 
-    public Class<? extends BuildingView> getViewClass() {
+    public Class<? extends AbstractBuildingView> getViewClass() {
         return mViewClass;
     }
 
@@ -71,6 +70,10 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
         return mLevelingStrategy;
     }
 
+    public void runOnSelect(AbstractBuildingItem item) {
+
+    }
+
     public AbstractBuildingEntity setConstructionTime(float $time) {
         mConstructionTime = $time;
         return this;
@@ -86,7 +89,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
         return this;
     }
 
-    public AbstractBuildingEntity setViewClass(Class<? extends BuildingView> viewClass) {
+    public AbstractBuildingEntity setViewClass(Class<? extends AbstractBuildingView> viewClass) {
         mViewClass = viewClass;
         return this;
     }
@@ -130,11 +133,4 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
         getLevelingStrategy().setLevel(this, level);
     }
 
-    public ArrayMap<String, AbstractLoader> getJsonLoaders() {
-        ArrayMap<String, AbstractLoader> loaders = new ArrayMap<String, AbstractLoader>();
-
-
-
-        return loaders;
-    }
 }
