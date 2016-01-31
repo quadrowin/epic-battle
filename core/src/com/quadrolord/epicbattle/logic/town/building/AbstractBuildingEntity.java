@@ -13,7 +13,7 @@ import com.quadrolord.epicbattle.view.town.building.BuildingView;
 /**
  * Created by morph on 17.01.2016.
  */
-abstract public class AbstractBuildingEntity extends AbstractEntity<AbstractBuildingItem> {
+abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> extends AbstractEntity<T> {
     protected String mTitle;
     protected Vector2 mSize;
     protected Class<? extends BuildingView> mViewClass;

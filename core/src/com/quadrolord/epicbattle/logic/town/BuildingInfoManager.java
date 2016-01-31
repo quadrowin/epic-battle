@@ -9,6 +9,7 @@ import com.quadrolord.epicbattle.logic.town.building.loader.LevelUps;
 import com.quadrolord.epicbattle.logic.town.building.loader.RequiredLevel;
 import com.quadrolord.epicbattle.logic.town.building.loader.RequiredResources;
 import com.quadrolord.epicbattle.logic.town.building.loader.Size;
+import com.quadrolord.epicbattle.logic.town.building.loader.Title;
 
 /**
  * Created by morph on 23.01.2016.
@@ -21,10 +22,11 @@ public class BuildingInfoManager extends EntityManager<AbstractBuildingEntity> {
         mLoaders.put("construction_time", new ConstructionTime());
         mLoaders.put("cost_gem", new GemCost());
         mLoaders.put("icon", new Icon());
-        mLoaders.put("required_level", new RequiredLevel());
-        mLoaders.put("size", new Size());
         mLoaders.put("level_ups", new LevelUps());
+        mLoaders.put("required_level", new RequiredLevel());
         mLoaders.put("required_resources", new RequiredResources());
+        mLoaders.put("size", new Size());
+        mLoaders.put("title", new Title());
     }
 
     @Override

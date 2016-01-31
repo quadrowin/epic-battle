@@ -19,7 +19,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.town.MyTown;
+import com.quadrolord.epicbattle.logic.town.TownListener;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.ResourceBuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.entity.Mine;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
 import com.quadrolord.epicbattle.view.town.building.BuildingView;
@@ -68,13 +70,29 @@ public class MyTownScreen extends AbstractScreen {
 
         });
 
+        TextButton btnBuildSomething = new TextButton("Build something", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
+        btnBuildSomething.setBounds(200, 240, 180, 50);
+        mStage.addActor(btnBuildSomething);
+        btnBuildSomething.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mTown.build(
+                        mTown.getBuildingInfoManager().getInfo(Mine.class),
+                        2 + (int)(Math.random() * 4), 2 + (int)(Math.random() * 4),
+                        false, false
+                );
+            }
+
+        });
+
         mMap = new MapGrid(this, mMapStage);
+        final AbstractScreen screen = this;
 
         {
 
 
             Texture txLeftHand = new Texture("town/left-hand-tower.png");
-            final AbstractScreen screen = this;
 
             Drawable drRightHand = new TextureRegionDrawable(new TextureRegion(txLeftHand, 1, 0, 0.1f, 1));
             final ImageButton ibRight = new ImageButton(drRightHand);
@@ -97,17 +115,17 @@ public class MyTownScreen extends AbstractScreen {
             new BuildingView(this, mMap, bld);
         }
 
-        new BuildingView(this, mMap, new Mine(mTown));
+        new BuildingView(this, mMap, new ResourceBuildingItem());
 
-        Mine mine1 = new Mine(mTown);
+        ResourceBuildingItem mine1 = new ResourceBuildingItem();
         mine1.setPosition(4, 0);
         new LeftHandTempleView(this, mMap, mine1);
 
-        Mine mine2 = new Mine(mTown);
+        ResourceBuildingItem mine2 = new ResourceBuildingItem();
         mine2.setPosition(9, 4);
         new BuildingView(this, mMap, mine2);
 
-        Mine mine3 = new Mine(mTown);
+        ResourceBuildingItem mine3 = new ResourceBuildingItem();
         mine3.setPosition(8, 5);
         new BuildingView(this, mMap, mine3);
 
@@ -134,6 +152,28 @@ public class MyTownScreen extends AbstractScreen {
                         )
                 );
                 return true;
+            }
+        });
+
+        mTown.setListener(new TownListener() {
+            @Override
+            public void onBuildingAdd(AbstractBuildingItem building) {
+                new BuildingView(screen, mMap, building);
+            }
+
+            @Override
+            public void onBuildingChange(AbstractBuildingItem building) {
+
+            }
+
+            @Override
+            public void onBuildingRemove(AbstractBuildingItem building) {
+
+            }
+
+            @Override
+            public void onUserActionFail(BuildingAction action) {
+                Gdx.app.log(screen.getClass().getName(), "Action fail: " + action);
             }
         });
 

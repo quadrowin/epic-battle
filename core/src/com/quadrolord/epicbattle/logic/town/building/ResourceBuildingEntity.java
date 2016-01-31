@@ -8,9 +8,14 @@ import com.quadrolord.epicbattle.logic.town.building.loader.YieldTime;
 /**
  * Created by morph on 24.01.2016.
  */
-public class ResourceBuildingEntity extends AbstractBuildingEntity {
+abstract public class ResourceBuildingEntity extends AbstractBuildingEntity<ResourceBuildingItem> {
 
     protected float mYieldTime;
+
+    @Override
+    public Class<? extends ResourceBuildingItem> getItemClass() {
+        return ResourceBuildingItem.class;
+    }
 
     public float getYieldTime() {
         return mYieldTime;

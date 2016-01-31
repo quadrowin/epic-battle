@@ -12,6 +12,8 @@ abstract public class EntityManager<T extends AbstractEntity> {
 
     private Class<T> mInfoClass;
 
+    protected ArrayMap<Class, T> mLoaded;
+
     protected ArrayMap<String, EntityLoader<T>> mLoaders;
 
     protected JsonReader mReader;
@@ -19,6 +21,7 @@ abstract public class EntityManager<T extends AbstractEntity> {
     public EntityManager(Class<T> infoClass) {
         mInfoClass = infoClass;
         mReader = new JsonReader();
+        mLoaded = new ArrayMap<Class, T>();
         mLoaders = new ArrayMap<String, EntityLoader<T>>();
     }
 
@@ -28,6 +31,10 @@ abstract public class EntityManager<T extends AbstractEntity> {
     abstract public String getConfigDir();
 
     public T getInfo(Class<? extends T> entityClass) {
+        if (mLoaded.containsKey(entityClass)) {
+            return mLoaded.get(entityClass);
+        }
+
         String fileName = getConfigDir() + "/" + entityClass.getSimpleName() + ".json";
         JsonValue json;
 
@@ -59,6 +66,7 @@ abstract public class EntityManager<T extends AbstractEntity> {
             }
         }
 
+        mLoaded.put(entityClass, info);
         return info;
     }
 

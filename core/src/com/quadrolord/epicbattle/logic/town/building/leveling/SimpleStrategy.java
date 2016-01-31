@@ -10,7 +10,7 @@ public class SimpleStrategy extends AbstractStrategy {
     @Override
     public void setLevel(AbstractBuildingEntity info, int level) {
         for (int i = 2; i <= level; i++) {
-            AbstractBuildingEntity newInfo = info.getLevelUps().get(i - 2);
+            AbstractBuildingEntity newInfo = (AbstractBuildingEntity)info.getLevelUps().get(i - 2);
 
             if (newInfo == null) {
                 continue;

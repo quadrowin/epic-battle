@@ -1,19 +1,23 @@
 package com.quadrolord.epicbattle.logic.town.building.entity;
 
-import com.quadrolord.epicbattle.logic.town.MyTown;
+import com.badlogic.gdx.math.Vector2;
+import com.quadrolord.epicbattle.logic.town.building.ResourceBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.ResourceBuildingItem;
 import com.quadrolord.epicbattle.logic.town.resource.IronOre;
 
 /**
- * Created by morph on 24.01.2016.
+ * Created by Quadrowin on 31.01.2016.
  */
-public class Mine extends ResourceBuildingItem {
+public class Mine extends ResourceBuildingEntity {
 
-    public Mine(MyTown myTown) {
-        super(myTown);
-        mSize.set(2, 2);
+    public Mine() {
+        mSize = new Vector2(2, 2);
+    }
 
-        mResourceClass = IronOre.class;
+    @Override
+    public void initItem(ResourceBuildingItem item) {
+        item.getSize().set(mSize.x, mSize.y);
+        item.setResourceClass(IronOre.class);
     }
 
 }

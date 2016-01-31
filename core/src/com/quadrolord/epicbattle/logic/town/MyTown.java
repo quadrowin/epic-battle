@@ -4,9 +4,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.quadrolord.epicbattle.logic.Game;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
-import com.quadrolord.epicbattle.logic.town.building.entity.Mine;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.ResourceBuildingItem;
 import com.quadrolord.epicbattle.logic.town.resource.Resource;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
@@ -29,13 +28,13 @@ public class MyTown {
     private ArrayMap<Class<? extends Resource>, Float> mResourceCount = new ArrayMap<Class<? extends Resource>, Float>();
     private BuildingInfoManager mBuildingInfoManager;
 
+    private TownListener mListener;
+
     private float mTime = 0;
 
     public MyTown(Game game) {
         mGame = game;
         mBuildingInfoManager = new BuildingInfoManager();
-
-        mBuildings.add(new Mine(this));
     }
 
     public void act(float delta) {
@@ -49,7 +48,7 @@ public class MyTown {
     }
 
     public float getYieldDelta(ResourceBuildingItem building) {
-        return Math.max(0, ((ResourceBuildingItem)building).getInfo().getYieldTime() - building.getLastYield());
+        return Math.max(0, building.getInfo().getYieldTime() - building.getLastYield());
     }
 
     public BuildingInfoManager getBuildingInfoManager() {
@@ -110,8 +109,8 @@ public class MyTown {
         return mLevel >= level;
     }
 
-    public boolean hasResources(AbstractBuildingItem building) {
-        Iterator<ObjectMap.Entry<Class<? extends Resource>, Integer>> iter = building.getInfo().getRequiredResources().iterator();
+    public boolean hasResources(AbstractBuildingEntity building) {
+        Iterator<ObjectMap.Entry<Class<? extends Resource>, Integer>> iter = building.getRequiredResources().iterator();
 
         while (iter.hasNext()) {
             ObjectMap.Entry<Class<? extends Resource>, Integer> next = iter.next();
@@ -126,10 +125,14 @@ public class MyTown {
         return true;
     }
 
-    public boolean canBuild(AbstractBuildingItem building, int col, int row) {
-        for (int i = col; i < col + building.getWidth(); i++) {
-            for (int j = row; j < row + building.getHeight(); j++) {
-                if (mMap[i] == null || mMap[i][j] == null || !mMap[i][j].isFree()) {
+    public boolean canBuild(AbstractBuildingEntity entity, int col, int row) {
+        for (int i = col; i < col + entity.getSize().x; i++) {
+            for (int j = row; j < row + entity.getSize().y; j++) {
+                if (
+                        i >= mMap.length || j >= mMap[i].length
+                        || mMap[i] == null || mMap[i][j] == null
+                        || !mMap[i][j].isFree()
+                ) {
                     return false;
                 }
             }
@@ -138,34 +141,64 @@ public class MyTown {
         return true;
     }
 
-    public boolean build(AbstractBuildingItem building, int col, int row, boolean isRorated, boolean isByGems) {
-        if (isRorated && !building.isRotated()) {
-            building.rotate();
+    public AbstractBuildingItem build(AbstractBuildingEntity entity, int col, int row, boolean isRotated, boolean isByGems) {
+        boolean hasResources = isByGems ? hasGems(entity.getCostGem()) : hasResources(entity);
+        if (!hasResources) {
+            mListener.onUserActionFail(TownListener.BuildingAction.CREATE_NO_RESOURCES);
+            return null;
         }
 
-        boolean hasResources = isByGems ? hasGems(building.getInfo().getCostGem()) : hasResources(building);
+        if (!hasLevel(entity.getRequiredLevel())) {
+            mListener.onUserActionFail(TownListener.BuildingAction.CREATE_NO_LEVEL);
+            return null;
+        }
 
-        if (hasResources && hasLevel(building.getInfo().getRequiredLevel()) && canBuild(building, col, row)) {
-            building.setX(col);
-            building.setY(row);
+        if (!canBuild(entity, col, row)) {
+            mListener.onUserActionFail(TownListener.BuildingAction.CREATE_NO_PLACE);
+//            return null;
+        }
 
-            mBuildings.add(building);
-            takeAwayResources(building);
+        takeAwayResources(entity);
 
-            for (int i = col; i < col + building.getWidth(); i++) {
-                for (int j = row; j < row + building.getHeight(); j++) {
-                    mMap[i][j].markAsBusy();
-                }
+        AbstractBuildingItem item;
+        try {
+            item = (AbstractBuildingItem)entity.getItemClass().newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        entity.initItem(item);
+        item.setSize(2, 2);
+        item.setX(col);
+        item.setY(row);
+
+        if (isRotated && !item.isRotated()) {
+            item.rotate();
+        }
+
+        mBuildings.add(item);
+
+        for (int i = col; i < col + item.getWidth(); i++) {
+            for (int j = row; j < row + item.getHeight(); j++) {
+//                mMap[i][j].markAsBusy();
             }
-
-            return true;
         }
 
-        return false;
+        mListener.onBuildingAdd(item);
+        return item;
     }
 
-    public void takeAwayResources(AbstractBuildingItem building) {
-        Iterator<ObjectMap.Entry<Class<? extends Resource>, Integer>> iter = building.getInfo().getRequiredResources().iterator();
+    public void setListener(TownListener listener) {
+        mListener = listener;
+    }
+
+    /**
+     * Забор ресурсов за постройку
+     * @param entity
+     */
+    public void takeAwayResources(AbstractBuildingEntity entity) {
+        Iterator<ObjectMap.Entry<Class<? extends Resource>, Integer>> iter = entity.getRequiredResources().iterator();
 
         while (iter.hasNext()) {
             ObjectMap.Entry<Class<? extends Resource>, Integer> next = iter.next();
@@ -181,16 +214,36 @@ public class MyTown {
 
     public void levelUp(AbstractBuildingItem building, boolean isByGems) {
         AbstractBuildingEntity info = building.getInfo();
-        boolean hasResources = isByGems ? hasGems(info.getCostGem()) : hasResources(building);
+        boolean hasResources = isByGems ? hasGems(info.getCostGem()) : hasResources(info);
 
-        if (hasResources && !building.isInUpdating() && hasLevel(info.getRequiredLevel()) && building.canLevelUp()) {
-            takeAwayResources(building);
-            building.levelUp();
+        if (!hasResources) {
+            mListener.onUserActionFail(TownListener.BuildingAction.LEVEL_NO_RESOURCES);
+            return;
         }
+
+        if (building.isInUpdating()) {
+            mListener.onUserActionFail(TownListener.BuildingAction.LEVEL_IN_UPDATING);
+            return;
+        }
+
+        if (!hasLevel(info.getRequiredLevel())) {
+            mListener.onUserActionFail(TownListener.BuildingAction.LEVEL_BAD_USER_LEVEL);
+            return;
+        }
+
+        if (!building.canLevelUp()) {
+            mListener.onUserActionFail(TownListener.BuildingAction.LEVEL_ALREADY_MAX);
+            return;
+        }
+
+        takeAwayResources(info);
+        building.levelUp();
+        mListener.onBuildingChange(building);
     }
 
     public void demolish(AbstractBuildingItem building) {
         mBuildings.removeValue(building, true);
+        mListener.onBuildingRemove(building);
     }
 
     public void setLevel(int level) {
