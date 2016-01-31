@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -18,6 +19,8 @@ import com.quadrolord.epicbattle.screen.AbstractScreen;
  * Created by Quadrowin on 24.01.2016.
  */
 public class MapGrid extends Group {
+
+    private boolean mDebugGrid = true;
 
     private Texture mWhiteTexture;
 
@@ -82,6 +85,7 @@ public class MapGrid extends Group {
 
     private void drawGrid(Batch batch) {
 
+        Vector2 zero = getCellXY(0, 0);
         float maxX = mMapSizeX * mCellSideX;
         float maxY = mMapSizeY * mCellSideY;
         float minY = 0;
@@ -204,20 +208,32 @@ public class MapGrid extends Group {
 
         mSr.end();
 
-        
-//        mSr.setColor(Color.BLUE);
-//        mSr.begin(ShapeRenderer.ShapeType.Line);
-//
-//        mSr.polyline(new float[] {
-//                -mCellSideX / 2, -mCellSideY / 2,
-//                -mCellSideX / 2, +mCellSideY / 2,
-//                +mCellSideX / 2, +mCellSideY / 2,
-//                +mCellSideX / 2, -mCellSideY / 2,
-//                -mCellSideX / 2, -mCellSideY / 2,
-//        });
-//
-//        mSr.end();
+        if (mDebugGrid) {
+            mSr.setColor(Color.BLUE);
+            mSr.begin(ShapeRenderer.ShapeType.Line);
 
+            mSr.polyline(new float[] {
+                    zero.x, zero.y,
+                    zero.x, zero.y + mMapSizeY * mCellSideY,
+                    zero.x + mMapSizeX * mCellSideX, zero.y + mMapSizeY * mCellSideY,
+                    zero.x + mMapSizeX * mCellSideX, zero.y,
+                    zero.x, zero.y,
+            });
+            for (int col = 1; col < mMapSizeX; col++) {
+                mSr.line(
+                        zero.x + col * mCellSideX, zero.y,
+                        zero.x + col * mCellSideX, zero.y + mMapSizeY * mCellSideY
+                );
+            }
+            for (int row = 1; row < mMapSizeY; row++) {
+                mSr.line(
+                        zero.x, zero.y + row * mCellSideY,
+                        zero.x + mMapSizeX * mCellSideX, zero.y + row * mCellSideY
+                );
+            }
+
+            mSr.end();
+        }
 
         batch.begin();
     }
@@ -230,7 +246,16 @@ public class MapGrid extends Group {
         return mCellSideY;
     }
 
+    public void setDebugGrid(boolean debug) {
+        mDebugGrid = debug;
+    }
+
     public void setChildPosition(Actor child, int col, int row) {
+        Vector2 v = getCellXY(col, row);
+        child.setPosition(v.x, v.y);
+    }
+
+    public Vector2 getCellXY(int col, int row) {
 //        // orthogonal
 //        child.setPosition(
 //                col * mCellSide,
@@ -242,9 +267,9 @@ public class MapGrid extends Group {
         // x, y - координаты ячейки
         // Xis = (x - y) * Cx
         // Yis = (x + y + 0.5) * Cy
-        child.setPosition(
+        return new Vector2(
                 (col - row) * mCellSideX / 2,
-                (col + row + 0.5f) * mCellSideY / 2
+                (col + row) * mCellSideY / 2 + 0.5f * mCellSideY
 //                (col + row) * mCellSideY / 2
         );
     }

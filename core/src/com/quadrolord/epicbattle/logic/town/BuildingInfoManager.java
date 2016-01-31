@@ -1,67 +1,34 @@
 package com.quadrolord.epicbattle.logic.town;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.ArrayMap;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
-import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuilding;
-import com.quadrolord.epicbattle.logic.town.building.BuildingInfo;
-import com.quadrolord.epicbattle.logic.town.building.loader.AbstractLoader;
+import com.quadrolord.epicbattle.logic.configurable.EntityManager;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
+import com.quadrolord.epicbattle.logic.town.building.loader.ConstructionTime;
+import com.quadrolord.epicbattle.logic.town.building.loader.GemCost;
+import com.quadrolord.epicbattle.logic.town.building.loader.Icon;
+import com.quadrolord.epicbattle.logic.town.building.loader.LevelUps;
+import com.quadrolord.epicbattle.logic.town.building.loader.RequiredLevel;
+import com.quadrolord.epicbattle.logic.town.building.loader.RequiredResources;
+import com.quadrolord.epicbattle.logic.town.building.loader.Size;
 
 /**
  * Created by morph on 23.01.2016.
  */
-public class BuildingInfoManager {
-    private JsonReader mReader;
-    private ArrayMap<Class<? extends BuildingInfo>, ArrayMap<String, AbstractLoader>> mLoaders;
+public class BuildingInfoManager extends EntityManager<AbstractBuildingEntity> {
 
     public BuildingInfoManager() {
-        mReader = new JsonReader();
-        mLoaders = new ArrayMap<Class<? extends BuildingInfo>, ArrayMap<String, AbstractLoader>>();
+        super(AbstractBuildingEntity.class);
+
+        mLoaders.put("construction_time", new ConstructionTime());
+        mLoaders.put("cost_gem", new GemCost());
+        mLoaders.put("icon", new Icon());
+        mLoaders.put("required_level", new RequiredLevel());
+        mLoaders.put("size", new Size());
+        mLoaders.put("level_ups", new LevelUps());
+        mLoaders.put("required_resources", new RequiredResources());
     }
 
-    public BuildingInfo getBuildingInfo(Class<? extends AbstractBuilding> buildingClass, Class<? extends BuildingInfo> infoClass) {
-        BuildingInfo info;
-
-        try {
-            info = infoClass.newInstance();
-        } catch (Exception e) {
-            info = new BuildingInfo();
-        }
-
-        if (!mLoaders.containsKey(info.getClass())) {
-            mLoaders.put(info.getClass(), info.getJsonLoaders());
-        }
-
-        ArrayMap<String, AbstractLoader> loaders = mLoaders.get(info.getClass());
-
-        String fileName = "config/buildings/" + buildingClass.getSimpleName() + ".json";
-        info.setBuildingClass(buildingClass);
-        JsonValue json;
-
-        Gdx.app.log("buildings", "Loaded building config: " + fileName);
-
-        try {
-            json = mReader.parse(Gdx.files.internal(fileName));
-        } catch (Exception e) {
-            throw new RuntimeException("Cannot found config file: " + fileName);
-        }
-
-        if (!json.has("title")) {
-            throw new RuntimeException("Empty building name");
-        }
-
-        for (JsonValue.JsonIterator it = json.iterator(); it.hasNext(); ) {
-            JsonValue val = it.next();
-            String name = val.name();
-            if (loaders.containsKey(name)) {
-                loaders.get(name).assign(info, val);
-            } else {
-                Gdx.app.log(BuildingInfoManager.class.getName(), "Unknown param in " + buildingClass.getName() + ": " + name);
-            }
-        }
-
-        return info;
+    @Override
+    public String getConfigDir() {
+        return "config/buildings";
     }
 }

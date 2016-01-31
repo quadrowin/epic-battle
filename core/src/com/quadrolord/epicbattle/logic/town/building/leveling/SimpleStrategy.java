@@ -1,6 +1,6 @@
 package com.quadrolord.epicbattle.logic.town.building.leveling;
 
-import com.quadrolord.epicbattle.logic.town.building.BuildingInfo;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 
 /**
  * Created by morph on 23.01.2016.
@@ -8,9 +8,9 @@ import com.quadrolord.epicbattle.logic.town.building.BuildingInfo;
 public class SimpleStrategy extends AbstractStrategy {
 
     @Override
-    public void setLevel(BuildingInfo info, int level) {
+    public void setLevel(AbstractBuildingEntity info, int level) {
         for (int i = 2; i <= level; i++) {
-            BuildingInfo newInfo = info.getLevelUps().get(i - 2);
+            AbstractBuildingEntity newInfo = info.getLevelUps().get(i - 2);
 
             if (newInfo == null) {
                 continue;
@@ -20,7 +20,7 @@ public class SimpleStrategy extends AbstractStrategy {
         }
     }
 
-    protected void apply(BuildingInfo info, BuildingInfo newInfo) {
+    protected void apply(AbstractBuildingEntity info, AbstractBuildingEntity newInfo) {
         if (newInfo.getTitle() != "") {
             info.setTitle(newInfo.getTitle());
         }

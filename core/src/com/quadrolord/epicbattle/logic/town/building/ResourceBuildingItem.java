@@ -1,30 +1,21 @@
 package com.quadrolord.epicbattle.logic.town.building;
 
 import com.quadrolord.epicbattle.logic.town.MyTown;
-import com.quadrolord.epicbattle.logic.town.building.leveling.ResourceBuildingStrategy;
 import com.quadrolord.epicbattle.logic.town.resource.Resource;
 
 /**
  * Created by morph on 17.01.2016.
  */
-public abstract class ResourceBuilding extends AbstractBuilding {
+public abstract class ResourceBuildingItem extends AbstractBuildingItem<ResourceBuildingEntity> {
+
     protected Class<? extends Resource> mResourceClass;
 
     protected float mLastYield = 0;
+
     protected float mYieldCount = 0;
 
-    public ResourceBuilding(MyTown town) {
+    public ResourceBuildingItem(MyTown town) {
         super(town);
-    }
-
-    @Override
-    public void initInfo() {
-        mInfo = mTown.getBuildingInfoManager().getBuildingInfo(getClass(), ResourceBuildingInfo.class);
-        mInfo.setLevelingStrategy(new ResourceBuildingStrategy());
-    }
-
-    public ResourceBuildingInfo getInfo() {
-        return (ResourceBuildingInfo)mInfo;
     }
 
     public Class<? extends Resource> getResourceClass() {
@@ -46,4 +37,5 @@ public abstract class ResourceBuilding extends AbstractBuilding {
     public void setYieldCount(float count) {
         mYieldCount = count;
     }
+
 }

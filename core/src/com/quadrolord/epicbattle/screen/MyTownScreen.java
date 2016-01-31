@@ -19,8 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.town.MyTown;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuilding;
-import com.quadrolord.epicbattle.logic.town.building.Mine;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.entity.Mine;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
 import com.quadrolord.epicbattle.view.town.building.BuildingView;
 import com.quadrolord.epicbattle.view.town.building.LeftHandTempleView;
@@ -92,8 +92,8 @@ public class MyTownScreen extends AbstractScreen {
 
         }
 
-        for (Iterator<AbstractBuilding> it = mTown.getBuildings().iterator(); it.hasNext(); ) {
-            AbstractBuilding bld = it.next();
+        for (Iterator<AbstractBuildingItem> it = mTown.getBuildings().iterator(); it.hasNext(); ) {
+            AbstractBuildingItem bld = it.next();
             new BuildingView(this, mMap, bld);
         }
 

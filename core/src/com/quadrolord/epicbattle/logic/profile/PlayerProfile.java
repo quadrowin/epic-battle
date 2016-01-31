@@ -2,7 +2,7 @@ package com.quadrolord.epicbattle.logic.profile;
 
 import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.skill.AbstractSkill;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuilding;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 
 import java.util.Iterator;
 
@@ -46,14 +46,14 @@ public class PlayerProfile {
         return buildings;
     }
 
-    public ProfileBuilding addBuilding(Class<? extends AbstractBuilding> buildingClass) {
+    public ProfileBuilding addBuilding(Class<? extends AbstractBuildingItem> buildingClass) {
         ProfileBuilding building = new ProfileBuilding();
         building.setBuildingClass(buildingClass);
         buildings.add(building);
         return building;
     }
 
-    public ProfileBuilding addBuildingSafe(Class<? extends AbstractBuilding> buildingClass) {
+    public ProfileBuilding addBuildingSafe(Class<? extends AbstractBuildingItem> buildingClass) {
         if (hasBullet(buildingClass)) {
             return null;
         }
@@ -79,7 +79,7 @@ public class PlayerProfile {
         return experienceTotal;
     }
 
-    public boolean hasBullet(Class<? extends AbstractBuilding> buildingClass) {
+    public boolean hasBullet(Class<? extends AbstractBuildingItem> buildingClass) {
         String bulletClassName = buildingClass.getName();
         for (Iterator<ProfileBuilding> it = buildings.iterator(); it.hasNext(); ) {
             ProfileBuilding pb = it.next();

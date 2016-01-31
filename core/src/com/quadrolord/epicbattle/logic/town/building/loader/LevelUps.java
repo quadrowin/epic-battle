@@ -3,25 +3,25 @@ package com.quadrolord.epicbattle.logic.town.building.loader;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.JsonValue;
-import com.quadrolord.epicbattle.logic.town.building.BuildingInfo;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 
 /**
  * Created by morph on 24.01.2016.
  */
 public class LevelUps extends AbstractLoader {
     @Override
-    public void assign(BuildingInfo info, JsonValue data) {
-        Array<BuildingInfo> levelUps = new Array<BuildingInfo>();
+    public void assign(AbstractBuildingEntity info, JsonValue data) {
+        Array<AbstractBuildingEntity> levelUps = new Array<AbstractBuildingEntity>();
         JsonValue levelingJson = data;
         ArrayMap<String, AbstractLoader> loaders = info.getJsonLoaders();
 
         for (JsonValue levelJson : levelingJson.iterator()) {
-            BuildingInfo newInfo;
+            AbstractBuildingEntity newInfo = null;
 
             try {
                 newInfo = info.getClass().newInstance();
             } catch (Exception e) {
-                newInfo = new BuildingInfo();
+                e.printStackTrace();
             }
 
             for (JsonValue.JsonIterator it = levelJson.iterator(); it.hasNext(); ) {

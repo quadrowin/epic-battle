@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuilding;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.HintScreen;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
@@ -14,7 +14,7 @@ import com.quadrolord.epicbattle.screen.town.MapGrid;
  */
 public class LeftHandTempleView extends BuildingView {
 
-    public LeftHandTempleView(final AbstractScreen screen, MapGrid map, AbstractBuilding building) {
+    public LeftHandTempleView(final AbstractScreen screen, MapGrid map, AbstractBuildingItem building) {
         super(screen, map, building);
         setBuildingTexture(new Texture("town/left-hand-tower.png"));
 
@@ -35,7 +35,7 @@ public class LeftHandTempleView extends BuildingView {
         float csy = getMap().getCellSideY();
         batch.draw(
                 getBuildingTexture(),
-                -csx / 2, -csy / 2, csx * getBuilding().getSize().x / 2, csy * getBuilding().getSize().y,
+                0, 0, csx * getBuilding().getSize().x, csy * getBuilding().getSize().y * 2,
                 0f, 1f, 1f, 0f
         );
     }

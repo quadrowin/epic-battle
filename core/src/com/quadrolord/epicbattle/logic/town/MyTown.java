@@ -4,10 +4,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.quadrolord.epicbattle.logic.Game;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuilding;
-import com.quadrolord.epicbattle.logic.town.building.BuildingInfo;
-import com.quadrolord.epicbattle.logic.town.building.Mine;
-import com.quadrolord.epicbattle.logic.town.building.ResourceBuilding;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
+import com.quadrolord.epicbattle.logic.town.building.entity.Mine;
+import com.quadrolord.epicbattle.logic.town.building.ResourceBuildingItem;
 import com.quadrolord.epicbattle.logic.town.resource.Resource;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
 
@@ -20,7 +20,7 @@ public class MyTown {
 
     private Game mGame;
 
-    private Array<AbstractBuilding> mBuildings = new Array<AbstractBuilding>();
+    private Array<AbstractBuildingItem> mBuildings = new Array<AbstractBuildingItem>();
     private Tile[][] mMap = new Tile[][]{};
 
     private int mLevel = 1;
@@ -44,12 +44,12 @@ public class MyTown {
         yieldResources(delta);
     }
 
-    public Array<AbstractBuilding> getBuildings() {
+    public Array<AbstractBuildingItem> getBuildings() {
         return mBuildings;
     }
 
-    public float getYieldDelta(ResourceBuilding building) {
-        return Math.max(0, ((ResourceBuilding)building).getInfo().getYieldTime() - building.getLastYield());
+    public float getYieldDelta(ResourceBuildingItem building) {
+        return Math.max(0, ((ResourceBuildingItem)building).getInfo().getYieldTime() - building.getLastYield());
     }
 
     public BuildingInfoManager getBuildingInfoManager() {
@@ -57,12 +57,12 @@ public class MyTown {
     }
 
     public void yieldResources(float delta) {
-        for (AbstractBuilding building : mBuildings) {
-            if (!(building instanceof ResourceBuilding)) {
+        for (AbstractBuildingItem building : mBuildings) {
+            if (!(building instanceof ResourceBuildingItem)) {
                 continue;
             }
 
-            ResourceBuilding resourceBuilding = (ResourceBuilding)building;
+            ResourceBuildingItem resourceBuilding = (ResourceBuildingItem)building;
 
             if (getYieldDelta(resourceBuilding) < 0.00001f) {
                 float count = resourceBuilding.getYieldCount();
@@ -82,7 +82,7 @@ public class MyTown {
         }
     }
 
-    public boolean takeResources(ResourceBuilding building) {
+    public boolean takeResources(ResourceBuildingItem building) {
         if (building.getYieldCount() >= 1) {
             float count = 0;
             Class<? extends Resource> resource = building.getResourceClass();
@@ -110,7 +110,7 @@ public class MyTown {
         return mLevel >= level;
     }
 
-    public boolean hasResources(AbstractBuilding building) {
+    public boolean hasResources(AbstractBuildingItem building) {
         Iterator<ObjectMap.Entry<Class<? extends Resource>, Integer>> iter = building.getInfo().getRequiredResources().iterator();
 
         while (iter.hasNext()) {
@@ -126,7 +126,7 @@ public class MyTown {
         return true;
     }
 
-    public boolean canBuild(AbstractBuilding building, int col, int row) {
+    public boolean canBuild(AbstractBuildingItem building, int col, int row) {
         for (int i = col; i < col + building.getWidth(); i++) {
             for (int j = row; j < row + building.getHeight(); j++) {
                 if (mMap[i] == null || mMap[i][j] == null || !mMap[i][j].isFree()) {
@@ -138,7 +138,7 @@ public class MyTown {
         return true;
     }
 
-    public boolean build(AbstractBuilding building, int col, int row, boolean isRorated, boolean isByGems) {
+    public boolean build(AbstractBuildingItem building, int col, int row, boolean isRorated, boolean isByGems) {
         if (isRorated && !building.isRotated()) {
             building.rotate();
         }
@@ -164,7 +164,7 @@ public class MyTown {
         return false;
     }
 
-    public void takeAwayResources(AbstractBuilding building) {
+    public void takeAwayResources(AbstractBuildingItem building) {
         Iterator<ObjectMap.Entry<Class<? extends Resource>, Integer>> iter = building.getInfo().getRequiredResources().iterator();
 
         while (iter.hasNext()) {
@@ -179,8 +179,8 @@ public class MyTown {
         }
     }
 
-    public void levelUp(AbstractBuilding building, boolean isByGems) {
-        BuildingInfo info = building.getInfo();
+    public void levelUp(AbstractBuildingItem building, boolean isByGems) {
+        AbstractBuildingEntity info = building.getInfo();
         boolean hasResources = isByGems ? hasGems(info.getCostGem()) : hasResources(building);
 
         if (hasResources && !building.isInUpdating() && hasLevel(info.getRequiredLevel()) && building.canLevelUp()) {
@@ -189,7 +189,7 @@ public class MyTown {
         }
     }
 
-    public void demolish(AbstractBuilding building) {
+    public void demolish(AbstractBuildingItem building) {
         mBuildings.removeValue(building, true);
     }
 

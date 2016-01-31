@@ -1,35 +1,34 @@
 package com.quadrolord.epicbattle.logic.town.building;
 
 import com.badlogic.gdx.math.Vector2;
+import com.quadrolord.epicbattle.logic.configurable.AbstractItem;
 import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.view.town.building.BuildingView;
 
 /**
  * Created by morph on 17.01.2016.
  */
-public abstract class AbstractBuilding {
+public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> extends AbstractItem<T> {
+
     protected Vector2 mPosition = new Vector2(0, 0);
     protected Vector2 mSize = new Vector2(50, 50);
     protected boolean mIsRotated = false;
     protected int mLevel = 1;
 
     protected BuildingView mView;
-    protected BuildingInfo mInfo;
 
     protected MyTown mTown;
     protected boolean mIsInUpdating = false;
 
     protected float mRemainingUpdatingTime = 0;
 
-    public AbstractBuilding(MyTown town) {
+    public AbstractBuildingItem(MyTown town) {
         mTown = town;
     }
 
     public MyTown getTown() {
         return mTown;
     }
-
-    public abstract void initInfo();
 
     public Vector2 getPosition() {
         return mPosition;
@@ -41,6 +40,10 @@ public abstract class AbstractBuilding {
 
     public void setPosition(Vector2 position) {
         mPosition = position;
+    }
+
+    public T getInfo() {
+        return (T)super.getInfo();
     }
 
     public int getX() {
@@ -101,14 +104,6 @@ public abstract class AbstractBuilding {
 
     public BuildingView getView() {
         return mView;
-    }
-
-    public BuildingInfo getInfo() {
-        return mInfo;
-    }
-
-    public void setInfo(BuildingInfo info) {
-        mInfo = info;
     }
 
     public boolean canLevelUp() {

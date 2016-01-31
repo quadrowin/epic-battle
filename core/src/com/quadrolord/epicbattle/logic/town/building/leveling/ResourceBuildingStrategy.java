@@ -1,18 +1,18 @@
 package com.quadrolord.epicbattle.logic.town.building.leveling;
 
-import com.quadrolord.epicbattle.logic.town.building.BuildingInfo;
-import com.quadrolord.epicbattle.logic.town.building.ResourceBuildingInfo;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
+import com.quadrolord.epicbattle.logic.town.building.ResourceBuildingEntity;
 
 /**
  * Created by morph on 24.01.2016.
  */
 public class ResourceBuildingStrategy extends SimpleStrategy {
     @Override
-    protected void apply(BuildingInfo info, BuildingInfo newInfo) {
+    protected void apply(AbstractBuildingEntity info, AbstractBuildingEntity newInfo) {
         super.apply(info, newInfo);
 
-        if (((ResourceBuildingInfo)newInfo).getYieldTime() != 0) {
-            ((ResourceBuildingInfo)info).setYieldTime(((ResourceBuildingInfo)newInfo).getYieldTime());
+        if (((ResourceBuildingEntity)newInfo).getYieldTime() != 0) {
+            ((ResourceBuildingEntity)info).setYieldTime(((ResourceBuildingEntity)newInfo).getYieldTime());
         }
     }
 }

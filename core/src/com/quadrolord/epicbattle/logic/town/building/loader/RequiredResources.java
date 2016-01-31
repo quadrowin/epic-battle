@@ -2,7 +2,7 @@ package com.quadrolord.epicbattle.logic.town.building.loader;
 
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.JsonValue;
-import com.quadrolord.epicbattle.logic.town.building.BuildingInfo;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.resource.Resource;
 
 /**
@@ -10,7 +10,7 @@ import com.quadrolord.epicbattle.logic.town.resource.Resource;
  */
 public class RequiredResources extends AbstractLoader {
     @Override
-    public void assign(BuildingInfo info, JsonValue data) {
+    public void assign(AbstractBuildingEntity info, JsonValue data) {
         Class<? extends Resource> className;
 
         ArrayMap<Class<? extends Resource>, Integer> resources = new ArrayMap<Class<? extends Resource>, Integer>();

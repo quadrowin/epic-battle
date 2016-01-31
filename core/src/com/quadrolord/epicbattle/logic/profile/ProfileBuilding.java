@@ -1,6 +1,6 @@
 package com.quadrolord.epicbattle.logic.profile;
 
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuilding;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 
 /**
  * Здания на ферме игрока
@@ -19,7 +19,7 @@ public class ProfileBuilding {
         return level;
     }
 
-    public void setBuildingClass(Class<? extends AbstractBuilding> buildingClass) {
+    public void setBuildingClass(Class<? extends AbstractBuildingItem> buildingClass) {
         building = buildingClass.getName();
     }
 
