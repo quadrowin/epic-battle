@@ -8,6 +8,7 @@ import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.ResourceBuildingItem;
 import com.quadrolord.epicbattle.logic.town.resource.Resource;
+import com.quadrolord.epicbattle.logic.town.resource.ResourceItem;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
 
 import java.util.Iterator;
@@ -25,7 +26,7 @@ public class MyTown {
     private int mLevel = 1;
     private int mGemsCount = 1;
 
-    private ArrayMap<Class<? extends Resource>, Float> mResourceCount = new ArrayMap<Class<? extends Resource>, Float>();
+    private ArrayMap<Class<? extends Resource>, ResourceItem> mResources = new ArrayMap<Class<? extends Resource>, ResourceItem>();
     private BuildingInfoManager mBuildingInfoManager;
 
     private TownListener mListener;
@@ -83,17 +84,16 @@ public class MyTown {
 
     public boolean takeResources(ResourceBuildingItem building) {
         if (building.getYieldCount() >= 1) {
-            float count = 0;
-            Class<? extends Resource> resource = building.getResourceClass();
 
-            if (mResourceCount.containsKey(resource)) {
-                count = mResourceCount.get(resource);
-            }
+            Class<? extends Resource> resource = building.getResourceClass();
+            ResourceItem res = getResource(resource);
+            float count = res.getValue();
 
             count += building.getYieldCount();
 
             building.setYieldCount(0.0f);
-            mResourceCount.put(resource, count);
+
+            res.setValue(count);
 
             return true;
         }
@@ -117,7 +117,7 @@ public class MyTown {
             Class<? extends Resource> resourceClass = next.key;
             int cost = next.value;
 
-            if (!mResourceCount.containsKey(resourceClass) || mResourceCount.get(resourceClass) < cost) {
+            if (!mResources.containsKey(resourceClass) || mResources.get(resourceClass).getValue() < cost) {
                 return false;
             }
         }
@@ -193,6 +193,26 @@ public class MyTown {
         return item;
     }
 
+    public ResourceItem getResource(Class<? extends Resource> resourceClass) {
+        if (!mResources.containsKey(resourceClass)) {
+            ResourceItem resource = new ResourceItem();
+
+            Resource info;
+            try {
+                info = resourceClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+
+            resource.setInfo(info);
+
+            mResources.put(resourceClass, resource);
+            return resource;
+        }
+        return mResources.get(resourceClass);
+    }
+
     public void setListener(TownListener listener) {
         mListener = listener;
     }
@@ -209,9 +229,10 @@ public class MyTown {
             Class<? extends Resource> resourceClass = next.key;
             int cost = next.value;
 
-            if (mResourceCount.containsKey(resourceClass)) {
-                float oldValue = mResourceCount.get(resourceClass);
-                mResourceCount.put(resourceClass, oldValue - cost);
+            if (mResources.containsKey(resourceClass)) {
+                ResourceItem res = mResources.get(resourceClass);
+                float oldValue = res.getValue();
+                res.setValue(oldValue - cost);
             }
         }
     }

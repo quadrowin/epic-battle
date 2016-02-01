@@ -5,27 +5,26 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.logic.town.TownListener;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.entity.DoodleShop;
 import com.quadrolord.epicbattle.logic.town.building.entity.LeftHandTemple;
 import com.quadrolord.epicbattle.logic.town.building.entity.Mine;
 import com.quadrolord.epicbattle.logic.town.building.entity.RightLegTemple;
+import com.quadrolord.epicbattle.logic.town.building.entity.SheepFarm;
+import com.quadrolord.epicbattle.logic.town.resource.IronOre;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
 import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
+import com.quadrolord.epicbattle.view.town.resource.IronOreLabel;
 
 /**
  * Created by Quadrowin on 16.01.2016.
@@ -57,7 +56,7 @@ public class MyTownScreen extends AbstractScreen {
         mTown = new MyTown(mGame);
 
         TextButton btnToCampaignSelect = new TextButton("Select campaign", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnToCampaignSelect.setBounds(10, 240, 180, 50);
+        btnToCampaignSelect.setBounds(10, 240, 150, 50);
         mStage.addActor(btnToCampaignSelect);
         btnToCampaignSelect.addListener(new ClickListener() {
 
@@ -68,16 +67,48 @@ public class MyTownScreen extends AbstractScreen {
 
         });
 
-        TextButton btnBuildSomething = new TextButton("Build something", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnBuildSomething.setBounds(200, 240, 180, 50);
-        mStage.addActor(btnBuildSomething);
-        btnBuildSomething.addListener(new ClickListener() {
+        TextButton btnBuild1 = new TextButton("Build M", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
+        btnBuild1.setBounds(190, 240, 65, 50);
+        mStage.addActor(btnBuild1);
+        btnBuild1.addListener(new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 mTown.build(
                         Mine.class,
-                        2 + mTown.getBuildings().size * 2, 2,
+                        mTown.getBuildings().size * 2, 2,
+                        false, false
+                );
+            }
+
+        });
+
+        TextButton btnBuild2 = new TextButton("Build D", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
+        btnBuild2.setBounds(260, 240, 65, 50);
+        mStage.addActor(btnBuild2);
+        btnBuild2.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mTown.build(
+                        DoodleShop.class,
+                        mTown.getBuildings().size * 2, 2,
+                        false, false
+                );
+            }
+
+        });
+
+        TextButton btnBuild3 = new TextButton("Build S", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
+        btnBuild3.setBounds(330, 240, 65, 50);
+        mStage.addActor(btnBuild3);
+        btnBuild3.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mTown.build(
+                        SheepFarm.class,
+                        mTown.getBuildings().size * 2, 2,
                         false, false
                 );
             }
@@ -87,26 +118,7 @@ public class MyTownScreen extends AbstractScreen {
         mMap = new MapGrid(this, mTown, mMapStage);
         final AbstractScreen screen = this;
 
-        {
 
-
-            Texture txLeftHand = new Texture("town/left-hand-tower.png");
-
-            Drawable drRightHand = new TextureRegionDrawable(new TextureRegion(txLeftHand, 1, 0, 0.1f, 1));
-            final ImageButton ibRight = new ImageButton(drRightHand);
-            ibRight.setBounds(200, 150 - 30, 30, 60);
-            mMap.addActor(ibRight);
-            ibRight.addListener(new ClickListener() {
-
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    HintScreen hs = new HintScreen(screen, ibRight.getX(), ibRight.getY(), "It's your right hand");
-                    mAdapter.switchToScreen(hs, false);
-                }
-
-            });
-
-        }
 
         mStage.addListener(new EventListener() {
 
@@ -177,6 +189,12 @@ public class MyTownScreen extends AbstractScreen {
                 6, -1, false, false
         );
 
+        new IronOreLabel(
+                mTown.getResource(IronOre.class),
+                mSkin,
+                mStage
+        );
+
         mMultiplexer = new InputMultiplexer(mStage, mMapStage);
     }
 
@@ -206,6 +224,10 @@ public class MyTownScreen extends AbstractScreen {
 
     @Override
     public void update(float delta) {
+        mTown.getResource(IronOre.class).setValue(
+                mTown.getResource(IronOre.class).getValue() + delta
+        );
+
         float dx = delta * 100;
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
