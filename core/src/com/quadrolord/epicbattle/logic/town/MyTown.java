@@ -40,8 +40,6 @@ public class MyTown {
 
     public void act(float delta) {
         mTime += delta;
-
-        yieldResources(delta);
     }
 
     public Array<AbstractBuildingItem> getBuildings() {
@@ -54,51 +52,6 @@ public class MyTown {
 
     public BuildingInfoManager getBuildingInfoManager() {
         return mBuildingInfoManager;
-    }
-
-    public void yieldResources(float delta) {
-        for (AbstractBuildingItem building : mBuildings) {
-            if (!(building instanceof ResourceBuildingItem)) {
-                continue;
-            }
-
-            ResourceBuildingItem resourceBuilding = (ResourceBuildingItem)building;
-
-            if (getYieldDelta(resourceBuilding) < 0.00001f) {
-                float count = resourceBuilding.getYieldCount();
-                float yieldTime = resourceBuilding.getInfo().getYieldTime();
-
-                if (delta < yieldTime) {
-                    count += 1;
-                } else {
-                    count += delta / yieldTime;
-                }
-
-                resourceBuilding.setLastYield(0.0f);
-                resourceBuilding.setYieldCount(count);
-            } else {
-                resourceBuilding.setLastYield(resourceBuilding.getLastYield() + delta);
-            }
-        }
-    }
-
-    public boolean takeResources(ResourceBuildingItem building) {
-        if (building.getYieldCount() >= 1) {
-
-            Class<? extends Resource> resource = building.getResourceClass();
-            ResourceItem res = getResource(resource);
-            float count = res.getValue();
-
-            count += building.getYieldCount();
-
-            building.setYieldCount(0.0f);
-
-            res.setValue(count);
-
-            return true;
-        }
-
-        return false;
     }
 
     public boolean hasGems(int gemsCount) {
@@ -166,7 +119,7 @@ public class MyTown {
 
         AbstractBuildingItem item;
         try {
-            item = (AbstractBuildingItem)entity.getItemClass().newInstance();
+            item = (AbstractBuildingItem)entity.getItemClass().getConstructor(MyTown.class).newInstance(this);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

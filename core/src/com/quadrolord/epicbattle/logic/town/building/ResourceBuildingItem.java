@@ -1,5 +1,6 @@
 package com.quadrolord.epicbattle.logic.town.building;
 
+import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.logic.town.resource.Resource;
 
 /**
@@ -9,19 +10,26 @@ public class ResourceBuildingItem extends AbstractBuildingItem<ResourceBuildingE
 
     protected Class<? extends Resource> mResourceClass;
 
-    protected float mLastYield = 0;
+    private long mCurrentBalance = 0;
 
-    protected float mYieldCount = 0;
+    /**
+     * Время последнего забора ресурсов
+     */
+    private long mLastYield = 0;
+
+    public ResourceBuildingItem(MyTown town) {
+        super(town);
+    }
 
     public Class<? extends Resource> getResourceClass() {
         return mResourceClass;
     }
 
-    public float getLastYield() {
+    public long getLastYield() {
         return mLastYield;
     }
 
-    public void setLastYield(float yield) {
+    public void setLastYield(long yield) {
         mLastYield = yield;
     }
 
@@ -29,12 +37,12 @@ public class ResourceBuildingItem extends AbstractBuildingItem<ResourceBuildingE
         mResourceClass = resourceClass;
     }
 
-    public float getYieldCount() {
-        return mYieldCount;
+    public long getCurrentBalance() {
+        return mCurrentBalance;
     }
 
-    public void setYieldCount(float count) {
-        mYieldCount = count;
+    public void setCurrentBalance(long balance) {
+        mCurrentBalance = balance;
     }
 
 }

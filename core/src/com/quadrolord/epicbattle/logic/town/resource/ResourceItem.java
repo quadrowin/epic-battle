@@ -27,6 +27,10 @@ public class ResourceItem {
         return mInfo;
     }
 
+    public void incValue(float delta) {
+        mValue += delta;
+    }
+
     public void setDelta(float delta) {
         mDelta = delta;
     }
