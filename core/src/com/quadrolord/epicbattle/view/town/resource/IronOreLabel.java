@@ -22,7 +22,7 @@ public class IronOreLabel extends Group {
 
         mLabel = new Label(Float.toString(mResource.getValue()), skin.get("default-label-style", Label.LabelStyle.class));
         mLabel.setBounds(0, 0, getWidth(), getHeight());
-        mLabel.setAlignment(Align.left, Align.center);
+        mLabel.setAlignment(Align.left);
         addActor(mLabel);
 
         stage.addActor(this);

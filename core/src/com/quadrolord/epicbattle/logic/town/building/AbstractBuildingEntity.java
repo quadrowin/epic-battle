@@ -3,12 +3,17 @@ package com.quadrolord.epicbattle.logic.town.building;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.quadrolord.epicbattle.logic.configurable.AbstractEntity;
 import com.quadrolord.epicbattle.logic.town.building.leveling.AbstractStrategy;
 import com.quadrolord.epicbattle.logic.town.resource.Resource;
+import com.quadrolord.epicbattle.logic.town.resource.ResourceItem;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceEntity;
+import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceItem;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
 import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
+
+import java.util.Iterator;
 
 /**
  * Created by morph on 17.01.2016.
@@ -137,6 +142,34 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
 
     public void setLevel(int level) {
         getLevelingStrategy().setLevel(this, level);
+    }
+
+    /**
+     * Забор накопленных ресурсов
+     */
+    public void takeAvailable(AbstractBuildingItem mine) {
+        for (Iterator<ResourceSourceItem> it = mine.getResources().iterator(); it.hasNext(); ) {
+            ResourceSourceItem rs = it.next();
+            updateBalance(rs);
+            long balance = rs.getCurrentBalance();
+            rs.setLastYield(TimeUtils.millis());
+            ResourceItem resource = mine.getTown().getResource(rs.getEntity().getResourceClass());
+            resource.incValue(balance);
+        }
+    }
+
+    public void updateBalanceFull(AbstractBuildingItem mine) {
+        for (Iterator<ResourceSourceItem> it = mine.getResources().iterator(); it.hasNext(); ) {
+            ResourceSourceItem rs = it.next();
+            updateBalance(rs);
+        }
+    }
+
+    public void updateBalance(ResourceSourceItem rs) {
+        float pr = rs.getEntity().getProductionRate();
+        int deltaBalance = (int)((TimeUtils.millis() - rs.getLastYield()) * pr * .001f);
+        long balance = Math.min(rs.getEntity().getMaxBalance(), deltaBalance);
+        rs.setCurrentBalance(balance);
     }
 
 }

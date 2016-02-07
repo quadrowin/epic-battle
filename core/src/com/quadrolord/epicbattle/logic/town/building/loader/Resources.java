@@ -24,11 +24,11 @@ public class Resources extends AbstractLoader {
                 continue;
             }
             int maxBalance = param.getInt("max", 10);
-            float yieldTime = param.getFloat("yield", 1);
+            float productionRate = param.getFloat("production", 1);
             ResourceSourceEntity rs = new ResourceSourceEntity();
             rs.setMaxBalance(maxBalance);
             rs.setResourceClass(resourceClass);
-            rs.setYieldTime(yieldTime);
+            rs.setProductionRate(productionRate);
             info.getResources().add(rs);
         }
     }

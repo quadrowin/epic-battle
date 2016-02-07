@@ -22,9 +22,11 @@ import com.quadrolord.epicbattle.logic.town.building.entity.Mine;
 import com.quadrolord.epicbattle.logic.town.building.entity.RightLegTemple;
 import com.quadrolord.epicbattle.logic.town.building.entity.SheepFarm;
 import com.quadrolord.epicbattle.logic.town.resource.IronOre;
+import com.quadrolord.epicbattle.logic.town.resource.Noodles;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
 import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
 import com.quadrolord.epicbattle.view.town.resource.IronOreLabel;
+import com.quadrolord.epicbattle.view.town.resource.NoodlesLabel;
 
 /**
  * Created by Quadrowin on 16.01.2016.
@@ -192,6 +194,12 @@ public class MyTownScreen extends AbstractScreen {
 
         new IronOreLabel(
                 mTown.getResource(IronOre.class),
+                mSkin,
+                mStage
+        );
+
+        new NoodlesLabel(
+                mTown.getResource(Noodles.class),
                 mSkin,
                 mStage
         );

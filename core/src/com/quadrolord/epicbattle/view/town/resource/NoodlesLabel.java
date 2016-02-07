@@ -10,19 +10,19 @@ import com.quadrolord.epicbattle.logic.town.resource.ResourceItem;
 /**
  * Created by Quadrowin on 07.02.2016.
  */
-public class NoodleLabel extends Group {
+public class NoodlesLabel extends Group {
 
     private Label mLabel;
 
     private ResourceItem mResource;
 
-    public NoodleLabel(ResourceItem resource, Skin skin, Stage stage) {
+    public NoodlesLabel(ResourceItem resource, Skin skin, Stage stage) {
         mResource = resource;
         setBounds(150, 0, 120, 30);
 
         mLabel = new Label(Float.toString(mResource.getValue()), skin.get("default-label-style", Label.LabelStyle.class));
         mLabel.setBounds(0, 0, getWidth(), getHeight());
-        mLabel.setAlignment(Align.left, Align.center);
+        mLabel.setAlignment(Align.left);
         addActor(mLabel);
 
         stage.addActor(this);

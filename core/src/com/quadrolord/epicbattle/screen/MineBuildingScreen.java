@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
-import com.quadrolord.epicbattle.logic.town.building.entity.Mine;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceItem;
 
 /**
@@ -78,8 +77,7 @@ public class MineBuildingScreen extends AbstractScreen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Mine m = (Mine)mBuilding.getInfo();
-                m.takeAvailable(mBuilding);
+                mBuilding.getInfo().takeAvailable(mBuilding);
                 getAdapter().switchToScreen(mParentScreen, true);
             }
 
@@ -94,9 +92,8 @@ public class MineBuildingScreen extends AbstractScreen {
 
     @Override
     public void update(float delta) {
-        Mine m = (Mine)mBuilding.getInfo();
+        mBuilding.getInfo().updateBalanceFull(mBuilding);
         Array<ResourceSourceItem> resources = mBuilding.getResources();
-        m.updateBalance(resources.get(0));
         mResourceCountLabel.setText("Resource count " + resources.get(0).getCurrentBalance());
     }
 }

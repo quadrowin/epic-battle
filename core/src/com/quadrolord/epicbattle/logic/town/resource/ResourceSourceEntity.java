@@ -5,13 +5,19 @@ package com.quadrolord.epicbattle.logic.town.resource;
  */
 public class ResourceSourceEntity {
 
-    private int mMaxBalance;
+    /**
+     * Производство ресурса в секунду
+     */
+    private float mProductionRate = 0.1f;
 
-    private float mYieldTime;
+    /**
+     * Максимальное количество ресурса, которое может быть накоплено
+     */
+    private long mMaxBalance = 100;
 
     private Class<? extends Resource> mResourceClass;
 
-    public int getMaxBalance() {
+    public long getMaxBalance() {
         return mMaxBalance;
     }
 
@@ -19,11 +25,11 @@ public class ResourceSourceEntity {
         return mResourceClass;
     }
 
-    public float getYieldTime() {
-        return mYieldTime;
+    public float getProductionRate() {
+        return mProductionRate;
     }
 
-    public void setMaxBalance(int value) {
+    public void setMaxBalance(long value) {
         mMaxBalance = value;
     }
 
@@ -31,8 +37,8 @@ public class ResourceSourceEntity {
         mResourceClass = resourceClass;
     }
 
-    public void setYieldTime(float value) {
-        mYieldTime = value;
+    public void setProductionRate(float value) {
+        mProductionRate = value;
     }
 
 }

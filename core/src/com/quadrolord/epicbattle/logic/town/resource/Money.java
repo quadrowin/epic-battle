@@ -5,4 +5,9 @@ package com.quadrolord.epicbattle.logic.town.resource;
  */
 public class Money extends Resource {
 
+    public Money() {
+        mShort = "$";
+        mTitle = "Money";
+    }
+
 }
