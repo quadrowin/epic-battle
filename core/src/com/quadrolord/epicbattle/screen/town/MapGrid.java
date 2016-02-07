@@ -35,8 +35,8 @@ public class MapGrid extends Group {
 
     private MyTown mTown;
 
-    private int mMapSizeX = 10;
-    private int mMapSizeY = 10;
+    private int mMapSizeX = MyTown.MAP_SIZE_X;
+    private int mMapSizeY = MyTown.MAP_SIZE_Y;
 
     private ShapeRenderer mSr = new ShapeRenderer();
 

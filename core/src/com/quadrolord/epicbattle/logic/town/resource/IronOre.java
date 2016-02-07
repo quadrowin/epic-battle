@@ -6,6 +6,7 @@ package com.quadrolord.epicbattle.logic.town.resource;
 public class IronOre extends Resource {
 
     public IronOre() {
+        mShort= "IO";
         mTitle = "Iron Ore";
     }
 

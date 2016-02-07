@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.ArrayMap;
 import com.quadrolord.epicbattle.logic.configurable.AbstractEntity;
 import com.quadrolord.epicbattle.logic.town.building.leveling.AbstractStrategy;
 import com.quadrolord.epicbattle.logic.town.resource.Resource;
+import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceEntity;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
 import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
 
@@ -20,6 +21,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
     protected Class<? extends Tile> mTileClass;
     protected ArrayMap<Class<? extends Resource>, Integer> mRequiredResources = new ArrayMap<Class<? extends Resource>, Integer>();
     protected int mRequiredLevel = 1;
+    private Array<ResourceSourceEntity> mResources = new Array<ResourceSourceEntity>();
 
     protected int mCostGem;
     protected float mConstructionTime;
@@ -60,6 +62,10 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
 
     public int getRequiredLevel() {
         return mRequiredLevel;
+    }
+
+    public Array<ResourceSourceEntity> getResources() {
+        return mResources;
     }
 
     public int getCostGem() {

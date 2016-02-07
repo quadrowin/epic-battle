@@ -4,9 +4,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.quadrolord.epicbattle.logic.Game;
+import com.quadrolord.epicbattle.logic.profile.PlayerProfile;
+import com.quadrolord.epicbattle.logic.profile.ProfileBuilding;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
-import com.quadrolord.epicbattle.logic.town.building.ResourceBuildingItem;
 import com.quadrolord.epicbattle.logic.town.resource.Resource;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceItem;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
@@ -18,10 +19,13 @@ import java.util.Iterator;
  */
 public class MyTown {
 
+    public static final int MAP_SIZE_X = 10;
+    public static final int MAP_SIZE_Y = 10;
+
     private Game mGame;
 
     private Array<AbstractBuildingItem> mBuildings = new Array<AbstractBuildingItem>();
-    private Tile[][] mMap = new Tile[][]{};
+    private Tile[][] mMap;
 
     private int mLevel = 1;
     private int mGemsCount = 1;
@@ -44,10 +48,6 @@ public class MyTown {
 
     public Array<AbstractBuildingItem> getBuildings() {
         return mBuildings;
-    }
-
-    public float getYieldDelta(ResourceBuildingItem building) {
-        return Math.max(0, building.getInfo().getYieldTime() - building.getLastYield());
     }
 
     public BuildingInfoManager getBuildingInfoManager() {
@@ -79,6 +79,9 @@ public class MyTown {
     }
 
     public boolean canBuild(AbstractBuildingEntity entity, int col, int row) {
+        if (col < 0 || row < 0) {
+            return false;
+        }
         for (int i = col; i < col + entity.getSize().x; i++) {
             for (int j = row; j < row + entity.getSize().y; j++) {
                 if (
@@ -94,13 +97,16 @@ public class MyTown {
         return true;
     }
 
-    public AbstractBuildingItem build(Class<? extends AbstractBuildingEntity> entityClass, int col, int row, boolean isRotated, boolean isByGems) {
-        return build(mBuildingInfoManager.getInfo(entityClass), col, row, isRotated, isByGems);
+    public AbstractBuildingItem build(Class<? extends AbstractBuildingEntity> entityClass, int col, int row, boolean isRotated, boolean takeResources, boolean takeGems) {
+        return build(mBuildingInfoManager.getInfo(entityClass), col, row, isRotated, takeResources, takeGems);
     }
 
-    public AbstractBuildingItem build(AbstractBuildingEntity entity, int col, int row, boolean isRotated, boolean isByGems) {
-        boolean hasResources = isByGems ? hasGems(entity.getCostGem()) : hasResources(entity);
-        if (!hasResources) {
+    public AbstractBuildingItem build(AbstractBuildingEntity entity, int col, int row, boolean isRotated, boolean takeResources, boolean takeGems) {
+        if (takeGems && !hasGems(entity.getCostGem())) {
+            mListener.onUserActionFail(TownListener.BuildingAction.CREATE_NO_GEMS);
+            return null;
+        }
+        if (takeResources && !hasResources(entity)) {
             mListener.onUserActionFail(TownListener.BuildingAction.CREATE_NO_RESOURCES);
             return null;
         }
@@ -217,6 +223,38 @@ public class MyTown {
         takeAwayResources(info);
         building.levelUp();
         mListener.onBuildingChange(building);
+    }
+
+    public void loadTown() {
+        PlayerProfile profile = mGame.getProfileManager().getProfile();
+
+        if (mMap == null) {
+            mMap = new Tile[MAP_SIZE_X][MAP_SIZE_Y];
+        } else {
+            for (int x = 0; x < mMap.length; x++) {
+                for (int y = 0; y < mMap[x].length; y++) {
+                    mMap[x][y] = null;
+                }
+            }
+        }
+
+        for (Iterator<ProfileBuilding> it = profile.getBuildings().iterator(); it.hasNext(); ) {
+            ProfileBuilding pb = it.next();
+            Class<? extends AbstractBuildingEntity> buildingClass;
+            try {
+                buildingClass = (Class<? extends AbstractBuildingEntity>)Class.forName(pb.getBuildingName());
+            } catch (Exception e) {
+                continue;
+            }
+            build(
+                    buildingClass,
+                    pb.getX(),
+                    pb.getY(),
+                    pb.isRotated(),
+                    false,
+                    false
+            );
+        }
     }
 
     public void demolish(AbstractBuildingItem building) {

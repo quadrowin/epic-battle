@@ -1,6 +1,7 @@
 package com.quadrolord.epicbattle.logic.town.resource;
 
 /**
+ * Состояние ресурса у игрока
  * Created by Quadrowin on 01.02.2016.
  */
 public class ResourceItem {

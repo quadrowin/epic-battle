@@ -8,6 +8,14 @@ import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 public interface TownListener {
 
     enum BuildingAction {
+        /**
+         * Недостаточно гемов
+         */
+        CREATE_NO_GEMS,
+
+        /**
+         * Недостаточно ресурсов
+         */
         CREATE_NO_RESOURCES,
         CREATE_NO_LEVEL,
         CREATE_NO_PLACE,

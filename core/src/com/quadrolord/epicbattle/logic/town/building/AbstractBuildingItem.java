@@ -1,8 +1,10 @@
 package com.quadrolord.epicbattle.logic.town.building;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.configurable.AbstractItem;
 import com.quadrolord.epicbattle.logic.town.MyTown;
+import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceItem;
 import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
 
 /**
@@ -20,6 +22,8 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
     protected boolean mIsInUpdating = false;
 
     protected float mRemainingUpdatingTime = 0;
+
+    private Array<ResourceSourceItem> mResources = new Array<ResourceSourceItem>();
 
     private MyTown mTown;
 
@@ -123,6 +127,10 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
         getInfo().setLevel(mLevel + 1);
         mRemainingUpdatingTime = getInfo().getConstructionTime();
         mIsInUpdating = true;
+    }
+
+    public Array<ResourceSourceItem> getResources() {
+        return mResources;
     }
 
     public void setView(AbstractBuildingView view) {

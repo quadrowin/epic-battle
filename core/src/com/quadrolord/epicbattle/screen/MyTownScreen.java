@@ -54,6 +54,7 @@ public class MyTownScreen extends AbstractScreen {
         mMapCamera.update();
         mMapStage = new Stage(new FitViewport(400, 300, mMapCamera));
         mTown = new MyTown(mGame);
+        mTown.loadTown();
 
         TextButton btnToCampaignSelect = new TextButton("Select campaign", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
         btnToCampaignSelect.setBounds(10, 240, 150, 50);
@@ -77,7 +78,7 @@ public class MyTownScreen extends AbstractScreen {
                 mTown.build(
                         Mine.class,
                         mTown.getBuildings().size * 2, 2,
-                        false, false
+                        false, false, false
                 );
             }
 
@@ -93,7 +94,7 @@ public class MyTownScreen extends AbstractScreen {
                 mTown.build(
                         DoodleShop.class,
                         mTown.getBuildings().size * 2, 2,
-                        false, false
+                        false, false, false
                 );
             }
 
@@ -109,7 +110,7 @@ public class MyTownScreen extends AbstractScreen {
                 mTown.build(
                         SheepFarm.class,
                         mTown.getBuildings().size * 2, 2,
-                        false, false
+                        false, false, false
                 );
             }
 
@@ -182,11 +183,11 @@ public class MyTownScreen extends AbstractScreen {
 
         mTown.build(
                 LeftHandTemple.class,
-                5, 0, false, false
+                5, 0, false, false, false
         );
         mTown.build(
                 RightLegTemple.class,
-                6, -1, false, false
+                6, -1, false, false, false
         );
 
         new IronOreLabel(

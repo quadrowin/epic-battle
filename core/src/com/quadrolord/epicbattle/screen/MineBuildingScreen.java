@@ -9,8 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
-import com.quadrolord.epicbattle.logic.town.building.ResourceBuildingItem;
+import com.badlogic.gdx.utils.Array;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.entity.Mine;
+import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceItem;
 
 /**
  * Экран при заходе в ресурсопоставляющее здание
@@ -21,9 +23,9 @@ public class MineBuildingScreen extends AbstractScreen {
 
     private Label mResourceCountLabel;
 
-    private ResourceBuildingItem mBuilding;
+    private AbstractBuildingItem mBuilding;
 
-    public MineBuildingScreen(final AbstractScreen parentScreen, ResourceBuildingItem building) {
+    public MineBuildingScreen(final AbstractScreen parentScreen, AbstractBuildingItem building) {
         super(parentScreen.getAdapter());
         mBuilding = building;
         mParentScreen = parentScreen;
@@ -58,7 +60,8 @@ public class MineBuildingScreen extends AbstractScreen {
         bg3.setBounds(3, 3, bg2.getWidth() - 6, bg2.getHeight() - 6);
         bg2.addActor(bg3);
 
-        mResourceCountLabel = new Label("Resource count " + mBuilding.getCurrentBalance(), mSkin.get("default-label-style", Label.LabelStyle.class));
+        Array<ResourceSourceItem> resources = mBuilding.getResources();
+        mResourceCountLabel = new Label("Resource count " + resources.get(0).getCurrentBalance(), mSkin.get("default-label-style", Label.LabelStyle.class));
         mResourceCountLabel.setAlignment(Align.center, Align.center);
         mResourceCountLabel.setBounds(0, 0, bg3.getWidth(), bg3.getHeight());
         bg3.addActor(mResourceCountLabel);
@@ -92,7 +95,8 @@ public class MineBuildingScreen extends AbstractScreen {
     @Override
     public void update(float delta) {
         Mine m = (Mine)mBuilding.getInfo();
-        m.updateBalance(mBuilding);
-        mResourceCountLabel.setText("Resource count " + mBuilding.getCurrentBalance());
+        Array<ResourceSourceItem> resources = mBuilding.getResources();
+        m.updateBalance(resources.get(0));
+        mResourceCountLabel.setText("Resource count " + resources.get(0).getCurrentBalance());
     }
 }
