@@ -22,18 +22,22 @@ abstract public class AbstractBuildingView extends Group {
 
     public AbstractBuildingView(final AbstractScreen screen, MapGrid map, AbstractBuildingItem building) {
         mBuilding = building;
-        mMap = map;
         mScreen = screen;
 
         mBuildingTexture = loadBuildingTexture();
 
-        map.setChildPosition(this, building.getX(), building.getY());
-        map.addActor(this);
+        if (map != null) {
+            mMap = map;
+            map.setChildPosition(this, building.getX(), building.getY());
+            map.addActor(this);
+        }
     }
 
     @Override
     public void act(float delta) {
-        mMap.setChildPosition(this, mBuilding.getX(), mBuilding.getY());
+        if (mMap != null) {
+            mMap.setChildPosition(this, mBuilding.getX(), mBuilding.getY());
+        }
     }
 
     public void draw (Batch batch, float parentAlpha) {
@@ -44,8 +48,15 @@ abstract public class AbstractBuildingView extends Group {
     }
 
     public void drawBuilding(Batch batch) {
-        float csx = mMap.getCellSideX();
-        float csy = mMap.getCellSideY();
+        float csx = 100;
+        float csy = 100;
+        if (mMap != null) {
+            csx = mMap.getCellSideX();
+            csy = mMap.getCellSideY();
+        }
+        float sx = csx * mBuilding.getSize().x;
+        float sy = csy * mBuilding.getSize().y;
+        System.out.println(" " + sx + " " + sy);
         batch.draw(
                 mBuildingTexture,
                 0, 0, csx * mBuilding.getSize().x, csy * mBuilding.getSize().y

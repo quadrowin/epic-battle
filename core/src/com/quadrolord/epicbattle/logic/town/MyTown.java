@@ -8,6 +8,9 @@ import com.quadrolord.epicbattle.logic.profile.PlayerProfile;
 import com.quadrolord.epicbattle.logic.profile.ProfileBuilding;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.entity.DoodleShop;
+import com.quadrolord.epicbattle.logic.town.building.entity.Mine;
+import com.quadrolord.epicbattle.logic.town.building.entity.SheepFarm;
 import com.quadrolord.epicbattle.logic.town.resource.Resource;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceItem;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
@@ -44,6 +47,19 @@ public class MyTown {
 
     public void act(float delta) {
         mTime += delta;
+    }
+
+    /**
+     * Возвращает типы зданий, которые можно построить
+     * @return
+     */
+    public Array<AbstractBuildingEntity> getAvailableBuildingTypes() {
+        Array<AbstractBuildingEntity> bts = new Array<AbstractBuildingEntity>();
+        bts.add(new DoodleShop());
+        bts.add(new Mine());
+        bts.add(new SheepFarm());
+        bts.add(new DoodleShop());
+        return bts;
     }
 
     public Array<AbstractBuildingItem> getBuildings() {

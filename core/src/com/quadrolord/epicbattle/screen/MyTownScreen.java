@@ -71,7 +71,7 @@ public class MyTownScreen extends AbstractScreen {
         });
 
         TextButton btnBuild1 = new TextButton("Build M", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnBuild1.setBounds(190, 240, 65, 50);
+        btnBuild1.setBounds(170, 240, 65, 50);
         mStage.addActor(btnBuild1);
         btnBuild1.addListener(new ClickListener() {
 
@@ -87,7 +87,7 @@ public class MyTownScreen extends AbstractScreen {
         });
 
         TextButton btnBuild2 = new TextButton("Build D", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnBuild2.setBounds(260, 240, 65, 50);
+        btnBuild2.setBounds(240, 240, 65, 50);
         mStage.addActor(btnBuild2);
         btnBuild2.addListener(new ClickListener() {
 
@@ -103,7 +103,7 @@ public class MyTownScreen extends AbstractScreen {
         });
 
         TextButton btnBuild3 = new TextButton("Build S", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnBuild3.setBounds(330, 240, 65, 50);
+        btnBuild3.setBounds(310, 240, 65, 50);
         mStage.addActor(btnBuild3);
         btnBuild3.addListener(new ClickListener() {
 
@@ -118,10 +118,22 @@ public class MyTownScreen extends AbstractScreen {
 
         });
 
-        mMap = new MapGrid(this, mTown, mMapStage);
         final AbstractScreen screen = this;
 
+        TextButton btnBuildScreen = new TextButton("Build ?", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
+        btnBuildScreen.setBounds(350, 240, 65, 50);
+        mStage.addActor(btnBuildScreen);
+        btnBuildScreen.addListener(new ClickListener() {
 
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                AbstractScreen scr = new NewBuildingScreen(screen, mTown);
+                mAdapter.switchToScreen(scr, false);
+            }
+
+        });
+
+        mMap = new MapGrid(this, mTown, mMapStage);
 
         mStage.addListener(new EventListener() {
 
