@@ -10,6 +10,7 @@ import com.quadrolord.epicbattle.logic.town.building.loader.RequiredLevel;
 import com.quadrolord.epicbattle.logic.town.building.loader.RequiredResources;
 import com.quadrolord.epicbattle.logic.town.building.loader.Resources;
 import com.quadrolord.epicbattle.logic.town.building.loader.Size;
+import com.quadrolord.epicbattle.logic.town.building.loader.SliderTexture;
 import com.quadrolord.epicbattle.logic.town.building.loader.Title;
 
 /**
@@ -28,6 +29,7 @@ public class BuildingInfoManager extends EntityManager<AbstractBuildingEntity> {
         mLoaders.put("required_resources", new RequiredResources());
         mLoaders.put("resources", new Resources());
         mLoaders.put("size", new Size());
+        mLoaders.put("slider_texture", new SliderTexture());
         mLoaders.put("title", new Title());
     }
 

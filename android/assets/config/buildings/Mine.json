@@ -1,4 +1,5 @@
 {
   "title": "Mine",
-  "size": [2, 2]
+  "size": [2, 2],
+  "slider_texture": "town/mine1.png"
 }

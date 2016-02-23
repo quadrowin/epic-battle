@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -11,14 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
-import com.quadrolord.epicbattle.logic.town.building.ExampleBuildingItem;
-import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.NewBuildingScreen;
-import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
 
 /**
  * Created by Quadrowin on 20.02.2016.
@@ -31,7 +29,7 @@ public class BuildSlider extends Group {
 
     private float mPosition;
 
-    public BuildSlider(final NewBuildingScreen screen, MyTown town) {
+    public BuildSlider(final NewBuildingScreen screen, final MyTown town) {
         Skin skin = screen.getSkin();
 
         Texture texture = new Texture("ui/panel-64.png");
@@ -63,19 +61,40 @@ public class BuildSlider extends Group {
         mWrapper.setBounds(0, 0, bts.size * 120 + 20, mBackground.getHeight());
         mBackground.addActor(mWrapper);
 
-        for (int i = 0; i < bts.size; i++) {
-            ExampleBuildingItem ebi = new ExampleBuildingItem(town);
-            AbstractBuildingView bv;
-            try {
-                bv = (AbstractBuildingView)bts.get(i).getViewClass().getConstructor(AbstractScreen.class, MapGrid.class, AbstractBuildingItem.class).newInstance(screen, null, ebi);
-            } catch (Exception e) {
-                e.printStackTrace();
-                continue;
+        ClickListener cl = new ClickListener() {
+
+            public void clicked (InputEvent event, float x, float y) {
+                AbstractBuildingEntity be = (AbstractBuildingEntity)event.getListenerActor().getUserObject();
+                town.enterBuildingMode(be);
+                screen.getAdapter().switchToScreen(screen.getPausedScreen(), true);
             }
-            bv.setBounds(i * 120 + 10, 10, 100, 100);
-            mWrapper.addActor(bv);
+
+        };
+
+        for (int i = 0; i < bts.size; i++) {
+
+            String txFile = bts.get(i).getSliderTextureFile();
+            if (txFile == null) {
+                Gdx.app.error("BuildSlider", "no slider texture for building " + bts.get(i).getTitle());
+            }
+            Texture tx = screen.getTextures().get(txFile);
+            Drawable dr = new TextureRegionDrawable(new TextureRegion(tx));
+
+            TextButton.TextButtonStyle tbs = new TextButton.TextButtonStyle(
+                    dr,
+                    dr,
+                    dr,
+                    screen.getSkin().getFont("default")
+            );
+            TextButton tb = new TextButton("", tbs);
+            tb.setUserObject(bts.get(i));
+
+            tb.setBounds(i * 120 + 10, 10, 100, 100);
+            tb.addListener(cl);
+            mWrapper.addActor(tb);
         }
 
+        // Кнопка закрытия
         TextButton btnClose = new TextButton("Close", skin.get("default-text-button-style", TextButton.TextButtonStyle.class));
         btnClose.setBounds(260, 80, 65, 30);
         mBackground.addActor(btnClose);
@@ -89,8 +108,6 @@ public class BuildSlider extends Group {
         });
 
         screen.getStage().addActor(this);
-
-
     }
 
     @Override

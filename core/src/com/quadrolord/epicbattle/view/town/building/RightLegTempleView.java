@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
+import com.quadrolord.epicbattle.view.TextureManager;
 
 /**
  * Created by Quadrowin on 31.01.2016.
@@ -34,8 +35,8 @@ public class RightLegTempleView extends AbstractBuildingView {
     }
 
     @Override
-    public TextureRegion loadBuildingTexture() {
-        Texture t = new Texture("town/left-hand-tower.png");
+    public TextureRegion loadBuildingTexture(TextureManager textures) {
+        Texture t = textures.get("town/left-hand-tower.png");
         return new TextureRegion(t, 1f, 0f, 0f, 1f);
     }
 

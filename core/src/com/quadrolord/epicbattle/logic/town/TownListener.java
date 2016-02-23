@@ -1,5 +1,6 @@
 package com.quadrolord.epicbattle.logic.town;
 
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 
 /**
@@ -33,6 +34,8 @@ public interface TownListener {
     void onBuildingRemove(AbstractBuildingItem building);
 
     void onBuildingSelect(AbstractBuildingItem building);
+
+    void onEnterBuildingMode(AbstractBuildingEntity building);
 
     void onUserActionFail(BuildingAction action);
 

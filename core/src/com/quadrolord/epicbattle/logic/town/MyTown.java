@@ -55,10 +55,10 @@ public class MyTown {
      */
     public Array<AbstractBuildingEntity> getAvailableBuildingTypes() {
         Array<AbstractBuildingEntity> bts = new Array<AbstractBuildingEntity>();
-        bts.add(new DoodleShop());
-        bts.add(new Mine());
-        bts.add(new SheepFarm());
-        bts.add(new DoodleShop());
+        bts.add(mBuildingInfoManager.getInfo(DoodleShop.class));
+        bts.add(mBuildingInfoManager.getInfo(Mine.class));
+        bts.add(mBuildingInfoManager.getInfo(SheepFarm.class));
+        bts.add(mBuildingInfoManager.getInfo(DoodleShop.class));
         return bts;
     }
 
@@ -139,16 +139,7 @@ public class MyTown {
 
         takeAwayResources(entity);
 
-        AbstractBuildingItem item;
-        try {
-            item = (AbstractBuildingItem)entity.getItemClass().getConstructor(MyTown.class).newInstance(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        item.setInfo(entity);
-        entity.initItem(item);
+        AbstractBuildingItem item = instantiateBuilding(entity);
         item.setX(col);
         item.setY(row);
 
@@ -166,6 +157,10 @@ public class MyTown {
 
         mListener.onBuildingAdd(item);
         return item;
+    }
+
+    public void enterBuildingMode(AbstractBuildingEntity be) {
+        mListener.onEnterBuildingMode(be);
     }
 
     public ResourceItem getResource(Class<? extends Resource> resourceClass) {
@@ -186,6 +181,19 @@ public class MyTown {
             return resource;
         }
         return mResources.get(resourceClass);
+    }
+
+    public AbstractBuildingItem instantiateBuilding(AbstractBuildingEntity buildingInfo) {
+        AbstractBuildingItem item;
+        try {
+            item = (AbstractBuildingItem)buildingInfo.getItemClass().getConstructor(MyTown.class).newInstance(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        item.setInfo(buildingInfo);
+        buildingInfo.initItem(item);
+        return item;
     }
 
     public void setListener(TownListener listener) {

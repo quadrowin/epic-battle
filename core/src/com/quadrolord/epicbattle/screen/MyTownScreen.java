@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.logic.town.TownListener;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.entity.DoodleShop;
 import com.quadrolord.epicbattle.logic.town.building.entity.LeftHandTemple;
@@ -24,6 +25,7 @@ import com.quadrolord.epicbattle.logic.town.building.entity.SheepFarm;
 import com.quadrolord.epicbattle.logic.town.resource.IronOre;
 import com.quadrolord.epicbattle.logic.town.resource.Noodles;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
+import com.quadrolord.epicbattle.screen.town.PlacingControl;
 import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
 import com.quadrolord.epicbattle.view.town.resource.IronOreLabel;
 import com.quadrolord.epicbattle.view.town.resource.NoodlesLabel;
@@ -187,6 +189,22 @@ public class MyTownScreen extends AbstractScreen {
             @Override
             public void onBuildingSelect(AbstractBuildingItem building) {
 
+            }
+
+            @Override
+            public void onEnterBuildingMode(AbstractBuildingEntity buildingInfo) {
+                AbstractBuildingItem building = mTown.instantiateBuilding(buildingInfo);
+                Class<AbstractBuildingView> viewClass = buildingInfo.getViewClass();
+                AbstractBuildingView view;
+                try {
+                    view = viewClass.getConstructor(AbstractScreen.class, MapGrid.class, AbstractBuildingItem.class).newInstance(screen, mMap, building);
+                    building.setView(view);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
+                }
+                building.setPosition(1, 1);
+                PlacingControl pc = new PlacingControl(screen, building, view);
             }
 
             @Override

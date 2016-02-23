@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
+import com.quadrolord.epicbattle.view.TextureManager;
 
 /**
  * Created by morph on 17.01.2016.
@@ -24,7 +25,7 @@ abstract public class AbstractBuildingView extends Group {
         mBuilding = building;
         mScreen = screen;
 
-        mBuildingTexture = loadBuildingTexture();
+        mBuildingTexture = loadBuildingTexture(screen.getTextures());
 
         if (map != null) {
             mMap = map;
@@ -35,9 +36,7 @@ abstract public class AbstractBuildingView extends Group {
 
     @Override
     public void act(float delta) {
-        if (mMap != null) {
-            mMap.setChildPosition(this, mBuilding.getX(), mBuilding.getY());
-        }
+        mMap.setChildPosition(this, mBuilding.getX(), mBuilding.getY());
     }
 
     public void draw (Batch batch, float parentAlpha) {
@@ -79,7 +78,7 @@ abstract public class AbstractBuildingView extends Group {
         return mScreen;
     }
 
-    abstract public TextureRegion loadBuildingTexture();
+    abstract public TextureRegion loadBuildingTexture(TextureManager textures);
 
     public void setBuildingTexture(TextureRegion texture) {
         mBuildingTexture = texture;

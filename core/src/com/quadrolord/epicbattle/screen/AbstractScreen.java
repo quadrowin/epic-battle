@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.view.SpriteAnimationLoader;
+import com.quadrolord.epicbattle.view.TextureManager;
 
 /**
  * Created by Quadrowin on 27.11.2015.
@@ -22,6 +23,8 @@ public abstract class AbstractScreen implements Screen {
 
     protected Skin mSkin;
 
+    protected TextureManager mTextures;
+
     /**
      * Размер пикселя
      */
@@ -35,6 +38,7 @@ public abstract class AbstractScreen implements Screen {
         mStage = new Stage();
         mStage.getRoot().setScale(mPx);
         mSkin = adapter.getNewSkin();
+        mTextures = new TextureManager(mSkin);
     }
 
     public EpicBattle getAdapter() {
@@ -62,6 +66,10 @@ public abstract class AbstractScreen implements Screen {
 
     public Stage getStage() {
         return mStage;
+    }
+
+    public TextureManager getTextures() {
+        return mTextures;
     }
 
     public void initFitViewport() {

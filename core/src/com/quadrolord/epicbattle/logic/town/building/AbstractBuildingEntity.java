@@ -21,6 +21,7 @@ import java.util.Iterator;
 abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> extends AbstractEntity<T> {
     protected String mTitle;
     protected Vector2 mSize = new Vector2(1, 1);
+    protected String mSliderTexture;
     protected Class<? extends AbstractBuildingView> mViewClass;
     protected String mIcon;
     protected Class<? extends Tile> mTileClass;
@@ -59,6 +60,10 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
 
     public Vector2 getSize() {
         return mSize;
+    }
+
+    public String getSliderTextureFile() {
+        return mSliderTexture;
     }
 
     public ArrayMap<Class<? extends Resource>, Integer> getRequiredResources() {
@@ -113,6 +118,10 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
     public AbstractBuildingEntity setSize(Vector2 size) {
         mSize = size;
         return this;
+    }
+
+    public void setSliderTexture(String texture) {
+        mSliderTexture = texture;
     }
 
     public AbstractBuildingEntity setRequiredResources(ArrayMap<Class<? extends Resource>, Integer> resources) {

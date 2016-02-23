@@ -32,7 +32,7 @@ import com.quadrolord.epicbattle.view.BulletUnitView;
 import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
 import com.quadrolord.epicbattle.view.TowerDeath;
 import com.quadrolord.epicbattle.view.TowerView;
-import com.quadrolord.epicbattle.view.ViewLoader;
+import com.quadrolord.epicbattle.view.TextureManager;
 import com.quadrolord.epicbattle.view.sounds.SoundManager;
 import com.quadrolord.epicbattle.view.visualization.AbstractVisualization;
 import com.quadrolord.epicbattle.view.visualization.TowerRandomBleedView;
@@ -88,7 +88,7 @@ public class BattleScreen extends AbstractScreen {
 
         new PauseButton(this, mFrontStage);
 
-        ViewLoader vl = new ViewLoader();
+        TextureManager vl = new TextureManager(mSkin);
         vl.loadTextures(
                 mSkin,
                 new String[]{
