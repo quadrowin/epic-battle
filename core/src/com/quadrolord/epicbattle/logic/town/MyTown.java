@@ -70,6 +70,13 @@ public class MyTown {
         return mBuildingInfoManager;
     }
 
+    public Tile getMapCell(int col, int row) {
+        if (col < 0 || row < 0 || col >= mMap.length || row >= mMap[col].length) {
+            return null;
+        }
+        return mMap[col][row];
+    }
+
     public boolean hasGems(int gemsCount) {
         return mGemsCount >= gemsCount;
     }

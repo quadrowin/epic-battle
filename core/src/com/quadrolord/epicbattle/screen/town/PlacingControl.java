@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.tile.Tile;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
 
@@ -34,6 +36,8 @@ public class PlacingControl extends Group {
 
     private ShapeRenderer mSr = new ShapeRenderer();
 
+    private Vector2 mOffset = new Vector2(0, 0);
+
     public PlacingControl(AbstractScreen screen, AbstractBuildingItem building, AbstractBuildingView view) {
         mBuilding = building;
         mBuildingView = view;
@@ -50,8 +54,8 @@ public class PlacingControl extends Group {
             mDeltaY -= Gdx.input.getDeltaY();
 
             mBuilding.setPosition(
-                    mBuildingStartX + (int)(mDeltaX / 20),
-                    mBuildingStartY + (int)(mDeltaY / 20)
+                    mBuildingStartX + (int)((mDeltaY / mCellSideY + mDeltaX / mCellSideX)),
+                    mBuildingStartY + (int)((mDeltaY / mCellSideY - mDeltaX / mCellSideX))
             );
 //            mWrapper.setX(Math.max(
 //                    mBuilding.getWidth() - mWrapper.getWidth(),
@@ -78,39 +82,55 @@ public class PlacingControl extends Group {
         mSr.setTransformMatrix(batch.getTransformMatrix());
         mSr.begin(ShapeRenderer.ShapeType.Line);
 
-        mSr.setColor(Color.BLUE);
+        mOffset.x = 0;
+        mOffset.y = 0;
+        mBuilding.getView().getParent().localToStageCoordinates(mOffset);
 
-        int selectedX = mBuilding.getX();
-        int selectedY = mBuilding.getY();
-
-        float botX = (selectedX - selectedY) * mCellSideX / 2;
-        float botY = (selectedX + selectedY) * mCellSideY / 2;
         float lineWidth = 3;
 
-        // низ - лево
-        mSr.rectLine(
-                botX, botY,
-                botX - mCellSideX / 2, botY + mCellSideY / 2,
-                lineWidth
-        );
-        // лево - верх
-        mSr.rectLine(
-                botX - mCellSideX / 2, botY + mCellSideY / 2,
-                botX, botY + mCellSideY,
-                lineWidth
-        );
-        // верх - право
-        mSr.rectLine(
-                botX, botY + mCellSideY,
-                botX + mCellSideX / 2, botY + mCellSideY / 2,
-                lineWidth
-        );
-        // право - низ
-        mSr.rectLine(
-                botX + mCellSideX / 2, botY + mCellSideY / 2,
-                botX, botY,
-                lineWidth
-        );
+        int sizeX = (int)mBuilding.getSize().x;
+        int sizeY = (int)mBuilding.getSize().y;
+        for (int cx = 0; cx < sizeX; cx++) {
+            for (int cy = 0; cy < sizeY; cy++) {
+                int selectedX = mBuilding.getX() + cx;
+                int selectedY = mBuilding.getY() + cy;
+
+                Tile cell = mBuilding.getTown().getMapCell(selectedX, selectedY);
+                if (cell != null && cell.isFree()) {
+                    mSr.setColor(Color.BLUE);
+                } else {
+                    mSr.setColor(Color.RED);
+                }
+
+                float botX = mOffset.x + (selectedX - selectedY) * mCellSideX / 2;
+                float botY = mOffset.y + (selectedX + selectedY) * mCellSideY / 2;
+
+                // низ - лево
+                mSr.rectLine(
+                        botX, botY,
+                        botX - mCellSideX / 2, botY + mCellSideY / 2,
+                        lineWidth
+                );
+                // лево - верх
+                mSr.rectLine(
+                        botX - mCellSideX / 2, botY + mCellSideY / 2,
+                        botX, botY + mCellSideY,
+                        lineWidth
+                );
+                // верх - право
+                mSr.rectLine(
+                        botX, botY + mCellSideY,
+                        botX + mCellSideX / 2, botY + mCellSideY / 2,
+                        lineWidth
+                );
+                // право - низ
+                mSr.rectLine(
+                        botX + mCellSideX / 2, botY + mCellSideY / 2,
+                        botX, botY,
+                        lineWidth
+                );
+            }
+        }
 
         mSr.end();
 
