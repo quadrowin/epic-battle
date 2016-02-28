@@ -120,6 +120,10 @@ public class MyTown {
         return true;
     }
 
+    public void cancelBuildingMode() {
+        mListener.onCancelBuildingMode();
+    }
+
     public AbstractBuildingItem build(Class<? extends AbstractBuildingEntity> entityClass, int col, int row, boolean isRotated, boolean takeResources, boolean takeGems) {
         return build(mBuildingInfoManager.getInfo(entityClass), col, row, isRotated, takeResources, takeGems);
     }

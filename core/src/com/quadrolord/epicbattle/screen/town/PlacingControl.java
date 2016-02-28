@@ -137,4 +137,8 @@ public class PlacingControl extends Group {
         batch.begin();
     }
 
+    public AbstractBuildingView getBuildingView() {
+        return mBuildingView;
+    }
+
 }

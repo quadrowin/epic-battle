@@ -9,23 +9,20 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.logic.town.TownListener;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
-import com.quadrolord.epicbattle.logic.town.building.entity.DoodleShop;
 import com.quadrolord.epicbattle.logic.town.building.entity.LeftHandTemple;
-import com.quadrolord.epicbattle.logic.town.building.entity.Mine;
 import com.quadrolord.epicbattle.logic.town.building.entity.RightLegTemple;
-import com.quadrolord.epicbattle.logic.town.building.entity.SheepFarm;
 import com.quadrolord.epicbattle.logic.town.resource.IronOre;
 import com.quadrolord.epicbattle.logic.town.resource.Noodles;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
 import com.quadrolord.epicbattle.screen.town.PlacingControl;
+import com.quadrolord.epicbattle.screen.town.panel.BuildingModePanel;
+import com.quadrolord.epicbattle.screen.town.panel.GeneralPanel;
 import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
 import com.quadrolord.epicbattle.view.town.resource.IronOreLabel;
 import com.quadrolord.epicbattle.view.town.resource.NoodlesLabel;
@@ -47,6 +44,14 @@ public class MyTownScreen extends AbstractScreen {
 
     private InputMultiplexer mMultiplexer;
 
+    private GeneralPanel mGuiGeneral;
+    private BuildingModePanel mGuiBuildingMode;
+
+    /**
+     * Контрол перемещения здания
+     */
+    private PlacingControl mPlacing;
+
     public MyTownScreen(EpicBattle adapter) {
         super(adapter);
         initFitViewport();
@@ -60,80 +65,10 @@ public class MyTownScreen extends AbstractScreen {
         mTown = new MyTown(mGame);
         mTown.loadTown();
 
-        TextButton btnToCampaignSelect = new TextButton("Select campaign", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnToCampaignSelect.setBounds(10, 240, 150, 50);
-        mStage.addActor(btnToCampaignSelect);
-        btnToCampaignSelect.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                mAdapter.switchToScreen(CampaignSelectScreen.class);
-            }
-
-        });
-
-        TextButton btnBuild1 = new TextButton("Build M", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnBuild1.setBounds(170, 240, 65, 50);
-        mStage.addActor(btnBuild1);
-        btnBuild1.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                mTown.build(
-                        Mine.class,
-                        mTown.getBuildings().size * 2, 2,
-                        false, false, false
-                );
-            }
-
-        });
-
-        TextButton btnBuild2 = new TextButton("Build D", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnBuild2.setBounds(240, 240, 65, 50);
-        mStage.addActor(btnBuild2);
-        btnBuild2.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                mTown.build(
-                        DoodleShop.class,
-                        mTown.getBuildings().size * 2, 2,
-                        false, false, false
-                );
-            }
-
-        });
-
-        TextButton btnBuild3 = new TextButton("Build S", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnBuild3.setBounds(310, 240, 65, 50);
-        mStage.addActor(btnBuild3);
-        btnBuild3.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                mTown.build(
-                        SheepFarm.class,
-                        mTown.getBuildings().size * 2, 2,
-                        false, false, false
-                );
-            }
-
-        });
+        mGuiGeneral = new GeneralPanel(this, mTown);
+        mGuiBuildingMode = new BuildingModePanel(this, mTown);
 
         final AbstractScreen screen = this;
-
-        TextButton btnBuildScreen = new TextButton("Build ?", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnBuildScreen.setBounds(350, 240, 65, 50);
-        mStage.addActor(btnBuildScreen);
-        btnBuildScreen.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                AbstractScreen scr = new NewBuildingScreen(screen, mTown);
-                mAdapter.switchToScreen(scr, false);
-            }
-
-        });
 
         mMap = new MapGrid(this, mTown, mMapStage);
 
@@ -192,6 +127,17 @@ public class MyTownScreen extends AbstractScreen {
             }
 
             @Override
+            public void onCancelBuildingMode() {
+                if (mPlacing != null) {
+                    mPlacing.getBuildingView().remove();
+                    mPlacing.remove();
+                    mPlacing = null;
+                }
+                mGuiBuildingMode.setVisible(false);
+                mGuiGeneral.setVisible(true);
+            }
+
+            @Override
             public void onEnterBuildingMode(AbstractBuildingEntity buildingInfo) {
                 AbstractBuildingItem building = mTown.instantiateBuilding(buildingInfo);
                 Class<AbstractBuildingView> viewClass = buildingInfo.getViewClass();
@@ -204,7 +150,9 @@ public class MyTownScreen extends AbstractScreen {
                     return;
                 }
                 building.setPosition(1, 1);
-                PlacingControl pc = new PlacingControl(screen, building, view);
+                mPlacing = new PlacingControl(screen, building, view);
+                mGuiGeneral.setVisible(false);
+                mGuiBuildingMode.setVisible(true);
             }
 
             @Override
