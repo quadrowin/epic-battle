@@ -37,6 +37,8 @@ public interface TownListener {
 
     void onCancelBuildingMode();
 
+    void onConfirmBuilding();
+
     void onEnterBuildingMode(AbstractBuildingEntity building);
 
     void onUserActionFail(BuildingAction action);

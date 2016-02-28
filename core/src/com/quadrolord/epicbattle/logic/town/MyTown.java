@@ -124,6 +124,10 @@ public class MyTown {
         mListener.onCancelBuildingMode();
     }
 
+    public void confirmBuilding() {
+        mListener.onConfirmBuilding();
+    }
+
     public AbstractBuildingItem build(Class<? extends AbstractBuildingEntity> entityClass, int col, int row, boolean isRotated, boolean takeResources, boolean takeGems) {
         return build(mBuildingInfoManager.getInfo(entityClass), col, row, isRotated, takeResources, takeGems);
     }

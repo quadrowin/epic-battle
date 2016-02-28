@@ -138,6 +138,26 @@ public class MyTownScreen extends AbstractScreen {
             }
 
             @Override
+            public void onConfirmBuilding() {
+                if (mPlacing != null) {
+                    mTown.build(
+                            mPlacing.getBuildingItem().getInfo(),
+                            mPlacing.getBuildingX(),
+                            mPlacing.getBuildingY(),
+                            false,
+                            true,
+                            false
+
+                    );
+                    mPlacing.getBuildingView().remove();
+                    mPlacing.remove();
+                    mPlacing = null;
+                }
+                mGuiBuildingMode.setVisible(false);
+                mGuiGeneral.setVisible(true);
+            }
+
+            @Override
             public void onEnterBuildingMode(AbstractBuildingEntity buildingInfo) {
                 AbstractBuildingItem building = mTown.instantiateBuilding(buildingInfo);
                 Class<AbstractBuildingView> viewClass = buildingInfo.getViewClass();

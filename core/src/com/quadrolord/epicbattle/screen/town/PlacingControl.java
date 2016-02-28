@@ -21,9 +21,14 @@ public class PlacingControl extends Group {
 
     private AbstractBuildingView mBuildingView;
 
-    private int mBuildingStartX;
+    // текущая позиция здания
+    private int mBuildingPreviewX;
+    private int mBuildingPreviewY;
 
+    // начальная позиция здания
+    private int mBuildingStartX;
     private int mBuildingStartY;
+
 
     private float mCellSideX = 60;
     private float mCellSideY = 40;
@@ -53,10 +58,9 @@ public class PlacingControl extends Group {
             mDeltaX += Gdx.input.getDeltaX();
             mDeltaY -= Gdx.input.getDeltaY();
 
-            mBuilding.setPosition(
-                    mBuildingStartX + (int)((mDeltaY / mCellSideY + mDeltaX / mCellSideX)),
-                    mBuildingStartY + (int)((mDeltaY / mCellSideY - mDeltaX / mCellSideX))
-            );
+            mBuildingPreviewX = mBuildingStartX + (int)((mDeltaY / mCellSideY + mDeltaX / mCellSideX));
+            mBuildingPreviewY = mBuildingStartY + (int)((mDeltaY / mCellSideY - mDeltaX / mCellSideX));
+            mBuilding.setPosition(mBuildingPreviewX, mBuildingPreviewY);
 //            mWrapper.setX(Math.max(
 //                    mBuilding.getWidth() - mWrapper.getWidth(),
 //                    Math.min(
@@ -137,8 +141,20 @@ public class PlacingControl extends Group {
         batch.begin();
     }
 
+    public AbstractBuildingItem getBuildingItem() {
+        return mBuilding;
+    }
+
     public AbstractBuildingView getBuildingView() {
         return mBuildingView;
+    }
+
+    public int getBuildingX() {
+        return mBuildingPreviewX;
+    }
+
+    public int getBuildingY() {
+        return mBuildingPreviewY;
     }
 
 }
