@@ -3,6 +3,7 @@ package com.quadrolord.epicbattle.screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -65,19 +66,44 @@ public class MineBuildingScreen extends AbstractScreen {
         mResourceCountLabel.setBounds(0, 0, bg3.getWidth(), bg3.getHeight());
         bg3.addActor(mResourceCountLabel);
 
+        createTakeButton(bg3);
+        createMoveButton(bg3);
+    }
+
+    private void createTakeButton(Group parent) {
         TextButton btnTake = new TextButton("Take", getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
         btnTake.setBounds(
-                bg3.getWidth() - 80,
+                parent.getWidth() - 80,
                 40,
                 40,
                 40
         );
-        bg3.addActor(btnTake);
+        parent.addActor(btnTake);
         btnTake.addListener(new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 mBuilding.getInfo().takeAvailable(mBuilding);
+                getAdapter().switchToScreen(mParentScreen, true);
+            }
+
+        });
+    }
+
+    private void createMoveButton(Group parent) {
+        TextButton btnTake = new TextButton("Move", getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
+        btnTake.setBounds(
+                parent.getWidth() - 160,
+                40,
+                40,
+                40
+        );
+        parent.addActor(btnTake);
+        btnTake.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mBuilding.getTown().enterMovingMode(mBuilding);
                 getAdapter().switchToScreen(mParentScreen, true);
             }
 

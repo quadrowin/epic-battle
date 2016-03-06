@@ -178,6 +178,10 @@ public class MyTown {
         mListener.onEnterBuildingMode(be);
     }
 
+    public void enterMovingMode(AbstractBuildingItem b) {
+        mListener.onEnterBuildingMode(b);
+    }
+
     public ResourceItem getResource(Class<? extends Resource> resourceClass) {
         if (!mResources.containsKey(resourceClass)) {
             ResourceItem resource = new ResourceItem();

@@ -176,6 +176,14 @@ public class MyTownScreen extends AbstractScreen {
             }
 
             @Override
+            public void onEnterBuildingMode(AbstractBuildingItem building) {
+                AbstractBuildingView view = building.getView();
+                mPlacing = new PlacingControl(screen, building, view);
+                mGuiGeneral.setVisible(false);
+                mGuiBuildingMode.setVisible(true);
+            }
+
+            @Override
             public void onUserActionFail(BuildingAction action) {
                 Gdx.app.log(screen.getClass().getName(), "Action fail: " + action);
             }
