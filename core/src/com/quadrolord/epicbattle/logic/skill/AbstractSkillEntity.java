@@ -1,13 +1,12 @@
 package com.quadrolord.epicbattle.logic.skill;
 
+import com.quadrolord.epicbattle.logic.configurable.AbstractEntity;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 
 /**
  * Created by Quadrowin on 14.01.2016.
  */
-abstract public class AbstractSkill {
-
-    private int mLevel;
+abstract public class AbstractSkillEntity extends AbstractEntity<SkillItem> {
 
     /**
      * Иконка (для активных скилов)
@@ -17,11 +16,17 @@ abstract public class AbstractSkill {
         return null;
     }
 
-    public int getLevel() {
-        return mLevel;
+    @Override
+    public Class<? extends SkillItem> getItemClass() {
+        return SkillItem.class;
     }
 
-    public void act(float delta) {
+    @Override
+    public void initItem(SkillItem item) {
+
+    }
+
+    public void act(SkillItem skill, float delta) {
 
     }
 
@@ -29,18 +34,14 @@ abstract public class AbstractSkill {
      * Инициализация башни в начале уровня
      * @param tower
      */
-    public void initTower(Tower tower) {
+    public void initTower(SkillItem skill, Tower tower) {
 
-    }
-
-    public void setLevel(int level) {
-        mLevel = level;
     }
 
     /**
      * Использование скила в битве. Только для активных скилов.
      */
-    public void use() {
+    public void use(SkillItem skill) {
 
     }
 

@@ -1,7 +1,7 @@
 package com.quadrolord.epicbattle.logic.profile;
 
 import com.badlogic.gdx.utils.Array;
-import com.quadrolord.epicbattle.logic.skill.AbstractSkill;
+import com.quadrolord.epicbattle.logic.skill.AbstractSkillEntity;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 
 import java.util.Iterator;
@@ -60,7 +60,7 @@ public class PlayerProfile {
         return addBuilding(buildingClass);
     }
 
-    public void addSkill(Class<? extends AbstractSkill> skillClass, int level) {
+    public void addSkill(Class<? extends AbstractSkillEntity> skillClass, int level) {
         ProfileSkill sk = new ProfileSkill();
         sk.setSkillClass(skillClass);
         sk.setLevel(level);

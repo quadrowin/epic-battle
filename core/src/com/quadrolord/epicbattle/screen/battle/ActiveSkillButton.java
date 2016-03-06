@@ -19,7 +19,7 @@ public class ActiveSkillButton extends Group {
     private ImageButton mFireButton;
 
     public ActiveSkillButton(final AbstractScreen screen, Stage stage) {
-        String icon = screen.getGame().getPlayerTower().getActiveSkill().getIcon();
+        String icon = screen.getGame().getPlayerTower().getActiveSkill().getInfo().getIcon();
         Skin skin = screen.getSkin();
         if (!skin.has(icon, Texture.class)) {
             skin.add(icon, new Texture(icon));

@@ -15,7 +15,7 @@ import com.quadrolord.epicbattle.logic.GameListener;
 import com.quadrolord.epicbattle.logic.GameUnit;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.campaign.Level;
-import com.quadrolord.epicbattle.logic.skill.TowerRandomBleed;
+import com.quadrolord.epicbattle.logic.skill.passive.TowerRandomBleed;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.screen.battle.ActiveSkillButton;
 import com.quadrolord.epicbattle.screen.battle.AttackAnimation;

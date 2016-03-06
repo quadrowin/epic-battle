@@ -10,7 +10,7 @@ import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
-import com.quadrolord.epicbattle.logic.skill.AbstractSkill;
+import com.quadrolord.epicbattle.logic.skill.SkillItem;
 import com.quadrolord.epicbattle.view.TowerView;
 
 import java.util.Iterator;
@@ -20,7 +20,7 @@ import java.util.Iterator;
  */
 public class Tower extends GameUnit {
 
-    private AbstractSkill mActiveSkill;
+    private SkillItem mActiveSkill;
 
     private float mSpeedRatio = 1;
 
@@ -40,7 +40,7 @@ public class Tower extends GameUnit {
 
     private ArrayMap<Class<? extends AbstractBullet>, BulletSkill> mBulletSkills = new ArrayMap<Class<? extends AbstractBullet>, BulletSkill>();
 
-    private Array<AbstractSkill> mActSkills = new Array<AbstractSkill>();
+    private Array<SkillItem> mActSkills = new Array<SkillItem>();
     private Array<AbstractBullet> mBullets = new Array<AbstractBullet>();
     private ArrayMap<Class<? extends AbstractBullet>, BulletInfo> mBulletInfos = new ArrayMap<Class<? extends AbstractBullet>, BulletInfo>();
 
@@ -69,17 +69,17 @@ public class Tower extends GameUnit {
             }
         }
 
-        for (Iterator<AbstractSkill> skill_it = mActSkills.iterator(); skill_it.hasNext(); ) {
-            AbstractSkill skill = skill_it.next();
-            skill.act(delta);
+        for (Iterator<SkillItem> skill_it = mActSkills.iterator(); skill_it.hasNext(); ) {
+            SkillItem skill = skill_it.next();
+            skill.getInfo().act(skill, delta);
         }
     }
 
-    public void addActSkill(AbstractSkill skill) {
+    public void addActSkill(SkillItem skill) {
         mActSkills.add(skill);
     }
 
-    public AbstractSkill getActiveSkill() {
+    public SkillItem getActiveSkill() {
         return mActiveSkill;
     }
 
@@ -103,7 +103,7 @@ public class Tower extends GameUnit {
         return super.getBounds();
     }
 
-    public void setActiveSkill(AbstractSkill skill) {
+    public void setActiveSkill(SkillItem skill) {
         mActiveSkill = skill;
         Gdx.app.log("setActiveSkill", skill.getClass().getName());
     }
@@ -256,7 +256,7 @@ public class Tower extends GameUnit {
         if (mActiveSkill == null) {
             return;
         }
-        mActiveSkill.use();
+        mActiveSkill.getInfo().use(mActiveSkill);
     }
 
 }

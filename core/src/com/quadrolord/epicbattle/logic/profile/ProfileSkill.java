@@ -1,6 +1,6 @@
 package com.quadrolord.epicbattle.logic.profile;
 
-import com.quadrolord.epicbattle.logic.skill.AbstractSkill;
+import com.quadrolord.epicbattle.logic.skill.AbstractSkillEntity;
 import com.quadrolord.epicbattle.logic.skill.DummySkill;
 
 /**
@@ -16,9 +16,9 @@ public class ProfileSkill {
         return skill;
     }
 
-    public Class<? extends AbstractSkill> getSkillClass() {
+    public Class<? extends AbstractSkillEntity> getSkillClass() {
         try {
-            return (Class<? extends AbstractSkill>) Class.forName(skill);
+            return (Class<? extends AbstractSkillEntity>) Class.forName(skill);
         } catch (Exception e) {
             return DummySkill.class;
         }
@@ -32,7 +32,7 @@ public class ProfileSkill {
         level = value;
     }
 
-    public void setSkillClass(Class<? extends AbstractSkill> skillClass) {
+    public void setSkillClass(Class<? extends AbstractSkillEntity> skillClass) {
         skill = skillClass.getName();
     }
 

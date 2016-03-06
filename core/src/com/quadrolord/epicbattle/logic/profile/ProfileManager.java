@@ -3,9 +3,9 @@ package com.quadrolord.epicbattle.logic.profile;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
-import com.quadrolord.epicbattle.logic.skill.PowerWave;
-import com.quadrolord.epicbattle.logic.skill.TowerMaxHp;
-import com.quadrolord.epicbattle.logic.skill.TowerRandomBleed;
+import com.quadrolord.epicbattle.logic.skill.active.PowerWave;
+import com.quadrolord.epicbattle.logic.skill.passive.TowerMaxHp;
+import com.quadrolord.epicbattle.logic.skill.passive.TowerRandomBleed;
 import com.quadrolord.epicbattle.logic.utils.PlatformServices;
 
 /**

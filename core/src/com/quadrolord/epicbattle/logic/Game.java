@@ -11,11 +11,12 @@ import com.quadrolord.epicbattle.logic.campaign.CampaignManager;
 import com.quadrolord.epicbattle.logic.campaign.EnemyTower;
 import com.quadrolord.epicbattle.logic.campaign.Level;
 import com.quadrolord.epicbattle.logic.profile.PlayerProfile;
-import com.quadrolord.epicbattle.logic.profile.ProfileBuilding;
 import com.quadrolord.epicbattle.logic.profile.ProfileManager;
 import com.quadrolord.epicbattle.logic.profile.ProfileSkill;
-import com.quadrolord.epicbattle.logic.skill.AbstractSkill;
+import com.quadrolord.epicbattle.logic.skill.AbstractSkillEntity;
 import com.quadrolord.epicbattle.logic.skill.DummySkill;
+import com.quadrolord.epicbattle.logic.skill.SkillItem;
+import com.quadrolord.epicbattle.logic.skill.SkillManager;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.logic.tower.controller.AbstractController;
 import com.quadrolord.epicbattle.logic.tower.controller.ControllerAi;
@@ -53,6 +54,8 @@ public class Game {
     private ProfileManager mProfileManager;
 
     private BulletInfoManager mBulletInfoManager = new BulletInfoManager();
+
+    private SkillManager mSkillManager = new SkillManager();
 
     private SoundManager mSoundManager = new SoundManager();
 
@@ -214,17 +217,13 @@ public class Game {
         PlayerProfile profile = mProfileManager.getProfile();
         // доступные скилы
         for (Iterator<ProfileSkill> it = profile.getSkills().iterator(); it.hasNext(); ) {
-            ProfileSkill skillInfo = it.next();
-            AbstractSkill skill;
-            try {
-                skill = skillInfo.getSkillClass().newInstance();
-                Gdx.app.log("initPlayerTower", "Skill inited " + skillInfo.getSkillName());
-            } catch (Exception e) {
-                Gdx.app.error("initPlayerTower", "Error skill " + skillInfo.getSkillName());
-                skill = new DummySkill();
-            }
-            skill.setLevel(skillInfo.getLevel());
-            skill.initTower(tower);
+            ProfileSkill profileSkill = it.next();
+            AbstractSkillEntity skillEntity = mSkillManager.get(profileSkill.getSkillClass());
+            SkillItem skill = new SkillItem();
+            skill.setInfo(skillEntity);
+            skill.setLevel(profileSkill.getLevel());
+            Gdx.app.log("initPlayerTower", "Skill inited " + profileSkill.getSkillName());
+            skillEntity.initTower(skill, tower);
         }
 //        // доступные виды юнитов
 //        for (Iterator<ProfileBuilding> it = profile.getBullets().iterator(); it.hasNext(); ) {

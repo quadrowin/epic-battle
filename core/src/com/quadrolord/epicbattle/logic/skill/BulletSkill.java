@@ -8,17 +8,17 @@ import java.lang.reflect.ParameterizedType;
 /**
  * Created by Quadrowin on 25.01.2016.
  */
-abstract public class BulletSkill <T extends AbstractBullet> extends AbstractSkill {
+abstract public class BulletSkill <T extends AbstractBullet> extends AbstractSkillEntity {
 
     /**
      * Инициализация башни в начале уровня
      * @param tower
      */
     @Override
-    public void initTower(Tower tower) {
+    public void initTower(SkillItem skill, Tower tower) {
         ParameterizedType type = (ParameterizedType)getClass().getGenericSuperclass();
         Class parameter = (Class)type.getActualTypeArguments()[0];
-        tower.addBulletSkill(parameter, getLevel());
+        tower.addBulletSkill(parameter, skill.getLevel());
     }
 
 }
