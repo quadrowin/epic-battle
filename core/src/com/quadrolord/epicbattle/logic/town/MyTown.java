@@ -163,10 +163,14 @@ public class MyTown {
         }
 
         mBuildings.add(item);
+        if (takeResources || takeGems) {
+            // TODO separated flag for construction start required.
+            item.startConstruction();
+        }
 
         for (int i = col; i < col + item.getWidth(); i++) {
             for (int j = row; j < row + item.getHeight(); j++) {
-//                mMap[i][j].markAsBusy();
+//                mMap[i][j].markAsBusy(item);
             }
         }
 
@@ -248,7 +252,7 @@ public class MyTown {
             return;
         }
 
-        if (building.isInUpdating()) {
+        if (building.isInConstruction()) {
             mListener.onUserActionFail(TownListener.BuildingAction.LEVEL_IN_UPDATING);
             return;
         }
@@ -314,7 +318,11 @@ public class MyTown {
             AbstractBuildingItem b = mBuildings.get(i);
             if (col == b.getX() && row == b.getY()) {
                 mListener.onBuildingSelect(b);
-                b.getInfo().runOnSelect(b);
+                if (b.isInConstruction()) {
+                    b.getInfo().runOnSelectUpdating(b);
+                } else {
+                    b.getInfo().runOnSelect(b);
+                }
             }
         }
     }

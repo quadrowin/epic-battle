@@ -11,6 +11,7 @@ import com.quadrolord.epicbattle.logic.town.resource.ResourceItem;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceEntity;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceItem;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
+import com.quadrolord.epicbattle.screen.ConstructionBuildingScreen;
 import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
 
 import java.util.Iterator;
@@ -86,12 +87,25 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
         return mLevelingStrategy;
     }
 
+    /**
+     * Выбор здания
+     * @param item
+     */
     public void runOnSelect(AbstractBuildingItem item) {
 
     }
 
-    public AbstractBuildingEntity setConstructionTime(float $time) {
-        mConstructionTime = $time;
+    /**
+     * Выбор здания в процессе постройки
+     * @param item
+     */
+    public void runOnSelectUpdating(AbstractBuildingItem item) {
+        ConstructionBuildingScreen scr = new ConstructionBuildingScreen(item.getView().getScreen(), item);
+        item.getView().getScreen().getAdapter().switchToScreen(scr, false);
+    }
+
+    public AbstractBuildingEntity setConstructionTime(float time) {
+        mConstructionTime = time;
         return this;
     }
 

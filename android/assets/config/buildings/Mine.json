@@ -1,5 +1,6 @@
 {
   "title": "Mine",
+  "construction_time": 10,
   "size": [2, 2],
   "slider_texture": "town/mine1.png"
 }

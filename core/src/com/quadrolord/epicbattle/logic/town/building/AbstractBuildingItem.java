@@ -19,7 +19,7 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
 
     protected AbstractBuildingView mView;
 
-    protected boolean mIsInUpdating = false;
+    protected boolean mIsInConstruction = false;
 
     protected float mRemainingUpdatingTime = 0;
 
@@ -115,8 +115,8 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
         return mLevel <= getInfo().getLevelUps().size - 1;
     }
 
-    public boolean isInUpdating() {
-        return mIsInUpdating;
+    public boolean isInConstruction() {
+        return mIsInConstruction;
     }
 
     public float getRemainingUpdatingTime() {
@@ -125,8 +125,7 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
 
     public void levelUp() {
         getInfo().setLevel(mLevel + 1);
-        mRemainingUpdatingTime = getInfo().getConstructionTime();
-        mIsInUpdating = true;
+        startConstruction();
     }
 
     public Array<ResourceSourceItem> getResources() {
@@ -135,6 +134,11 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
 
     public void setView(AbstractBuildingView view) {
         mView = view;
+    }
+
+    public void startConstruction() {
+        mRemainingUpdatingTime = getInfo().getConstructionTime();
+        mIsInConstruction = true;
     }
 
 }

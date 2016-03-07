@@ -1,7 +1,7 @@
 package com.quadrolord.epicbattle.logic.town.tile;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.view.town.tile.TileView;
 
 /**
@@ -11,6 +11,7 @@ public abstract class Tile {
     protected Vector2 mPosition;
     protected TileView mView;
     protected boolean mIsFree;
+    protected AbstractBuildingItem mBuilding;
 
     public Tile() {
 
@@ -32,6 +33,10 @@ public abstract class Tile {
 
     public void setPosition(Vector2 position) {
         mPosition = position;
+    }
+
+    public AbstractBuildingItem getBuilding() {
+        return mBuilding;
     }
 
     public Vector2 getPosition() {
@@ -63,14 +68,14 @@ public abstract class Tile {
     }
 
     public boolean isFree() {
-        return mIsFree;
+        return mBuilding == null;
     }
 
     public void markAsFree() {
-        mIsFree = true;
+        mBuilding = null;
     }
 
-    public void markAsBusy() {
-        mIsFree = false;
+    public void markAsBusy(AbstractBuildingItem building) {
+        mBuilding = building;
     }
 }

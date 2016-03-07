@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.utils.PlatformServices;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
-import com.quadrolord.epicbattle.screen.BattleScreen;
+import com.quadrolord.epicbattle.screen.MyTownScreen;
 
 public class EpicBattle extends ApplicationAdapter {
 
@@ -37,8 +37,8 @@ public class EpicBattle extends ApplicationAdapter {
 	public void create () {
 		mGame = new Game(mPlatformServices);
 		mFps = new FPSLogger();
-		mScreen = new BattleScreen(this, null);
-//		mScreen = new MyTownScreen(this);
+//		mScreen = new BattleScreen(this, null);
+		mScreen = new MyTownScreen(this);
 		mScreen.switchIn();
 	}
 

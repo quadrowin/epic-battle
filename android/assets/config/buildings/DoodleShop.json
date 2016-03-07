@@ -1,5 +1,6 @@
 {
   "game_texture": "town/doodle.png",
+  "construction_time": 20,
   "title": "Doodles!",
   "size": [1, 1],
   "slider_texture": "town/doodle.png"
