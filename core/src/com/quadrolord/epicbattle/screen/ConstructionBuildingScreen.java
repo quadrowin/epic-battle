@@ -87,8 +87,8 @@ public class ConstructionBuildingScreen extends AbstractScreen {
 
     @Override
     public void update(float delta) {
-        int remain = (int)mBuilding.getRemainingUpdatingTime();
-        mRemainLabel.setText("Remains: " + remain);
+        float remain = (float)mBuilding.getRemainingUpdatingTime() / 1000;
+        mRemainLabel.setText(String.format("Remains: %.1f s", remain));
     }
 
 }

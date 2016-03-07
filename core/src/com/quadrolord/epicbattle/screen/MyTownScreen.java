@@ -169,7 +169,10 @@ public class MyTownScreen extends AbstractScreen {
                     e.printStackTrace();
                     return;
                 }
-                building.setPosition(1, 1);
+                building.setPosition(
+                        Math.round(mDeltaX / mMap.getCellSideX()) + 4,
+                        Math.round(mDeltaY / mMap.getCellSideY())
+                );
                 mPlacing = new PlacingControl(screen, building, view);
                 mGuiGeneral.setVisible(false);
                 mGuiBuildingMode.setVisible(true);

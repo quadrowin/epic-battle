@@ -31,7 +31,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
     private Array<ResourceSourceEntity> mResources = new Array<ResourceSourceEntity>();
 
     protected int mCostGem;
-    protected float mConstructionTime;
+    protected long mConstructionTime;
     protected AbstractStrategy mLevelingStrategy;
     protected Array<AbstractBuildingEntity> mLevelUps = new Array<AbstractBuildingEntity>();
 
@@ -43,7 +43,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
         return mLevelUps;
     }
 
-    public float getConstructionTime() {
+    public long getConstructionTime() {
         return mConstructionTime;
     }
 
@@ -104,7 +104,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
         item.getView().getScreen().getAdapter().switchToScreen(scr, false);
     }
 
-    public AbstractBuildingEntity setConstructionTime(float time) {
+    public AbstractBuildingEntity setConstructionTime(long time) {
         mConstructionTime = time;
         return this;
     }

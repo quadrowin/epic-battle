@@ -7,8 +7,11 @@ import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
  * Created by morph on 24.01.2016.
  */
 public class ConstructionTime extends AbstractLoader {
+
     @Override
     public void assign(AbstractBuildingEntity info, JsonValue data) {
-        info.setConstructionTime(data.asFloat());
+        // seconds to millis
+        info.setConstructionTime((long)(data.asFloat() * 1000));
     }
+
 }

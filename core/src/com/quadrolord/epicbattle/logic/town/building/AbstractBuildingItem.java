@@ -2,6 +2,7 @@ package com.quadrolord.epicbattle.logic.town.building;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.quadrolord.epicbattle.logic.configurable.AbstractItem;
 import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceItem;
@@ -21,7 +22,9 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
 
     protected boolean mIsInConstruction = false;
 
-    protected float mRemainingUpdatingTime = 0;
+    private long mConstructionStartTime = 0;
+    private long mConstructionFinishTime = 0;
+    private long mConstructionDuration = 0;
 
     private Array<ResourceSourceItem> mResources = new Array<ResourceSourceItem>();
 
@@ -116,11 +119,25 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
     }
 
     public boolean isInConstruction() {
+        if (!mIsInConstruction) {
+            return false;
+        }
+        if (mConstructionFinishTime <= TimeUtils.millis()) {
+            mIsInConstruction = false;
+        }
         return mIsInConstruction;
     }
 
-    public float getRemainingUpdatingTime() {
-        return mRemainingUpdatingTime;
+    public long getRemainingUpdatingTime() {
+        if (!mIsInConstruction) {
+            return 0;
+        }
+        long now = TimeUtils.millis();
+        if (mConstructionFinishTime <= now) {
+            mIsInConstruction = false;
+            return 0;
+        }
+        return mConstructionFinishTime - now;
     }
 
     public void levelUp() {
@@ -137,7 +154,9 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
     }
 
     public void startConstruction() {
-        mRemainingUpdatingTime = getInfo().getConstructionTime();
+        mConstructionStartTime = TimeUtils.millis();
+        mConstructionDuration = getInfo().getConstructionTime();
+        mConstructionFinishTime = mConstructionStartTime + mConstructionDuration;
         mIsInConstruction = true;
     }
 
