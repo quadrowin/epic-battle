@@ -11,7 +11,8 @@ import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.entity.DoodleShop;
 import com.quadrolord.epicbattle.logic.town.building.entity.Mine;
 import com.quadrolord.epicbattle.logic.town.building.entity.SheepFarm;
-import com.quadrolord.epicbattle.logic.town.resource.Resource;
+import com.quadrolord.epicbattle.logic.town.building.entity.Smithy;
+import com.quadrolord.epicbattle.logic.town.resource.ResourceEntity;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceItem;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
 
@@ -33,7 +34,7 @@ public class MyTown {
     private int mLevel = 1;
     private int mGemsCount = 1;
 
-    private ArrayMap<Class<? extends Resource>, ResourceItem> mResources = new ArrayMap<Class<? extends Resource>, ResourceItem>();
+    private ArrayMap<Class<? extends ResourceEntity>, ResourceItem> mResources = new ArrayMap<Class<? extends ResourceEntity>, ResourceItem>();
     private BuildingInfoManager mBuildingInfoManager;
 
     private TownListener mListener;
@@ -59,6 +60,7 @@ public class MyTown {
         bts.add(mBuildingInfoManager.getInfo(Mine.class));
         bts.add(mBuildingInfoManager.getInfo(SheepFarm.class));
         bts.add(mBuildingInfoManager.getInfo(DoodleShop.class));
+        bts.add(mBuildingInfoManager.getInfo(Smithy.class));
         return bts;
     }
 
@@ -86,11 +88,11 @@ public class MyTown {
     }
 
     public boolean hasResources(AbstractBuildingEntity building) {
-        Iterator<ObjectMap.Entry<Class<? extends Resource>, Integer>> iter = building.getRequiredResources().iterator();
+        Iterator<ObjectMap.Entry<Class<? extends ResourceEntity>, Integer>> iter = building.getRequiredResources().iterator();
 
         while (iter.hasNext()) {
-            ObjectMap.Entry<Class<? extends Resource>, Integer> next = iter.next();
-            Class<? extends Resource> resourceClass = next.key;
+            ObjectMap.Entry<Class<? extends ResourceEntity>, Integer> next = iter.next();
+            Class<? extends ResourceEntity> resourceClass = next.key;
             int cost = next.value;
 
             if (!mResources.containsKey(resourceClass) || mResources.get(resourceClass).getValue() < cost) {
@@ -186,11 +188,11 @@ public class MyTown {
         mListener.onEnterBuildingMode(b);
     }
 
-    public ResourceItem getResource(Class<? extends Resource> resourceClass) {
+    public ResourceItem getResource(Class<? extends ResourceEntity> resourceClass) {
         if (!mResources.containsKey(resourceClass)) {
             ResourceItem resource = new ResourceItem();
 
-            Resource info;
+            ResourceEntity info;
             try {
                 info = resourceClass.newInstance();
             } catch (Exception e) {
@@ -228,11 +230,11 @@ public class MyTown {
      * @param entity
      */
     public void takeAwayResources(AbstractBuildingEntity entity) {
-        Iterator<ObjectMap.Entry<Class<? extends Resource>, Integer>> iter = entity.getRequiredResources().iterator();
+        Iterator<ObjectMap.Entry<Class<? extends ResourceEntity>, Integer>> iter = entity.getRequiredResources().iterator();
 
         while (iter.hasNext()) {
-            ObjectMap.Entry<Class<? extends Resource>, Integer> next = iter.next();
-            Class<? extends Resource> resourceClass = next.key;
+            ObjectMap.Entry<Class<? extends ResourceEntity>, Integer> next = iter.next();
+            Class<? extends ResourceEntity> resourceClass = next.key;
             int cost = next.value;
 
             if (mResources.containsKey(resourceClass)) {

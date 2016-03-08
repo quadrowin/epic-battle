@@ -1,5 +1,6 @@
 package com.quadrolord.epicbattle.view.town.building;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -53,12 +54,14 @@ abstract public class AbstractBuildingView extends Group {
             csx = mMap.getCellSideX();
             csy = mMap.getCellSideY();
         }
-        float sx = csx * mBuilding.getSize().x;
-        float sy = csy * mBuilding.getSize().y;
-        System.out.println(" " + sx + " " + sy);
+        float scale = 1;
+        if (mBuilding.isInConstruction()) {
+            scale = 1 - Math.abs((float)(mBuilding.getRemainingUpdatingTime() % 1000 - 500)) / 2000;
+        }
+        Gdx.app.log("building scale", "" + scale);
         batch.draw(
                 mBuildingTexture,
-                0, 0, csx * mBuilding.getSize().x, csy * mBuilding.getSize().y
+                0, 0, csx * mBuilding.getSize().x * scale, csy * mBuilding.getSize().y * scale
         );
     }
 

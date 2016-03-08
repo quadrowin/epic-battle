@@ -3,7 +3,7 @@ package com.quadrolord.epicbattle.logic.town.building.loader;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonValue;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
-import com.quadrolord.epicbattle.logic.town.resource.Resource;
+import com.quadrolord.epicbattle.logic.town.resource.ResourceEntity;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceEntity;
 
 /**
@@ -16,11 +16,11 @@ public class Resources extends AbstractLoader {
         for (JsonValue.JsonIterator it = data.iterator(); it.hasNext(); ) {
             JsonValue param = it.next();
             String resourceClassName = param.getString("name");
-            Class<? extends Resource> resourceClass;
+            Class<? extends ResourceEntity> resourceClass;
             try {
-                resourceClass = (Class<? extends Resource>) Class.forName(resourceClassName);
+                resourceClass = (Class<? extends ResourceEntity>) Class.forName(resourceClassName);
             } catch (Exception e) {
-                Gdx.app.error("Resources Loader", "Resource class not found", e);
+                Gdx.app.error("Resources Loader", "ResourceEntity class not found", e);
                 continue;
             }
             int maxBalance = param.getInt("max", 10);

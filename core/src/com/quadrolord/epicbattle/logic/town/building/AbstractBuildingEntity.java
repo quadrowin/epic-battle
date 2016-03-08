@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.quadrolord.epicbattle.logic.configurable.AbstractEntity;
 import com.quadrolord.epicbattle.logic.town.building.leveling.AbstractStrategy;
-import com.quadrolord.epicbattle.logic.town.resource.Resource;
+import com.quadrolord.epicbattle.logic.town.resource.ResourceEntity;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceItem;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceEntity;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceItem;
@@ -26,7 +26,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
     protected Class<? extends AbstractBuildingView> mViewClass;
     protected String mIcon;
     protected Class<? extends Tile> mTileClass;
-    protected ArrayMap<Class<? extends Resource>, Integer> mRequiredResources = new ArrayMap<Class<? extends Resource>, Integer>();
+    protected ArrayMap<Class<? extends ResourceEntity>, Integer> mRequiredResources = new ArrayMap<Class<? extends ResourceEntity>, Integer>();
     protected int mRequiredLevel = 1;
     private Array<ResourceSourceEntity> mResources = new Array<ResourceSourceEntity>();
 
@@ -67,7 +67,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
         return mSliderTexture;
     }
 
-    public ArrayMap<Class<? extends Resource>, Integer> getRequiredResources() {
+    public ArrayMap<Class<? extends ResourceEntity>, Integer> getRequiredResources() {
         return mRequiredResources;
     }
 
@@ -138,7 +138,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
         mSliderTexture = texture;
     }
 
-    public AbstractBuildingEntity setRequiredResources(ArrayMap<Class<? extends Resource>, Integer> resources) {
+    public AbstractBuildingEntity setRequiredResources(ArrayMap<Class<? extends ResourceEntity>, Integer> resources) {
         mRequiredResources = resources;
         return this;
     }
@@ -176,7 +176,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
             updateBalance(rs);
             long balance = rs.getCurrentBalance();
             rs.setLastYield(TimeUtils.millis());
-            ResourceItem resource = mine.getTown().getResource(rs.getEntity().getResourceClass());
+            ResourceItem resource = mine.getTown().getResource(rs.getInfo().getResourceClass());
             resource.incValue(balance);
         }
     }
@@ -189,9 +189,9 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
     }
 
     public void updateBalance(ResourceSourceItem rs) {
-        float pr = rs.getEntity().getProductionRate();
+        float pr = rs.getInfo().getProductionRate();
         int deltaBalance = (int)((TimeUtils.millis() - rs.getLastYield()) * pr * .001f);
-        long balance = Math.min(rs.getEntity().getMaxBalance(), deltaBalance);
+        long balance = Math.min(rs.getInfo().getMaxBalance(), deltaBalance);
         rs.setCurrentBalance(balance);
     }
 

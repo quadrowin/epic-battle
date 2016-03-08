@@ -1,12 +1,12 @@
 package com.quadrolord.epicbattle.logic.town.resource;
 
+import com.quadrolord.epicbattle.logic.configurable.AbstractItem;
+
 /**
  * Состояние ресурса у игрока
  * Created by Quadrowin on 01.02.2016.
  */
-public class ResourceItem {
-
-    private Resource mInfo;
+public class ResourceItem extends AbstractItem<ResourceEntity> {
 
     private float mValue;
 
@@ -24,20 +24,12 @@ public class ResourceItem {
         return mValue;
     }
 
-    public Resource getInfo() {
-        return mInfo;
-    }
-
     public void incValue(float delta) {
         mValue += delta;
     }
 
     public void setDelta(float delta) {
         mDelta = delta;
-    }
-
-    public void setInfo(Resource info) {
-        mInfo = info;
     }
 
     public void setValue(float value) {

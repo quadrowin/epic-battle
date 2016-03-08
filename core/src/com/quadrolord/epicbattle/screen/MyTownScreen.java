@@ -161,6 +161,11 @@ public class MyTownScreen extends AbstractScreen {
             public void onEnterBuildingMode(AbstractBuildingEntity buildingInfo) {
                 AbstractBuildingItem building = mTown.instantiateBuilding(buildingInfo);
                 Class<AbstractBuildingView> viewClass = buildingInfo.getViewClass();
+                if (viewClass == null) {
+                    Exception e = new Exception("No view class for building " + buildingInfo.getTitle());
+                    e.printStackTrace();
+                    return;
+                }
                 AbstractBuildingView view;
                 try {
                     view = viewClass.getConstructor(AbstractScreen.class, MapGrid.class, AbstractBuildingItem.class).newInstance(screen, mMap, building);

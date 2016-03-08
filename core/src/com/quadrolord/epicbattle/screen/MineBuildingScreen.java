@@ -31,7 +31,7 @@ public class MineBuildingScreen extends AbstractScreen {
         Group wg = new SubScreenWindow(this).getInnerGroup();
 
         Array<ResourceSourceItem> resources = mBuilding.getResources();
-        mResourceCountLabel = new Label("Resource count " + resources.get(0).getCurrentBalance(), mSkin.get("default-label-style", Label.LabelStyle.class));
+        mResourceCountLabel = new Label("ResourceEntity count " + resources.get(0).getCurrentBalance(), mSkin.get("default-label-style", Label.LabelStyle.class));
         mResourceCountLabel.setAlignment(Align.center, Align.center);
         mResourceCountLabel.setBounds(0, 0, wg.getWidth(), wg.getHeight());
         wg.addActor(mResourceCountLabel);
@@ -90,6 +90,6 @@ public class MineBuildingScreen extends AbstractScreen {
     public void update(float delta) {
         mBuilding.getInfo().updateBalanceFull(mBuilding);
         Array<ResourceSourceItem> resources = mBuilding.getResources();
-        mResourceCountLabel.setText("Resource count " + resources.get(0).getCurrentBalance());
+        mResourceCountLabel.setText("ResourceEntity count " + resources.get(0).getCurrentBalance());
     }
 }

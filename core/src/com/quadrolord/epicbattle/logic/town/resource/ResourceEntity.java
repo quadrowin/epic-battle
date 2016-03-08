@@ -1,17 +1,27 @@
 package com.quadrolord.epicbattle.logic.town.resource;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.quadrolord.epicbattle.logic.configurable.AbstractEntity;
 
 /**
  * Вид ресурса
  * Created by morph on 17.01.2016.
  */
-public abstract class Resource {
-    protected Texture mIcon;
+public abstract class ResourceEntity extends AbstractEntity<ResourceItem> {
+    protected String mIcon;
     protected String mTitle;
     protected String mShort;
 
-    public Resource() {
+    public ResourceEntity() {
+
+    }
+
+    @Override
+    public Class getItemClass() {
+        return ResourceItem.class;
+    }
+
+    @Override
+    public void initItem(ResourceItem item) {
 
     }
 
@@ -23,17 +33,15 @@ public abstract class Resource {
         return mTitle;
     }
 
-
-
     public void setTitle(String title) {
         mTitle = title;
     }
 
-    public Texture getIcon() {
+    public String getIcon() {
         return mIcon;
     }
 
-    public void setIcon(Texture icon) {
+    public void setIcon(String icon) {
         mIcon = icon;
     }
 }

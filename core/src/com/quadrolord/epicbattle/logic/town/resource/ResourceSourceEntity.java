@@ -1,9 +1,11 @@
 package com.quadrolord.epicbattle.logic.town.resource;
 
+import com.quadrolord.epicbattle.logic.configurable.AbstractEntity;
+
 /**
  * Created by Quadrowin on 07.02.2016.
  */
-public class ResourceSourceEntity {
+public class ResourceSourceEntity extends AbstractEntity<ResourceSourceItem> {
 
     /**
      * Производство ресурса в секунду
@@ -15,13 +17,13 @@ public class ResourceSourceEntity {
      */
     private long mMaxBalance = 100;
 
-    private Class<? extends Resource> mResourceClass;
+    private Class<? extends ResourceEntity> mResourceClass;
 
     public long getMaxBalance() {
         return mMaxBalance;
     }
 
-    public Class<? extends Resource> getResourceClass() {
+    public Class<? extends ResourceEntity> getResourceClass() {
         return mResourceClass;
     }
 
@@ -33,7 +35,7 @@ public class ResourceSourceEntity {
         mMaxBalance = value;
     }
 
-    public void setResourceClass(Class<? extends Resource> resourceClass) {
+    public void setResourceClass(Class<? extends ResourceEntity> resourceClass) {
         mResourceClass = resourceClass;
     }
 
@@ -41,4 +43,13 @@ public class ResourceSourceEntity {
         mProductionRate = value;
     }
 
+    @Override
+    public Class<? extends ResourceSourceItem> getItemClass() {
+        return ResourceSourceItem.class;
+    }
+
+    @Override
+    public void initItem(ResourceSourceItem item) {
+
+    }
 }

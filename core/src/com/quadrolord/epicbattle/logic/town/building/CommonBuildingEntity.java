@@ -26,7 +26,7 @@ public class CommonBuildingEntity extends AbstractBuildingEntity<CommonBuildingI
         for (Iterator<ResourceSourceEntity> it = getResources().iterator(); it.hasNext(); ) {
             ResourceSourceEntity rse = it.next();
             ResourceSourceItem rsi = new ResourceSourceItem();
-            rsi.setEntity(rse);
+            rsi.setInfo(rse);
             rsi.setLastYield(TimeUtils.millis());
             item.getResources().add(rsi);
         }
