@@ -19,7 +19,7 @@ public class ActiveSkillButton extends Group {
     private ImageButton mFireButton;
 
     public ActiveSkillButton(final AbstractScreen screen, Stage stage) {
-        String icon = screen.getGame().getPlayerTower().getActiveSkill().getInfo().getIcon();
+        String icon = screen.getGame().getBattleGame().getPlayerTower().getActiveSkill().getInfo().getIcon();
         Skin skin = screen.getSkin();
         if (!skin.has(icon, Texture.class)) {
             skin.add(icon, new Texture(icon));
@@ -40,7 +40,7 @@ public class ActiveSkillButton extends Group {
 
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                screen.getGame().getPlayerTower().useActiveSkill();
+                screen.getGame().getBattleGame().getPlayerTower().useActiveSkill();
             }
 
         });

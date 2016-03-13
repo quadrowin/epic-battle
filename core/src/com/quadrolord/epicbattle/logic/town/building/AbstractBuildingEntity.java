@@ -11,7 +11,7 @@ import com.quadrolord.epicbattle.logic.town.resource.ResourceItem;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceEntity;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceItem;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
-import com.quadrolord.epicbattle.screen.ConstructionBuildingScreen;
+import com.quadrolord.epicbattle.screen.town.building.ConstructionBuildingScreen;
 import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
 
 import java.util.Iterator;
@@ -20,8 +20,27 @@ import java.util.Iterator;
  * Created by morph on 17.01.2016.
  */
 abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> extends AbstractEntity<T> {
+
+    /**
+     * Здание возможно снести
+     */
+    private boolean mAllowDestruction;
+
+    /**
+     * Здание возможно перемещать
+     */
+    private boolean mAllowMoving;
+
     protected String mTitle;
+
+    /**
+     * Количество занимаемых клеток
+     */
     protected Vector2 mSize = new Vector2(1, 1);
+
+    /**
+     * Изображение на экране выборе постройки
+     */
     protected String mSliderTexture;
     protected Class<? extends AbstractBuildingView> mViewClass;
     protected String mIcon;
@@ -34,6 +53,14 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
     protected long mConstructionTime;
     protected AbstractStrategy mLevelingStrategy;
     protected Array<AbstractBuildingEntity> mLevelUps = new Array<AbstractBuildingEntity>();
+
+    public boolean getAllowDestruction() {
+        return mAllowDestruction;
+    }
+
+    public boolean getAllowMoving() {
+        return mAllowMoving;
+    }
 
     public String getTitle() {
         return mTitle;
@@ -102,6 +129,14 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
     public void runOnSelectUpdating(AbstractBuildingItem item) {
         ConstructionBuildingScreen scr = new ConstructionBuildingScreen(item.getView().getScreen(), item);
         item.getView().getScreen().getAdapter().switchToScreen(scr, false);
+    }
+
+    public void setAllowDestruction(boolean value) {
+        mAllowDestruction = value;
+    }
+
+    public void setAllowMoving(boolean value) {
+        mAllowMoving = value;
     }
 
     public AbstractBuildingEntity setConstructionTime(long time) {

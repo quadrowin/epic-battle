@@ -23,13 +23,13 @@ public class BulletPanel extends Group {
             public void clicked(InputEvent event, float x, float y) {
                 BulletButton btn = (BulletButton)event.getListenerActor();
                 screen.getGame().getSoundManager().play(SoundManager.MENU_CLICK);
-                screen.getGame().getPlayerController().callFire(btn.getBulletClass());
+                screen.getGame().getBattleGame().getPlayerController().callFire(btn.getBulletClass());
             }
 
         };
 
         int i = 0;
-        for (Iterator<BulletSkill> it = screen.getGame().getPlayerTower().getBulletSkills().values().iterator(); it.hasNext(); ) {
+        for (Iterator<BulletSkill> it = screen.getGame().getBattleGame().getPlayerTower().getBulletSkills().values().iterator(); it.hasNext(); ) {
             BulletButton btn = new BulletButton(screen, it.next());
             btn.setBounds(i * 50, 0, 40, 40);
             btn.addListener(clickListener);

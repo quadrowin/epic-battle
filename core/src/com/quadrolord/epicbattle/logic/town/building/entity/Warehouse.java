@@ -1,20 +1,30 @@
 package com.quadrolord.epicbattle.logic.town.building.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.CommonBuildingEntity;
+import com.quadrolord.epicbattle.logic.town.building.CommonBuildingItem;
 import com.quadrolord.epicbattle.screen.HintScreen;
-import com.quadrolord.epicbattle.view.town.building.RightLegTempleView;
+import com.quadrolord.epicbattle.view.town.building.WarehouseView;
 
 /**
- * Created by Quadrowin on 31.01.2016.
+ * Created by Quadrowin on 12.03.2016.
  */
-public class RightLegTemple extends CommonBuildingEntity {
+public class Warehouse extends CommonBuildingEntity {
 
-    public RightLegTemple() {
-        setAllowDestruction(false);
-        setAllowMoving(false);
-        setViewClass(RightLegTempleView.class);
+    public Warehouse() {
+        setViewClass(WarehouseView.class);
+
+        setConstructionTime(30 * 1000);
+        setTitle("Warehouse");
+        setSize(new Vector2(1, 1));
+        setSliderTexture("town/warehouse128.png");
+    }
+
+    @Override
+    public void initItem(CommonBuildingItem item) {
+
     }
 
     @Override

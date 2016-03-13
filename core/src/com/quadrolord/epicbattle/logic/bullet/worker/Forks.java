@@ -1,8 +1,8 @@
 package com.quadrolord.epicbattle.logic.bullet.worker;
 
-import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.leveling.SimpleStrategy;
+import com.quadrolord.epicbattle.logic.tower.BattleGame;
 
 /**
  * Юнит раздваивается на 2 при смерти
@@ -11,7 +11,7 @@ public class Forks extends AbstractBullet {
 
     private int mStage = 1;
 
-    public Forks(Game game) {
+    public Forks(BattleGame game) {
         super(game);
     }
 

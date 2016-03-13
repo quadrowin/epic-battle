@@ -98,7 +98,7 @@ public class DebugPanel extends Group {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                for (Iterator<BulletSkill> it = mScreen.getGame().getPlayerTower().getBulletSkills().values().iterator(); it.hasNext(); ) {
+                for (Iterator<BulletSkill> it = mScreen.getGame().getBattleGame().getPlayerTower().getBulletSkills().values().iterator(); it.hasNext(); ) {
                     BulletSkill skill = it.next();
                     skill.setLevel(skill.getLevel() + 1);
                 }

@@ -15,7 +15,7 @@ public class CampaignSelectScreen extends AbstractScreen {
         super(adapter);
         initFitViewport();
 
-        new CampaignsList(this, mGame.getCampaignManager().getCampaigns());
+        new CampaignsList(this, mGame.getBattleGame().getCampaignManager().getCampaigns());
 
         TextButton btnToMyTown = new TextButton("Enter your city", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
         btnToMyTown.setBounds(210, 190, 180, 50);

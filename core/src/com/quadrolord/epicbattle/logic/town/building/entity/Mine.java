@@ -5,7 +5,7 @@ import com.quadrolord.epicbattle.logic.town.building.CommonBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.CommonBuildingItem;
 import com.quadrolord.epicbattle.logic.town.resource.IronOre;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceEntity;
-import com.quadrolord.epicbattle.screen.MineBuildingScreen;
+import com.quadrolord.epicbattle.screen.town.building.MineBuildingScreen;
 import com.quadrolord.epicbattle.view.town.building.MineView;
 
 /**

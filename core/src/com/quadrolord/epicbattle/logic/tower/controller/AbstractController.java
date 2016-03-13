@@ -1,6 +1,6 @@
 package com.quadrolord.epicbattle.logic.tower.controller;
 
-import com.quadrolord.epicbattle.logic.Game;
+import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 
 /**
@@ -8,17 +8,17 @@ import com.quadrolord.epicbattle.logic.tower.Tower;
  */
 abstract public class AbstractController {
 
-    private Game mGame;
+    private BattleGame mGame;
 
     private Tower mTower;
 
-    public AbstractController(Game game) {
+    public AbstractController(BattleGame game) {
         mGame = game;
     }
 
     abstract public void act(float delta);
 
-    public Game getGame() {
+    public BattleGame getGame() {
         return mGame;
     }
 

@@ -60,9 +60,9 @@ public class VictoryScreen extends AbstractScreen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Level level = mGame.getLevel();
-                level = mGame.getCampaignManager().getNextLevel(level);
-                mGame.startLevel(level);
+                Level level = mGame.getBattleGame().getLevel();
+                level = mGame.getBattleGame().getCampaignManager().getNextLevel(level);
+                mGame.getBattleGame().startLevel(level);
                 mAdapter.switchToScreen(mBattleScreen, true);
             }
 

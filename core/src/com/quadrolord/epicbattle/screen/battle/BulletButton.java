@@ -109,8 +109,8 @@ public class BulletButton extends Group {
 
     public void act(float delta) {
         if (mBulletSkill.isInCooldown()) {
-            float constructionTime = mGame.getPlayerTower().getConstructionTime(mBulletSkill.getBulletClass());
-            float timeDelta = constructionTime - mGame.getPlayerTower().getCooldownTime(mBulletSkill.getBulletClass());
+            float constructionTime = mGame.getBattleGame().getPlayerTower().getConstructionTime(mBulletSkill.getBulletClass());
+            float timeDelta = constructionTime - mGame.getBattleGame().getPlayerTower().getCooldownTime(mBulletSkill.getBulletClass());
             mProgressBar.setValue(timeDelta / constructionTime * 100);
         } else {
             mProgressBar.setValue(mProgressBar.getMaxValue());
@@ -118,7 +118,7 @@ public class BulletButton extends Group {
 
         Color color = mFireButton.getColor();
 
-        if (!mGame.getPlayerTower().hasCash(mBulletSkill.getBulletClass())) {
+        if (!mGame.getBattleGame().getPlayerTower().hasCash(mBulletSkill.getBulletClass())) {
             mFireButton.setColor(color.r, color.b, color.g, 0.5f);
         } else {
             mFireButton.setColor(color.r, color.b, color.g, 1.0f);
@@ -138,8 +138,8 @@ public class BulletButton extends Group {
         if (!mBulletSkill.isInCooldown()) {
             return;
         }
-        float constructionTime = mGame.getPlayerTower().getConstructionTime(mBulletSkill.getBulletClass());
-        float timeDelta = constructionTime - mGame.getPlayerTower().getCooldownTime(mBulletSkill.getBulletClass());
+        float constructionTime = mGame.getBattleGame().getPlayerTower().getConstructionTime(mBulletSkill.getBulletClass());
+        float timeDelta = constructionTime - mGame.getBattleGame().getPlayerTower().getCooldownTime(mBulletSkill.getBulletClass());
         float part = timeDelta / constructionTime;
 
         float cdColor = mCooldownColor;

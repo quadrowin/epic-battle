@@ -1,8 +1,7 @@
 package com.quadrolord.epicbattle.logic;
 
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
-import com.quadrolord.epicbattle.logic.tower.Tower;
-import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.epicbattle.logic.tower.*;
 
 /**
  * Created by Quadrowin on 09.01.2016.
@@ -11,7 +10,7 @@ public interface GameListener {
 
     void beforeStageClear();
 
-    void onBulletAttack(AbstractBullet attacker, GameUnit target);
+    void onBulletAttack(AbstractBullet attacker, com.quadrolord.epicbattle.logic.tower.GameUnit target);
 
     void onBulletInjure(AbstractBullet target);
 

@@ -1,4 +1,4 @@
-package com.quadrolord.epicbattle.logic;
+package com.quadrolord.epicbattle.logic.tower;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
@@ -24,7 +24,7 @@ public class GameUnit {
 
     protected float mWidth = 10;
 
-    protected Game mGame;
+    protected BattleGame mGame;
 
     protected boolean mIsUnderAttack = false;
 
@@ -32,11 +32,11 @@ public class GameUnit {
 
     private ArrayMap<Class, Class<? extends AbstractVisualization>> mVisualization = new ArrayMap<Class, Class<? extends AbstractVisualization>>();
 
-    public GameUnit(Game game) {
+    public GameUnit(BattleGame game) {
         mGame = game;
     }
 
-    public Game getGame() {
+    public BattleGame getGame() {
         return mGame;
     }
 

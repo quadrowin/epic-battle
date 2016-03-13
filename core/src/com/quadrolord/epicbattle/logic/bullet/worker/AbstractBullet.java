@@ -3,12 +3,12 @@ package com.quadrolord.epicbattle.logic.bullet.worker;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import com.quadrolord.epicbattle.logic.Game;
-import com.quadrolord.epicbattle.logic.GameUnit;
+import com.quadrolord.epicbattle.logic.tower.GameUnit;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
-import com.quadrolord.epicbattle.view.BulletUnitView;
+import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.logic.tower.Tower;
+import com.quadrolord.epicbattle.view.BulletUnitView;
 
 import java.util.Iterator;
 
@@ -42,7 +42,7 @@ abstract public class AbstractBullet extends GameUnit {
     private float mLastAttackedTime;
     private float mTime = 0;
 
-    public AbstractBullet(Game game) {
+    public AbstractBullet(BattleGame game) {
         super(game);
     }
 

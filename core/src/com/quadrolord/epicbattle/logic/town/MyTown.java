@@ -12,6 +12,7 @@ import com.quadrolord.epicbattle.logic.town.building.entity.DoodleShop;
 import com.quadrolord.epicbattle.logic.town.building.entity.Mine;
 import com.quadrolord.epicbattle.logic.town.building.entity.SheepFarm;
 import com.quadrolord.epicbattle.logic.town.building.entity.Smithy;
+import com.quadrolord.epicbattle.logic.town.building.entity.Warehouse;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceEntity;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceItem;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
@@ -61,6 +62,7 @@ public class MyTown {
         bts.add(mBuildingInfoManager.getInfo(SheepFarm.class));
         bts.add(mBuildingInfoManager.getInfo(DoodleShop.class));
         bts.add(mBuildingInfoManager.getInfo(Smithy.class));
+        bts.add(mBuildingInfoManager.getInfo(Warehouse.class));
         return bts;
     }
 

@@ -1,8 +1,8 @@
 package com.quadrolord.epicbattle.logic.tower.controller;
 
-import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.logic.campaign.EnemyTower;
+import com.quadrolord.epicbattle.logic.tower.BattleGame;
 
 /**
  * Created by Quadrowin on 12.01.2016.
@@ -13,7 +13,7 @@ public class ControllerAi extends AbstractController {
 
     private float mTime = 0;
 
-    public ControllerAi(Game game) {
+    public ControllerAi(BattleGame game) {
         super(game);
     }
 

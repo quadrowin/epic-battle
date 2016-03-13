@@ -11,6 +11,8 @@ import com.quadrolord.epicbattle.view.town.building.LeftHandTempleView;
 public class LeftHandTemple extends CommonBuildingEntity {
 
     public LeftHandTemple() {
+        setAllowDestruction(false);
+        setAllowMoving(false);
         setViewClass(LeftHandTempleView.class);
     }
 

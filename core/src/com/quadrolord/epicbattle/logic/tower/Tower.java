@@ -4,8 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
-import com.quadrolord.epicbattle.logic.Game;
-import com.quadrolord.epicbattle.logic.GameUnit;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
@@ -44,7 +42,7 @@ public class Tower extends GameUnit {
     private Array<AbstractBullet> mBullets = new Array<AbstractBullet>();
     private ArrayMap<Class<? extends AbstractBullet>, BulletInfo> mBulletInfos = new ArrayMap<Class<? extends AbstractBullet>, BulletInfo>();
 
-    public Tower(Game game) {
+    public Tower(BattleGame game) {
         super(game);
 
         mHp = mMaxHp;
@@ -122,7 +120,7 @@ public class Tower extends GameUnit {
             AbstractBullet bullet;
 
             try {
-                bullet = workerClass.getConstructor(Game.class).newInstance(getGame());
+                bullet = workerClass.getConstructor(BattleGame.class).newInstance(getGame());
             } catch (Exception e) {
                 Gdx.app.error("Tower.getBulletInfo", "error create bullet worker " + workerClass.getName());
                 e.printStackTrace();

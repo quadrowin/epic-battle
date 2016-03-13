@@ -1,8 +1,8 @@
 package com.quadrolord.epicbattle.logic.bullet.worker;
 
-import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.leveling.X15Strategy;
+import com.quadrolord.epicbattle.logic.tower.BattleGame;
 
 /**
  * Created by Quadrowin on 20.01.2016.
@@ -11,7 +11,7 @@ public class Girl extends AbstractBullet {
 
     private int mState = 1;
 
-    public Girl(Game game) {
+    public Girl(BattleGame game) {
         super(game);
     }
 

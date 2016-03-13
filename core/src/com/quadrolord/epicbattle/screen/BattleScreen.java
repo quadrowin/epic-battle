@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.GameListener;
-import com.quadrolord.epicbattle.logic.GameUnit;
+import com.quadrolord.epicbattle.logic.tower.GameUnit;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.campaign.Level;
 import com.quadrolord.epicbattle.logic.skill.passive.TowerRandomBleed;
@@ -97,7 +97,7 @@ public class BattleScreen extends AbstractScreen {
         );
 
         final AbstractScreen screen = this;
-        mGame.setListener(new GameListener() {
+        mGame.getBattleGame().setListener(new GameListener() {
 
             @Override
             public void beforeStageClear() {
@@ -177,7 +177,7 @@ public class BattleScreen extends AbstractScreen {
 
             @Override
             public void onLevelStart() {
-                Level level = mGame.getLevel();
+                Level level = mGame.getBattleGame().getLevel();
                 new LevelName(level, mSkin, mFrontStage);
             }
 
@@ -237,10 +237,10 @@ public class BattleScreen extends AbstractScreen {
         });
 
         if (level == null) {
-            level = mGame.getCampaignManager().getLevel(0, 0);
+            level = mGame.getBattleGame().getCampaignManager().getLevel(0, 0);
         }
 
-        mGame.startLevel(level);
+        mGame.getBattleGame().startLevel(level);
 
         mFrontStage.addListener(new EventListener() {
 
@@ -303,15 +303,15 @@ public class BattleScreen extends AbstractScreen {
 
         if (Gdx.input.isTouched()) {
             mStage.getCamera().position.x = Math.max(
-                    mGame.getTowerLeft() * mStage.getRoot().getScaleX(),
+                    mGame.getBattleGame().getTowerLeft() * mStage.getRoot().getScaleX(),
                     Math.min(
-                            mGame.getTowerRight() * mStage.getRoot().getScaleX(),
+                            mGame.getBattleGame().getTowerRight() * mStage.getRoot().getScaleX(),
                             mStage.getCamera().position.x - Gdx.input.getDeltaX()
                     )
             );
         }
 
-        mGame.act(delta);
+        mGame.getBattleGame().act(delta);
     }
 
 }
