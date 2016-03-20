@@ -24,6 +24,9 @@ import java.util.Iterator;
  */
 public class MyTown {
 
+    public static final int MAP_CELL_WIDTH = 60;
+    public static final int MAP_CELL_HEIGHT = 40;
+
     public static final int MAP_SIZE_X = 10;
     public static final int MAP_SIZE_Y = 10;
 

@@ -27,8 +27,8 @@ public class MapGrid extends Group {
 
     private Texture mMapTexture;
 
-    private float mCellSideX = 60;
-    private float mCellSideY = 40;
+    private float mCellSideX = MyTown.MAP_CELL_WIDTH;
+    private float mCellSideY = MyTown.MAP_CELL_HEIGHT;
 
     private int mSelectedX = -1;
     private int mSelectedY = -1;

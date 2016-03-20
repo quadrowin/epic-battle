@@ -1,6 +1,5 @@
 package com.quadrolord.epicbattle.view.town.building;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -58,7 +57,6 @@ abstract public class AbstractBuildingView extends Group {
         if (mBuilding.isInConstruction()) {
             scale = 1 - Math.abs((float)(mBuilding.getRemainingUpdatingTime() % 1000 - 500)) / 2000;
         }
-        Gdx.app.log("building scale", "" + scale);
         batch.draw(
                 mBuildingTexture,
                 0, 0, csx * mBuilding.getSize().x * scale, csy * mBuilding.getSize().y * scale

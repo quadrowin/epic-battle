@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
@@ -30,10 +33,8 @@ public class PlacingControl extends Group {
     private int mBuildingStartY;
 
 
-    private float mCellSideX = 60;
-    private float mCellSideY = 40;
-
-    private Group mWrapper;
+    private float mCellSideX = MyTown.MAP_CELL_WIDTH;
+    private float mCellSideY = MyTown.MAP_CELL_HEIGHT;
 
     private float mDeltaX;
 
@@ -41,7 +42,11 @@ public class PlacingControl extends Group {
 
     private ShapeRenderer mSr = new ShapeRenderer();
 
+    private Stage mStage;
+
     private Vector2 mOffset = new Vector2(0, 0);
+
+    private Vector2 mTempScaled;
 
     public PlacingControl(AbstractScreen screen, AbstractBuildingItem building, AbstractBuildingView view) {
         mBuilding = building;
@@ -49,7 +54,8 @@ public class PlacingControl extends Group {
         mBuildingStartX = mBuilding.getX();
         mBuildingStartY = mBuilding.getY();
 
-        screen.getStage().addActor(this);
+        mStage = screen.getStage();
+        mStage.addActor(this);
     }
 
     @Override
@@ -58,8 +64,12 @@ public class PlacingControl extends Group {
             mDeltaX += Gdx.input.getDeltaX();
             mDeltaY -= Gdx.input.getDeltaY();
 
-            mBuildingPreviewX = mBuildingStartX + (int)((mDeltaY / mCellSideY + mDeltaX / mCellSideX));
-            mBuildingPreviewY = mBuildingStartY + (int)((mDeltaY / mCellSideY - mDeltaX / mCellSideX));
+            Viewport vp = mStage.getViewport();
+            float worldDeltaX = mDeltaX * vp.getWorldWidth() / vp.getScreenWidth() * 0.5f;
+            float worldDeltaY = mDeltaY * vp.getWorldHeight() / vp.getScreenHeight() * 0.5f;
+
+            mBuildingPreviewX = mBuildingStartX + (int)((worldDeltaY / mCellSideY + worldDeltaX / mCellSideX));
+            mBuildingPreviewY = mBuildingStartY + (int)((worldDeltaY / mCellSideY - worldDeltaX / mCellSideX));
             mBuilding.setPosition(mBuildingPreviewX, mBuildingPreviewY);
 //            mWrapper.setX(Math.max(
 //                    mBuilding.getWidth() - mWrapper.getWidth(),
