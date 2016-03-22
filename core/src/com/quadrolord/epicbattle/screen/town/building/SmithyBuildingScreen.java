@@ -2,15 +2,15 @@ package com.quadrolord.epicbattle.screen.town.building;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
+import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
-import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.SubScreenWindow;
+import com.quadrolord.epicbattle.screen.town.item.OrderButton;
+
+import java.util.Iterator;
 
 /**
  * Created by Quadrowin on 12.03.2016.
@@ -18,8 +18,6 @@ import com.quadrolord.epicbattle.screen.town.SubScreenWindow;
 public class SmithyBuildingScreen extends AbstractScreen{
 
     private AbstractScreen mParentScreen;
-
-    private Label mResourceCountLabel;
 
     private AbstractBuildingItem mBuilding;
 
@@ -31,14 +29,13 @@ public class SmithyBuildingScreen extends AbstractScreen{
 
         Group wg = new SubScreenWindow(this).getInnerGroup();
 
-        Array<ResourceSourceItem> resources = mBuilding.getResources();
-        mResourceCountLabel = new Label("ResourceEntity count " + resources.get(0).getCurrentBalance(), mSkin.get("default-label-style", Label.LabelStyle.class));
-        mResourceCountLabel.setAlignment(Align.center, Align.center);
-        mResourceCountLabel.setBounds(0, 0, wg.getWidth(), wg.getHeight());
-        wg.addActor(mResourceCountLabel);
-
         createTakeButton(wg);
         createMoveButton(wg);
+
+        for (Iterator<AbstractThingEntity> it = building.getInfo().getAvailableThings().iterator(); it.hasNext();) {
+            AbstractThingEntity thing = it.next();
+            new OrderButton(this, wg, thing);
+        }
     }
 
     private void createTakeButton(Group parent) {
@@ -90,8 +87,7 @@ public class SmithyBuildingScreen extends AbstractScreen{
     @Override
     public void update(float delta) {
         mBuilding.getInfo().updateBalanceFull(mBuilding);
-        Array<ResourceSourceItem> resources = mBuilding.getResources();
-        mResourceCountLabel.setText("ResourceEntity count " + resources.get(0).getCurrentBalance());
+
     }
 
 }

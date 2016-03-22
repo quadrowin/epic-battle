@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.quadrolord.epicbattle.logic.configurable.AbstractEntity;
+import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
 import com.quadrolord.epicbattle.logic.town.building.leveling.AbstractStrategy;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceEntity;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceItem;
@@ -54,12 +55,21 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
     protected AbstractStrategy mLevelingStrategy;
     protected Array<AbstractBuildingEntity> mLevelUps = new Array<AbstractBuildingEntity>();
 
+    /**
+     * Доступные для заказа предметы
+     */
+    protected Array<AbstractThingEntity> mAvailableThings = new Array<AbstractThingEntity>();
+
     public boolean getAllowDestruction() {
         return mAllowDestruction;
     }
 
     public boolean getAllowMoving() {
         return mAllowMoving;
+    }
+
+    public Array<AbstractThingEntity> getAvailableThings() {
+        return mAvailableThings;
     }
 
     public String getTitle() {

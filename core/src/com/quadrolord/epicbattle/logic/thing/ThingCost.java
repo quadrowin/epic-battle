@@ -14,4 +14,16 @@ public class ThingCost {
 
     private Array<ThingCostElement> mResources = new Array<ThingCostElement>();
 
+
+    public int getGems() {
+        return mGems;
+    }
+
+    public void setGems(int gems) {
+        mGems = gems;
+    }
+
+    public Array<ThingCostElement> getResources() {
+        return mResources;
+    }
 }

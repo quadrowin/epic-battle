@@ -11,6 +11,8 @@ abstract public class AbstractThingEntity extends AbstractEntity<ThingItem> {
 
     private String mTitle;
 
+    private String mImage;
+
     @Override
     public Class<? extends ThingItem> getItemClass() {
         return ThingItem.class;
@@ -31,5 +33,13 @@ abstract public class AbstractThingEntity extends AbstractEntity<ThingItem> {
 
     public ThingCost getCost() {
         return mCost;
+    }
+
+    public String getImage() {
+        return mImage;
+    }
+
+    public void setImage(String image) {
+        mImage = image;
     }
 }

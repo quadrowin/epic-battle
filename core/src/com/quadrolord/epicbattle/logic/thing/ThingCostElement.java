@@ -11,20 +11,17 @@ public class ThingCostElement {
 
     private int mCount;
 
+    public ThingCostElement(Class<? extends ResourceEntity> resource, int count) {
+        mResource = resource;
+        mCount = count;
+    }
 
     public int getCount() {
         return mCount;
-    }
-
-    public void setCount(int count) {
-        mCount = count;
     }
 
     public Class<? extends ResourceEntity> getResource() {
         return mResource;
     }
 
-    public void setResource(Class<? extends ResourceEntity> resource) {
-        mResource = resource;
-    }
 }
