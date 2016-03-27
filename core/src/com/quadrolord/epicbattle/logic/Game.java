@@ -1,7 +1,9 @@
 package com.quadrolord.epicbattle.logic;
 
+import com.badlogic.gdx.utils.TimeUtils;
 import com.quadrolord.epicbattle.logic.profile.ProfileManager;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
+import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.logic.utils.PlatformServices;
 import com.quadrolord.epicbattle.view.sounds.SoundManager;
 
@@ -18,6 +20,8 @@ public class Game {
 
     private SoundManager mSoundManager = new SoundManager();
 
+    private MyTown mTown;
+
     public Game(PlatformServices platformServices) {
         mPlatformServices = platformServices;
         mProfileManager = new ProfileManager(mPlatformServices);
@@ -30,6 +34,10 @@ public class Game {
         return mBattleGame;
     }
 
+    public long getGameMillis() {
+        return TimeUtils.millis();
+    }
+
     public ProfileManager getProfileManager() {
         return mProfileManager;
 
@@ -40,5 +48,11 @@ public class Game {
     }
 
 
+    public MyTown getTown() {
+        if (mTown == null) {
+            mTown = new MyTown(this);
+        }
+        return mTown;
+    }
 
 }

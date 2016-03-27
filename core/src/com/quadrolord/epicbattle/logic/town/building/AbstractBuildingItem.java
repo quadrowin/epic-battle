@@ -26,6 +26,8 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
     private long mConstructionFinishTime = 0;
     private long mConstructionDuration = 0;
 
+    private Array<CraftPlanItem> mCraftPlan = new Array<CraftPlanItem>();
+
     private Array<ResourceSourceItem> mResources = new Array<ResourceSourceItem>();
 
     private MyTown mTown;
@@ -160,4 +162,7 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
         mIsInConstruction = true;
     }
 
+    public Array<CraftPlanItem> getCraftPlan() {
+        return mCraftPlan;
+    }
 }

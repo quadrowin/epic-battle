@@ -6,8 +6,11 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.profile.PlayerProfile;
 import com.quadrolord.epicbattle.logic.profile.ProfileBuilding;
+import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
+import com.quadrolord.epicbattle.logic.thing.ThingCostElement;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.CraftPlanItem;
 import com.quadrolord.epicbattle.logic.town.building.entity.DoodleShop;
 import com.quadrolord.epicbattle.logic.town.building.entity.Mine;
 import com.quadrolord.epicbattle.logic.town.building.entity.SheepFarm;
@@ -332,6 +335,25 @@ public class MyTown {
                 }
             }
         }
+    }
+
+    public void tryOrderThing(AbstractBuildingItem building, AbstractThingEntity thing) {
+        for (Iterator<ThingCostElement> it = thing.getCost().getResources().iterator(); it.hasNext();) {
+            ThingCostElement el = it.next();
+            ResourceItem ri = mResources.get(el.getResource());
+            if (ri == null || ri.getValue() < el.getCount()) {
+                // недостаток одного из ресурсов
+                mListener.onOrderResourceLack(el);
+                //return;
+            }
+        }
+
+        CraftPlanItem cpi = new CraftPlanItem();
+        cpi.setCreated(mGame.getGameMillis());
+        cpi.setThing(thing);
+        building.getCraftPlan().add(cpi);
+
+        mListener.onThingAddToPlan(building, cpi);
     }
 
 }

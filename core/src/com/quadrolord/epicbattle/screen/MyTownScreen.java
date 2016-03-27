@@ -11,10 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
+import com.quadrolord.epicbattle.logic.thing.ThingCostElement;
 import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.logic.town.TownListener;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.CraftPlanItem;
 import com.quadrolord.epicbattle.logic.town.building.entity.LeftHandTemple;
 import com.quadrolord.epicbattle.logic.town.building.entity.RightLegTemple;
 import com.quadrolord.epicbattle.logic.town.resource.IronOre;
@@ -62,7 +64,7 @@ public class MyTownScreen extends AbstractScreen {
         mMapCamera.position.set(mDeltaX, mDeltaY, 10);
         mMapCamera.update();
         mMapStage = new Stage(new FitViewport(400, 300, mMapCamera));
-        mTown = new MyTown(mGame);
+        mTown = mGame.getTown();
         mTown.loadTown();
 
         mGuiGeneral = new GeneralPanel(this, mTown);
@@ -194,6 +196,16 @@ public class MyTownScreen extends AbstractScreen {
             @Override
             public void onUserActionFail(BuildingAction action) {
                 Gdx.app.log(screen.getClass().getName(), "Action fail: " + action);
+            }
+
+            @Override
+            public void onOrderResourceLack(ThingCostElement cost) {
+                Gdx.app.debug("Out of resource ", cost.getResource().getName());
+            }
+
+            @Override
+            public void onThingAddToPlan(AbstractBuildingItem building, CraftPlanItem plan) {
+                Gdx.app.debug("Thing added to plan ", plan.getThing().getTitle());
             }
         });
 

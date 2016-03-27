@@ -1,7 +1,9 @@
 package com.quadrolord.epicbattle.logic.town;
 
+import com.quadrolord.epicbattle.logic.thing.ThingCostElement;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.CraftPlanItem;
 
 /**
  * Created by Quadrowin on 31.01.2016.
@@ -44,5 +46,13 @@ public interface TownListener {
     void onEnterBuildingMode(AbstractBuildingItem building);
 
     void onUserActionFail(BuildingAction action);
+
+    /**
+     * Недостаток ресурсов при попытке заказе
+     * @param cost
+     */
+    void onOrderResourceLack(ThingCostElement cost);
+
+    void onThingAddToPlan(AbstractBuildingItem building, CraftPlanItem plan);
 
 }

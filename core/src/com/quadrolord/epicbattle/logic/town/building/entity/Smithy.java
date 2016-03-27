@@ -1,7 +1,8 @@
 package com.quadrolord.epicbattle.logic.town.building.entity;
 
 import com.badlogic.gdx.math.Vector2;
-import com.quadrolord.epicbattle.logic.thing.entity.AxEntity;
+import com.quadrolord.epicbattle.logic.thing.entity.WarAxeEntity;
+import com.quadrolord.epicbattle.logic.thing.entity.WorkAxeEntity;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.CommonBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.CommonBuildingItem;
@@ -22,7 +23,8 @@ public class Smithy extends CommonBuildingEntity {
         setSize(new Vector2(1, 1));
         setSliderTexture("town/smithy128.png");
 
-        getAvailableThings().add(new AxEntity());
+        getAvailableThings().add(new WorkAxeEntity());
+        getAvailableThings().add(new WarAxeEntity());
     }
 
     @Override

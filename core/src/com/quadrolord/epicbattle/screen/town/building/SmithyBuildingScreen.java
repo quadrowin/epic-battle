@@ -4,13 +4,11 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.SubScreenWindow;
-import com.quadrolord.epicbattle.screen.town.item.OrderButton;
-
-import java.util.Iterator;
+import com.quadrolord.epicbattle.screen.town.item.OrderPanel;
+import com.quadrolord.epicbattle.screen.town.item.OrderPlanPanel;
 
 /**
  * Created by Quadrowin on 12.03.2016.
@@ -32,10 +30,8 @@ public class SmithyBuildingScreen extends AbstractScreen{
         createTakeButton(wg);
         createMoveButton(wg);
 
-        for (Iterator<AbstractThingEntity> it = building.getInfo().getAvailableThings().iterator(); it.hasNext();) {
-            AbstractThingEntity thing = it.next();
-            new OrderButton(this, wg, thing);
-        }
+        new OrderPanel(this, wg, building);
+        new OrderPlanPanel(this, wg, building);
     }
 
     private void createTakeButton(Group parent) {

@@ -6,15 +6,15 @@ import com.quadrolord.epicbattle.logic.town.resource.IronOre;
 import com.quadrolord.epicbattle.logic.town.resource.Wood;
 
 /**
- * Created by Quadrowin on 20.03.2016.
+ * Created by Quadrowin on 27.03.2016.
  */
-public class AxEntity extends AbstractThingEntity {
+public class WarAxeEntity extends AbstractThingEntity {
 
-    public AxEntity() {
-        setImage("item/ax512.png");
-        setTitle("Ax");
+    public WarAxeEntity() {
+        setImage("item/WarAxe512.png");
+        setTitle("War Axe");
         getCost().setGems(1);
-        getCost().getResources().add(new ThingCostElement(IronOre.class, 1));
+        getCost().getResources().add(new ThingCostElement(IronOre.class, 2));
         getCost().getResources().add(new ThingCostElement(Wood.class, 1));
     }
 
