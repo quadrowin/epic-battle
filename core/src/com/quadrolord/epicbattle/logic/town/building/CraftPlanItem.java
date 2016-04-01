@@ -11,6 +11,10 @@ public class CraftPlanItem {
 
     private long mCreated;
 
+    /**
+     * Время начала крафта в миллисекундах
+     * @return
+     */
     public long getCreated() {
         return mCreated;
     }

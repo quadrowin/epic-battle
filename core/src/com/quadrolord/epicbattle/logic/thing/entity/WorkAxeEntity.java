@@ -11,6 +11,7 @@ import com.quadrolord.epicbattle.logic.town.resource.Wood;
 public class WorkAxeEntity extends AbstractThingEntity {
 
     public WorkAxeEntity() {
+        setCraftTime(120);
         setImage("item/WorkAxe512.png");
         setTitle("Work Axe");
         getCost().setGems(1);

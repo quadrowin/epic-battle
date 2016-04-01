@@ -72,6 +72,10 @@ public class EpicBattle extends ApplicationAdapter {
 		return dst;
 	}
 
+	public AbstractScreen getScreen() {
+		return mScreen;
+	}
+
 	public Skin getSkin() {
 		if (mSkin != null) {
 			return mSkin;

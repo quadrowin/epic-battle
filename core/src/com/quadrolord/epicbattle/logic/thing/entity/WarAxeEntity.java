@@ -11,6 +11,7 @@ import com.quadrolord.epicbattle.logic.town.resource.Wood;
 public class WarAxeEntity extends AbstractThingEntity {
 
     public WarAxeEntity() {
+        setCraftTime(30);
         setImage("item/WarAxe512.png");
         setTitle("War Axe");
         getCost().setGems(1);

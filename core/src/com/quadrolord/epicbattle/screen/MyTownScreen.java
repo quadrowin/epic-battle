@@ -19,6 +19,7 @@ import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.CraftPlanItem;
 import com.quadrolord.epicbattle.logic.town.building.entity.LeftHandTemple;
 import com.quadrolord.epicbattle.logic.town.building.entity.RightLegTemple;
+import com.quadrolord.epicbattle.logic.town.listener.OnThingAddToPlan;
 import com.quadrolord.epicbattle.logic.town.resource.IronOre;
 import com.quadrolord.epicbattle.logic.town.resource.Noodles;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
@@ -200,12 +201,16 @@ public class MyTownScreen extends AbstractScreen {
 
             @Override
             public void onOrderResourceLack(ThingCostElement cost) {
-                Gdx.app.debug("Out of resource ", cost.getResource().getName());
+                Gdx.app.log("Out of resource ", cost.getResource().getName());
             }
 
             @Override
             public void onThingAddToPlan(AbstractBuildingItem building, CraftPlanItem plan) {
-                Gdx.app.debug("Thing added to plan ", plan.getThing().getTitle());
+                Gdx.app.log("Thing added to plan ", plan.getThing().getTitle());
+                if (mAdapter.getScreen() instanceof OnThingAddToPlan) {
+                    ((OnThingAddToPlan) mAdapter.getScreen()).onThingAddToPlan(building, plan);
+                }
+
             }
         });
 

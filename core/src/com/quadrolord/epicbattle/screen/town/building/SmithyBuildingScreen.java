@@ -5,6 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.CraftPlanItem;
+import com.quadrolord.epicbattle.logic.town.listener.OnThingAddToPlan;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.SubScreenWindow;
 import com.quadrolord.epicbattle.screen.town.item.OrderPanel;
@@ -13,11 +15,13 @@ import com.quadrolord.epicbattle.screen.town.item.OrderPlanPanel;
 /**
  * Created by Quadrowin on 12.03.2016.
  */
-public class SmithyBuildingScreen extends AbstractScreen{
+public class SmithyBuildingScreen extends AbstractScreen implements OnThingAddToPlan {
 
     private AbstractScreen mParentScreen;
 
     private AbstractBuildingItem mBuilding;
+
+    private OrderPlanPanel mOrderPlanPanel;
 
     public SmithyBuildingScreen(final AbstractScreen parentScreen, AbstractBuildingItem building) {
         super(parentScreen.getAdapter());
@@ -31,7 +35,7 @@ public class SmithyBuildingScreen extends AbstractScreen{
         createMoveButton(wg);
 
         new OrderPanel(this, wg, building);
-        new OrderPlanPanel(this, wg, building);
+        mOrderPlanPanel = new OrderPlanPanel(this, wg, building);
     }
 
     private void createTakeButton(Group parent) {
@@ -84,6 +88,11 @@ public class SmithyBuildingScreen extends AbstractScreen{
     public void update(float delta) {
         mBuilding.getInfo().updateBalanceFull(mBuilding);
 
+    }
+
+    @Override
+    public void onThingAddToPlan(AbstractBuildingItem building, CraftPlanItem plan) {
+        mOrderPlanPanel.onThingAddToPlan(building, plan);
     }
 
 }

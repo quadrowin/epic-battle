@@ -4,11 +4,12 @@ import com.quadrolord.epicbattle.logic.thing.ThingCostElement;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.CraftPlanItem;
+import com.quadrolord.epicbattle.logic.town.listener.OnThingAddToPlan;
 
 /**
  * Created by Quadrowin on 31.01.2016.
  */
-public interface TownListener {
+public interface TownListener extends OnThingAddToPlan {
 
     enum BuildingAction {
         /**

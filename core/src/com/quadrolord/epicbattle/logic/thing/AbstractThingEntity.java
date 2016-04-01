@@ -7,7 +7,15 @@ import com.quadrolord.epicbattle.logic.configurable.AbstractEntity;
  */
 abstract public class AbstractThingEntity extends AbstractEntity<ThingItem> {
 
+    /**
+     * Стоимость крафта
+     */
     private ThingCost mCost = new ThingCost();
+
+    /**
+     * Длительность крафта в секундах
+     */
+    private long mCraftTime;
 
     private String mTitle;
 
@@ -41,5 +49,13 @@ abstract public class AbstractThingEntity extends AbstractEntity<ThingItem> {
 
     public void setImage(String image) {
         mImage = image;
+    }
+
+    public long getCraftTime() {
+        return mCraftTime;
+    }
+
+    public void setCraftTime(long craftTime) {
+        mCraftTime = craftTime;
     }
 }
