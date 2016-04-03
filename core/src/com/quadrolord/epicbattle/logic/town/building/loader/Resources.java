@@ -2,8 +2,8 @@ package com.quadrolord.epicbattle.logic.town.building.loader;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonValue;
+import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
-import com.quadrolord.epicbattle.logic.town.resource.ResourceEntity;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceEntity;
 
 /**
@@ -16,9 +16,9 @@ public class Resources extends AbstractLoader {
         for (JsonValue.JsonIterator it = data.iterator(); it.hasNext(); ) {
             JsonValue param = it.next();
             String resourceClassName = param.getString("name");
-            Class<? extends ResourceEntity> resourceClass;
+            Class<? extends AbstractThingEntity> resourceClass;
             try {
-                resourceClass = (Class<? extends ResourceEntity>) Class.forName(resourceClassName);
+                resourceClass = (Class<? extends AbstractThingEntity>) Class.forName(resourceClassName);
             } catch (Exception e) {
                 Gdx.app.error("Resources Loader", "ResourceEntity class not found", e);
                 continue;

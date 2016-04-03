@@ -20,8 +20,8 @@ import com.quadrolord.epicbattle.logic.town.building.CraftPlanItem;
 import com.quadrolord.epicbattle.logic.town.building.entity.LeftHandTemple;
 import com.quadrolord.epicbattle.logic.town.building.entity.RightLegTemple;
 import com.quadrolord.epicbattle.logic.town.listener.OnThingAddToPlan;
-import com.quadrolord.epicbattle.logic.town.resource.IronOre;
-import com.quadrolord.epicbattle.logic.town.resource.Noodles;
+import com.quadrolord.epicbattle.logic.thing.entity.IronOre;
+import com.quadrolord.epicbattle.logic.thing.entity.Noodles;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
 import com.quadrolord.epicbattle.screen.town.PlacingControl;
 import com.quadrolord.epicbattle.screen.town.panel.BuildingModePanel;
@@ -264,10 +264,6 @@ public class MyTownScreen extends AbstractScreen {
 
     @Override
     public void update(float delta) {
-        mTown.getResource(IronOre.class).setValue(
-                mTown.getResource(IronOre.class).getValue() + delta
-        );
-
         float dx = delta * 100;
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {

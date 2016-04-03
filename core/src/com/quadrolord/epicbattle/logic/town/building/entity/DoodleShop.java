@@ -2,7 +2,7 @@ package com.quadrolord.epicbattle.logic.town.building.entity;
 
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.CommonBuildingEntity;
-import com.quadrolord.epicbattle.logic.town.resource.Noodles;
+import com.quadrolord.epicbattle.logic.thing.entity.Noodles;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceEntity;
 import com.quadrolord.epicbattle.screen.town.building.MineBuildingScreen;
 import com.quadrolord.epicbattle.view.town.building.DoodleShopView;

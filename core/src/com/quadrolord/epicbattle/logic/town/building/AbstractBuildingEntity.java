@@ -6,9 +6,8 @@ import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.quadrolord.epicbattle.logic.configurable.AbstractEntity;
 import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
+import com.quadrolord.epicbattle.logic.thing.ThingItem;
 import com.quadrolord.epicbattle.logic.town.building.leveling.AbstractStrategy;
-import com.quadrolord.epicbattle.logic.town.resource.ResourceEntity;
-import com.quadrolord.epicbattle.logic.town.resource.ResourceItem;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceEntity;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceItem;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
@@ -46,7 +45,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
     protected Class<? extends AbstractBuildingView> mViewClass;
     protected String mIcon;
     protected Class<? extends Tile> mTileClass;
-    protected ArrayMap<Class<? extends ResourceEntity>, Integer> mRequiredResources = new ArrayMap<Class<? extends ResourceEntity>, Integer>();
+    protected ArrayMap<Class<? extends AbstractThingEntity>, Integer> mRequiredResources = new ArrayMap<Class<? extends AbstractThingEntity>, Integer>();
     protected int mRequiredLevel = 1;
     private Array<ResourceSourceEntity> mResources = new Array<ResourceSourceEntity>();
 
@@ -104,7 +103,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
         return mSliderTexture;
     }
 
-    public ArrayMap<Class<? extends ResourceEntity>, Integer> getRequiredResources() {
+    public ArrayMap<Class<? extends AbstractThingEntity>, Integer> getRequiredResources() {
         return mRequiredResources;
     }
 
@@ -183,7 +182,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
         mSliderTexture = texture;
     }
 
-    public AbstractBuildingEntity setRequiredResources(ArrayMap<Class<? extends ResourceEntity>, Integer> resources) {
+    public AbstractBuildingEntity setRequiredResources(ArrayMap<Class<? extends AbstractThingEntity>, Integer> resources) {
         mRequiredResources = resources;
         return this;
     }
@@ -219,10 +218,10 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
         for (Iterator<ResourceSourceItem> it = mine.getResources().iterator(); it.hasNext(); ) {
             ResourceSourceItem rs = it.next();
             updateBalance(rs);
-            long balance = rs.getCurrentBalance();
+            int balance = rs.getCurrentBalance();
             rs.setLastYield(TimeUtils.millis());
-            ResourceItem resource = mine.getTown().getResource(rs.getInfo().getResourceClass());
-            resource.incValue(balance);
+            ThingItem resource = mine.getTown().getResource(rs.getInfo().getResourceClass());
+            resource.incCount(balance);
         }
     }
 
@@ -236,7 +235,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
     public void updateBalance(ResourceSourceItem rs) {
         float pr = rs.getInfo().getProductionRate();
         int deltaBalance = (int)((TimeUtils.millis() - rs.getLastYield()) * pr * .001f);
-        long balance = Math.min(rs.getInfo().getMaxBalance(), deltaBalance);
+        int balance = Math.min(rs.getInfo().getMaxBalance(), deltaBalance);
         rs.setCurrentBalance(balance);
     }
 

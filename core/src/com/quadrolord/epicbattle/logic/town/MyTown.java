@@ -8,6 +8,7 @@ import com.quadrolord.epicbattle.logic.profile.PlayerProfile;
 import com.quadrolord.epicbattle.logic.profile.ProfileBuilding;
 import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
 import com.quadrolord.epicbattle.logic.thing.ThingCostElement;
+import com.quadrolord.epicbattle.logic.thing.ThingItem;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.CraftPlanItem;
@@ -16,8 +17,6 @@ import com.quadrolord.epicbattle.logic.town.building.entity.Mine;
 import com.quadrolord.epicbattle.logic.town.building.entity.SheepFarm;
 import com.quadrolord.epicbattle.logic.town.building.entity.Smithy;
 import com.quadrolord.epicbattle.logic.town.building.entity.Warehouse;
-import com.quadrolord.epicbattle.logic.town.resource.ResourceEntity;
-import com.quadrolord.epicbattle.logic.town.resource.ResourceItem;
 import com.quadrolord.epicbattle.logic.town.tile.Tile;
 
 import java.util.Iterator;
@@ -41,7 +40,7 @@ public class MyTown {
     private int mLevel = 1;
     private int mGemsCount = 1;
 
-    private ArrayMap<Class<? extends ResourceEntity>, ResourceItem> mResources = new ArrayMap<Class<? extends ResourceEntity>, ResourceItem>();
+    private ArrayMap<Class<? extends AbstractThingEntity>, ThingItem> mResources = new ArrayMap<Class<? extends AbstractThingEntity>, ThingItem>();
     private BuildingInfoManager mBuildingInfoManager;
 
     private TownListener mListener;
@@ -96,14 +95,14 @@ public class MyTown {
     }
 
     public boolean hasResources(AbstractBuildingEntity building) {
-        Iterator<ObjectMap.Entry<Class<? extends ResourceEntity>, Integer>> iter = building.getRequiredResources().iterator();
+        Iterator<ObjectMap.Entry<Class<? extends AbstractThingEntity>, Integer>> iter = building.getRequiredResources().iterator();
 
         while (iter.hasNext()) {
-            ObjectMap.Entry<Class<? extends ResourceEntity>, Integer> next = iter.next();
-            Class<? extends ResourceEntity> resourceClass = next.key;
+            ObjectMap.Entry<Class<? extends AbstractThingEntity>, Integer> next = iter.next();
+            Class<? extends AbstractThingEntity> resourceClass = next.key;
             int cost = next.value;
 
-            if (!mResources.containsKey(resourceClass) || mResources.get(resourceClass).getValue() < cost) {
+            if (!mResources.containsKey(resourceClass) || mResources.get(resourceClass).getCount() < cost) {
                 return false;
             }
         }
@@ -196,11 +195,11 @@ public class MyTown {
         mListener.onEnterBuildingMode(b);
     }
 
-    public ResourceItem getResource(Class<? extends ResourceEntity> resourceClass) {
+    public ThingItem getResource(Class<? extends AbstractThingEntity> resourceClass) {
         if (!mResources.containsKey(resourceClass)) {
-            ResourceItem resource = new ResourceItem();
+            ThingItem resource = new ThingItem();
 
-            ResourceEntity info;
+            AbstractThingEntity info;
             try {
                 info = resourceClass.newInstance();
             } catch (Exception e) {
@@ -238,17 +237,16 @@ public class MyTown {
      * @param entity
      */
     public void takeAwayResources(AbstractBuildingEntity entity) {
-        Iterator<ObjectMap.Entry<Class<? extends ResourceEntity>, Integer>> iter = entity.getRequiredResources().iterator();
+        Iterator<ObjectMap.Entry<Class<? extends AbstractThingEntity>, Integer>> iter = entity.getRequiredResources().iterator();
 
         while (iter.hasNext()) {
-            ObjectMap.Entry<Class<? extends ResourceEntity>, Integer> next = iter.next();
-            Class<? extends ResourceEntity> resourceClass = next.key;
+            ObjectMap.Entry<Class<? extends AbstractThingEntity>, Integer> next = iter.next();
+            Class<? extends AbstractThingEntity> resourceClass = next.key;
             int cost = next.value;
 
             if (mResources.containsKey(resourceClass)) {
-                ResourceItem res = mResources.get(resourceClass);
-                float oldValue = res.getValue();
-                res.setValue(oldValue - cost);
+                ThingItem res = mResources.get(resourceClass);
+                res.incCount(-cost);
             }
         }
     }
@@ -340,8 +338,8 @@ public class MyTown {
     public void tryOrderThing(AbstractBuildingItem building, AbstractThingEntity thing) {
         for (Iterator<ThingCostElement> it = thing.getCost().getResources().iterator(); it.hasNext();) {
             ThingCostElement el = it.next();
-            ResourceItem ri = mResources.get(el.getResource());
-            if (ri == null || ri.getValue() < el.getCount()) {
+            ThingItem ri = mResources.get(el.getResource());
+            if (ri == null || ri.getCount() < el.getCount()) {
                 // недостаток одного из ресурсов
                 mListener.onOrderResourceLack(el);
                 //return;

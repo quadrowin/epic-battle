@@ -17,6 +17,13 @@ abstract public class AbstractThingEntity extends AbstractEntity<ThingItem> {
      */
     private long mCraftTime;
 
+    /**
+     * Предмет стакается и не занимает лишнего места в инветаре
+     */
+    private boolean mStackable = false;
+
+    private String mShort;
+
     private String mTitle;
 
     private String mImage;
@@ -58,4 +65,21 @@ abstract public class AbstractThingEntity extends AbstractEntity<ThingItem> {
     public void setCraftTime(long craftTime) {
         mCraftTime = craftTime;
     }
+
+    public String getShort() {
+        return mShort;
+    }
+
+    public void setShort(String aShort) {
+        mShort = aShort;
+    }
+
+    public boolean isStackable() {
+        return mStackable;
+    }
+
+    public void setStackable(boolean stackable) {
+        mStackable = stackable;
+    }
+
 }

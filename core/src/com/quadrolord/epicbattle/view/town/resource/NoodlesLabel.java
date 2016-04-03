@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
-import com.quadrolord.epicbattle.logic.town.resource.ResourceItem;
+import com.quadrolord.epicbattle.logic.thing.ThingItem;
 
 /**
  * Created by Quadrowin on 07.02.2016.
@@ -14,13 +14,13 @@ public class NoodlesLabel extends Group {
 
     private Label mLabel;
 
-    private ResourceItem mResource;
+    private ThingItem mResource;
 
-    public NoodlesLabel(ResourceItem resource, Skin skin, Stage stage) {
+    public NoodlesLabel(ThingItem resource, Skin skin, Stage stage) {
         mResource = resource;
         setBounds(150, 0, 120, 30);
 
-        mLabel = new Label(Float.toString(mResource.getValue()), skin.get("default-label-style", Label.LabelStyle.class));
+        mLabel = new Label(Float.toString(mResource.getCount()), skin.get("default-label-style", Label.LabelStyle.class));
         mLabel.setBounds(0, 0, getWidth(), getHeight());
         mLabel.setAlignment(Align.left);
         addActor(mLabel);
@@ -30,7 +30,7 @@ public class NoodlesLabel extends Group {
 
     @Override
     public void act(float delta) {
-        mLabel.setText(mResource.getInfo().getShort() +" " + Float.toString(mResource.getValue()));
+        mLabel.setText(mResource.getInfo().getShort() +" " + Float.toString(mResource.getCount()));
     }
 
 }

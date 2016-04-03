@@ -17,6 +17,10 @@ public class ThingItem extends AbstractItem<AbstractThingEntity> {
         return mCount;
     }
 
+    public void incCount(int delta) {
+        mCount += delta;
+    }
+
     public void setCount(int count) {
         mCount = count;
     }

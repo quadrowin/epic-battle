@@ -11,7 +11,7 @@ public class ResourceSourceItem extends AbstractItem<ResourceSourceEntity> {
     /**
      * Накопленный и не собранный на данный момент ресурс
      */
-    private long mCurrentBalance = 0;
+    private int mCurrentBalance = 0;
 
     /**
      * Время последнего забора ресурсов
@@ -26,11 +26,11 @@ public class ResourceSourceItem extends AbstractItem<ResourceSourceEntity> {
         mLastYield = yield;
     }
 
-    public long getCurrentBalance() {
+    public int getCurrentBalance() {
         return mCurrentBalance;
     }
 
-    public void setCurrentBalance(long balance) {
+    public void setCurrentBalance(int balance) {
         mCurrentBalance = balance;
     }
 
