@@ -1,5 +1,6 @@
 package com.quadrolord.epicbattle.logic.town;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -80,6 +81,7 @@ public class MyTown {
     }
 
     public Tile getMapCell(int col, int row) {
+        Gdx.app.log("getMapCell", " " + mMap.length + " " + mMap[col].length + " at " + col + " " + row);
         if (col < 0 || row < 0 || col >= mMap.length || row >= mMap[col].length) {
             return null;
         }
@@ -127,6 +129,17 @@ public class MyTown {
         }
 
         return true;
+    }
+
+    public boolean canBuildItem(AbstractBuildingItem building, int col, int row) {
+        if (col < 0 || row < 0 || col >= mMap.length || row >= mMap[col].length) {
+            return false;
+        }
+        Tile cell = mMap[col][row];
+        if (cell == null) {
+            return true;
+        }
+        return cell.isFree() || cell.getBuilding() == building;
     }
 
     public void cancelBuildingMode() {

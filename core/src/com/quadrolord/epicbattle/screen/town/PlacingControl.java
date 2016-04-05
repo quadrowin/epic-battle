@@ -2,6 +2,7 @@ package com.quadrolord.epicbattle.screen.town;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -54,8 +55,9 @@ public class PlacingControl extends Group {
         mBuildingStartX = mBuilding.getX();
         mBuildingStartY = mBuilding.getY();
 
+        // place building view after PlacingControl.
         mStage = screen.getStage();
-        mStage.addActor(this);
+        view.getParent().addActorBefore(view, this);
     }
 
     @Override
@@ -92,62 +94,68 @@ public class PlacingControl extends Group {
     private void drawMovingBuilding(Batch batch) {
         batch.end();
 
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         mSr.setProjectionMatrix(batch.getProjectionMatrix());
         mSr.setTransformMatrix(batch.getTransformMatrix());
-        mSr.begin(ShapeRenderer.ShapeType.Line);
+        mSr.begin(ShapeRenderer.ShapeType.Filled);
 
         mOffset.x = 0;
         mOffset.y = 0;
-        mBuilding.getView().getParent().localToStageCoordinates(mOffset);
+        //mBuilding.getView().getParent().localToStageCoordinates(mOffset);
 
         float lineWidth = 3;
 
         int sizeX = (int)mBuilding.getSize().x;
         int sizeY = (int)mBuilding.getSize().y;
+
+        float points[] = new float[8];
+
         for (int cx = 0; cx < sizeX; cx++) {
             for (int cy = 0; cy < sizeY; cy++) {
                 int selectedX = mBuilding.getX() + cx;
                 int selectedY = mBuilding.getY() + cy;
 
-                Tile cell = mBuilding.getTown().getMapCell(selectedX, selectedY);
-                if (cell != null && cell.isFree()) {
-                    mSr.setColor(Color.BLUE);
+                if (mBuilding.getTown().canBuildItem(mBuilding, selectedX, selectedY)) {
+                    mSr.setColor(Color.WHITE.r, Color.WHITE.g, Color.WHITE.b, 0.5f);
                 } else {
-                    mSr.setColor(Color.RED);
+                    mSr.setColor(Color.RED.r, Color.RED.g, Color.RED.b, 0.5f);
                 }
 
                 float botX = mOffset.x + (selectedX - selectedY) * mCellSideX / 2;
                 float botY = mOffset.y + (selectedX + selectedY) * mCellSideY / 2;
 
                 // низ - лево
-                mSr.rectLine(
-                        botX, botY,
-                        botX - mCellSideX / 2, botY + mCellSideY / 2,
-                        lineWidth
+                points[0] = botX;
+                points[1] = botY;
+
+                // лево
+                points[2] = botX - mCellSideX / 2;
+                points[3] = botY + mCellSideY / 2;
+
+                // верх
+                points[4] = botX;
+                points[5] = botY + mCellSideY;
+
+                // право
+                points[6] = botX + mCellSideX / 2;
+                points[7] = botY + mCellSideY / 2;
+
+                mSr.triangle(
+                        points[0], points[1],
+                        points[2], points[3],
+                        points[4], points[5]
                 );
-                // лево - верх
-                mSr.rectLine(
-                        botX - mCellSideX / 2, botY + mCellSideY / 2,
-                        botX, botY + mCellSideY,
-                        lineWidth
-                );
-                // верх - право
-                mSr.rectLine(
-                        botX, botY + mCellSideY,
-                        botX + mCellSideX / 2, botY + mCellSideY / 2,
-                        lineWidth
-                );
-                // право - низ
-                mSr.rectLine(
-                        botX + mCellSideX / 2, botY + mCellSideY / 2,
-                        botX, botY,
-                        lineWidth
+                mSr.triangle(
+                        points[4], points[5],
+                        points[6], points[7],
+                        points[0], points[1]
                 );
             }
         }
-
+        mSr.setColor(1, 1, 1, 1);
         mSr.end();
-
+        Gdx.gl.glDisable(GL20.GL_BLEND);
         batch.begin();
     }
 

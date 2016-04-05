@@ -2,6 +2,7 @@ package com.quadrolord.epicbattle.screen.town;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -153,66 +154,81 @@ public class MapGrid extends Group {
         mSr.line(0, maxY, maxX, 0);
 
         mSr.end();
-        mSr.begin(ShapeRenderer.ShapeType.Filled);
 
-        if (mSelectedX >= 0 || true) {
-            mSr.setColor(Color.RED);
+        if (mSelectedX >= 0 && false) {
+            mSr.begin(ShapeRenderer.ShapeType.Filled);
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+            mSr.setColor(Color.YELLOW.r, Color.YELLOW.g, Color.YELLOW.b, 0.5f);
 
             float botX = (mSelectedX - mSelectedY) * mCellSideX / 2;
             float botY = (mSelectedX + mSelectedY) * mCellSideY / 2;
             float lineWidth = 3;
 
-            // низ - лево
-            mSr.rectLine(
-                    botX, botY,
-                    botX - mCellSideX / 2, botY + mCellSideY / 2,
-                    lineWidth
-            );
-            // лево - верх
-            mSr.rectLine(
-                    botX - mCellSideX / 2, botY + mCellSideY / 2,
-                    botX, botY + mCellSideY,
-                    lineWidth
-            );
-            // верх - право
-            mSr.rectLine(
-                    botX, botY + mCellSideY,
-                    botX + mCellSideX / 2, botY + mCellSideY / 2,
-                    lineWidth
-            );
-            // право - низ
-            mSr.rectLine(
-                    botX + mCellSideX / 2, botY + mCellSideY / 2,
-                    botX, botY,
-                    lineWidth
-            );
+//            // низ - лево
+//            mSr.rectLine(
+//                    botX, botY,
+//                    botX - mCellSideX / 2, botY + mCellSideY / 2,
+//                    lineWidth
+//            );
+//            // лево - верх
+//            mSr.rectLine(
+//                    botX - mCellSideX / 2, botY + mCellSideY / 2,
+//                    botX, botY + mCellSideY,
+//                    lineWidth
+//            );
+//            // верх - право
+//            mSr.rectLine(
+//                    botX, botY + mCellSideY,
+//                    botX + mCellSideX / 2, botY + mCellSideY / 2,
+//                    lineWidth
+//            );
+//            // право - низ
+//            mSr.rectLine(
+//                    botX + mCellSideX / 2, botY + mCellSideY / 2,
+//                    botX, botY,
+//                    lineWidth
+//            );
 //
-//            float[] points = new float[] {
-//                    // нижняя точка
-//                    botX,
-//                    botY,
-//
-//                    // левая точка
-//                    botX - mCellSideX / 2,
-//                    botY + mCellSideY / 2,
-//
-//                    // верх
-//                    botX,
-//                    botY + mCellSideY,
-//
-//                    // право
-//                    botX + mCellSideX / 2,
-//                    botY + mCellSideY / 2,
-//
-//                    // вниз
-//                    botX,
-//                    botY,
-//            };
-//
-//            mSr.polyline(points);
-        }
 
-        mSr.end();
+            float borderSize = 3;
+
+            float[] points = new float[] {
+                    // нижняя точка
+                    botX,
+                    botY,
+
+                    // левая точка
+                    botX - mCellSideX / 2,
+                    botY + mCellSideY / 2,
+
+                    // верх
+                    botX,
+                    botY + mCellSideY,
+
+                    // право
+                    botX + mCellSideX / 2,
+                    botY + mCellSideY / 2,
+
+                    // вниз
+                    botX,
+                    botY - borderSize,
+            };
+
+            mSr.triangle(
+                    points[0], points[1],
+                    points[2], points[3],
+                    points[4], points[5]
+            );
+            mSr.triangle(
+                    points[4], points[5],
+                    points[6], points[7],
+                    points[0], points[1]
+            );
+
+            mSr.end();
+            Gdx.gl.glDisable(GL20.GL_BLEND);
+        }
 
         if (mDebugGrid) {
             mSr.setColor(Color.BLUE);
