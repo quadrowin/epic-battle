@@ -35,8 +35,8 @@ import com.quadrolord.epicbattle.view.town.resource.NoodlesLabel;
  */
 public class MyTownScreen extends AbstractScreen {
 
-    private float mDeltaX = 20;
-    private float mDeltaY = 10;
+    private float mDeltaX = -200;
+    private float mDeltaY = 0;
     private float mDeltaZ = 150;
 
     private MyTown mTown;
@@ -62,7 +62,7 @@ public class MyTownScreen extends AbstractScreen {
 
         mMapCamera = new OrthographicCamera(400, 300);
         mMapCamera.far = 1000;
-        mMapCamera.position.set(mDeltaX, mDeltaY, 10);
+        mMapCamera.position.set(0, mDeltaY, 10);
         mMapCamera.update();
         mMapStage = new Stage(new FitViewport(400, 300, mMapCamera));
         mTown = mGame.getTown();
@@ -216,11 +216,11 @@ public class MyTownScreen extends AbstractScreen {
 
         mTown.build(
                 LeftHandTemple.class,
-                5, 0, false, false, false
+                4, 1, false, false, false
         );
         mTown.build(
                 RightLegTemple.class,
-                6, -1, false, false, false
+                5, 0, false, false, false
         );
 
         new IronOreLabel(

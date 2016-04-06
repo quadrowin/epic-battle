@@ -53,7 +53,7 @@ public class MapGrid extends Group {
 
         mMapTexture = new Texture("town/bg1.jpg");
 
-        setBounds(40, 40, 400, 300);
+        setBounds(-200, 0, 400, 300);
         addListener(new ClickListener() {
 
             public void clicked(InputEvent event, float x, float y) {
@@ -163,8 +163,8 @@ public class MapGrid extends Group {
 
             float botX = (mSelectedX - mSelectedY) * mCellSideX / 2;
             float botY = (mSelectedX + mSelectedY) * mCellSideY / 2;
-            float lineWidth = 3;
-
+//            float lineWidth = 3;
+//
 //            // низ - лево
 //            mSr.rectLine(
 //                    botX, botY,

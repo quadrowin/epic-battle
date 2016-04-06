@@ -192,7 +192,10 @@ public class MyTown {
 
         for (int i = col; i < col + item.getWidth(); i++) {
             for (int j = row; j < row + item.getHeight(); j++) {
-//                mMap[i][j].markAsBusy(item);
+                if (mMap[i][j] == null) {
+                    mMap[i][j] = new Tile();
+                }
+                mMap[i][j].markAsBusy(item);
             }
         }
 

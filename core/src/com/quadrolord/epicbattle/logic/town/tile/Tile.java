@@ -7,7 +7,7 @@ import com.quadrolord.epicbattle.view.town.tile.TileView;
 /**
  * Created by morph on 17.01.2016.
  */
-public abstract class Tile {
+public class Tile {
     protected Vector2 mPosition;
     protected TileView mView;
     protected boolean mIsFree;
