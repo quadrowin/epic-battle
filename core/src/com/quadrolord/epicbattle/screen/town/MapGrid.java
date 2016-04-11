@@ -95,7 +95,8 @@ public class MapGrid extends Group {
         Vector2 zero = getCellXY(0, 0);
         float maxX = mMapSizeX * mCellSideX;
         float maxY = mMapSizeY * mCellSideY;
-        float minY = 0;
+        float halfCellX = mCellSideX / 2;
+        float halfCellY = mCellSideY / 2;
 
         batch.draw(
                 mMapTexture,
@@ -111,47 +112,22 @@ public class MapGrid extends Group {
 
         mSr.setColor(Color.WHITE);
 
-        for (int i = 1; i < mMapSizeY; i++) {
+        for (int i = 0; i < mMapSizeY; i++) {
 
-            float deltaY = i * mCellSideY;
-            float topRightY = deltaY;
-            float botRightY = deltaY;
-            float topX = maxX;
-            float topY = deltaY + mMapSizeX * mCellSideY;
-            float botX = maxX;
-            float botY = deltaY - mMapSizeX * mCellSideY;
-            if (topY > maxY) {
-                topRightY = maxY + maxY - topY;
-                topX = topX / (topY - deltaY) * (maxY - deltaY);
-                topY = maxY;
-            }
-            if (botY < minY) {
-                botRightY = minY - botY;
-                botX = botX / (botY - deltaY) * (minY - deltaY);
-                botY = minY;
-            }
+            float botLeftX = -halfCellX * i;
+            float botLeftY = halfCellY * i;
+            float topRightX = halfCellX * (mMapSizeX - i);
+            float topRightY = halfCellY * (mMapSizeY + i);
 
-            float[] points = new float[] {
-                    // точка на правой грани
-                    maxX, topRightY,
+            mSr.line(botLeftX, botLeftY, topRightX, topRightY);
 
-                    // точка на верхней грани
-                    topX, topY,
+            float botRightX = halfCellX * i;
+            float botRightY = botLeftY;
+            float topLeftX = halfCellX * (i - mMapSizeX);
+            float topLeftY = topRightY;
 
-                    // левая грань
-                    0, deltaY,
-
-                    // низ
-                    botX, botY,
-
-                    // правая грань
-                    maxX, botRightY
-            };
-
-            mSr.polyline(points);
+            mSr.line(botRightX, botRightY, topLeftX, topLeftY);
         }
-        mSr.line(0, 0, maxX, maxY);
-        mSr.line(0, maxY, maxX, 0);
 
         mSr.end();
 
