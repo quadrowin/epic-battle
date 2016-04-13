@@ -98,10 +98,32 @@ public class MapGrid extends Group {
         float halfCellX = mCellSideX / 2;
         float halfCellY = mCellSideY / 2;
 
+//        batch.draw(
+//                mMapTexture,
+//                0, 0, maxX, maxY,
+//                0f, 1f, 0.5f, 0f
+//        );
+
+        float clr = Color.WHITE.toFloatBits();
+        // x, y, color, u, v
+        float[] mapPoints = new float[] {
+                0, 0,
+                clr, 0.5f, 0,
+
+                maxX / 2, maxY / 2,
+                clr, 1, 0.5f,
+
+                0, maxY,
+                clr, 0.5f, 1,
+
+                -maxX / 2, maxY / 2,
+                clr, 0, 0.5f
+        };
+
         batch.draw(
                 mMapTexture,
-                0, 0, maxX, maxY,
-                0f, 1f, 0.5f, 0f
+                mapPoints,
+                0, mapPoints.length
         );
 
         batch.end();
@@ -210,23 +232,25 @@ public class MapGrid extends Group {
             mSr.setColor(Color.BLUE);
             mSr.begin(ShapeRenderer.ShapeType.Line);
 
+            float leftX = zero.x - mMapSizeX * mCellSideX / 2;
+
             mSr.polyline(new float[] {
-                    zero.x, zero.y,
-                    zero.x, zero.y + mMapSizeY * mCellSideY,
-                    zero.x + mMapSizeX * mCellSideX, zero.y + mMapSizeY * mCellSideY,
-                    zero.x + mMapSizeX * mCellSideX, zero.y,
-                    zero.x, zero.y,
+                    leftX, zero.y,
+                    leftX, zero.y + mMapSizeY * mCellSideY,
+                    leftX + mMapSizeX * mCellSideX, zero.y + mMapSizeY * mCellSideY,
+                    leftX + mMapSizeX * mCellSideX, zero.y,
+                    leftX, zero.y,
             });
             for (int col = 1; col < mMapSizeX; col++) {
                 mSr.line(
-                        zero.x + col * mCellSideX, zero.y,
-                        zero.x + col * mCellSideX, zero.y + mMapSizeY * mCellSideY
+                        leftX + col * mCellSideX, zero.y,
+                        leftX + col * mCellSideX, zero.y + mMapSizeY * mCellSideY
                 );
             }
             for (int row = 1; row < mMapSizeY; row++) {
                 mSr.line(
-                        zero.x, zero.y + row * mCellSideY,
-                        zero.x + mMapSizeX * mCellSideX, zero.y + row * mCellSideY
+                        leftX, zero.y + row * mCellSideY,
+                        leftX + mMapSizeX * mCellSideX, zero.y + row * mCellSideY
                 );
             }
 
