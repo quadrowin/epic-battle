@@ -15,6 +15,7 @@ import com.quadrolord.epicbattle.logic.town.building.CraftPlanItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 
 /**
+ * Задание в плане
  * Created by Quadrowin on 27.03.2016.
  */
 public class OrderPlanControl extends Group {

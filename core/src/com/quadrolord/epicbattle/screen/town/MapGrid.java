@@ -54,6 +54,7 @@ public class MapGrid extends Group {
         mMapTexture = new Texture("town/bg1.jpg");
 
         setBounds(-200, 0, 400, 300);
+        final float zeroX = getCellXY(0, 0).x;
         addListener(new ClickListener() {
 
             public void clicked(InputEvent event, float x, float y) {
@@ -69,6 +70,7 @@ public class MapGrid extends Group {
 
                 float cx = mCellSideX / 2;
                 float cy = mCellSideY / 2;
+                x -= zeroX;
                 int col = (int) Math.round((y / cy + x / cx - 0.5 - 0.5) / 2);
                 int row = (int) Math.round((y / cy - x / cx - 0.5 - 0.5) / 2);
 
@@ -107,16 +109,16 @@ public class MapGrid extends Group {
         float clr = Color.WHITE.toFloatBits();
         // x, y, color, u, v
         float[] mapPoints = new float[] {
-                0, 0,
+                zero.x, 0,
                 clr, 0.5f, 0,
 
-                maxX / 2, maxY / 2,
+                zero.x + maxX / 2, maxY / 2,
                 clr, 1, 0.5f,
 
-                0, maxY,
+                zero.x, maxY,
                 clr, 0.5f, 1,
 
-                -maxX / 2, maxY / 2,
+                zero.x - maxX / 2, maxY / 2,
                 clr, 0, 0.5f
         };
 
@@ -136,17 +138,17 @@ public class MapGrid extends Group {
 
         for (int i = 0; i < mMapSizeY; i++) {
 
-            float botLeftX = -halfCellX * i;
-            float botLeftY = halfCellY * i;
-            float topRightX = halfCellX * (mMapSizeX - i);
-            float topRightY = halfCellY * (mMapSizeY + i);
+            float botLeftX = zero.x - halfCellX * i;
+            float botLeftY = zero.y + halfCellY * i;
+            float topRightX = zero.x + halfCellX * (mMapSizeX - i);
+            float topRightY = zero.y + halfCellY * (mMapSizeY + i);
 
             mSr.line(botLeftX, botLeftY, topRightX, topRightY);
 
-            float botRightX = halfCellX * i;
-            float botRightY = botLeftY;
-            float topLeftX = halfCellX * (i - mMapSizeX);
-            float topLeftY = topRightY;
+            float botRightX = zero.x + halfCellX * i;
+            float botRightY = zero.y + botLeftY;
+            float topLeftX = zero.x + halfCellX * (i - mMapSizeX);
+            float topLeftY = zero.y + topRightY;
 
             mSr.line(botRightX, botRightY, topLeftX, topLeftY);
         }
@@ -159,8 +161,8 @@ public class MapGrid extends Group {
             Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
             mSr.setColor(Color.YELLOW.r, Color.YELLOW.g, Color.YELLOW.b, 0.5f);
 
-            float botX = (mSelectedX - mSelectedY) * mCellSideX / 2;
-            float botY = (mSelectedX + mSelectedY) * mCellSideY / 2;
+            float botX = zero.x + (mSelectedX - mSelectedY) * mCellSideX / 2;
+            float botY = zero.y + (mSelectedX + mSelectedY) * mCellSideY / 2;
 //            float lineWidth = 3;
 //
 //            // низ - лево
@@ -274,9 +276,15 @@ public class MapGrid extends Group {
 
     public void setChildPosition(Actor child, int col, int row) {
         Vector2 v = getCellXY(col, row);
-        child.setPosition(v.x, v.y);
+        child.setPosition(v.x - mCellSideX / 2, v.y);
     }
 
+    /**
+     * Возвращает координату нижнего угла ромба клетки
+     * @param col
+     * @param row
+     * @return
+     */
     public Vector2 getCellXY(int col, int row) {
 //        // orthogonal
 //        child.setPosition(
@@ -290,7 +298,7 @@ public class MapGrid extends Group {
         // Xis = (x - y) * Cx
         // Yis = (x + y + 0.5) * Cy
         return new Vector2(
-                (col - row - 1) * mCellSideX / 2,
+                (mMapSizeX + col - row - 1) * mCellSideX / 2,
                 (col + row - 1) * mCellSideY / 2 + 0.5f * mCellSideY
 //                (col + row) * mCellSideY / 2
         );

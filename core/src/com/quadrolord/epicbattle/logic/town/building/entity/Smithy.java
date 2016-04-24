@@ -1,8 +1,8 @@
 package com.quadrolord.epicbattle.logic.town.building.entity;
 
 import com.badlogic.gdx.math.Vector2;
-import com.quadrolord.epicbattle.logic.thing.entity.WarAxe;
-import com.quadrolord.epicbattle.logic.thing.entity.WorkAxe;
+import com.quadrolord.epicbattle.logic.thing.entity.axe.WarAxe;
+import com.quadrolord.epicbattle.logic.thing.entity.axe.WorkAxe;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.CommonBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.CommonBuildingItem;

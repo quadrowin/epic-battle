@@ -24,6 +24,9 @@ public interface TownListener extends OnThingAddToPlan {
         CREATE_NO_LEVEL,
         CREATE_NO_PLACE,
 
+        // нельзя переместить в указанное место
+        MOVE_NO_PLACE,
+
         LEVEL_NO_RESOURCES,
         LEVEL_IN_UPDATING,
         LEVEL_BAD_USER_LEVEL,
@@ -41,6 +44,8 @@ public interface TownListener extends OnThingAddToPlan {
     void onCancelBuildingMode();
 
     void onConfirmBuilding();
+
+    void onConfirmMoving();
 
     void onEnterBuildingMode(AbstractBuildingEntity building);
 

@@ -14,6 +14,7 @@ import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 
 /**
+ * Кнопка для добавления задания в план
  * Created by Quadrowin on 20.03.2016.
  */
 public class OrderButton extends Group {

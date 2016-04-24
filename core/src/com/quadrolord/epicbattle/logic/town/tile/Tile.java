@@ -10,7 +10,6 @@ import com.quadrolord.epicbattle.view.town.tile.TileView;
 public class Tile {
     protected Vector2 mPosition;
     protected TileView mView;
-    protected boolean mIsFree;
     protected AbstractBuildingItem mBuilding;
 
     public Tile() {

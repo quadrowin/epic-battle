@@ -9,9 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
-import com.quadrolord.epicbattle.logic.town.tile.Tile;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
 
@@ -34,8 +32,8 @@ public class PlacingControl extends Group {
     private int mBuildingStartY;
 
 
-    private float mCellSideX = MyTown.MAP_CELL_WIDTH;
-    private float mCellSideY = MyTown.MAP_CELL_HEIGHT;
+    private float mCellSideX;
+    private float mCellSideY;
 
     private float mDeltaX;
 
@@ -45,15 +43,18 @@ public class PlacingControl extends Group {
 
     private Stage mStage;
 
-    private Vector2 mOffset = new Vector2(0, 0);
+    private Vector2 mOffset;
 
     private Vector2 mTempScaled;
 
-    public PlacingControl(AbstractScreen screen, AbstractBuildingItem building, AbstractBuildingView view) {
+    public PlacingControl(AbstractScreen screen, AbstractBuildingItem building, MapGrid map, AbstractBuildingView view) {
         mBuilding = building;
         mBuildingView = view;
         mBuildingStartX = mBuilding.getX();
         mBuildingStartY = mBuilding.getY();
+        mCellSideX = map.getCellSideX();
+        mCellSideY = map.getCellSideY();
+        mOffset = map.getCellXY(0, 0);
 
         // place building view after PlacingControl.
         mStage = screen.getStage();
@@ -99,10 +100,6 @@ public class PlacingControl extends Group {
         mSr.setProjectionMatrix(batch.getProjectionMatrix());
         mSr.setTransformMatrix(batch.getTransformMatrix());
         mSr.begin(ShapeRenderer.ShapeType.Filled);
-
-        mOffset.x = 0;
-        mOffset.y = 0;
-        //mBuilding.getView().getParent().localToStageCoordinates(mOffset);
 
         float lineWidth = 3;
 
@@ -165,6 +162,14 @@ public class PlacingControl extends Group {
 
     public AbstractBuildingView getBuildingView() {
         return mBuildingView;
+    }
+
+    public int getBuildingStartX() {
+        return mBuildingStartX;
+    }
+
+    public int getBuildingStartY() {
+        return mBuildingStartY;
     }
 
     public int getBuildingX() {

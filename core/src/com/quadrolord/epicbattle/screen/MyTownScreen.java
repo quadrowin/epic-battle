@@ -20,8 +20,8 @@ import com.quadrolord.epicbattle.logic.town.building.CraftPlanItem;
 import com.quadrolord.epicbattle.logic.town.building.entity.LeftHandTemple;
 import com.quadrolord.epicbattle.logic.town.building.entity.RightLegTemple;
 import com.quadrolord.epicbattle.logic.town.listener.OnThingAddToPlan;
-import com.quadrolord.epicbattle.logic.thing.entity.IronOre;
-import com.quadrolord.epicbattle.logic.thing.entity.Noodles;
+import com.quadrolord.epicbattle.logic.thing.entity.resource.IronOre;
+import com.quadrolord.epicbattle.logic.thing.entity.resource.Noodles;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
 import com.quadrolord.epicbattle.screen.town.PlacingControl;
 import com.quadrolord.epicbattle.screen.town.panel.BuildingModePanel;
@@ -161,6 +161,28 @@ public class MyTownScreen extends AbstractScreen {
             }
 
             @Override
+            public void onConfirmMoving() {
+                if (mPlacing != null) {
+                    mTown.moveBuilding(
+                            mPlacing.getBuildingItem(),
+                            mPlacing.getBuildingStartX(),
+                            mPlacing.getBuildingStartY(),
+                            mPlacing.getBuildingX(),
+                            mPlacing.getBuildingY()
+
+                    );
+                    mPlacing.remove();
+                    mPlacing = null;
+                }
+                mGuiBuildingMode.setVisible(false);
+                mGuiGeneral.setVisible(true);
+            }
+
+            /**
+             * Создание
+             * @param buildingInfo
+             */
+            @Override
             public void onEnterBuildingMode(AbstractBuildingEntity buildingInfo) {
                 AbstractBuildingItem building = mTown.instantiateBuilding(buildingInfo);
                 Class<AbstractBuildingView> viewClass = buildingInfo.getViewClass();
@@ -181,17 +203,21 @@ public class MyTownScreen extends AbstractScreen {
                         Math.round(mDeltaX / mMap.getCellSideX()) + 4,
                         Math.round(mDeltaY / mMap.getCellSideY())
                 );
-                mPlacing = new PlacingControl(screen, building, view);
+                mPlacing = new PlacingControl(screen, building, mMap, view);
                 mGuiGeneral.setVisible(false);
-                mGuiBuildingMode.setVisible(true);
+                mGuiBuildingMode.showBuildingMode();
             }
 
+            /**
+             * Перемещение
+             * @param building
+             */
             @Override
             public void onEnterBuildingMode(AbstractBuildingItem building) {
                 AbstractBuildingView view = building.getView();
-                mPlacing = new PlacingControl(screen, building, view);
+                mPlacing = new PlacingControl(screen, building, mMap, view);
                 mGuiGeneral.setVisible(false);
-                mGuiBuildingMode.setVisible(true);
+                mGuiBuildingMode.showMovingMode();
             }
 
             @Override

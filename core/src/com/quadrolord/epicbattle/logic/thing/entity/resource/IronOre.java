@@ -1,4 +1,4 @@
-package com.quadrolord.epicbattle.logic.thing.entity;
+package com.quadrolord.epicbattle.logic.thing.entity.resource;
 
 import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
 

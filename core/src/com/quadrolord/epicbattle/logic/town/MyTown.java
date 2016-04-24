@@ -116,13 +116,14 @@ public class MyTown {
         if (col < 0 || row < 0) {
             return false;
         }
-        for (int i = col; i < col + entity.getSize().x; i++) {
-            for (int j = row; j < row + entity.getSize().y; j++) {
-                if (
-                        i >= mMap.length || j >= mMap[i].length
-                        || mMap[i] == null || mMap[i][j] == null
-                        || !mMap[i][j].isFree()
-                ) {
+        int max_x = col + (int)entity.getSize().x - 1;
+        int max_y = row + (int)entity.getSize().y - 1;
+        if (max_x >= mMap.length || max_y >= mMap[max_x].length) {
+            return false;
+        }
+        for (int i = col; i <= max_x; i++) {
+            for (int j = row; j <= max_y; j++) {
+                if (mMap[i][j] != null && !mMap[i][j].isFree()) {
                     return false;
                 }
             }
@@ -146,8 +147,18 @@ public class MyTown {
         mListener.onCancelBuildingMode();
     }
 
+    /**
+     * Подтверждение строительства здания
+     */
     public void confirmBuilding() {
         mListener.onConfirmBuilding();
+    }
+
+    /**
+     * Подтверждение мерещмения здания
+     */
+    public void confirmMoving() {
+        mListener.onConfirmMoving();
     }
 
     public AbstractBuildingItem build(Class<? extends AbstractBuildingEntity> entityClass, int col, int row, boolean isRotated, boolean takeResources, boolean takeGems) {
@@ -171,14 +182,13 @@ public class MyTown {
 
         if (!canBuild(entity, col, row)) {
             mListener.onUserActionFail(TownListener.BuildingAction.CREATE_NO_PLACE);
-//            return null;
+            return null;
         }
 
         takeAwayResources(entity);
 
         AbstractBuildingItem item = instantiateBuilding(entity);
-        item.setX(col);
-        item.setY(row);
+        item.setPosition(col, row);
 
         if (isRotated && !item.isRotated()) {
             item.rotate();
@@ -229,6 +239,10 @@ public class MyTown {
             return resource;
         }
         return mResources.get(resourceClass);
+    }
+
+    public ArrayMap<Class<? extends AbstractThingEntity>, ThingItem> getResources() {
+        return mResources;
     }
 
     public AbstractBuildingItem instantiateBuilding(AbstractBuildingEntity buildingInfo) {
@@ -328,6 +342,53 @@ public class MyTown {
         }
     }
 
+    public void moveBuilding(AbstractBuildingItem building, int fromX, int fromY, int toX, int toY) {
+        if (toX < 0 || toY < 0) {
+            mListener.onUserActionFail(TownListener.BuildingAction.MOVE_NO_PLACE);
+            return;
+        }
+        int toMaxX = toX + building.getWidth() - 1;
+        int toMaxY = toY + building.getHeight() - 1;
+
+        if (toX >= mMap.length || toY >= mMap[toX].length) {
+            mListener.onUserActionFail(TownListener.BuildingAction.MOVE_NO_PLACE);
+            return;
+        }
+
+        // проверка на возможность постройки
+        for (int i = toX; i <= toMaxX; i++) {
+            for (int j = toY; j <= toMaxY; j++) {
+                if (
+                        mMap[i][j] != null
+                        && !mMap[i][j].isFree()
+                        && mMap[i][j].getBuilding() != building
+                ) {
+                    mListener.onUserActionFail(TownListener.BuildingAction.MOVE_NO_PLACE);
+                    return;
+                }
+            }
+        }
+
+        // освобождаем старые клекти
+        for (int i = fromX; i < fromX + building.getWidth(); i++) {
+            for (int j = fromY; j < fromY + building.getHeight(); j++) {
+                mMap[i][j].markAsFree();
+            }
+        }
+
+        building.setPosition(toX, toY);
+
+        // занимаем новые
+        for (int i = toX; i <= toMaxX; i++) {
+            for (int j = toY; j <= toMaxY; j++) {
+                if (mMap[i][j] == null) {
+                    mMap[i][j] = new Tile();
+                }
+                mMap[i][j].markAsBusy(building);
+            }
+        }
+    }
+
     public void demolish(AbstractBuildingItem building) {
         mBuildings.removeValue(building, true);
         mListener.onBuildingRemove(building);
@@ -338,16 +399,29 @@ public class MyTown {
     }
 
     public void setSelected(int col, int row) {
-        for (int i = 0; i < mBuildings.size; i++) {
-            AbstractBuildingItem b = mBuildings.get(i);
-            if (col == b.getX() && row == b.getY()) {
-                mListener.onBuildingSelect(b);
-                if (b.isInConstruction()) {
-                    b.getInfo().runOnSelectUpdating(b);
-                } else {
-                    b.getInfo().runOnSelect(b);
-                }
-            }
+        if (col < 0 || col >= mMap.length) {
+            Gdx.app.log("select try fail", "x");
+            return;
+        }
+        if (row < 0 || row >= mMap[col].length) {
+            Gdx.app.log("select try fail", "y");
+            return;
+        }
+        if (mMap[col][row] == null) {
+            Gdx.app.log("select try fail", "null " + col + ":" + row);
+            return;
+        }
+        AbstractBuildingItem b = mMap[col][row].getBuilding();
+        if (b == null) {
+            Gdx.app.log("select try fail", "no building");
+            return;
+        }
+        Gdx.app.log("onBuildingSelect", b.getInfo().getTitle());
+        mListener.onBuildingSelect(b);
+        if (b.isInConstruction()) {
+            b.getInfo().runOnSelectUpdating(b);
+        } else {
+            b.getInfo().runOnSelect(b);
         }
     }
 

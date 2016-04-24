@@ -7,12 +7,14 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
@@ -91,6 +93,15 @@ public class BuildSlider extends Group {
 
             tb.setBounds(i * 120 + 10, 10, 100, 100);
             tb.addListener(cl);
+
+            Label btnLabel = new Label(
+                    bts.get(i).getTitle(),
+                    skin.get("default-label-style", Label.LabelStyle.class)
+            );
+            btnLabel.setAlignment(Align.left);
+            btnLabel.setBounds(0, 0, tb.getWidth(), 15);
+            tb.addActor(btnLabel);
+
             mWrapper.addActor(tb);
         }
 

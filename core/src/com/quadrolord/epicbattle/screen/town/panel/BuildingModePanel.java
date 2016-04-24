@@ -12,16 +12,33 @@ import com.quadrolord.epicbattle.screen.AbstractScreen;
  */
 public class BuildingModePanel extends Group {
 
+    private TextButton mBtnMoving;
+
+    private TextButton mBtnBuilding;
+
     public BuildingModePanel(final AbstractScreen screen, final MyTown town) {
         // Подтверждение строительства
-        TextButton btnBuild = new TextButton("Build here", screen.getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnBuild.setBounds(10, 0, 150, 50);
-        addActor(btnBuild);
-        btnBuild.addListener(new ClickListener() {
+        mBtnBuilding = new TextButton("Build here", screen.getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
+        mBtnBuilding.setBounds(10, 0, 150, 50);
+        addActor(mBtnBuilding);
+        mBtnBuilding.addListener(new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 town.confirmBuilding();
+            }
+
+        });
+
+        // Подтверждение перемещения
+        mBtnMoving = new TextButton("Move here", screen.getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
+        mBtnMoving.setBounds(10, 0, 150, 50);
+        addActor(mBtnMoving);
+        mBtnMoving.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                town.confirmMoving();
             }
 
         });
@@ -42,6 +59,20 @@ public class BuildingModePanel extends Group {
         setBounds(0, 240, 400, 60);
         setVisible(false);
         screen.getStage().addActor(this);
+    }
+
+    public void showBuildingMode()
+    {
+        mBtnBuilding.setVisible(true);
+        mBtnMoving.setVisible(false);
+        setVisible(true);
+    }
+
+    public void showMovingMode()
+    {
+        mBtnBuilding.setVisible(false);
+        mBtnMoving.setVisible(true);
+        setVisible(true);
     }
 
 }
