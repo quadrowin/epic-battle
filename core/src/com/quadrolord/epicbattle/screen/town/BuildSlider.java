@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -13,11 +15,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.ScissorStack;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
+import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.NewBuildingScreen;
 
 /**
@@ -31,7 +35,15 @@ public class BuildSlider extends Group {
 
     private float mPosition;
 
+    private AbstractScreen mScreen;
+
+    private Rectangle mScissorsRect = new Rectangle();
+    private Rectangle mScissorsClipBounds = new Rectangle();
+
+    private Vector2 mLocalZero;
+
     public BuildSlider(final NewBuildingScreen screen, final MyTown town) {
+        mScreen = screen;
         Skin skin = screen.getSkin();
 
         Texture texture = new Texture("ui/panel-64.png");
@@ -60,8 +72,9 @@ public class BuildSlider extends Group {
         Array<AbstractBuildingEntity> bts = town.getAvailableBuildingTypes();
 
         mWrapper = new Group();
-        mWrapper.setBounds(0, 0, bts.size * 120 + 20, mBackground.getHeight());
-        mBackground.addActor(mWrapper);
+        mWrapper.setBounds(30, 30, bts.size * 120 + 20, mBackground.getHeight());
+        mWrapper.setVisible(false);
+        addActor(mWrapper);
 
         ClickListener cl = new ClickListener() {
 
@@ -118,26 +131,53 @@ public class BuildSlider extends Group {
 
         });
 
+        setBounds(0, 0, 400, 180);
         screen.getStage().addActor(this);
+
+        mScissorsClipBounds.set(
+                mBackground.getX() + 10,
+                mBackground.getY() + 5,
+                mBackground.getWidth() - 20,
+                mBackground.getHeight() - 10
+        );
     }
 
     @Override
     public void act(float delta) {
         if (Gdx.input.isTouched()) {
-            mWrapper.setX(Math.max(
+            mPosition = Math.max(
                     mBackground.getWidth() - mWrapper.getWidth(),
                     Math.min(
                             0,
-                            mWrapper.getX() + Gdx.input.getDeltaX()
+                            mPosition + Gdx.input.getDeltaX()
                     )
-            ));
+            );
+            mWrapper.setX(30 + mPosition);
         }
     }
 
     @Override
     public void draw (Batch batch, float parentAlpha) {
+        mLocalZero = localToStageCoordinates(new Vector2(mBackground.getX(), mBackground.getY()));
+
         applyTransform(batch, computeTransform());
         drawChildren(batch, parentAlpha);
+
+        //Create a scissor rectangle that covers my Actor.
+        ScissorStack.calculateScissors(mScreen.getStage().getCamera(), batch.getTransformMatrix(), mScissorsClipBounds, mScissorsRect);
+        batch.flush(); //Make sure nothing is clipped before we want it to.
+        boolean pushed = ScissorStack.pushScissors(mScissorsRect);
+
+        //Draw the actor as usual
+        mWrapper.draw(batch, parentAlpha);
+
+        //Perform the actual clipping
+        if (pushed) {
+            ScissorStack.popScissors();
+        } else {
+            Gdx.app.log("BuildSlider", "No scissors");
+        }
+
         resetTransform(batch);
     }
 
