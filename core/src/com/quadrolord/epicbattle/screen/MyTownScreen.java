@@ -115,17 +115,22 @@ public class MyTownScreen extends AbstractScreen {
             }
 
             @Override
-            public void onBuildingChange(AbstractBuildingItem building) {
-
-            }
-
-            @Override
             public void onBuildingRemove(AbstractBuildingItem building) {
 
             }
 
             @Override
             public void onBuildingSelect(AbstractBuildingItem building) {
+
+            }
+
+            @Override
+            public void onBuildingConstructed(AbstractBuildingItem building) {
+
+            }
+
+            @Override
+            public void onBuildingUpgraded(AbstractBuildingItem building) {
 
             }
 
@@ -304,5 +309,7 @@ public class MyTownScreen extends AbstractScreen {
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             mDeltaY += dx;
         }
+
+        mTown.act(delta);
     }
 }

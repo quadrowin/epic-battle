@@ -5,12 +5,8 @@ package com.quadrolord.epicbattle.screen;
  */
 public class TownBuildingScreen extends AbstractScreen {
 
-    private AbstractScreen mParentScreen;
-
     public TownBuildingScreen(AbstractScreen parentScreen) {
-        super(parentScreen.getAdapter());
-        mParentScreen = parentScreen;
-
+        super(parentScreen);
 
     }
 

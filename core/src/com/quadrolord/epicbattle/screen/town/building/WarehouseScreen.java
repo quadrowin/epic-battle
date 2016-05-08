@@ -21,14 +21,11 @@ import java.util.Iterator;
  */
 public class WarehouseScreen extends AbstractScreen {
 
-    private AbstractScreen mParentScreen;
-
     private AbstractBuildingItem mBuilding;
 
     public WarehouseScreen(final AbstractScreen parentScreen, AbstractBuildingItem building) {
-        super(parentScreen.getAdapter());
+        super(parentScreen);
         mBuilding = building;
-        mParentScreen = parentScreen;
         initFitViewport();
 
         Group wg = new SubScreenWindow(this).getInnerGroup();

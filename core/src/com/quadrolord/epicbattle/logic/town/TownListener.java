@@ -35,11 +35,13 @@ public interface TownListener extends OnThingAddToPlan {
 
     void onBuildingAdd(AbstractBuildingItem building);
 
-    void onBuildingChange(AbstractBuildingItem building);
-
     void onBuildingRemove(AbstractBuildingItem building);
 
     void onBuildingSelect(AbstractBuildingItem building);
+
+    void onBuildingConstructed(AbstractBuildingItem building);
+
+    void onBuildingUpgraded(AbstractBuildingItem building);
 
     void onCancelBuildingMode();
 

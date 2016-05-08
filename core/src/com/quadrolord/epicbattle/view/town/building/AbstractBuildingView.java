@@ -55,7 +55,7 @@ abstract public class AbstractBuildingView extends Group {
         }
         float scale = 1;
         if (mBuilding.isInConstruction()) {
-            scale = 1 - Math.abs((float)(mBuilding.getRemainingUpdatingTime() % 1000 - 500)) / 2000;
+            scale = 1 - Math.abs((float)(mBuilding.getConstructionRemainingTime() % 1000 - 500)) / 2000;
         }
         batch.draw(
                 mBuildingTexture,

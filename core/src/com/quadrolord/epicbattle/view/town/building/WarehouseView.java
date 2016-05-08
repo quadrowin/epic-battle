@@ -23,7 +23,7 @@ public class WarehouseView extends AbstractBuildingView {
         float scale = 1;
         AbstractBuildingItem building = getBuilding();
         if (building.isInConstruction()) {
-            scale = 1 - Math.abs((float)(building.getRemainingUpdatingTime() % 1000 - 500)) / 2000;
+            scale = 1 - Math.abs((float)(building.getConstructionRemainingTime() % 1000 - 500)) / 2000;
         }
         batch.draw(
                 getBuildingTexture(),

@@ -59,7 +59,14 @@ abstract public class EntityManager<T extends AbstractEntity> {
         loadFromJson(info, json);
 
         mLoaded.put(entityClass, info);
+
+        initLoaded(info);
+
         return info;
+    }
+
+    protected void initLoaded(T entity) {
+
     }
 
     public void loadFromJson(T entity, JsonValue json) {

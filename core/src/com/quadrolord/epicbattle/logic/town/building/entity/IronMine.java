@@ -11,9 +11,9 @@ import com.quadrolord.epicbattle.view.town.building.MineView;
 /**
  * Created by Quadrowin on 31.01.2016.
  */
-public class Mine extends CommonBuildingEntity {
+public class IronMine extends CommonBuildingEntity {
 
-    public Mine() {
+    public IronMine() {
         setViewClass(MineView.class);
 
         ResourceSourceEntity rse = new ResourceSourceEntity();

@@ -11,22 +11,21 @@ import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.SubScreenWindow;
+import com.quadrolord.epicbattle.screen.town.button.MoveButtonFactory;
+import com.quadrolord.epicbattle.screen.town.button.UpgradeButtonFactory;
 
 /**
  * Экран при заходе в ресурсопоставляющее здание
  */
 public class MineBuildingScreen extends AbstractScreen {
 
-    private AbstractScreen mParentScreen;
-
     private Label mResourceCountLabel;
 
     private AbstractBuildingItem mBuilding;
 
     public MineBuildingScreen(final AbstractScreen parentScreen, AbstractBuildingItem building) {
-        super(parentScreen.getAdapter());
+        super(parentScreen);
         mBuilding = building;
-        mParentScreen = parentScreen;
         initFitViewport();
 
         Group wg = new SubScreenWindow(this).getInnerGroup();
@@ -38,7 +37,15 @@ public class MineBuildingScreen extends AbstractScreen {
         wg.addActor(mResourceCountLabel);
 
         createTakeButton(wg);
-        createMoveButton(wg);
+        MoveButtonFactory.create(this, mBuilding, wg);
+
+        if (
+                !building.isInUpgrading()
+                && !building.isInConstruction()
+                && building.getInfo().getLevelingStrategy().canLevelUp(building)
+        ) {
+            UpgradeButtonFactory.create(this, mBuilding, wg);
+        }
     }
 
     private void createTakeButton(Group parent) {
@@ -55,26 +62,6 @@ public class MineBuildingScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 mBuilding.getInfo().takeAvailable(mBuilding);
-                getAdapter().switchToScreen(mParentScreen, true);
-            }
-
-        });
-    }
-
-    private void createMoveButton(Group parent) {
-        TextButton btnTake = new TextButton("Move", getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnTake.setBounds(
-                parent.getWidth() - 160,
-                40,
-                40,
-                40
-        );
-        parent.addActor(btnTake);
-        btnTake.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                mBuilding.getTown().enterMovingMode(mBuilding);
                 getAdapter().switchToScreen(mParentScreen, true);
             }
 

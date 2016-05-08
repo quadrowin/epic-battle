@@ -19,7 +19,7 @@ import java.util.Iterator;
 /**
  * Created by morph on 17.01.2016.
  */
-abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> extends AbstractEntity<T> {
+abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> extends AbstractEntity<T> implements Cloneable {
 
     /**
      * Здание возможно снести
@@ -30,6 +30,8 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
      * Здание возможно перемещать
      */
     private boolean mAllowMoving;
+
+    private int mLevel = 0;
 
     protected String mTitle;
 
@@ -47,17 +49,34 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
     protected Class<? extends Tile> mTileClass;
     protected ArrayMap<Class<? extends AbstractThingEntity>, Integer> mRequiredResources = new ArrayMap<Class<? extends AbstractThingEntity>, Integer>();
     protected int mRequiredLevel = 1;
+
+    /**
+     * Накапливаемые в здании ресурсы
+     */
     private Array<ResourceSourceEntity> mResources = new Array<ResourceSourceEntity>();
 
     protected int mCostGem;
+
+    /**
+     * Время постройки здания
+     */
     protected long mConstructionTime;
     protected AbstractStrategy mLevelingStrategy;
-    protected Array<AbstractBuildingEntity> mLevelUps = new Array<AbstractBuildingEntity>();
 
     /**
      * Доступные для заказа предметы
      */
     protected Array<AbstractThingEntity> mAvailableThings = new Array<AbstractThingEntity>();
+
+    public AbstractBuildingEntity clone() {
+        AbstractBuildingEntity res = null;
+        try {
+            res = (AbstractBuildingEntity) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+        return res;
+    }
 
     public boolean getAllowDestruction() {
         return mAllowDestruction;
@@ -75,12 +94,12 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
         return mTitle;
     }
 
-    public Array<AbstractBuildingEntity> getLevelUps() {
-        return mLevelUps;
-    }
-
     public long getConstructionTime() {
         return mConstructionTime;
+    }
+
+    public int getLevel() {
+        return mLevel;
     }
 
     public Class<? extends Tile> getTileClass() {
@@ -135,9 +154,17 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
      * Выбор здания в процессе постройки
      * @param item
      */
-    public void runOnSelectUpdating(AbstractBuildingItem item) {
+    public void runOnSelectConstruction(AbstractBuildingItem item) {
         ConstructionBuildingScreen scr = new ConstructionBuildingScreen(item.getView().getScreen(), item);
         item.getView().getScreen().getAdapter().switchToScreen(scr, false);
+    }
+
+    /**
+     * Выбор здания в процессе обновления
+     * @param item
+     */
+    public void runOnSelectUpgrading(AbstractBuildingItem item) {
+        runOnSelect(item);
     }
 
     public void setAllowDestruction(boolean value) {
@@ -165,11 +192,6 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
 
     public AbstractBuildingEntity setViewClass(Class<? extends AbstractBuildingView> viewClass) {
         mViewClass = viewClass;
-        return this;
-    }
-
-    public AbstractBuildingEntity setLevelUps(Array<AbstractBuildingEntity> levelUps) {
-        mLevelUps = levelUps;
         return this;
     }
 
@@ -208,7 +230,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
     }
 
     public void setLevel(int level) {
-        getLevelingStrategy().setLevel(this, level);
+        mLevel = level;
     }
 
     /**

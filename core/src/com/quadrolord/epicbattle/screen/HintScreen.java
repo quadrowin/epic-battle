@@ -15,11 +15,8 @@ import com.badlogic.gdx.utils.Align;
  */
 public class HintScreen extends AbstractScreen {
 
-    private AbstractScreen mParentScreen;
-
     public HintScreen(final AbstractScreen parentScreen, float x, float y, String text) {
-        super(parentScreen.getAdapter());
-        mParentScreen = parentScreen;
+        super(parentScreen);
         initFitViewport();
 
         Pixmap white = new Pixmap(2, 2, Pixmap.Format.RGBA8888);

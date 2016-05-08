@@ -19,6 +19,8 @@ public abstract class AbstractScreen implements Screen {
 
     protected EpicBattle mAdapter;
 
+    protected AbstractScreen mParentScreen;
+
     protected Game mGame;
 
     protected Skin mSkin;
@@ -41,12 +43,21 @@ public abstract class AbstractScreen implements Screen {
         mTextures = new TextureManager(mSkin);
     }
 
+    public AbstractScreen(AbstractScreen parentScreen) {
+        this(parentScreen.getAdapter());
+        mParentScreen = parentScreen;
+    }
+
     public EpicBattle getAdapter() {
         return mAdapter;
     }
 
     public Game getGame() {
         return mGame;
+    }
+
+    public AbstractScreen getParentScreen() {
+        return mParentScreen;
     }
 
     public float getPx() {

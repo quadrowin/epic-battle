@@ -14,7 +14,7 @@ import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.CraftPlanItem;
 import com.quadrolord.epicbattle.logic.town.building.entity.DoodleShop;
-import com.quadrolord.epicbattle.logic.town.building.entity.Mine;
+import com.quadrolord.epicbattle.logic.town.building.entity.IronMine;
 import com.quadrolord.epicbattle.logic.town.building.entity.SheepFarm;
 import com.quadrolord.epicbattle.logic.town.building.entity.Smithy;
 import com.quadrolord.epicbattle.logic.town.building.entity.Warehouse;
@@ -48,6 +48,11 @@ public class MyTown {
 
     private float mTime = 0;
 
+    /**
+     * Номер тика для периодического запуска несрочных тяжелых операций
+     */
+    private int mTickNumber = 0;
+
     public MyTown(Game game) {
         mGame = game;
         mBuildingInfoManager = new BuildingInfoManager();
@@ -55,6 +60,25 @@ public class MyTown {
 
     public void act(float delta) {
         mTime += delta;
+        mTickNumber = (mTickNumber + 1) % 1000000000;
+
+        if (mTickNumber % 11 == 0) {
+            actBuildings();
+        }
+    }
+
+    public void actBuildings() {
+        for (Iterator<AbstractBuildingItem> it = mBuildings.iterator(); it.hasNext(); ) {
+            AbstractBuildingItem building = it.next();
+            if (building.isInConstruction() && building.getConstructionProgress() >= 1) {
+                building.finishConstruction();
+                mListener.onBuildingConstructed(building);
+            }
+            if (building.isInUpgrading() && building.getUpgradingProgress() >= 1) {
+                building.upgradingSuccess();
+                mListener.onBuildingUpgraded(building);
+            }
+        }
     }
 
     /**
@@ -64,7 +88,7 @@ public class MyTown {
     public Array<AbstractBuildingEntity> getAvailableBuildingTypes() {
         Array<AbstractBuildingEntity> bts = new Array<AbstractBuildingEntity>();
         bts.add(mBuildingInfoManager.getInfo(DoodleShop.class));
-        bts.add(mBuildingInfoManager.getInfo(Mine.class));
+        bts.add(mBuildingInfoManager.getInfo(IronMine.class));
         bts.add(mBuildingInfoManager.getInfo(SheepFarm.class));
         bts.add(mBuildingInfoManager.getInfo(DoodleShop.class));
         bts.add(mBuildingInfoManager.getInfo(Smithy.class));
@@ -197,7 +221,7 @@ public class MyTown {
         mBuildings.add(item);
         if (takeResources || takeGems) {
             // TODO separated flag for construction start required.
-            item.startConstruction();
+            item.startConstruction(entity.getConstructionTime());
         }
 
         for (int i = col; i < col + item.getWidth(); i++) {
@@ -300,14 +324,15 @@ public class MyTown {
             return;
         }
 
-        if (!building.canLevelUp()) {
+        if (!building.getInfo().getLevelingStrategy().canLevelUp(building)) {
             mListener.onUserActionFail(TownListener.BuildingAction.LEVEL_ALREADY_MAX);
             return;
         }
 
-        takeAwayResources(info);
-        building.levelUp();
-        mListener.onBuildingChange(building);
+        AbstractBuildingEntity nextLevel = mBuildingInfoManager.getEntityLevel(building.getInfo().getClass(), building.getLevel() + 1);
+
+        takeAwayResources(nextLevel);
+        building.startUpgrading(nextLevel);
     }
 
     public void loadTown() {
@@ -419,7 +444,9 @@ public class MyTown {
         Gdx.app.log("onBuildingSelect", b.getInfo().getTitle());
         mListener.onBuildingSelect(b);
         if (b.isInConstruction()) {
-            b.getInfo().runOnSelectUpdating(b);
+            b.getInfo().runOnSelectConstruction(b);
+        } else if (b.isInUpgrading()) {
+            b.getInfo().runOnSelectUpgrading(b);
         } else {
             b.getInfo().runOnSelect(b);
         }

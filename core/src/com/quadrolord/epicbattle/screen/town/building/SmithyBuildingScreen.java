@@ -17,16 +17,13 @@ import com.quadrolord.epicbattle.screen.town.item.OrderPlanPanel;
  */
 public class SmithyBuildingScreen extends AbstractScreen implements OnThingAddToPlan {
 
-    private AbstractScreen mParentScreen;
-
     private AbstractBuildingItem mBuilding;
 
     private OrderPlanPanel mOrderPlanPanel;
 
     public SmithyBuildingScreen(final AbstractScreen parentScreen, AbstractBuildingItem building) {
-        super(parentScreen.getAdapter());
+        super(parentScreen);
         mBuilding = building;
-        mParentScreen = parentScreen;
         initFitViewport();
 
         Group wg = new SubScreenWindow(this).getInnerGroup();

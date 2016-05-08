@@ -1,7 +1,7 @@
 package com.quadrolord.epicbattle.screen;
 
 import com.quadrolord.epicbattle.logic.town.MyTown;
-import com.quadrolord.epicbattle.screen.town.BuildSlider;
+import com.quadrolord.epicbattle.screen.town.slider.BuildSlider;
 
 /**
  * Created by Quadrowin on 20.02.2016.

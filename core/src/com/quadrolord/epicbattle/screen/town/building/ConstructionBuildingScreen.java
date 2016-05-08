@@ -15,15 +15,12 @@ import com.quadrolord.epicbattle.screen.town.SubScreenWindow;
  */
 public class ConstructionBuildingScreen extends AbstractScreen {
 
-    private AbstractScreen mParentScreen;
-
     private Label mRemainLabel;
 
     private AbstractBuildingItem mBuilding;
 
     public ConstructionBuildingScreen(final AbstractScreen parentScreen, AbstractBuildingItem building) {
-        super(parentScreen.getAdapter());
-        mParentScreen = parentScreen;
+        super(parentScreen);
         mBuilding = building;
         initFitViewport();
 
@@ -54,7 +51,7 @@ public class ConstructionBuildingScreen extends AbstractScreen {
     }
 
     private void createRemainLabel(Group parent) {
-        int remain = (int)mBuilding.getRemainingUpdatingTime();
+        int remain = (int)mBuilding.getConstructionRemainingTime();
         mRemainLabel = new Label("Remains: " + remain, mSkin.get("default-label-style", Label.LabelStyle.class));
         mRemainLabel.setAlignment(Align.center, Align.center);
         mRemainLabel.setBounds(0, 100, parent.getWidth(), 100);
@@ -88,7 +85,7 @@ public class ConstructionBuildingScreen extends AbstractScreen {
 
     @Override
     public void update(float delta) {
-        float remain = (float)mBuilding.getRemainingUpdatingTime() / 1000;
+        float remain = (float)mBuilding.getConstructionRemainingTime() / 1000;
         mRemainLabel.setText(String.format("Remains: %.1f s", remain));
     }
 
