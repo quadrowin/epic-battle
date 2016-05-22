@@ -1,6 +1,6 @@
 package com.quadrolord.epicbattle.logic.thing;
 
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ArrayMap;
 
 /**
  * Created by Quadrowin on 20.03.2016.
@@ -12,8 +12,11 @@ public class ThingCost {
      */
     private int mGems = 999999999;
 
-    private Array<ThingCostElement> mResources = new Array<ThingCostElement>();
+    private ArrayMap<Class<? extends AbstractThingEntity>, Integer> mResources;
 
+    public ThingCost(ArrayMap<Class<? extends AbstractThingEntity>, Integer> resources) {
+        mResources = resources;
+    }
 
     public int getGems() {
         return mGems;
@@ -23,7 +26,7 @@ public class ThingCost {
         mGems = gems;
     }
 
-    public Array<ThingCostElement> getResources() {
+    public ArrayMap<Class<? extends AbstractThingEntity>, Integer> getResources() {
         return mResources;
     }
 }

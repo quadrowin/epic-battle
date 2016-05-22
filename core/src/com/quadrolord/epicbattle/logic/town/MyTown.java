@@ -8,8 +8,10 @@ import com.quadrolord.epicbattle.logic.Game;
 import com.quadrolord.epicbattle.logic.profile.PlayerProfile;
 import com.quadrolord.epicbattle.logic.profile.ProfileBuilding;
 import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
+import com.quadrolord.epicbattle.logic.thing.ThingCost;
 import com.quadrolord.epicbattle.logic.thing.ThingCostElement;
 import com.quadrolord.epicbattle.logic.thing.ThingItem;
+import com.quadrolord.epicbattle.logic.thing.entity.Gemstone;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.CraftPlanItem;
@@ -120,15 +122,15 @@ public class MyTown {
         return mLevel >= level;
     }
 
-    public boolean hasResources(AbstractBuildingEntity building) {
-        Iterator<ObjectMap.Entry<Class<? extends AbstractThingEntity>, Integer>> iter = building.getRequiredResources().iterator();
+    public boolean hasResources(ThingCost cost) {
+        Iterator<ObjectMap.Entry<Class<? extends AbstractThingEntity>, Integer>> iter = cost.getResources().iterator();
 
         while (iter.hasNext()) {
             ObjectMap.Entry<Class<? extends AbstractThingEntity>, Integer> next = iter.next();
             Class<? extends AbstractThingEntity> resourceClass = next.key;
-            int cost = next.value;
+            int costValue = next.value;
 
-            if (!mResources.containsKey(resourceClass) || mResources.get(resourceClass).getCount() < cost) {
+            if (!mResources.containsKey(resourceClass) || mResources.get(resourceClass).getCount() < costValue) {
                 return false;
             }
         }
@@ -190,12 +192,14 @@ public class MyTown {
     }
 
     public AbstractBuildingItem build(AbstractBuildingEntity entity, int col, int row, boolean isRotated, boolean takeResources, boolean takeGems) {
-        if (takeGems && !hasGems(entity.getCostGem())) {
-            mListener.onUserActionFail(TownListener.BuildingAction.CREATE_NO_GEMS);
-            return null;
-        }
-        if (takeResources && !hasResources(entity)) {
-            mListener.onUserActionFail(TownListener.BuildingAction.CREATE_NO_RESOURCES);
+        ThingCost cost = getBuildingCost(entity, takeResources, takeGems);
+
+        if (!hasResources(cost)) {
+            if (takeGems) {
+                mListener.onUserActionFail(TownListener.BuildingAction.CREATE_NO_GEMS);
+            } else {
+                mListener.onUserActionFail(TownListener.BuildingAction.CREATE_NO_RESOURCES);
+            }
             return null;
         }
 
@@ -209,7 +213,7 @@ public class MyTown {
             return null;
         }
 
-        takeAwayResources(entity);
+        takeAwayResources(cost);
 
         AbstractBuildingItem item = instantiateBuilding(entity);
         item.setPosition(col, row);
@@ -220,8 +224,7 @@ public class MyTown {
 
         mBuildings.add(item);
         if (takeResources || takeGems) {
-            // TODO separated flag for construction start required.
-            item.startConstruction(entity.getConstructionTime());
+            item.startConstruction(entity, cost);
         }
 
         for (int i = col; i < col + item.getWidth(); i++) {
@@ -243,6 +246,20 @@ public class MyTown {
 
     public void enterMovingMode(AbstractBuildingItem b) {
         mListener.onEnterBuildingMode(b);
+    }
+
+    public ThingCost getBuildingCost(AbstractBuildingEntity building, boolean takeResources, boolean takeGems) {
+        ThingCost cost;
+        if (takeGems) {
+            ArrayMap<Class<? extends AbstractThingEntity>, Integer> res = new ArrayMap<Class<? extends AbstractThingEntity>, Integer>();
+            res.put(Gemstone.class, building.getCostGem());
+            cost = new ThingCost(res);
+        } else if (takeResources) {
+            cost = new ThingCost( building.getRequiredResources() );
+        } else {
+            cost = new ThingCost( new ArrayMap<Class<? extends AbstractThingEntity>, Integer>() );
+        }
+        return cost;
     }
 
     public ThingItem getResource(Class<? extends AbstractThingEntity> resourceClass) {
@@ -288,33 +305,38 @@ public class MyTown {
 
     /**
      * Забор ресурсов за постройку
-     * @param entity
+     * @param cost
      */
-    public void takeAwayResources(AbstractBuildingEntity entity) {
-        Iterator<ObjectMap.Entry<Class<? extends AbstractThingEntity>, Integer>> iter = entity.getRequiredResources().iterator();
+    public void takeAwayResources(ThingCost cost) {
+        Iterator<ObjectMap.Entry<Class<? extends AbstractThingEntity>, Integer>> iter = cost.getResources().iterator();
 
         while (iter.hasNext()) {
             ObjectMap.Entry<Class<? extends AbstractThingEntity>, Integer> next = iter.next();
             Class<? extends AbstractThingEntity> resourceClass = next.key;
-            int cost = next.value;
+            int costValue = next.value;
 
             if (mResources.containsKey(resourceClass)) {
                 ThingItem res = mResources.get(resourceClass);
-                res.incCount(-cost);
+                res.incCount(-costValue);
             }
         }
     }
 
     public void levelUp(AbstractBuildingItem building, boolean isByGems) {
         AbstractBuildingEntity info = building.getInfo();
-        boolean hasResources = isByGems ? hasGems(info.getCostGem()) : hasResources(info);
+        AbstractBuildingEntity nextLevel = mBuildingInfoManager.getEntityLevel(info.getClass(), info.getLevel() + 1);
+        ThingCost cost = getBuildingCost(nextLevel, !isByGems, isByGems);
 
-        if (!hasResources) {
-            mListener.onUserActionFail(TownListener.BuildingAction.LEVEL_NO_RESOURCES);
+        if (!hasResources(cost)) {
+            if (isByGems) {
+                mListener.onUserActionFail(TownListener.BuildingAction.LEVEL_NO_RESOURCES);
+            } else {
+                mListener.onUserActionFail(TownListener.BuildingAction.LEVEL_NO_RESOURCES);
+            }
             return;
         }
 
-        if (building.isInConstruction()) {
+        if (building.isInConstruction() || building.isInUpgrading()) {
             mListener.onUserActionFail(TownListener.BuildingAction.LEVEL_IN_UPDATING);
             return;
         }
@@ -329,10 +351,8 @@ public class MyTown {
             return;
         }
 
-        AbstractBuildingEntity nextLevel = mBuildingInfoManager.getEntityLevel(building.getInfo().getClass(), building.getLevel() + 1);
-
-        takeAwayResources(nextLevel);
-        building.startUpgrading(nextLevel);
+        takeAwayResources(cost);
+        building.startUpgrading(nextLevel, cost);
     }
 
     public void loadTown() {
@@ -452,13 +472,17 @@ public class MyTown {
         }
     }
 
+    public void terminateUpgrading(AbstractBuildingItem building) {
+        building.upgradingTerminate();
+    }
+
     public void tryOrderThing(AbstractBuildingItem building, AbstractThingEntity thing) {
-        for (Iterator<ThingCostElement> it = thing.getCost().getResources().iterator(); it.hasNext();) {
-            ThingCostElement el = it.next();
-            ThingItem ri = mResources.get(el.getResource());
-            if (ri == null || ri.getCount() < el.getCount()) {
+        for (Iterator< ObjectMap.Entry<Class<? extends AbstractThingEntity>, Integer> > it = thing.getCost().getResources().iterator(); it.hasNext();) {
+            ObjectMap.Entry<Class<? extends AbstractThingEntity>, Integer> el = it.next();
+            ThingItem ri = mResources.get(el.key);
+            if (ri == null || ri.getCount() < el.value) {
                 // недостаток одного из ресурсов
-                mListener.onOrderResourceLack(el);
+                mListener.onOrderResourceLack(new ThingCostElement(el.key, el.value));
                 //return;
             }
         }

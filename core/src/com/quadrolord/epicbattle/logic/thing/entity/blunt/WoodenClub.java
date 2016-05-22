@@ -1,7 +1,6 @@
 package com.quadrolord.epicbattle.logic.thing.entity.blunt;
 
 import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
-import com.quadrolord.epicbattle.logic.thing.ThingCostElement;
 import com.quadrolord.epicbattle.logic.thing.entity.resource.Wood;
 
 /**
@@ -15,7 +14,7 @@ public class WoodenClub extends AbstractThingEntity {
         setShort("WdCb");
         setTitle("Wooden Club");
         getCost().setGems(1);
-        getCost().getResources().add(new ThingCostElement(Wood.class, 1));
+        getCost().getResources().put(Wood.class, 1);
     }
 
 }

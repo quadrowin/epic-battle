@@ -12,7 +12,7 @@ import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.SubScreenWindow;
 import com.quadrolord.epicbattle.screen.town.button.MoveButtonFactory;
-import com.quadrolord.epicbattle.screen.town.button.UpgradeButtonFactory;
+import com.quadrolord.epicbattle.screen.town.button.UpgradeControl;
 
 /**
  * Экран при заходе в ресурсопоставляющее здание
@@ -44,7 +44,7 @@ public class MineBuildingScreen extends AbstractScreen {
                 && !building.isInConstruction()
                 && building.getInfo().getLevelingStrategy().canLevelUp(building)
         ) {
-            UpgradeButtonFactory.create(this, mBuilding, wg);
+            new UpgradeControl(this, mBuilding, wg);
         }
     }
 

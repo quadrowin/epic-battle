@@ -1,7 +1,6 @@
 package com.quadrolord.epicbattle.logic.thing.entity.axe;
 
 import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
-import com.quadrolord.epicbattle.logic.thing.ThingCostElement;
 import com.quadrolord.epicbattle.logic.thing.entity.resource.IronOre;
 import com.quadrolord.epicbattle.logic.thing.entity.resource.Wood;
 
@@ -16,8 +15,8 @@ public class WorkAxe extends AbstractThingEntity {
         setShort("WkAx");
         setTitle("Work Axe");
         getCost().setGems(1);
-        getCost().getResources().add(new ThingCostElement(IronOre.class, 1));
-        getCost().getResources().add(new ThingCostElement(Wood.class, 1));
+        getCost().getResources().put(IronOre.class, 1);
+        getCost().getResources().put(Wood.class, 1);
     }
 
 }

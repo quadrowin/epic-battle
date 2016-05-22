@@ -1,5 +1,6 @@
 package com.quadrolord.epicbattle.logic.thing;
 
+import com.badlogic.gdx.utils.ArrayMap;
 import com.quadrolord.epicbattle.logic.configurable.AbstractEntity;
 
 /**
@@ -10,7 +11,7 @@ abstract public class AbstractThingEntity extends AbstractEntity<ThingItem> {
     /**
      * Стоимость крафта
      */
-    private ThingCost mCost = new ThingCost();
+    private ThingCost mCost = new ThingCost( new ArrayMap<Class<? extends AbstractThingEntity>, Integer>() );
 
     /**
      * Длительность крафта в секундах

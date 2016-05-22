@@ -310,6 +310,11 @@ public class MyTownScreen extends AbstractScreen {
             mDeltaY += dx;
         }
 
+        if (Gdx.input.isTouched() && mGuiGeneral.isVisible()) {
+            mMapCamera.position.x -= Gdx.input.getDeltaX();
+            mMapCamera.position.y += Gdx.input.getDeltaY();
+        }
+
         mTown.act(delta);
     }
 }

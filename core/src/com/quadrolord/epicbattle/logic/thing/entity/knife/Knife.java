@@ -1,7 +1,6 @@
 package com.quadrolord.epicbattle.logic.thing.entity.knife;
 
 import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
-import com.quadrolord.epicbattle.logic.thing.ThingCostElement;
 import com.quadrolord.epicbattle.logic.thing.entity.resource.IronOre;
 
 /**
@@ -15,7 +14,7 @@ public class Knife extends AbstractThingEntity {
         setShort("Kn");
         setTitle("Knife");
         getCost().setGems(1);
-        getCost().getResources().add(new ThingCostElement(IronOre.class, 1));
+        getCost().getResources().put(IronOre.class, 1);
     }
 
 }

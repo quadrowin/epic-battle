@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.quadrolord.epicbattle.logic.configurable.AbstractItem;
+import com.quadrolord.epicbattle.logic.thing.ThingCost;
 import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceItem;
 import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
@@ -16,18 +17,12 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
     protected Vector2 mPosition = new Vector2(0, 0);
     protected Vector2 mSize = new Vector2(1, 1);
     protected boolean mIsRotated = false;
-    private int mLevel = 1;
 
     protected AbstractBuildingView mView;
 
-    private boolean mIsInConstruction = false;
-    private long mConstructionStartTime = 0;
-    private long mConstructionFinishTime = 0;
+    private UpgradingProcess mConstruction;
 
-    private boolean mIsInUpgrading = false;
-    private long mUpgradingStartTime = 0;
-    private long mUpgradingFinishTime = 0;
-    private AbstractBuildingEntity mUpgradingTarget;
+    private UpgradingProcess mUpgrading;
 
     private Array<CraftPlanItem> mCraftPlan = new Array<CraftPlanItem>();
 
@@ -40,8 +35,7 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
     }
 
     public void finishConstruction() {
-        mIsInConstruction = false;
-        mConstructionStartTime = mConstructionFinishTime = 0;
+        mConstruction = null;
     }
 
     /**
@@ -50,45 +44,42 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
      */
     public float getConstructionProgress()
     {
-        if (!mIsInConstruction) {
+        if (mConstruction == null) {
             return 0;
         }
         long now = TimeUtils.millis();
-        if (now >= mConstructionFinishTime) {
+        if (now >= mConstruction.getFinishTime()) {
             return 1;
         }
-        if (now <= mConstructionStartTime) {
+        long startTime = mConstruction.getStartTime();
+        if (now <= startTime) {
             return 0;
         }
-        return (now - mConstructionStartTime) / (mConstructionFinishTime - mConstructionStartTime);
+        return (now - startTime) / (mConstruction.getFinishTime() - startTime);
     }
 
     public boolean isInConstruction() {
-        return mIsInConstruction;
+        return mConstruction != null;
     }
 
     public long getConstructionRemainingTime() {
-        if (!mIsInConstruction) {
+        if (mConstruction == null) {
             return 0;
         }
         long now = TimeUtils.millis();
-        if (mConstructionFinishTime <= now) {
+        if (mConstruction.getFinishTime() <= now) {
             return 0;
         }
-        return mConstructionFinishTime - now;
+        return mConstruction.getFinishTime() - now;
     }
 
     public void upgradingSuccess() {
-        mIsInUpgrading = false;
-        mUpgradingStartTime = mUpgradingFinishTime = 0;
-        setInfo((T)mUpgradingTarget);
-        mUpgradingTarget = null;
+        setInfo((T)mUpgrading.getTarget());
+        mUpgrading = null;
     }
 
     public void upgradingTerminate() {
-        mIsInUpgrading = false;
-        mUpgradingStartTime = mUpgradingFinishTime = 0;
-        mUpgradingTarget = null;
+        mUpgrading = null;
     }
 
     /**
@@ -98,24 +89,25 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
     public float getUpgradingProgress()
     {
         long now = TimeUtils.millis();
-        if (now >= mUpgradingFinishTime) {
+        if (mUpgrading == null || now >= mUpgrading.getFinishTime()) {
             return 1;
         }
-        if (now <= mUpgradingStartTime) {
+        long startTime = mUpgrading.getStartTime();
+        if (now <= startTime) {
             return 0;
         }
-        return (now - mUpgradingStartTime) / (mUpgradingFinishTime - mUpgradingStartTime);
+        return (now - startTime) / (mUpgrading.getFinishTime() - startTime);
     }
 
     public long getUpgradingRemainingTime() {
-        if (!mIsInUpgrading) {
+        if (mUpgrading == null) {
             return 0;
         }
         long now = TimeUtils.millis();
-        if (mUpgradingFinishTime <= now) {
+        if (mUpgrading.getFinishTime() <= now) {
             return 0;
         }
-        return mUpgradingFinishTime - now;
+        return mUpgrading.getFinishTime() - now;
     }
 
     public Vector2 getPosition() {
@@ -203,7 +195,7 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
     }
 
     public boolean isInUpgrading() {
-        return mIsInUpgrading;
+        return mUpgrading != null;
     }
 
 
@@ -215,10 +207,12 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
         mView = view;
     }
 
-    public void startConstruction(long duration) {
-        mConstructionStartTime = TimeUtils.millis();
-        mConstructionFinishTime = mConstructionStartTime + duration;
-        mIsInConstruction = true;
+    public void startConstruction(AbstractBuildingEntity target, ThingCost cost) {
+        mConstruction = new UpgradingProcess(
+                cost,
+                target,
+                TimeUtils.millis()
+        );
     }
 
     /**
@@ -229,11 +223,12 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
         return mCraftPlan;
     }
 
-    public void startUpgrading(AbstractBuildingEntity target) {
-        mUpgradingTarget = target;
-        mUpgradingStartTime = TimeUtils.millis();
-        mUpgradingFinishTime = mUpgradingStartTime + target.getConstructionTime();
-        mIsInUpgrading = true;
+    public void startUpgrading(AbstractBuildingEntity target, ThingCost cost) {
+        mUpgrading = new UpgradingProcess(
+                cost,
+                target,
+                TimeUtils.millis()
+        );
     }
 
 }
