@@ -3,7 +3,7 @@ package com.quadrolord.epicbattle.view.town.building;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
 import com.quadrolord.epicbattle.view.TextureManager;
@@ -13,7 +13,7 @@ import com.quadrolord.epicbattle.view.TextureManager;
  */
 public class WarehouseView extends AbstractBuildingView {
 
-    public WarehouseView(final AbstractScreen screen, MapGrid map, AbstractBuildingItem building) {
+    public WarehouseView(final AbstractScreen screen, MapGrid map, BuildingItem building) {
         super(screen, map, building);
     }
 
@@ -21,7 +21,7 @@ public class WarehouseView extends AbstractBuildingView {
         float csx = getMap().getCellSideX();
         float csy = getMap().getCellSideY();
         float scale = 1;
-        AbstractBuildingItem building = getBuilding();
+        BuildingItem building = getBuilding();
         if (building.isInConstruction()) {
             scale = 1 - Math.abs((float)(building.getConstructionRemainingTime() % 1000 - 500)) / 2000;
         }

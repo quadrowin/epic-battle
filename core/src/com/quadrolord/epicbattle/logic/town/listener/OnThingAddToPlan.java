@@ -1,6 +1,6 @@
 package com.quadrolord.epicbattle.logic.town.listener;
 
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.CraftPlanItem;
 
 /**
@@ -8,6 +8,6 @@ import com.quadrolord.epicbattle.logic.town.building.CraftPlanItem;
  */
 public interface OnThingAddToPlan {
 
-    void onThingAddToPlan(AbstractBuildingItem building, CraftPlanItem plan);
+    void onThingAddToPlan(BuildingItem building, CraftPlanItem plan);
 
 }

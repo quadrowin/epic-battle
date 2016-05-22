@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
 
@@ -19,7 +19,7 @@ import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
  */
 public class PlacingControl extends Group {
 
-    private AbstractBuildingItem mBuilding;
+    private BuildingItem mBuilding;
 
     private AbstractBuildingView mBuildingView;
 
@@ -47,7 +47,7 @@ public class PlacingControl extends Group {
 
     private Vector2 mTempScaled;
 
-    public PlacingControl(AbstractScreen screen, AbstractBuildingItem building, MapGrid map, AbstractBuildingView view) {
+    public PlacingControl(AbstractScreen screen, BuildingItem building, MapGrid map, AbstractBuildingView view) {
         mBuilding = building;
         mBuildingView = view;
         mBuildingStartX = mBuilding.getX();
@@ -156,7 +156,7 @@ public class PlacingControl extends Group {
         batch.begin();
     }
 
-    public AbstractBuildingItem getBuildingItem() {
+    public BuildingItem getBuildingItem() {
         return mBuilding;
     }
 

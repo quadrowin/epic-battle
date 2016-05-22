@@ -15,7 +15,7 @@ import com.quadrolord.epicbattle.logic.thing.ThingCostElement;
 import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.logic.town.TownListener;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.CraftPlanItem;
 import com.quadrolord.epicbattle.logic.town.building.entity.LeftHandTemple;
 import com.quadrolord.epicbattle.logic.town.building.entity.RightLegTemple;
@@ -103,11 +103,11 @@ public class MyTownScreen extends AbstractScreen {
 
         mTown.setListener(new TownListener() {
             @Override
-            public void onBuildingAdd(AbstractBuildingItem building) {
-                Class<AbstractBuildingView> viewClass = building.getInfo().getViewClass();
+            public void onBuildingAdd(BuildingItem building) {
+                Class<? extends AbstractBuildingView> viewClass = building.getInfo().getViewClass();
                 AbstractBuildingView view;
                 try {
-                    view = viewClass.getConstructor(AbstractScreen.class, MapGrid.class, AbstractBuildingItem.class).newInstance(screen, mMap, building);
+                    view = viewClass.getConstructor(AbstractScreen.class, MapGrid.class, BuildingItem.class).newInstance(screen, mMap, building);
                     building.setView(view);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -115,22 +115,22 @@ public class MyTownScreen extends AbstractScreen {
             }
 
             @Override
-            public void onBuildingRemove(AbstractBuildingItem building) {
+            public void onBuildingRemove(BuildingItem building) {
 
             }
 
             @Override
-            public void onBuildingSelect(AbstractBuildingItem building) {
+            public void onBuildingSelect(BuildingItem building) {
 
             }
 
             @Override
-            public void onBuildingConstructed(AbstractBuildingItem building) {
+            public void onBuildingConstructed(BuildingItem building) {
 
             }
 
             @Override
-            public void onBuildingUpgraded(AbstractBuildingItem building) {
+            public void onBuildingUpgraded(BuildingItem building) {
 
             }
 
@@ -189,8 +189,8 @@ public class MyTownScreen extends AbstractScreen {
              */
             @Override
             public void onEnterBuildingMode(AbstractBuildingEntity buildingInfo) {
-                AbstractBuildingItem building = mTown.instantiateBuilding(buildingInfo);
-                Class<AbstractBuildingView> viewClass = buildingInfo.getViewClass();
+                BuildingItem building = mTown.instantiateBuilding(buildingInfo);
+                Class<? extends AbstractBuildingView> viewClass = buildingInfo.getViewClass();
                 if (viewClass == null) {
                     Exception e = new Exception("No view class for building " + buildingInfo.getTitle());
                     e.printStackTrace();
@@ -198,7 +198,7 @@ public class MyTownScreen extends AbstractScreen {
                 }
                 AbstractBuildingView view;
                 try {
-                    view = viewClass.getConstructor(AbstractScreen.class, MapGrid.class, AbstractBuildingItem.class).newInstance(screen, mMap, building);
+                    view = viewClass.getConstructor(AbstractScreen.class, MapGrid.class, BuildingItem.class).newInstance(screen, mMap, building);
                     building.setView(view);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -218,7 +218,7 @@ public class MyTownScreen extends AbstractScreen {
              * @param building
              */
             @Override
-            public void onEnterBuildingMode(AbstractBuildingItem building) {
+            public void onEnterBuildingMode(BuildingItem building) {
                 AbstractBuildingView view = building.getView();
                 mPlacing = new PlacingControl(screen, building, mMap, view);
                 mGuiGeneral.setVisible(false);
@@ -236,7 +236,7 @@ public class MyTownScreen extends AbstractScreen {
             }
 
             @Override
-            public void onThingAddToPlan(AbstractBuildingItem building, CraftPlanItem plan) {
+            public void onThingAddToPlan(BuildingItem building, CraftPlanItem plan) {
                 Gdx.app.log("Thing added to plan ", plan.getThing().getTitle());
                 if (mAdapter.getScreen() instanceof OnThingAddToPlan) {
                     ((OnThingAddToPlan) mAdapter.getScreen()).onThingAddToPlan(building, plan);

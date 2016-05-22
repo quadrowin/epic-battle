@@ -19,7 +19,7 @@ import java.util.Iterator;
 /**
  * Created by morph on 17.01.2016.
  */
-abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> extends AbstractEntity<T> implements Cloneable {
+abstract public class AbstractBuildingEntity extends AbstractEntity<BuildingItem> implements Cloneable {
 
     /**
      * Здание возможно снести
@@ -110,6 +110,11 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
         return mIcon;
     }
 
+    @Override
+    public Class getItemClass() {
+        return BuildingItem.class;
+    }
+
     public Class<? extends AbstractBuildingView> getViewClass() {
         return mViewClass;
     }
@@ -138,6 +143,22 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
         return mCostGem;
     }
 
+    @Override
+    public void initItem(BuildingItem item) {
+        initItemResources(item);
+        item.setSize((int)mSize.x, (int)mSize.y);
+    }
+
+    public void initItemResources(BuildingItem item) {
+        for (Iterator<ResourceSourceEntity> it = getResources().iterator(); it.hasNext(); ) {
+            ResourceSourceEntity rse = it.next();
+            ResourceSourceItem rsi = new ResourceSourceItem();
+            rsi.setInfo(rse);
+            rsi.setLastYield(TimeUtils.millis());
+            item.getResources().add(rsi);
+        }
+    }
+
     public AbstractStrategy getLevelingStrategy() {
         return mLevelingStrategy;
     }
@@ -146,7 +167,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
      * Выбор здания
      * @param item
      */
-    public void runOnSelect(AbstractBuildingItem item) {
+    public void runOnSelect(BuildingItem item) {
 
     }
 
@@ -154,7 +175,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
      * Выбор здания в процессе постройки
      * @param item
      */
-    public void runOnSelectConstruction(AbstractBuildingItem item) {
+    public void runOnSelectConstruction(BuildingItem item) {
         ConstructionBuildingScreen scr = new ConstructionBuildingScreen(item.getView().getScreen(), item);
         item.getView().getScreen().getAdapter().switchToScreen(scr, false);
     }
@@ -163,7 +184,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
      * Выбор здания в процессе обновления
      * @param item
      */
-    public void runOnSelectUpgrading(AbstractBuildingItem item) {
+    public void runOnSelectUpgrading(BuildingItem item) {
         runOnSelect(item);
     }
 
@@ -236,7 +257,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
     /**
      * Забор накопленных ресурсов
      */
-    public void takeAvailable(AbstractBuildingItem mine) {
+    public void takeAvailable(BuildingItem mine) {
         for (Iterator<ResourceSourceItem> it = mine.getResources().iterator(); it.hasNext(); ) {
             ResourceSourceItem rs = it.next();
             updateBalance(rs);
@@ -247,7 +268,7 @@ abstract public class AbstractBuildingEntity<T extends AbstractBuildingItem> ext
         }
     }
 
-    public void updateBalanceFull(AbstractBuildingItem mine) {
+    public void updateBalanceFull(BuildingItem mine) {
         for (Iterator<ResourceSourceItem> it = mine.getResources().iterator(); it.hasNext(); ) {
             ResourceSourceItem rs = it.next();
             updateBalance(rs);

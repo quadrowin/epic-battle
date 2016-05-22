@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 
 /**
@@ -21,7 +21,7 @@ public class OrderButton extends Group {
 
     private ImageButton mOrderButton;
 
-    public OrderButton(final AbstractScreen screen, Group parent, final AbstractBuildingItem building, final AbstractThingEntity thing) {
+    public OrderButton(final AbstractScreen screen, Group parent, final BuildingItem building, final AbstractThingEntity thing) {
         Texture imageTexture = screen.getTextures().get(thing.getImage());
         Drawable imageDrawable = new TextureRegionDrawable(new TextureRegion(imageTexture));
         mOrderButton = new ImageButton(imageDrawable);

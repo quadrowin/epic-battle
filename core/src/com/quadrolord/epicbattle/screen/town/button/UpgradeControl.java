@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 
 /**
@@ -12,11 +12,11 @@ import com.quadrolord.epicbattle.screen.AbstractScreen;
  */
 public class UpgradeControl extends Group {
 
-    private AbstractBuildingItem mBuilding;
+    private BuildingItem mBuilding;
 
     private TextButton mButton;
 
-    public UpgradeControl(final AbstractScreen screen, final AbstractBuildingItem building, Group parent) {
+    public UpgradeControl(final AbstractScreen screen, final BuildingItem building, Group parent) {
         mBuilding = building;
         String title;
         if (building.isInUpgrading()) {

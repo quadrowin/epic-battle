@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
 import com.quadrolord.epicbattle.logic.thing.ThingItem;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.SubScreenWindow;
 
@@ -21,9 +21,9 @@ import java.util.Iterator;
  */
 public class WarehouseScreen extends AbstractScreen {
 
-    private AbstractBuildingItem mBuilding;
+    private BuildingItem mBuilding;
 
-    public WarehouseScreen(final AbstractScreen parentScreen, AbstractBuildingItem building) {
+    public WarehouseScreen(final AbstractScreen parentScreen, BuildingItem building) {
         super(parentScreen);
         mBuilding = building;
         initFitViewport();

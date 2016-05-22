@@ -3,7 +3,7 @@ package com.quadrolord.epicbattle.view.town.building;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
 import com.quadrolord.epicbattle.view.TextureManager;
@@ -13,7 +13,7 @@ import com.quadrolord.epicbattle.view.TextureManager;
  */
 abstract public class AbstractBuildingView extends Group {
 
-    private AbstractBuildingItem mBuilding;
+    private BuildingItem mBuilding;
 
     private TextureRegion mBuildingTexture;
 
@@ -21,7 +21,7 @@ abstract public class AbstractBuildingView extends Group {
 
     private AbstractScreen mScreen;
 
-    public AbstractBuildingView(final AbstractScreen screen, MapGrid map, AbstractBuildingItem building) {
+    public AbstractBuildingView(final AbstractScreen screen, MapGrid map, BuildingItem building) {
         mBuilding = building;
         mScreen = screen;
 
@@ -63,7 +63,7 @@ abstract public class AbstractBuildingView extends Group {
         );
     }
 
-    public AbstractBuildingItem getBuilding() {
+    public BuildingItem getBuilding() {
         return mBuilding;
     }
 

@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 
 /**
@@ -12,7 +12,7 @@ import com.quadrolord.epicbattle.screen.AbstractScreen;
  */
 public class MoveButtonFactory {
 
-    public static TextButton create(final AbstractScreen screen, final AbstractBuildingItem building, Group parent) {
+    public static TextButton create(final AbstractScreen screen, final BuildingItem building, Group parent) {
         TextButton btn = new TextButton("Move", screen.getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
         btn.setBounds(
                 parent.getWidth() - 160,

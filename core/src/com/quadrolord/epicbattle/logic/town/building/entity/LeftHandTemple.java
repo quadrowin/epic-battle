@@ -1,14 +1,14 @@
 package com.quadrolord.epicbattle.logic.town.building.entity;
 
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
-import com.quadrolord.epicbattle.logic.town.building.CommonBuildingEntity;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
+import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.epicbattle.screen.HintScreen;
 import com.quadrolord.epicbattle.view.town.building.LeftHandTempleView;
 
 /**
  * Created by Quadrowin on 30.01.2016.
  */
-public class LeftHandTemple extends CommonBuildingEntity {
+public class LeftHandTemple extends AbstractBuildingEntity {
 
     public LeftHandTemple() {
         setAllowDestruction(false);
@@ -17,7 +17,7 @@ public class LeftHandTemple extends CommonBuildingEntity {
     }
 
     @Override
-    public void runOnSelect(AbstractBuildingItem item) {
+    public void runOnSelect(BuildingItem item) {
         HintScreen hs = new HintScreen(item.getView().getScreen(), item.getView().getX(), item.getView().getY(), "It's your left hand");
         item.getView().getScreen().getAdapter().switchToScreen(hs, false);
     }

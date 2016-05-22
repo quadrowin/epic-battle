@@ -2,7 +2,7 @@ package com.quadrolord.epicbattle.view.town.building;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
 import com.quadrolord.epicbattle.view.TextureManager;
@@ -12,7 +12,7 @@ import com.quadrolord.epicbattle.view.TextureManager;
  */
 public class DoodleShopView extends AbstractBuildingView {
 
-    public DoodleShopView(final AbstractScreen screen, MapGrid map, AbstractBuildingItem building) {
+    public DoodleShopView(final AbstractScreen screen, MapGrid map, BuildingItem building) {
         super(screen, map, building);
     }
 

@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.SubScreenWindow;
@@ -21,9 +21,9 @@ public class MineBuildingScreen extends AbstractScreen {
 
     private Label mResourceCountLabel;
 
-    private AbstractBuildingItem mBuilding;
+    private BuildingItem mBuilding;
 
-    public MineBuildingScreen(final AbstractScreen parentScreen, AbstractBuildingItem building) {
+    public MineBuildingScreen(final AbstractScreen parentScreen, BuildingItem building) {
         super(parentScreen);
         mBuilding = building;
         initFitViewport();

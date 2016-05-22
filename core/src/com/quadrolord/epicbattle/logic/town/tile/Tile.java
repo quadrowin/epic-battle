@@ -1,7 +1,7 @@
 package com.quadrolord.epicbattle.logic.town.tile;
 
 import com.badlogic.gdx.math.Vector2;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.epicbattle.view.town.tile.TileView;
 
 /**
@@ -10,7 +10,7 @@ import com.quadrolord.epicbattle.view.town.tile.TileView;
 public class Tile {
     protected Vector2 mPosition;
     protected TileView mView;
-    protected AbstractBuildingItem mBuilding;
+    protected BuildingItem mBuilding;
 
     public Tile() {
 
@@ -34,7 +34,7 @@ public class Tile {
         mPosition = position;
     }
 
-    public AbstractBuildingItem getBuilding() {
+    public BuildingItem getBuilding() {
         return mBuilding;
     }
 
@@ -74,7 +74,7 @@ public class Tile {
         mBuilding = null;
     }
 
-    public void markAsBusy(AbstractBuildingItem building) {
+    public void markAsBusy(BuildingItem building) {
         mBuilding = building;
     }
 }

@@ -1,9 +1,8 @@
 package com.quadrolord.epicbattle.logic.town.building.entity;
 
 import com.badlogic.gdx.math.Vector2;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
-import com.quadrolord.epicbattle.logic.town.building.CommonBuildingEntity;
-import com.quadrolord.epicbattle.logic.town.building.CommonBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
+import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.building.WarehouseScreen;
 import com.quadrolord.epicbattle.view.town.building.WarehouseView;
@@ -11,7 +10,7 @@ import com.quadrolord.epicbattle.view.town.building.WarehouseView;
 /**
  * Created by Quadrowin on 12.03.2016.
  */
-public class Warehouse extends CommonBuildingEntity {
+public class Warehouse extends AbstractBuildingEntity {
 
     public Warehouse() {
         setViewClass(WarehouseView.class);
@@ -23,12 +22,12 @@ public class Warehouse extends CommonBuildingEntity {
     }
 
     @Override
-    public void initItem(CommonBuildingItem item) {
+    public void initItem(BuildingItem item) {
 
     }
 
     @Override
-    public void runOnSelect(AbstractBuildingItem item) {
+    public void runOnSelect(BuildingItem item) {
         AbstractScreen scr = new WarehouseScreen(item.getView().getScreen(), item);
         item.getView().getScreen().getAdapter().switchToScreen(scr, false);
     }

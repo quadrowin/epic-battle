@@ -13,7 +13,7 @@ import com.quadrolord.epicbattle.logic.thing.ThingCostElement;
 import com.quadrolord.epicbattle.logic.thing.ThingItem;
 import com.quadrolord.epicbattle.logic.thing.entity.Gemstone;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.CraftPlanItem;
 import com.quadrolord.epicbattle.logic.town.building.entity.DoodleShop;
 import com.quadrolord.epicbattle.logic.town.building.entity.IronMine;
@@ -37,7 +37,7 @@ public class MyTown {
 
     private Game mGame;
 
-    private Array<AbstractBuildingItem> mBuildings = new Array<AbstractBuildingItem>();
+    private Array<BuildingItem> mBuildings = new Array<BuildingItem>();
     private Tile[][] mMap;
 
     private int mLevel = 1;
@@ -70,8 +70,8 @@ public class MyTown {
     }
 
     public void actBuildings() {
-        for (Iterator<AbstractBuildingItem> it = mBuildings.iterator(); it.hasNext(); ) {
-            AbstractBuildingItem building = it.next();
+        for (Iterator<BuildingItem> it = mBuildings.iterator(); it.hasNext(); ) {
+            BuildingItem building = it.next();
             if (building.isInConstruction() && building.getConstructionProgress() >= 1) {
                 building.finishConstruction();
                 mListener.onBuildingConstructed(building);
@@ -98,7 +98,7 @@ public class MyTown {
         return bts;
     }
 
-    public Array<AbstractBuildingItem> getBuildings() {
+    public Array<BuildingItem> getBuildings() {
         return mBuildings;
     }
 
@@ -158,7 +158,7 @@ public class MyTown {
         return true;
     }
 
-    public boolean canBuildItem(AbstractBuildingItem building, int col, int row) {
+    public boolean canBuildItem(BuildingItem building, int col, int row) {
         if (col < 0 || row < 0 || col >= mMap.length || row >= mMap[col].length) {
             return false;
         }
@@ -187,11 +187,11 @@ public class MyTown {
         mListener.onConfirmMoving();
     }
 
-    public AbstractBuildingItem build(Class<? extends AbstractBuildingEntity> entityClass, int col, int row, boolean isRotated, boolean takeResources, boolean takeGems) {
+    public BuildingItem build(Class<? extends AbstractBuildingEntity> entityClass, int col, int row, boolean isRotated, boolean takeResources, boolean takeGems) {
         return build(mBuildingInfoManager.getInfo(entityClass), col, row, isRotated, takeResources, takeGems);
     }
 
-    public AbstractBuildingItem build(AbstractBuildingEntity entity, int col, int row, boolean isRotated, boolean takeResources, boolean takeGems) {
+    public BuildingItem build(AbstractBuildingEntity entity, int col, int row, boolean isRotated, boolean takeResources, boolean takeGems) {
         ThingCost cost = getBuildingCost(entity, takeResources, takeGems);
 
         if (!hasResources(cost)) {
@@ -215,7 +215,7 @@ public class MyTown {
 
         takeAwayResources(cost);
 
-        AbstractBuildingItem item = instantiateBuilding(entity);
+        BuildingItem item = instantiateBuilding(entity);
         item.setPosition(col, row);
 
         if (isRotated && !item.isRotated()) {
@@ -244,7 +244,7 @@ public class MyTown {
         mListener.onEnterBuildingMode(be);
     }
 
-    public void enterMovingMode(AbstractBuildingItem b) {
+    public void enterMovingMode(BuildingItem b) {
         mListener.onEnterBuildingMode(b);
     }
 
@@ -286,10 +286,10 @@ public class MyTown {
         return mResources;
     }
 
-    public AbstractBuildingItem instantiateBuilding(AbstractBuildingEntity buildingInfo) {
-        AbstractBuildingItem item;
+    public BuildingItem instantiateBuilding(AbstractBuildingEntity buildingInfo) {
+        BuildingItem item;
         try {
-            item = (AbstractBuildingItem)buildingInfo.getItemClass().getConstructor(MyTown.class).newInstance(this);
+            item = (BuildingItem)buildingInfo.getItemClass().getConstructor(MyTown.class).newInstance(this);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -322,7 +322,7 @@ public class MyTown {
         }
     }
 
-    public void levelUp(AbstractBuildingItem building, boolean isByGems) {
+    public void levelUp(BuildingItem building, boolean isByGems) {
         AbstractBuildingEntity info = building.getInfo();
         AbstractBuildingEntity nextLevel = mBuildingInfoManager.getEntityLevel(info.getClass(), info.getLevel() + 1);
         ThingCost cost = getBuildingCost(nextLevel, !isByGems, isByGems);
@@ -387,7 +387,7 @@ public class MyTown {
         }
     }
 
-    public void moveBuilding(AbstractBuildingItem building, int fromX, int fromY, int toX, int toY) {
+    public void moveBuilding(BuildingItem building, int fromX, int fromY, int toX, int toY) {
         if (toX < 0 || toY < 0) {
             mListener.onUserActionFail(TownListener.BuildingAction.MOVE_NO_PLACE);
             return;
@@ -434,7 +434,7 @@ public class MyTown {
         }
     }
 
-    public void demolish(AbstractBuildingItem building) {
+    public void demolish(BuildingItem building) {
         mBuildings.removeValue(building, true);
         mListener.onBuildingRemove(building);
     }
@@ -456,7 +456,7 @@ public class MyTown {
             Gdx.app.log("select try fail", "null " + col + ":" + row);
             return;
         }
-        AbstractBuildingItem b = mMap[col][row].getBuilding();
+        BuildingItem b = mMap[col][row].getBuilding();
         if (b == null) {
             Gdx.app.log("select try fail", "no building");
             return;
@@ -472,11 +472,11 @@ public class MyTown {
         }
     }
 
-    public void terminateUpgrading(AbstractBuildingItem building) {
+    public void terminateUpgrading(BuildingItem building) {
         building.upgradingTerminate();
     }
 
-    public void tryOrderThing(AbstractBuildingItem building, AbstractThingEntity thing) {
+    public void tryOrderThing(BuildingItem building, AbstractThingEntity thing) {
         for (Iterator< ObjectMap.Entry<Class<? extends AbstractThingEntity>, Integer> > it = thing.getCost().getResources().iterator(); it.hasNext();) {
             ObjectMap.Entry<Class<? extends AbstractThingEntity>, Integer> el = it.next();
             ThingItem ri = mResources.get(el.key);

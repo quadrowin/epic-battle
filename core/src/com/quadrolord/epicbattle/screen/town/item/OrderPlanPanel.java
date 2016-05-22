@@ -1,7 +1,7 @@
 package com.quadrolord.epicbattle.screen.town.item;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.epicbattle.logic.town.building.CraftPlanItem;
 import com.quadrolord.epicbattle.logic.town.listener.OnThingAddToPlan;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
@@ -17,7 +17,7 @@ public class OrderPlanPanel extends Group implements OnThingAddToPlan {
 
     private AbstractScreen mScreen;
 
-    public OrderPlanPanel(AbstractScreen screen, Group parent, AbstractBuildingItem building) {
+    public OrderPlanPanel(AbstractScreen screen, Group parent, BuildingItem building) {
         mScreen = screen;
         for (Iterator<CraftPlanItem> it = building.getCraftPlan().iterator(); it.hasNext();) {
             CraftPlanItem plan = it.next();
@@ -28,7 +28,7 @@ public class OrderPlanPanel extends Group implements OnThingAddToPlan {
     }
 
     @Override
-    public void onThingAddToPlan(AbstractBuildingItem building, CraftPlanItem plan) {
+    public void onThingAddToPlan(BuildingItem building, CraftPlanItem plan) {
         OrderPlanControl ctrl = new OrderPlanControl(mScreen, this, plan);
         ctrl.setX(mPlanLength * 60);
         mPlanLength++;

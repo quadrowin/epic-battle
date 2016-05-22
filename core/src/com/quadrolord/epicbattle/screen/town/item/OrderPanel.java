@@ -2,7 +2,7 @@ package com.quadrolord.epicbattle.screen.town.item;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
-import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingItem;
+import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.epicbattle.screen.AbstractScreen;
 
 import java.util.Iterator;
@@ -12,7 +12,7 @@ import java.util.Iterator;
  */
 public class OrderPanel extends Group {
 
-    public OrderPanel(final AbstractScreen parentScreen, Group parent, AbstractBuildingItem building) {
+    public OrderPanel(final AbstractScreen parentScreen, Group parent, BuildingItem building) {
         int index = 0;
         for (Iterator<AbstractThingEntity> it = building.getInfo().getAvailableThings().iterator(); it.hasNext(); index++) {
             AbstractThingEntity thing = it.next();

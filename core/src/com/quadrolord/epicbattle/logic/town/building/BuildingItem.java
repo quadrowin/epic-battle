@@ -12,7 +12,7 @@ import com.quadrolord.epicbattle.view.town.building.AbstractBuildingView;
 /**
  * Created by morph on 17.01.2016.
  */
-public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> extends AbstractItem<T> {
+public class BuildingItem<T extends AbstractBuildingEntity> extends AbstractItem<T> {
 
     protected Vector2 mPosition = new Vector2(0, 0);
     protected Vector2 mSize = new Vector2(1, 1);
@@ -30,7 +30,7 @@ public abstract class AbstractBuildingItem<T extends AbstractBuildingEntity> ext
 
     private MyTown mTown;
 
-    public AbstractBuildingItem(MyTown town) {
+    public BuildingItem(MyTown town) {
         mTown = town;
     }
 
