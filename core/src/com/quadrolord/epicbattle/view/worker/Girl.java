@@ -1,7 +1,7 @@
 package com.quadrolord.epicbattle.view.worker;
 
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
-import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
 

@@ -25,7 +25,7 @@ public class LeaveButton extends Group {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                LevelSelectScreen levelsScreen = new LevelSelectScreen(screen.getAdapter(), screen.getGame().getBattleGame().getLevel().getCampaign());
+                LevelSelectScreen levelsScreen = new LevelSelectScreen(screen.getAdapter(), screen.getAdapter().getBattleGame().getLevel().getCampaign());
                 screen.getAdapter().switchToScreen(levelsScreen, true);
             }
 

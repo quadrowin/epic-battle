@@ -3,7 +3,7 @@ package com.quadrolord.epicbattle.screen.battle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 
 /**

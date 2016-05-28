@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.ejge.view.AbstractScreen;
 
 /**
  * Created by Quadrowin on 21.01.2016.
@@ -19,7 +19,7 @@ public class ActiveSkillButton extends Group {
     private ImageButton mFireButton;
 
     public ActiveSkillButton(final AbstractScreen screen, Stage stage) {
-        String icon = screen.getGame().getBattleGame().getPlayerTower().getActiveSkill().getInfo().getIcon();
+        String icon = screen.getAdapter().getBattleGame().getPlayerTower().getActiveSkill().getInfo().getIcon();
         Skin skin = screen.getSkin();
         if (!skin.has(icon, Texture.class)) {
             skin.add(icon, new Texture(icon));
@@ -40,7 +40,7 @@ public class ActiveSkillButton extends Group {
 
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                screen.getGame().getBattleGame().getPlayerTower().useActiveSkill();
+                screen.getAdapter().getBattleGame().getPlayerTower().useActiveSkill();
             }
 
         });

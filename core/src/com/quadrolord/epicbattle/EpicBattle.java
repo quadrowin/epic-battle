@@ -1,10 +1,7 @@
 package com.quadrolord.epicbattle;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.FPSLogger;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -12,38 +9,53 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
-import com.quadrolord.epicbattle.logic.Game;
-import com.quadrolord.epicbattle.logic.utils.PlatformServices;
-import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.ejge.AbstractGameAdapter;
+import com.quadrolord.ejge.utils.PlatformServices;
+import com.quadrolord.ejge.view.AbstractScreen;
+import com.quadrolord.epicbattle.logic.profile.ProfileManager;
+import com.quadrolord.epicbattle.logic.tower.BattleGame;
+import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.screen.MyTownScreen;
 
-public class EpicBattle extends ApplicationAdapter {
+public class EpicBattle extends AbstractGameAdapter {
 
-	private FPSLogger mFps;
+	private BattleGame mBattleGame;
 
-	private Game mGame;
+	private MyTown mTownGame;
 
-	private Skin mSkin;
-
-	private AbstractScreen mScreen;
-
-	private PlatformServices mPlatformServices;
+	private ProfileManager mProfileManager;
 
 	public EpicBattle(PlatformServices platformServices) {
-		mPlatformServices = platformServices;
+		super(platformServices);
 	}
 	
 	@Override
 	public void create () {
-		mGame = new Game(mPlatformServices);
-		mFps = new FPSLogger();
-//		mScreen = new BattleScreen(this, null);
-		mScreen = new MyTownScreen(this);
-		mScreen.switchIn();
+		super.create();
+		mProfileManager = new ProfileManager(getPlatformServices());
+
+//		AbstractScreen screen = new BattleScreen(this, null);
+		AbstractScreen screen = new MyTownScreen(this);
+		switchToScreen(screen, true);
 	}
 
-	public Game getGame() {
-		return mGame;
+	public BattleGame getBattleGame() {
+		if (mBattleGame == null) {
+			mBattleGame = new BattleGame(this);
+		}
+		return mBattleGame;
+	}
+
+	public ProfileManager getProfileManager() {
+		return mProfileManager;
+
+	}
+
+	public MyTown getTown() {
+		if (mTownGame == null) {
+			mTownGame = new MyTown(this);
+		}
+		return mTownGame;
 	}
 
 	/**
@@ -72,24 +84,17 @@ public class EpicBattle extends ApplicationAdapter {
 		return dst;
 	}
 
-	public AbstractScreen getScreen() {
-		return mScreen;
-	}
 
-	public Skin getSkin() {
-		if (mSkin != null) {
-			return mSkin;
-		}
-		mSkin = new Skin();
 
+	public void initCommonSkin(Skin skin) {
 		BitmapFont font = new BitmapFont();
-		mSkin.add("default", font, BitmapFont.class);
+		skin.add("default", font, BitmapFont.class);
 
 		Label.LabelStyle ls = new Label.LabelStyle(font, Color.WHITE);
-		mSkin.add("default-label-style", ls);
+		skin.add("default-label-style", ls);
 
 		Texture texture = new Texture(Gdx.files.internal("badlogic.jpg"));
-		mSkin.add("test-texture", texture);
+		skin.add("test-texture", texture);
 
 		Texture textureBtnUp = new Texture("ui/button64-up.png");
 		Texture textureBtnDown = new Texture("ui/button64-down.png");
@@ -110,51 +115,7 @@ public class EpicBattle extends ApplicationAdapter {
 				null,
 				font
 		);
-		mSkin.add("default-text-button-style", textButtonStyle);
-
-		return mSkin;
-	}
-
-	@Override
-	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		mScreen.render(Gdx.graphics.getDeltaTime());
-		mFps.log();
-	}
-
-	@Override
-	public void resize (int width, int height) {
-		if (mScreen != null) {
-			mScreen.resize(width, height);
-		}
-	}
-
-	@Override
-	public void resume() {
-		if (mScreen != null) {
-			mScreen.resume();
-		}
-	}
-
-	public void switchToScreen(Class<? extends AbstractScreen> screenClass) {
-		try {
-			AbstractScreen screen = screenClass.getConstructor(EpicBattle.class).newInstance(this);
-			switchToScreen(screen, true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void switchToScreen(AbstractScreen newScreen, boolean dispose) {
-		if (dispose && mScreen != null) {
-			mScreen.dispose();
-		}
-		mScreen = newScreen;
-		if (mScreen != null) {
-			mScreen.switchIn();
-		}
+		skin.add("default-text-button-style", textButtonStyle);
 	}
 
 }

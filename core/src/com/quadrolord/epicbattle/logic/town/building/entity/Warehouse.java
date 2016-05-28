@@ -3,7 +3,7 @@ package com.quadrolord.epicbattle.logic.town.building.entity;
 import com.badlogic.gdx.math.Vector2;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
-import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.building.WarehouseScreen;
 import com.quadrolord.epicbattle.view.town.building.WarehouseView;
 

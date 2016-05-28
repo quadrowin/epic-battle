@@ -2,7 +2,7 @@ package com.quadrolord.epicbattle.logic.tower;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
-import com.quadrolord.epicbattle.logic.Game;
+import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.GameListener;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfoManager;
 import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
@@ -29,7 +29,7 @@ import java.util.Iterator;
  */
 public class BattleGame {
 
-    private Game mGame;
+    private EpicBattle mGame;
 
     private Array<AbstractController> mControllers = new Array<AbstractController>();
     private Array<Tower> mTowers = new Array<Tower>();
@@ -57,7 +57,7 @@ public class BattleGame {
 
     private Tower mEnemyTower;
 
-    public BattleGame(Game game) {
+    public BattleGame(EpicBattle game) {
         mGame = game;
 
         mPlayerTower = new Tower(this);

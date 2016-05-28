@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.quadrolord.epicbattle.logic.configurable.AbstractEntity;
+import com.quadrolord.ejge.entity.AbstractEntity;
 import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
 import com.quadrolord.epicbattle.logic.thing.ThingItem;
 import com.quadrolord.epicbattle.logic.town.building.leveling.AbstractStrategy;

@@ -8,7 +8,7 @@ import com.quadrolord.epicbattle.screen.levels.LevelsList;
 /**
  * Created by Quadrowin on 13.01.2016.
  */
-public class LevelSelectScreen extends AbstractScreen {
+public class LevelSelectScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
     private AbstractCampaign mCampaign;
 

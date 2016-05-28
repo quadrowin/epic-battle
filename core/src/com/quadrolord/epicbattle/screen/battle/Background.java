@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.ejge.view.AbstractScreen;
 
 import java.util.Iterator;
 

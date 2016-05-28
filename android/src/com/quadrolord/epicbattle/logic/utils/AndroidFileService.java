@@ -6,7 +6,7 @@ import com.badlogic.gdx.files.FileHandle;
 /**
  * Created by Quadrowin on 15.01.2016.
  */
-public class AndroidFileService extends AbstractFileService {
+public class AndroidFileService extends com.quadrolord.ejge.utils.AbstractFileService {
 
     /**
      * Указатель на файл в приватной директории приложения

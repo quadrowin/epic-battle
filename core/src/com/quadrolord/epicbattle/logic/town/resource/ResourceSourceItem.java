@@ -1,6 +1,6 @@
 package com.quadrolord.epicbattle.logic.town.resource;
 
-import com.quadrolord.epicbattle.logic.configurable.AbstractItem;
+import com.quadrolord.ejge.entity.AbstractItem;
 
 /**
  * Источник ресурса

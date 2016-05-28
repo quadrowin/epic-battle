@@ -3,9 +3,9 @@ package com.quadrolord.epicbattle.screen;
 /**
  * Created by Quadrowin on 29.01.2016.
  */
-public class TownBuildingScreen extends AbstractScreen {
+public class TownBuildingScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
-    public TownBuildingScreen(AbstractScreen parentScreen) {
+    public TownBuildingScreen(com.quadrolord.ejge.view.AbstractScreen parentScreen) {
         super(parentScreen);
 
     }

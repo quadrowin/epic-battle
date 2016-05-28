@@ -1,4 +1,4 @@
-package com.quadrolord.epicbattle.logic.configurable;
+package com.quadrolord.ejge.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ArrayMap;
@@ -14,7 +14,7 @@ abstract public class EntityManager<T extends AbstractEntity> {
 
     protected ArrayMap<Class, T> mLoaded;
 
-    protected ArrayMap<String, EntityLoader<T>> mLoaders;
+    protected ArrayMap<String, com.quadrolord.ejge.entity.EntityLoader<T>> mLoaders;
 
     protected JsonReader mReader;
 
@@ -22,7 +22,7 @@ abstract public class EntityManager<T extends AbstractEntity> {
         mInfoClass = infoClass;
         mReader = new JsonReader();
         mLoaded = new ArrayMap<Class, T>();
-        mLoaders = new ArrayMap<String, EntityLoader<T>>();
+        mLoaders = new ArrayMap<String, com.quadrolord.ejge.entity.EntityLoader<T>>();
     }
 
     /**

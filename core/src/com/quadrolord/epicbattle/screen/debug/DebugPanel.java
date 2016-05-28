@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
-import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.screen.MyTownScreen;
 
 import java.util.Iterator;
@@ -70,7 +70,7 @@ public class DebugPanel extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("debug panel", "click Save Profile");
-                screen.getGame().getProfileManager().saveProfile();
+                screen.getAdapter().getProfileManager().saveProfile();
             }
 
         });
@@ -80,7 +80,7 @@ public class DebugPanel extends Group {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("debug panel", "click Load Profile");
-                screen.getGame().getProfileManager().getProfile();
+                screen.getAdapter().getProfileManager().getProfile();
             }
 
         });
@@ -98,7 +98,7 @@ public class DebugPanel extends Group {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                for (Iterator<BulletSkill> it = mScreen.getGame().getBattleGame().getPlayerTower().getBulletSkills().values().iterator(); it.hasNext(); ) {
+                for (Iterator<BulletSkill> it = mScreen.getAdapter().getBattleGame().getPlayerTower().getBulletSkills().values().iterator(); it.hasNext(); ) {
                     BulletSkill skill = it.next();
                     skill.setLevel(skill.getLevel() + 1);
                 }

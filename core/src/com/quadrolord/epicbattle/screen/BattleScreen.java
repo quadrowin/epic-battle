@@ -12,10 +12,10 @@ import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.GameListener;
-import com.quadrolord.epicbattle.logic.tower.GameUnit;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.campaign.Level;
 import com.quadrolord.epicbattle.logic.skill.passive.TowerRandomBleed;
+import com.quadrolord.epicbattle.logic.tower.GameUnit;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.screen.battle.ActiveSkillButton;
 import com.quadrolord.epicbattle.screen.battle.AttackAnimation;
@@ -29,11 +29,11 @@ import com.quadrolord.epicbattle.screen.battle.PauseButton;
 import com.quadrolord.epicbattle.screen.battle.TowerHp;
 import com.quadrolord.epicbattle.screen.debug.DebugPanel;
 import com.quadrolord.epicbattle.view.BulletUnitView;
+import com.quadrolord.epicbattle.view.Sounds;
 import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
+import com.quadrolord.epicbattle.view.TextureManager;
 import com.quadrolord.epicbattle.view.TowerDeath;
 import com.quadrolord.epicbattle.view.TowerView;
-import com.quadrolord.epicbattle.view.TextureManager;
-import com.quadrolord.epicbattle.view.sounds.SoundManager;
 import com.quadrolord.epicbattle.view.visualization.AbstractVisualization;
 import com.quadrolord.epicbattle.view.visualization.TowerRandomBleedView;
 
@@ -42,7 +42,7 @@ import java.util.Iterator;
 /**
  * Created by Quadrowin on 08.01.2016.
  */
-public class BattleScreen extends AbstractScreen {
+public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
     private Stage mBackStage;
 
@@ -62,13 +62,13 @@ public class BattleScreen extends AbstractScreen {
     public BattleScreen(EpicBattle adapter, Level level) {
         super(adapter);
 
-        mGame.getSoundManager().loadSounds(
+        adapter.getSoundManager().loadSounds(
                 this,
                 new String[]{
-                        SoundManager.EVENT_DEFEAT,
-                        SoundManager.MENU_CLICK,
-                        SoundManager.SKILL_TOWER_BLEED1,
-//                        SoundManager.SKILL_TOWER_CREAK1,
+                        Sounds.EVENT_DEFEAT,
+                        Sounds.MENU_CLICK,
+                        Sounds.SKILL_TOWER_BLEED1,
+//                        Sounds.SKILL_TOWER_CREAK1,
                 }
         );
 
@@ -96,8 +96,8 @@ public class BattleScreen extends AbstractScreen {
                 }
         );
 
-        final AbstractScreen screen = this;
-        mGame.getBattleGame().setListener(new GameListener() {
+        final com.quadrolord.ejge.view.AbstractScreen screen = this;
+        adapter.getBattleGame().setListener(new GameListener() {
 
             @Override
             public void beforeStageClear() {
@@ -129,22 +129,22 @@ public class BattleScreen extends AbstractScreen {
                 BulletUnitView view;
 
                 try {
-                    view = viewClass.getConstructor(AbstractBullet.class, AbstractScreen.class).newInstance(bullet, screen);
+                    view = viewClass.getConstructor(AbstractBullet.class, com.quadrolord.ejge.view.AbstractScreen.class).newInstance(bullet, screen);
                 } catch (Exception e) {
                     Gdx.app.error(screen.getClass().getName(), "Bullet view class not found: " + viewClass.getName());
                     view = new BulletUnitView(bullet, screen) {
                         @Override
-                        protected SpriteAnimationDrawable getRunningAnimation(AbstractScreen screen) {
+                        protected SpriteAnimationDrawable getRunningAnimation(com.quadrolord.ejge.view.AbstractScreen screen) {
                             return null;
                         }
 
                         @Override
-                        protected SpriteAnimationDrawable getAttackingAnimation(AbstractScreen screen) {
+                        protected SpriteAnimationDrawable getAttackingAnimation(com.quadrolord.ejge.view.AbstractScreen screen) {
                             return null;
                         }
 
                         @Override
-                        protected SpriteAnimationDrawable getDeadAnimation(AbstractScreen screen) {
+                        protected SpriteAnimationDrawable getDeadAnimation(com.quadrolord.ejge.view.AbstractScreen screen) {
                             return null;
                         }
                     };
@@ -177,7 +177,7 @@ public class BattleScreen extends AbstractScreen {
 
             @Override
             public void onLevelStart() {
-                Level level = mGame.getBattleGame().getLevel();
+                Level level = getAdapter().getBattleGame().getLevel();
                 new LevelName(level, mSkin, mFrontStage);
             }
 
@@ -228,7 +228,7 @@ public class BattleScreen extends AbstractScreen {
             public void onVisualEvent(float x, float y, Class visualEventClass) {
                 Class<? extends AbstractVisualization> avc = mVisualization.get(visualEventClass);
                 try {
-                    avc.getConstructor(AbstractScreen.class, Float.TYPE, Float.TYPE).newInstance(screen, x, y);
+                    avc.getConstructor(com.quadrolord.ejge.view.AbstractScreen.class, Float.TYPE, Float.TYPE).newInstance(screen, x, y);
                 } catch (Exception e) {
                     Gdx.app.error("onVisualEvent", visualEventClass.getName());
                 }
@@ -237,10 +237,10 @@ public class BattleScreen extends AbstractScreen {
         });
 
         if (level == null) {
-            level = mGame.getBattleGame().getCampaignManager().getLevel(0, 0);
+            level = adapter.getBattleGame().getCampaignManager().getLevel(0, 0);
         }
 
-        mGame.getBattleGame().startLevel(level);
+        adapter.getBattleGame().startLevel(level);
 
         mFrontStage.addListener(new EventListener() {
 
@@ -303,15 +303,15 @@ public class BattleScreen extends AbstractScreen {
 
         if (Gdx.input.isTouched()) {
             mStage.getCamera().position.x = Math.max(
-                    mGame.getBattleGame().getTowerLeft() * mStage.getRoot().getScaleX(),
+                    getAdapter().getBattleGame().getTowerLeft() * mStage.getRoot().getScaleX(),
                     Math.min(
-                            mGame.getBattleGame().getTowerRight() * mStage.getRoot().getScaleX(),
+                            getAdapter().getBattleGame().getTowerRight() * mStage.getRoot().getScaleX(),
                             mStage.getCamera().position.x - Gdx.input.getDeltaX()
                     )
             );
         }
 
-        mGame.getBattleGame().act(delta);
+        getAdapter().getBattleGame().act(delta);
     }
 
 }

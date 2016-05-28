@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.quadrolord.epicbattle.logic.Game;
+import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.profile.PlayerProfile;
 import com.quadrolord.epicbattle.logic.profile.ProfileBuilding;
 import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
@@ -35,7 +35,7 @@ public class MyTown {
     public static final int MAP_SIZE_X = 10;
     public static final int MAP_SIZE_Y = 10;
 
-    private Game mGame;
+    private EpicBattle mGame;
 
     private Array<BuildingItem> mBuildings = new Array<BuildingItem>();
     private Tile[][] mMap;
@@ -55,7 +55,7 @@ public class MyTown {
      */
     private int mTickNumber = 0;
 
-    public MyTown(Game game) {
+    public MyTown(EpicBattle game) {
         mGame = game;
         mBuildingInfoManager = new BuildingInfoManager();
     }

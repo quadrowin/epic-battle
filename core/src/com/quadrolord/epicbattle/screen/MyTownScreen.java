@@ -33,7 +33,7 @@ import com.quadrolord.epicbattle.view.town.resource.NoodlesLabel;
 /**
  * Created by Quadrowin on 16.01.2016.
  */
-public class MyTownScreen extends AbstractScreen {
+public class MyTownScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
     private float mDeltaX = -200;
     private float mDeltaY = 0;
@@ -65,13 +65,13 @@ public class MyTownScreen extends AbstractScreen {
         mMapCamera.position.set(0, mDeltaY, 10);
         mMapCamera.update();
         mMapStage = new Stage(new FitViewport(400, 300, mMapCamera));
-        mTown = mGame.getTown();
+        mTown = getAdapter().getTown();
         mTown.loadTown();
 
         mGuiGeneral = new GeneralPanel(this, mTown);
         mGuiBuildingMode = new BuildingModePanel(this, mTown);
 
-        final AbstractScreen screen = this;
+        final com.quadrolord.ejge.view.AbstractScreen screen = this;
 
         mMap = new MapGrid(this, mTown, mMapStage);
 
@@ -107,7 +107,7 @@ public class MyTownScreen extends AbstractScreen {
                 Class<? extends AbstractBuildingView> viewClass = building.getInfo().getViewClass();
                 AbstractBuildingView view;
                 try {
-                    view = viewClass.getConstructor(AbstractScreen.class, MapGrid.class, BuildingItem.class).newInstance(screen, mMap, building);
+                    view = viewClass.getConstructor(com.quadrolord.ejge.view.AbstractScreen.class, MapGrid.class, BuildingItem.class).newInstance(screen, mMap, building);
                     building.setView(view);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -198,7 +198,7 @@ public class MyTownScreen extends AbstractScreen {
                 }
                 AbstractBuildingView view;
                 try {
-                    view = viewClass.getConstructor(AbstractScreen.class, MapGrid.class, BuildingItem.class).newInstance(screen, mMap, building);
+                    view = viewClass.getConstructor(com.quadrolord.ejge.view.AbstractScreen.class, MapGrid.class, BuildingItem.class).newInstance(screen, mMap, building);
                     building.setView(view);
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -3,7 +3,7 @@ package com.quadrolord.epicbattle.screen.town.item;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
 import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
-import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.ejge.view.AbstractScreen;
 
 import java.util.Iterator;
 

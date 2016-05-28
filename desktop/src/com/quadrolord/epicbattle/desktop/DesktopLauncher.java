@@ -4,7 +4,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.desktop.utils.DesktopFileService;
-import com.quadrolord.epicbattle.logic.utils.PlatformServices;
+import com.quadrolord.ejge.utils.PlatformServices;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

@@ -6,11 +6,11 @@ import com.quadrolord.epicbattle.screen.town.slider.BuildSlider;
 /**
  * Created by Quadrowin on 20.02.2016.
  */
-public class NewBuildingScreen extends AbstractScreen {
+public class NewBuildingScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
-    private AbstractScreen mPausedScreen;
+    private com.quadrolord.ejge.view.AbstractScreen mPausedScreen;
 
-    public NewBuildingScreen(AbstractScreen pausedScreen, MyTown town) {
+    public NewBuildingScreen(com.quadrolord.ejge.view.AbstractScreen pausedScreen, MyTown town) {
         super(pausedScreen.getAdapter());
         mPausedScreen = pausedScreen;
         initFitViewport();
@@ -25,7 +25,7 @@ public class NewBuildingScreen extends AbstractScreen {
         mStage.draw();
     }
 
-    public AbstractScreen getPausedScreen() {
+    public com.quadrolord.ejge.view.AbstractScreen getPausedScreen() {
         return mPausedScreen;
     }
 

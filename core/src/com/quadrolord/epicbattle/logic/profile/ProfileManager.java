@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Json;
 import com.quadrolord.epicbattle.logic.skill.active.PowerWave;
 import com.quadrolord.epicbattle.logic.skill.passive.TowerMaxHp;
 import com.quadrolord.epicbattle.logic.skill.passive.TowerRandomBleed;
-import com.quadrolord.epicbattle.logic.utils.PlatformServices;
+import com.quadrolord.ejge.utils.PlatformServices;
 
 /**
  * Created by Quadrowin on 14.01.2016.

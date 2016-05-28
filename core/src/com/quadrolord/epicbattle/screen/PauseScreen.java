@@ -13,11 +13,11 @@ import com.quadrolord.epicbattle.screen.pause.LeaveButton;
 /**
  * Created by Quadrowin on 04.01.2016.
  */
-public class PauseScreen extends AbstractScreen {
+public class PauseScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
-    private AbstractScreen mPausedScreen;
+    private com.quadrolord.ejge.view.AbstractScreen mPausedScreen;
 
-    public PauseScreen(AbstractScreen pausedScreen) {
+    public PauseScreen(com.quadrolord.ejge.view.AbstractScreen pausedScreen) {
         super(pausedScreen.getAdapter());
         mPausedScreen = pausedScreen;
         initFitViewport();
@@ -61,7 +61,7 @@ public class PauseScreen extends AbstractScreen {
         mStage.draw();
     }
 
-    public AbstractScreen getPausedScreen() {
+    public com.quadrolord.ejge.view.AbstractScreen getPausedScreen() {
         return mPausedScreen;
     }
 

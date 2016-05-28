@@ -1,4 +1,4 @@
-package com.quadrolord.epicbattle.logic.configurable;
+package com.quadrolord.ejge.entity;
 
 /**
  * Created by Quadrowin on 31.01.2016.

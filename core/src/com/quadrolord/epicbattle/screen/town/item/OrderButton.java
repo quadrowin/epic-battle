@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
 import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
-import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.ejge.view.AbstractScreen;
 
 /**
  * Кнопка для добавления задания в план
@@ -36,7 +36,7 @@ public class OrderButton extends Group {
             @Override
             public void clicked (InputEvent event, float x, float y) {
                 Gdx.app.log("OrderButton", "click to plan");
-                screen.getGame().getTown().tryOrderThing(building, thing);
+                screen.getAdapter().getTown().tryOrderThing(building, thing);
             }
 
         });

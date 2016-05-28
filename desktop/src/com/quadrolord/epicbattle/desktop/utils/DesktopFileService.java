@@ -2,7 +2,7 @@ package com.quadrolord.epicbattle.desktop.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.quadrolord.epicbattle.logic.utils.AbstractFileService;
+import com.quadrolord.ejge.utils.AbstractFileService;
 
 /**
  * Created by Quadrowin on 15.01.2016.

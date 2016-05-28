@@ -5,7 +5,7 @@ import com.quadrolord.epicbattle.logic.thing.entity.axe.WarAxe;
 import com.quadrolord.epicbattle.logic.thing.entity.axe.WorkAxe;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
-import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.building.SmithyBuildingScreen;
 import com.quadrolord.epicbattle.view.town.building.SmithyView;
 

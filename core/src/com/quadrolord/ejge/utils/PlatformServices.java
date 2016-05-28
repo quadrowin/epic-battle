@@ -1,4 +1,4 @@
-package com.quadrolord.epicbattle.logic.utils;
+package com.quadrolord.ejge.utils;
 
 /**
  * Платформозависимые сервисы

@@ -3,7 +3,7 @@ package com.quadrolord.epicbattle.logic.town.building;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.quadrolord.epicbattle.logic.configurable.AbstractItem;
+import com.quadrolord.ejge.entity.AbstractItem;
 import com.quadrolord.epicbattle.logic.thing.ThingCost;
 import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.logic.town.resource.ResourceSourceItem;

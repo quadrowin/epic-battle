@@ -1,7 +1,7 @@
 package com.quadrolord.epicbattle.logic.town;
 
 import com.badlogic.gdx.utils.ArrayMap;
-import com.quadrolord.epicbattle.logic.configurable.EntityManager;
+import com.quadrolord.ejge.entity.EntityManager;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 import com.quadrolord.epicbattle.logic.town.building.leveling.SimpleStrategy;
 import com.quadrolord.epicbattle.logic.town.building.loader.ConstructionTime;

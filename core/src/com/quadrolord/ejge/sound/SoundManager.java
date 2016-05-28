@@ -1,9 +1,9 @@
-package com.quadrolord.epicbattle.view.sounds;
+package com.quadrolord.ejge.sound;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.ejge.view.AbstractScreen;
 
 import java.util.Iterator;
 
@@ -13,14 +13,6 @@ import java.util.Iterator;
 public class SoundManager {
 
     private String mSoundsPath = "sounds/";
-
-    public static final String EVENT_DEFEAT = "event/defeat.wav";
-
-    public static final String SKILL_TOWER_CREAK1 = "skill/tower/creak1.wav";
-
-    public static final String SKILL_TOWER_BLEED1 = "skill/tower/bleed1.wav";
-
-    public static final String MENU_CLICK = "menu/click.wav";
 
     private ArrayMap<String, LoadedSound> mLoaded = new ArrayMap<String, LoadedSound>();
 

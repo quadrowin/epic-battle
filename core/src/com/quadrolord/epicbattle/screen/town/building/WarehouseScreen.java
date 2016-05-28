@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.quadrolord.epicbattle.logic.thing.AbstractThingEntity;
 import com.quadrolord.epicbattle.logic.thing.ThingItem;
 import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
-import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.SubScreenWindow;
 
 import java.util.Iterator;

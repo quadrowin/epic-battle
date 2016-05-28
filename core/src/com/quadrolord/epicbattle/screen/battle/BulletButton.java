@@ -15,10 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.quadrolord.epicbattle.logic.Game;
+import com.quadrolord.ejge.view.AbstractScreen;
+import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
-import com.quadrolord.epicbattle.screen.AbstractScreen;
 
 /**
  * Created by Quadrowin on 10.01.2016.
@@ -26,7 +26,7 @@ import com.quadrolord.epicbattle.screen.AbstractScreen;
 public class BulletButton extends Group {
 
     private BulletSkill mBulletSkill;
-    private Game mGame;
+    private EpicBattle mGame;
     private ImageButton mFireButton;
     private ProgressBar mProgressBar;
     private Label mCost;
@@ -37,7 +37,7 @@ public class BulletButton extends Group {
 
     public BulletButton(AbstractScreen screen, BulletSkill skill) {
         mBulletSkill = skill;
-        mGame = screen.getGame();
+        mGame = screen.getAdapter();
 
         Gdx.app.log("BulletButton create", skill.getTitle() + " " + skill.getIcon().toString());
 

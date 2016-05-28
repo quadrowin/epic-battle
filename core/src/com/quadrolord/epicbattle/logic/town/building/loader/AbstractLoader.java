@@ -1,6 +1,6 @@
 package com.quadrolord.epicbattle.logic.town.building.loader;
 
-import com.quadrolord.epicbattle.logic.configurable.EntityLoader;
+import com.quadrolord.ejge.entity.EntityLoader;
 import com.quadrolord.epicbattle.logic.town.building.AbstractBuildingEntity;
 
 /**

@@ -1,4 +1,4 @@
-package com.quadrolord.epicbattle.logic.configurable;
+package com.quadrolord.ejge.entity;
 
 import com.badlogic.gdx.utils.JsonValue;
 

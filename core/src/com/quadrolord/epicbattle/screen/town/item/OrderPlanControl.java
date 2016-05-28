@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.quadrolord.epicbattle.logic.town.building.CraftPlanItem;
-import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.ejge.view.AbstractScreen;
 
 /**
  * Задание в плане
@@ -86,7 +86,7 @@ public class OrderPlanControl extends Group {
     }
 
     public void act (float delta) {
-        long craftDelta = mScreen.getGame().getGameMillis() - mPlanItem.getCreated();
+        long craftDelta = mScreen.getAdapter().getGameMillis() - mPlanItem.getCreated();
         long fullSeconds = mPlanItem.getThing().getCraftTime();
         long leftSeconds = fullSeconds - craftDelta / 1000;
         mProgress.setProgress((float) (craftDelta / fullSeconds) / 1000 );

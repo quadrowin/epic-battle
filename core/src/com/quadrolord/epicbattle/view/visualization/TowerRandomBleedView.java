@@ -1,6 +1,6 @@
 package com.quadrolord.epicbattle.view.visualization;
 
-import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.screen.battle.BleedAnimation;
 
 /**

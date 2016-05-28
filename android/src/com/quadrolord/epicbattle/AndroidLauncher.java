@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.quadrolord.epicbattle.logic.utils.AndroidFileService;
-import com.quadrolord.epicbattle.logic.utils.PlatformServices;
+import com.quadrolord.ejge.utils.PlatformServices;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

@@ -1,6 +1,6 @@
 package com.quadrolord.epicbattle.logic.skill;
 
-import com.quadrolord.epicbattle.logic.configurable.AbstractItem;
+import com.quadrolord.ejge.entity.AbstractItem;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 
 /**

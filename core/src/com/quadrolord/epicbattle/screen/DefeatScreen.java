@@ -14,11 +14,11 @@ import com.quadrolord.epicbattle.logic.campaign.Level;
 /**
  * Created by Quadrowin on 11.01.2016.
  */
-public class DefeatScreen extends AbstractScreen {
+public class DefeatScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
-    private AbstractScreen mBattleScreen;
+    private com.quadrolord.ejge.view.AbstractScreen mBattleScreen;
 
-    public DefeatScreen(AbstractScreen battleScreen) {
+    public DefeatScreen(com.quadrolord.ejge.view.AbstractScreen battleScreen) {
         super(battleScreen.getAdapter());
         mBattleScreen = battleScreen;
         initFitViewport();
@@ -59,8 +59,8 @@ public class DefeatScreen extends AbstractScreen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Level level = mGame.getBattleGame().getLevel();
-                mGame.getBattleGame().startLevel(level);
+                Level level = getAdapter().getBattleGame().getLevel();
+                getAdapter().getBattleGame().startLevel(level);
                 mAdapter.switchToScreen(mBattleScreen, true);
             }
 
@@ -74,7 +74,7 @@ public class DefeatScreen extends AbstractScreen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                LevelSelectScreen levelsScreen = new LevelSelectScreen(mAdapter, mGame.getBattleGame().getLevel().getCampaign());
+                LevelSelectScreen levelsScreen = new LevelSelectScreen(mAdapter, mAdapter.getBattleGame().getLevel().getCampaign());
                 mAdapter.switchToScreen(levelsScreen, true);
             }
 

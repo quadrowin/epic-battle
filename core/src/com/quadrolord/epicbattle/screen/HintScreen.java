@@ -13,9 +13,9 @@ import com.badlogic.gdx.utils.Align;
 /**
  * Created by Quadrowin on 19.01.2016.
  */
-public class HintScreen extends AbstractScreen {
+public class HintScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
-    public HintScreen(final AbstractScreen parentScreen, float x, float y, String text) {
+    public HintScreen(final com.quadrolord.ejge.view.AbstractScreen parentScreen, float x, float y, String text) {
         super(parentScreen);
         initFitViewport();
 

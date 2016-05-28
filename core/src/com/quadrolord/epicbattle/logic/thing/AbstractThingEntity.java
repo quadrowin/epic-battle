@@ -1,7 +1,7 @@
 package com.quadrolord.epicbattle.logic.thing;
 
 import com.badlogic.gdx.utils.ArrayMap;
-import com.quadrolord.epicbattle.logic.configurable.AbstractEntity;
+import com.quadrolord.ejge.entity.AbstractEntity;
 
 /**
  * Created by Quadrowin on 20.03.2016.

@@ -1,6 +1,6 @@
 package com.quadrolord.epicbattle.logic.thing;
 
-import com.quadrolord.epicbattle.logic.configurable.AbstractItem;
+import com.quadrolord.ejge.entity.AbstractItem;
 
 /**
  * Предмет у игрока

@@ -1,8 +1,8 @@
-package com.quadrolord.epicbattle.view.sounds;
+package com.quadrolord.ejge.sound;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Array;
-import com.quadrolord.epicbattle.screen.AbstractScreen;
+import com.quadrolord.ejge.view.AbstractScreen;
 
 /**
  * Created by Quadrowin on 15.01.2016.

@@ -14,11 +14,11 @@ import com.quadrolord.epicbattle.logic.campaign.Level;
 /**
  * Created by Quadrowin on 11.01.2016.
  */
-public class VictoryScreen extends AbstractScreen {
+public class VictoryScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
-    private AbstractScreen mBattleScreen;
+    private com.quadrolord.ejge.view.AbstractScreen mBattleScreen;
 
-    public VictoryScreen(AbstractScreen battleScreen) {
+    public VictoryScreen(com.quadrolord.ejge.view.AbstractScreen battleScreen) {
         super(battleScreen.getAdapter());
         mBattleScreen = battleScreen;
         initFitViewport();
@@ -60,9 +60,9 @@ public class VictoryScreen extends AbstractScreen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Level level = mGame.getBattleGame().getLevel();
-                level = mGame.getBattleGame().getCampaignManager().getNextLevel(level);
-                mGame.getBattleGame().startLevel(level);
+                Level level = getAdapter().getBattleGame().getLevel();
+                level = getAdapter().getBattleGame().getCampaignManager().getNextLevel(level);
+                getAdapter().getBattleGame().startLevel(level);
                 mAdapter.switchToScreen(mBattleScreen, true);
             }
 

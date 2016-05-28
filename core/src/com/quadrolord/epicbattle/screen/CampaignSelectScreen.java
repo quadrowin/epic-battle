@@ -9,13 +9,13 @@ import com.quadrolord.epicbattle.screen.campaigns.CampaignsList;
 /**
  * Created by Quadrowin on 13.01.2016.
  */
-public class CampaignSelectScreen extends AbstractScreen {
+public class CampaignSelectScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
     public CampaignSelectScreen(EpicBattle adapter) {
         super(adapter);
         initFitViewport();
 
-        new CampaignsList(this, mGame.getBattleGame().getCampaignManager().getCampaigns());
+        new CampaignsList(this, adapter.getBattleGame().getCampaignManager().getCampaigns());
 
         TextButton btnToMyTown = new TextButton("Enter your city", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
         btnToMyTown.setBounds(210, 190, 180, 50);
