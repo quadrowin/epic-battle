@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.quadrolord.epicbattle.EpicBattle;
+import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.screen.campaigns.CampaignsList;
 
 /**
@@ -15,7 +16,7 @@ public class CampaignSelectScreen extends com.quadrolord.ejge.view.AbstractScree
         super(adapter);
         initFitViewport();
 
-        new CampaignsList(this, adapter.getBattleGame().getCampaignManager().getCampaigns());
+        new CampaignsList(this, get(BattleGame.class).getCampaignManager().getCampaigns());
 
         TextButton btnToMyTown = new TextButton("Enter your city", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
         btnToMyTown.setBounds(210, 190, 180, 50);

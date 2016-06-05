@@ -5,17 +5,23 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.quadrolord.ejge.utils.PlatformServices;
-import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.ejge.sound.SoundManager;
+import com.quadrolord.ejge.utils.PlatformServices;
+import com.quadrolord.ejge.utils.ServiceFactory;
+import com.quadrolord.ejge.view.AbstractScreen;
 
 /**
  * Created by Quadrowin on 28.05.2016.
  */
 abstract public class AbstractGameAdapter extends ApplicationAdapter {
 
+    private ArrayMap<Class, ServiceFactory> mFactories = new ArrayMap<Class, ServiceFactory>();
+
     private FPSLogger mFps;
+
+    private ArrayMap<Class, Object> mServices = new ArrayMap<Class, Object>();
 
     private Skin mSkin;
 
@@ -34,8 +40,41 @@ abstract public class AbstractGameAdapter extends ApplicationAdapter {
         mFps = new FPSLogger();
     }
 
+    public <T> T get (Class<T> type) {
+        if (!mServices.containsKey(type) && mFactories.containsKey(type)) {
+            mServices.put(type, mFactories.get(type).create(this));
+        }
+        return (T)mServices.get(type);
+    }
+
     public long getGameMillis() {
         return TimeUtils.millis();
+    }
+
+    /**
+     * Создание нового скина с базовыми ресурсами
+     * @return
+     */
+    public Skin getNewSkin() {
+        Skin src = getSkin();
+        Skin dst = new Skin();
+
+        Object[] copyResources = new Object[] {
+//                "default", BitmapFont.class,
+//                "test-texture", Texture.class,
+//                "default-label-style", Label.LabelStyle.class,
+//                "default-text-button-style", TextButton.TextButtonStyle.class,
+        };
+
+        for (int i = 0; i < copyResources.length; i += 2) {
+            dst.add(
+                    (String)copyResources[i],
+                    src.get((String)copyResources[i], (Class)copyResources[i + 1]),
+                    (Class)copyResources[i + 1]
+            );
+        }
+
+        return dst;
     }
 
     public PlatformServices getPlatformServices() {
@@ -60,7 +99,13 @@ abstract public class AbstractGameAdapter extends ApplicationAdapter {
 
     abstract public void initCommonSkin(Skin skin);
 
+    public void registerFactory(Class type, ServiceFactory factory) {
+        mFactories.put(type, factory);
+    }
 
+    public void registerService(Object service) {
+        mServices.put(service.getClass(), service);
+    }
 
     @Override
     public void render () {

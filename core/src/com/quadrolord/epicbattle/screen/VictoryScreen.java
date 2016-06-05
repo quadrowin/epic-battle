@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.quadrolord.epicbattle.logic.campaign.Level;
+import com.quadrolord.epicbattle.logic.tower.BattleGame;
 
 /**
  * Created by Quadrowin on 11.01.2016.
@@ -60,9 +61,9 @@ public class VictoryScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Level level = getAdapter().getBattleGame().getLevel();
-                level = getAdapter().getBattleGame().getCampaignManager().getNextLevel(level);
-                getAdapter().getBattleGame().startLevel(level);
+                Level level = get(BattleGame.class).getLevel();
+                level = get(BattleGame.class).getCampaignManager().getNextLevel(level);
+                get(BattleGame.class).startLevel(level);
                 mAdapter.switchToScreen(mBattleScreen, true);
             }
 

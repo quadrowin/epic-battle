@@ -10,11 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.quadrolord.epicbattle.EpicBattle;
+import com.quadrolord.ejge.AbstractGameAdapter;
 import com.quadrolord.epicbattle.logic.GameListener;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.campaign.Level;
 import com.quadrolord.epicbattle.logic.skill.passive.TowerRandomBleed;
+import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.logic.tower.GameUnit;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.screen.battle.ActiveSkillButton;
@@ -59,7 +60,7 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
         mVisualization.put(TowerRandomBleed.class, TowerRandomBleedView.class);
     }
 
-    public BattleScreen(EpicBattle adapter, Level level) {
+    public BattleScreen(AbstractGameAdapter adapter, Level level) {
         super(adapter);
 
         adapter.getSoundManager().loadSounds(
@@ -97,7 +98,7 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
         );
 
         final com.quadrolord.ejge.view.AbstractScreen screen = this;
-        adapter.getBattleGame().setListener(new GameListener() {
+        get(BattleGame.class).setListener(new GameListener() {
 
             @Override
             public void beforeStageClear() {
@@ -177,7 +178,7 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
             @Override
             public void onLevelStart() {
-                Level level = getAdapter().getBattleGame().getLevel();
+                Level level = get(BattleGame.class).getLevel();
                 new LevelName(level, mSkin, mFrontStage);
             }
 
@@ -237,10 +238,10 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
         });
 
         if (level == null) {
-            level = adapter.getBattleGame().getCampaignManager().getLevel(0, 0);
+            level = get(BattleGame.class).getCampaignManager().getLevel(0, 0);
         }
 
-        adapter.getBattleGame().startLevel(level);
+        get(BattleGame.class).startLevel(level);
 
         mFrontStage.addListener(new EventListener() {
 
@@ -303,15 +304,15 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
         if (Gdx.input.isTouched()) {
             mStage.getCamera().position.x = Math.max(
-                    getAdapter().getBattleGame().getTowerLeft() * mStage.getRoot().getScaleX(),
+                    get(BattleGame.class).getTowerLeft() * mStage.getRoot().getScaleX(),
                     Math.min(
-                            getAdapter().getBattleGame().getTowerRight() * mStage.getRoot().getScaleX(),
+                            get(BattleGame.class).getTowerRight() * mStage.getRoot().getScaleX(),
                             mStage.getCamera().position.x - Gdx.input.getDeltaX()
                     )
             );
         }
 
-        getAdapter().getBattleGame().act(delta);
+        get(BattleGame.class).act(delta);
     }
 
 }

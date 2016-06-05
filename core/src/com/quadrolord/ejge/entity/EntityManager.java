@@ -1,6 +1,7 @@
 package com.quadrolord.ejge.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
@@ -36,18 +37,23 @@ abstract public class EntityManager<T extends AbstractEntity> {
         }
 
         String fileName = getConfigDir() + "/" + entityClass.getSimpleName() + ".json";
-        JsonValue json;
+        FileHandle fileHandle = Gdx.files.internal(fileName);
+        JsonValue json = null;
 
-        Gdx.app.log(getClass().getName(), "Loading config: " + fileName);
+        if (fileHandle.exists()) {
 
-        try {
-            json = mReader.parse(Gdx.files.internal(fileName));
-        } catch (Exception e) {
-            throw new RuntimeException("Cannot found config file: " + fileName);
+            Gdx.app.log(getClass().getName(), "Loading config: " + fileName);
+
+            try {
+                json = mReader.parse(Gdx.files.internal(fileName));
+            } catch (Exception e) {
+                throw new RuntimeException("Cannot found config file: " + fileName);
+            }
+
+            validate(json);
+        } else {
+            Gdx.app.log(getClass().getName(), "JSON not exists");
         }
-
-        validate(json);
-
 
         T info = null;
         try {
@@ -55,9 +61,9 @@ abstract public class EntityManager<T extends AbstractEntity> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        loadFromJson(info, json);
-
+        if (json != null) {
+            loadFromJson(info, json);
+        }
         mLoaded.put(entityClass, info);
 
         initLoaded(info);

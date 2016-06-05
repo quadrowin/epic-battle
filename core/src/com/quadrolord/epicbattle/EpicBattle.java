@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.quadrolord.ejge.AbstractGameAdapter;
 import com.quadrolord.ejge.utils.PlatformServices;
+import com.quadrolord.ejge.utils.ServiceFactory;
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.logic.profile.ProfileManager;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
@@ -32,30 +33,33 @@ public class EpicBattle extends AbstractGameAdapter {
 	@Override
 	public void create () {
 		super.create();
+
 		mProfileManager = new ProfileManager(getPlatformServices());
+		registerService(mProfileManager);
+
+		registerFactory(BattleGame.class, new ServiceFactory() {
+			@Override
+			public Object create(AbstractGameAdapter ad) {
+				return new BattleGame((EpicBattle)ad);
+			}
+		});
+
+		registerFactory(MyTown.class, new ServiceFactory() {
+			@Override
+			public Object create(AbstractGameAdapter ad) {
+				return new MyTown((EpicBattle)ad);
+			}
+		});
+
 
 //		AbstractScreen screen = new BattleScreen(this, null);
 		AbstractScreen screen = new MyTownScreen(this);
 		switchToScreen(screen, true);
 	}
 
-	public BattleGame getBattleGame() {
-		if (mBattleGame == null) {
-			mBattleGame = new BattleGame(this);
-		}
-		return mBattleGame;
-	}
-
 	public ProfileManager getProfileManager() {
 		return mProfileManager;
 
-	}
-
-	public MyTown getTown() {
-		if (mTownGame == null) {
-			mTownGame = new MyTown(this);
-		}
-		return mTownGame;
 	}
 
 	/**

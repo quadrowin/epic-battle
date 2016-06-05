@@ -65,7 +65,7 @@ public class MyTownScreen extends com.quadrolord.ejge.view.AbstractScreen {
         mMapCamera.position.set(0, mDeltaY, 10);
         mMapCamera.update();
         mMapStage = new Stage(new FitViewport(400, 300, mMapCamera));
-        mTown = getAdapter().getTown();
+        mTown = get(MyTown.class);
         mTown.loadTown();
 
         mGuiGeneral = new GeneralPanel(this, mTown);

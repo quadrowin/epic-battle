@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.quadrolord.epicbattle.logic.campaign.Level;
+import com.quadrolord.epicbattle.logic.tower.BattleGame;
 
 /**
  * Created by Quadrowin on 11.01.2016.
@@ -59,8 +60,8 @@ public class DefeatScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Level level = getAdapter().getBattleGame().getLevel();
-                getAdapter().getBattleGame().startLevel(level);
+                Level level = get(BattleGame.class).getLevel();
+                get(BattleGame.class).startLevel(level);
                 mAdapter.switchToScreen(mBattleScreen, true);
             }
 
@@ -74,7 +75,7 @@ public class DefeatScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                LevelSelectScreen levelsScreen = new LevelSelectScreen(mAdapter, mAdapter.getBattleGame().getLevel().getCampaign());
+                LevelSelectScreen levelsScreen = new LevelSelectScreen(mAdapter, get(BattleGame.class).getLevel().getCampaign());
                 mAdapter.switchToScreen(levelsScreen, true);
             }
 
