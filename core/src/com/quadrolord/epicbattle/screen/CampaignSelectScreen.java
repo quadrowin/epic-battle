@@ -18,6 +18,18 @@ public class CampaignSelectScreen extends com.quadrolord.ejge.view.AbstractScree
 
         new CampaignsList(this, get(BattleGame.class).getCampaignManager().getCampaigns());
 
+        TextButton btnToUpgrade = new TextButton("Upgrade units", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
+        btnToUpgrade.setBounds(210, 100, 180, 50);
+        mStage.addActor(btnToUpgrade);
+        btnToUpgrade.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mAdapter.switchToScreen(UnitsUpgradingScreen.class);
+            }
+
+        });
+
         TextButton btnToMyTown = new TextButton("Enter your city", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
         btnToMyTown.setBounds(210, 190, 180, 50);
         mStage.addActor(btnToMyTown);

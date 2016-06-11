@@ -16,13 +16,9 @@ import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.logic.profile.ProfileManager;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.logic.town.MyTown;
-import com.quadrolord.epicbattle.screen.MyTownScreen;
+import com.quadrolord.epicbattle.screen.UnitsUpgradingScreen;
 
 public class EpicBattle extends AbstractGameAdapter {
-
-	private BattleGame mBattleGame;
-
-	private MyTown mTownGame;
 
 	private ProfileManager mProfileManager;
 
@@ -53,13 +49,14 @@ public class EpicBattle extends AbstractGameAdapter {
 
 
 //		AbstractScreen screen = new BattleScreen(this, null);
-		AbstractScreen screen = new MyTownScreen(this);
+//		AbstractScreen screen = new CampaignSelectScreen(this);
+		AbstractScreen screen = new UnitsUpgradingScreen(this);
+//		AbstractScreen screen = new MyTownScreen(this);
 		switchToScreen(screen, true);
 	}
 
 	public ProfileManager getProfileManager() {
 		return mProfileManager;
-
 	}
 
 	/**
