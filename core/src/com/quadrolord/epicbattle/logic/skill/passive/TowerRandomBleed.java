@@ -10,6 +10,11 @@ import com.quadrolord.epicbattle.logic.tower.Tower;
  */
 public class TowerRandomBleed extends AbstractSkillEntity {
 
+    public TowerRandomBleed() {
+        setName("Random bleed");
+        setIcon("icons/skills/wave.png");
+    }
+
     @Override
     public void act(SkillItem skill, float delta) {
         float time = skill.getTime() + delta;

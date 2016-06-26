@@ -51,7 +51,7 @@ public class BattleGame {
 
     private BulletInfoManager mBulletInfoManager = new BulletInfoManager();
 
-    private SkillManager mSkillManager = new SkillManager();
+    private SkillManager mSkillManager = new SkillManager(this);
 
     private Tower mPlayerTower;
 
@@ -184,6 +184,9 @@ public class BattleGame {
         return mBulletInfoManager;
     }
 
+    public SkillManager getSkillManager() {
+        return mSkillManager;
+    }
 
     private void initAiTower(Tower tower, EnemyTower enemyTower) {
         ControllerAi ai = new ControllerAi(this);

@@ -14,16 +14,22 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.ArrayMap;
+import com.badlogic.gdx.utils.Array;
 import com.quadrolord.ejge.view.AbstractScreen;
-import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
-import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
+import com.quadrolord.epicbattle.EpicBattle;
+import com.quadrolord.epicbattle.logic.profile.PlayerProfile;
+import com.quadrolord.epicbattle.logic.profile.ProfileSkill;
+import com.quadrolord.epicbattle.logic.skill.AbstractSkillEntity;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 
 /**
  * Created by Quadrowin on 20.02.2016.
  */
 public class UpgradingSlider extends Group {
+
+    private int mListPaddingX = 10;
+    private int mSkillPaddingX = 10;
+    private int mSkillWidth = 100;
 
     private TextButton mBackground;
 
@@ -59,12 +65,12 @@ public class UpgradingSlider extends Group {
         mBackground.setBounds(30, 30, 340, 120);
         addActor(mBackground);
 
-        // TODO Тут нужно загрузить скилы
-        ArrayMap<Class<? extends AbstractBullet>, BulletSkill> skills = screen.get(BattleGame.class).getPlayerTower().getBulletSkills();
+        PlayerProfile profile = ((EpicBattle)screen.getAdapter()).getProfileManager().getProfile();
+        Array<ProfileSkill> skills = profile.getSkills();
         Gdx.app.log("UpgradingSlider", "loaded skills: " + skills.size);
 
         mWrapper = new UpgradingSliderWrapper(mScreen);
-        mWrapper.setBounds(0, 0, skills.size * 120 + 20, mBackground.getHeight());
+        mWrapper.setBounds(0, 0, skills.size * (mSkillWidth + mSkillPaddingX) - mSkillPaddingX + 2 * mListPaddingX, mBackground.getHeight());
         mBackground.addActor(mWrapper);
 
         ClickListener cl = new ClickListener() {
@@ -72,16 +78,17 @@ public class UpgradingSlider extends Group {
             public void clicked (InputEvent event, float x, float y) {
                 // upgrade
 
-                screen.getAdapter().switchToScreen(screen.getParentScreen(), true);
+//                screen.getAdapter().switchToScreen(screen.getParentScreen(), true);
             }
 
         };
 
         for (int i = 0; i < skills.size; i++) {
-            BulletSkill skill = skills.getValueAt(i);
-            String txFile = skill.getIcon();
+            ProfileSkill profileSkill = skills.get(i);
+            AbstractSkillEntity skillEntity = screen.get(BattleGame.class).getSkillManager().get(profileSkill.getSkillClass());
+            String txFile = skillEntity.getIcon();
             if (txFile == null) {
-                Gdx.app.error("UpgradingSlider", "no slider texture for building " + skill.getTitle());
+                Gdx.app.error("UpgradingSlider", "no slider icon for skill " + skillEntity.getName() + " of class " + profileSkill.getSkillClass().getName());
             }
             Texture tx = screen.getTextures().get(txFile);
             Drawable dr = new TextureRegionDrawable(new TextureRegion(tx));
@@ -93,13 +100,13 @@ public class UpgradingSlider extends Group {
                     screen.getSkin().getFont("default")
             );
             TextButton tb = new TextButton("", tbs);
-            tb.setUserObject(skill);
+            tb.setUserObject(profileSkill);
 
-            tb.setBounds(i * 120 + 10, 10, 100, 100);
+            tb.setBounds(i * (mSkillWidth + mSkillPaddingX) + mListPaddingX, 10, mSkillWidth, 100);
             tb.addListener(cl);
 
             Label btnLabel = new Label(
-                    skill.getTitle(),
+                    skillEntity.getName() + " lvl " + profileSkill.getLevel(),
                     skin.get("default-label-style", Label.LabelStyle.class)
             );
             btnLabel.setAlignment(Align.left);
@@ -108,6 +115,12 @@ public class UpgradingSlider extends Group {
 
             mWrapper.addActor(tb);
         }
+
+        // какой-то баг, последний лабел во вропере выходит за границы внешнего элемента,
+        // поэтому добавляем еще одну копку, которая будет его перекрывать
+        TextButton tbViewFix = new TextButton("", skin.get("default-text-button-style", TextButton.TextButtonStyle.class));
+        tbViewFix.setBounds(skills.size * (mSkillWidth + mSkillPaddingX) + mListPaddingX, 10, mSkillWidth, 100);
+        mWrapper.addActor(tbViewFix);
 
         // Кнопка закрытия
         TextButton btnClose = new TextButton("Close", skin.get("default-text-button-style", TextButton.TextButtonStyle.class));
@@ -136,7 +149,7 @@ public class UpgradingSlider extends Group {
                             mPosition + Gdx.input.getDeltaX()
                     )
             );
-            mWrapper.setX(30 + mPosition);
+            mWrapper.setX(mPosition);
         }
     }
 

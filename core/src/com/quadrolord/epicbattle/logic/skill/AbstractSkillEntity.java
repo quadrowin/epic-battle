@@ -1,6 +1,7 @@
 package com.quadrolord.epicbattle.logic.skill;
 
 import com.quadrolord.ejge.entity.AbstractEntity;
+import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 
 /**
@@ -8,12 +9,19 @@ import com.quadrolord.epicbattle.logic.tower.Tower;
  */
 abstract public class AbstractSkillEntity extends AbstractEntity<SkillItem> {
 
+    private String mIcon;
+    private String mName;
+
     /**
      * Иконка (для активных скилов)
      * @return Путь до файла с иконкой
      */
     public String getIcon() {
-        return null;
+        return mIcon;
+    }
+
+    public String getName() {
+        return mName;
     }
 
     @Override
@@ -23,6 +31,11 @@ abstract public class AbstractSkillEntity extends AbstractEntity<SkillItem> {
 
     @Override
     public void initItem(SkillItem item) {
+
+    }
+
+    public void initSkill(BattleGame game)
+    {
 
     }
 
@@ -43,6 +56,14 @@ abstract public class AbstractSkillEntity extends AbstractEntity<SkillItem> {
      */
     public void use(SkillItem skill) {
 
+    }
+
+    public void setIcon(String icon) {
+        mIcon = icon;
+    }
+
+    public void setName(String name) {
+        mName = name;
     }
 
 }

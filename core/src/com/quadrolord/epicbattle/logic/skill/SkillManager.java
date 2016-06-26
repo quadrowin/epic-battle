@@ -1,13 +1,20 @@
 package com.quadrolord.epicbattle.logic.skill;
 
 import com.badlogic.gdx.utils.ArrayMap;
+import com.quadrolord.epicbattle.logic.tower.BattleGame;
 
 /**
  * Created by Quadrowin on 06.03.2016.
  */
 public class SkillManager {
 
+    private BattleGame mGame;
+
     private ArrayMap<Class, AbstractSkillEntity> mSkills = new ArrayMap<Class, AbstractSkillEntity>();
+
+    public SkillManager(BattleGame game) {
+        mGame = game;
+    }
 
     public AbstractSkillEntity get(Class <? extends AbstractSkillEntity> clazz) {
         if (mSkills.containsKey(clazz)) {
@@ -20,6 +27,7 @@ public class SkillManager {
             e.printStackTrace();
             skill = new DummySkill();
         }
+        skill.initSkill(mGame);
         mSkills.put(clazz, skill);
         return skill;
     }

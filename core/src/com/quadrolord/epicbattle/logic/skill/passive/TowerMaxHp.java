@@ -9,6 +9,11 @@ import com.quadrolord.epicbattle.logic.tower.Tower;
  */
 public class TowerMaxHp extends AbstractSkillEntity {
 
+    public TowerMaxHp() {
+        setName("Max HP");
+        setIcon("icons/skills/wave.png");
+    }
+
     /**
      * Инициализация башни в начале уровня
      * @param tower

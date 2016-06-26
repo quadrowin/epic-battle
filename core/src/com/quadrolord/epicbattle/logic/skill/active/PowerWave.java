@@ -13,8 +13,9 @@ import java.util.Iterator;
  */
 public class PowerWave extends AbstractSkillEntity {
 
-    public String getIcon() {
-        return "icons/skills/wave.png";
+    public PowerWave() {
+        setName("Power wave");
+        setIcon("icons/skills/wave.png");
     }
 
     /**
