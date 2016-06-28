@@ -1,4 +1,4 @@
-package com.quadrolord.epicbattle.screen.upgrading.slider;
+package com.quadrolord.epicbattle.screen.slider;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -10,7 +10,7 @@ import com.quadrolord.ejge.view.AbstractScreen;
 /**
  * Created by Quadrowin on 08.05.2016.
  */
-public class UpgradingSliderWrapper extends Group {
+public class SliderWrapper extends Group {
 
     private AbstractScreen mScreen;
 
@@ -19,7 +19,7 @@ public class UpgradingSliderWrapper extends Group {
 
     private int mPaddingX = 40;
 
-    public UpgradingSliderWrapper(final AbstractScreen screen) {
+    public SliderWrapper(final AbstractScreen screen) {
         mScreen = screen;
     }
 
@@ -45,7 +45,7 @@ public class UpgradingSliderWrapper extends Group {
         if (pushed) {
             ScissorStack.popScissors();
         } else {
-            Gdx.app.log("UpgradingSlider", "No scissors");
+            Gdx.app.log("SliderList", "No scissors");
         }
 
         resetTransform(batch);

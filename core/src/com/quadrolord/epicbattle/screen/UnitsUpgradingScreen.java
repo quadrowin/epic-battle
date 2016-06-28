@@ -2,7 +2,8 @@ package com.quadrolord.epicbattle.screen;
 
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.EpicBattle;
-import com.quadrolord.epicbattle.screen.upgrading.slider.UpgradingSlider;
+import com.quadrolord.epicbattle.screen.slider.SliderList;
+import com.quadrolord.epicbattle.screen.upgrading.UpgradingSliderContent;
 
 /**
  * Created by Quadrowin on 11.06.2016.
@@ -13,7 +14,7 @@ public class UnitsUpgradingScreen extends AbstractScreen {
         super(adapter);
         initFitViewport();
 
-        new UpgradingSlider(this);
+        new SliderList(this, new UpgradingSliderContent(this));
     }
 
     @Override

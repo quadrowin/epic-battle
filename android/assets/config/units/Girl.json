@@ -6,7 +6,7 @@
   "attack_distance": 20,
   "attack_time": 1,
   "move_speed": 50,
-  "target_count": 1,
+  "max_target_count": 1,
   "max_hp": 100,
   "icon": "icons/units/girl.png",
   "level_ups": [

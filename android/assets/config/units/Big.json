@@ -6,7 +6,7 @@
   "attack_distance": 20,
   "attack_time": 2,
   "move_speed": 30,
-  "target_count": 2,
+  "max_target_count": 2,
   "max_hp": 300,
   "icon": "icons/units/big.png",
   "level_ups": [
