@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -14,6 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.quadrolord.ejge.view.AbstractScreen;
+
+import java.util.Iterator;
 
 /**
  * Created by Quadrowin on 20.02.2016.
@@ -28,7 +31,11 @@ public class SliderList extends Group {
 
     private TextButton mBackground;
 
+    private int mItemIndex = 0;
+
     private Group mWrapper;
+
+    private TextButton[] mButtons;
 
     private float mPosition;
 
@@ -37,6 +44,7 @@ public class SliderList extends Group {
     private SliderContent mContent;
 
     private ShapeRenderer mShapeRenderer;
+
 
     public SliderList(final AbstractScreen screen, final SliderContent content) {
         mContent = content;
@@ -66,6 +74,7 @@ public class SliderList extends Group {
         addActor(mBackground);
 
         int items_count = mContent.getCount();
+        mButtons = new TextButton[items_count];
 
         mWrapper = new SliderWrapper(mScreen);
         mWrapper.setBounds(0, 0, items_count * (mItemWidth + mItemPaddingX) - mItemPaddingX + 2 * mListPaddingX, mBackground.getHeight());
@@ -76,6 +85,7 @@ public class SliderList extends Group {
         for (int i = 0; i < items_count; i++) {
             TextButton tb = new TextButton("", defaultTextButtonStyle);
             tb.setBounds(i * (mItemWidth + mItemPaddingX) + mListPaddingX, mListPaddingBot, mItemWidth, mItemHeight);
+            mButtons[i] = tb;
 
             mContent.initButton(tb, i);
 
@@ -109,17 +119,45 @@ public class SliderList extends Group {
 
     @Override
     public void act(float delta) {
+        float bgWidth = mBackground.getWidth();
+        float freeSpace = (bgWidth - mItemWidth);
         if (Gdx.input.isTouched()) {
-            float bgWidth = mBackground.getWidth();
-            float freeSpace = (bgWidth - mItemWidth);
             mPosition = Math.max(
                     bgWidth - mWrapper.getWidth() - freeSpace + mItemWidth + mItemPaddingX * 3,
                     Math.min(
-                            freeSpace / 2 - mItemPaddingX,
+                            freeSpace / 2 - mListPaddingX,
                             mPosition + Gdx.input.getDeltaX()
                     )
             );
             mWrapper.setX(mPosition);
+        } else {
+            float zero_x = freeSpace / 2 - mListPaddingX;
+
+            float x = mWrapper.getX();
+            // определяем текущий элемент
+            int itemIndex = -Math.round((x - zero_x) / (mItemWidth + mItemPaddingX));
+            if (itemIndex >= mButtons.length) {
+                itemIndex = mButtons.length - 1;
+            }
+            if (itemIndex < 0) {
+                itemIndex = 0;
+            }
+            if (itemIndex != mItemIndex) {
+                mItemIndex = itemIndex;
+                triggerCurrentButtonClick();
+            }
+            // как должно быть с точным позиционированием
+            float exact_x = -itemIndex * (mItemWidth + mItemPaddingX) + zero_x;
+            float delta_x = exact_x - x;
+            float delta_val = Math.abs(delta_x);
+            if (delta_val < 0.001) {
+                mWrapper.setX(exact_x);
+                return;
+            }
+
+            delta_val = Math.min(Math.max(1, delta_val), delta * 30);
+
+            mWrapper.setX(x + delta_val * Math.signum(delta_x));
         }
     }
 
@@ -149,7 +187,7 @@ public class SliderList extends Group {
         float x = mBackground.getX() + (bgWidth - mItemWidth) / 2;
         float y = mBackground.getY() + mListPaddingBot;
 
-        Gdx.app.log("slider select size", "x " + x + " y " + y);
+//        Gdx.app.log("slider select size", "x " + x + " y " + y);
 
         float border_width = 3;
 
@@ -166,6 +204,28 @@ public class SliderList extends Group {
 
         mShapeRenderer.end();
         batch.begin();
+    }
+
+    public void setItemIndex(int index)
+    {
+        if (mItemIndex != index) {
+            mItemIndex = index;
+            triggerCurrentButtonClick();
+        }
+    }
+
+    public void triggerCurrentButtonClick()
+    {
+        Gdx.app.log("SliderList", "triggerBtnClick");
+        TextButton btn = mButtons[mItemIndex];
+        InputEvent ie = new InputEvent();
+        ie.setRelatedActor(btn);
+        for (Iterator<EventListener> it = btn.getListeners().iterator(); it.hasNext(); ) {
+            EventListener el = it.next();
+            if (el instanceof ClickListener) {
+                ((ClickListener) el).clicked(ie, 0, 0);
+            }
+        }
     }
 
 }

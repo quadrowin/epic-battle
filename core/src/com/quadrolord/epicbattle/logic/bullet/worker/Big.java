@@ -15,6 +15,7 @@ public class Big extends AbstractBullet {
 
     @Override
     public void initInfo(BulletInfo info) {
+        info.setDescription("He is real strong. He is real BIG. He will bring you victory.");
         info.setViewClass(com.quadrolord.epicbattle.view.worker.Big.class);
         info.setLevelingStrategy(new SimpleStrategy());
     }

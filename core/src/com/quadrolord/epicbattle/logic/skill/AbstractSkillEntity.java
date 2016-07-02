@@ -9,8 +9,14 @@ import com.quadrolord.epicbattle.logic.tower.Tower;
  */
 abstract public class AbstractSkillEntity extends AbstractEntity<SkillItem> {
 
+    private String mDescription;
     private String mIcon;
     private String mName;
+
+    public String getDescription() {
+        return mDescription;
+    }
+
 
     /**
      * Иконка (для активных скилов)
@@ -56,6 +62,10 @@ abstract public class AbstractSkillEntity extends AbstractEntity<SkillItem> {
      */
     public void use(SkillItem skill) {
 
+    }
+
+    public void setDescription(String description) {
+        mDescription = description;
     }
 
     public void setIcon(String icon) {

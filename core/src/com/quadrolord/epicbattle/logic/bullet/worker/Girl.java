@@ -18,6 +18,7 @@ public class Girl extends AbstractBullet {
 
     @Override
     public void initInfo(BulletInfo info) {
+        info.setDescription("Beauty is a horrible force.");
         info.setViewClass(com.quadrolord.epicbattle.view.worker.Girl.class);
         info.setLevelingStrategy(new X15Strategy());
     }

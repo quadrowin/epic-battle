@@ -17,6 +17,8 @@ public class BulletInfo {
 
     private int mCost;
 
+    private String mDescription;
+
     private float mAttackDamage = 50;
 
     private float mAttackDistance = 1;
@@ -45,6 +47,10 @@ public class BulletInfo {
 
     public Class<? extends AbstractBullet> getBulletClass() {
         return mBulletClass;
+    }
+
+    public String getDescription() {
+        return mDescription;
     }
 
     public AbstractStrategy getLevelingStrategy() {
@@ -117,6 +123,10 @@ public class BulletInfo {
 
     public void setBulletClass(Class<? extends AbstractBullet> bulletClass) {
         mBulletClass = bulletClass;
+    }
+
+    public void setDescription(String description) {
+        mDescription = description;
     }
 
     public void setTitle(String title) {

@@ -15,6 +15,7 @@ public class Simple extends AbstractBullet {
 
     @Override
     public void initInfo(BulletInfo info) {
+        info.setDescription("I will fight for you to the end.");
         info.setViewClass(com.quadrolord.epicbattle.view.worker.Simple.class);
         info.setLevelingStrategy(new SimpleStrategy());
     }

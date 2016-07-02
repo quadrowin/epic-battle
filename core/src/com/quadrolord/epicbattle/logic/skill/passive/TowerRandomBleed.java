@@ -11,6 +11,7 @@ import com.quadrolord.epicbattle.logic.tower.Tower;
 public class TowerRandomBleed extends AbstractSkillEntity {
 
     public TowerRandomBleed() {
+        setDescription("Sometimes your tower bleeding. Nothing more.");
         setName("Random bleed");
         setIcon("icons/skills/wave.png");
     }

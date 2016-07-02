@@ -30,16 +30,20 @@ public class UpgradingSliderContent extends SliderContent {
 
     private ClickListener mClickListener;
 
+    private UpgradingItemSelect mSelectListener;
+
     public UpgradingSliderContent(AbstractScreen screen) {
         mScreen = screen;
         mAdapter = (EpicBattle)screen.getAdapter();
 
         mClickListener = new ClickListener() {
 
-            public void clicked (InputEvent event, float x, float y) {
-                // upgrade
-
-//                screen.getAdapter().switchToScreen(screen.getParentScreen(), true);
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (event.getRelatedActor() != null) {
+                    ProfileSkill profileSkill = (ProfileSkill)event.getRelatedActor().getUserObject();
+                    mSelectListener.onSelect(profileSkill);
+                }
             }
 
         };
@@ -79,12 +83,16 @@ public class UpgradingSliderContent extends SliderContent {
         btn.addListener(mClickListener);
 
         Label btnLabel = new Label(
-                skillEntity.getName() + " lvl " + profileSkill.getLevel(),
+                "lvl " + profileSkill.getLevel(),
                 mScreen.getSkin().get("default-label-style", Label.LabelStyle.class)
         );
         btnLabel.setAlignment(Align.left);
         btnLabel.setBounds(0, 0, btn.getWidth(), 15);
         btn.addActor(btnLabel);
+    }
+
+    public void setOnSelect(UpgradingItemSelect selectListener) {
+        mSelectListener = selectListener;
     }
 
 }

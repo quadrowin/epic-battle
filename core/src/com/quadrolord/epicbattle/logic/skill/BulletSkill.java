@@ -1,5 +1,6 @@
 package com.quadrolord.epicbattle.logic.skill;
 
+import com.badlogic.gdx.Gdx;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
@@ -19,11 +20,19 @@ abstract public class BulletSkill <T extends AbstractBullet> extends AbstractSki
     }
 
     @Override
+    public String getDescription()
+    {
+        Gdx.app.log("bullet desc", mBullet.getDescription());
+        return mBullet.getDescription();
+    }
+
+    @Override
     public void initSkill(BattleGame game)
     {
         ParameterizedType type = (ParameterizedType)getClass().getGenericSuperclass();
         Class parameter = (Class)type.getActualTypeArguments()[0];
         mBullet = game.getBulletInfoManager().getBulletInfo(parameter);
+        setDescription("Summon a battle unit.");
         setIcon(mBullet.getIcon());
         setName(mBullet.getTitle());
     }

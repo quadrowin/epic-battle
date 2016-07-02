@@ -35,6 +35,7 @@ public class Forks extends AbstractBullet {
 
     @Override
     public void initInfo(BulletInfo info) {
+        info.setDescription("We are not the one.");
         info.setViewClass(com.quadrolord.epicbattle.view.worker.Forks.class);
         info.setLevelingStrategy(new SimpleStrategy());
     }
