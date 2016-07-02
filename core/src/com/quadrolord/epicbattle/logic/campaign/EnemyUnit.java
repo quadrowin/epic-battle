@@ -1,9 +1,9 @@
 package com.quadrolord.epicbattle.logic.campaign;
 
 import com.badlogic.gdx.utils.ArrayMap;
-import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
-import com.quadrolord.epicbattle.logic.bullet.worker.Big;
-import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
+import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.big.BigLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.simple.SimpleLogic;
 
 /**
  * Created by Quadrowin on 12.01.2016.
@@ -11,17 +11,17 @@ import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
  */
 public class EnemyUnit {
 
-    private static ArrayMap<String, Class<? extends AbstractBullet>> workerTypes = new ArrayMap<String, Class<? extends AbstractBullet>>();
+    private static ArrayMap<String, Class<? extends AbstractLogic>> workerTypes = new ArrayMap<String, Class<? extends AbstractLogic>>();
 
     {
-        workerTypes.put("Simple", Simple.class);
-        workerTypes.put("Big", Big.class);
+        workerTypes.put("SimpleLogic", SimpleLogic.class);
+        workerTypes.put("BigBullet", BigLogic.class);
     }
 
     /**
      * Класс юнита
      */
-    private String workerType = "Simple";
+    private String workerType = "SimpleLogic";
 
     /**
      * Первая секунда, когда вызывается этот юнит
@@ -35,7 +35,7 @@ public class EnemyUnit {
 
     private int level = 1;
 
-    public Class<? extends AbstractBullet> getWorkerClass() {
+    public Class<? extends AbstractLogic> getWorkerClass() {
         return workerTypes.get(workerType);
     }
 

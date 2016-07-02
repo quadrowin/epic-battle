@@ -1,7 +1,7 @@
 package com.quadrolord.epicbattle.logic.bullet.loader;
 
 import com.badlogic.gdx.utils.JsonValue;
-import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
+import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
 
 /**
  * Created by Quadrowin on 23.01.2016.
@@ -9,7 +9,7 @@ import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
 public class AttackDistance extends AbstractLoader {
 
     @Override
-    public void assign(BulletInfo info, JsonValue data) {
+    public void assign(AbstractLogic info, JsonValue data) {
         info.setAttackDistance(data.asFloat());
     }
 

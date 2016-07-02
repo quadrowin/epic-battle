@@ -3,10 +3,10 @@ package com.quadrolord.epicbattle.logic.bullet.worker;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import com.quadrolord.epicbattle.logic.tower.GameUnit;
-import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
-import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
+import com.quadrolord.epicbattle.logic.skill.AbstractBulletSkill;
+import com.quadrolord.epicbattle.logic.skill.SkillItem;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
+import com.quadrolord.epicbattle.logic.tower.GameUnit;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 
@@ -14,6 +14,7 @@ import java.util.Iterator;
 
 /**
  * Created by Quadrowin on 09.01.2016.
+ * Абстрактный класс логики патрона (боевого юнита)
  */
 abstract public class AbstractBullet extends GameUnit {
 
@@ -21,7 +22,7 @@ abstract public class AbstractBullet extends GameUnit {
 
     public static float FOLD_BACK_TIME = 1;
 
-    protected BulletSkill mSkill;
+    protected SkillItem mSkill;
 
     protected Tower mTower;
 
@@ -50,13 +51,13 @@ abstract public class AbstractBullet extends GameUnit {
         mAttackers.add(unit);
     }
 
-    abstract public void initInfo(BulletInfo info);
-
     public void findTargets() {
         Array<AbstractBullet> enemies = mTower.getEnemy().getUnits();
+        AbstractBulletSkill bs = (AbstractBulletSkill) mSkill.getInfo();
 
         for (Iterator<AbstractBullet> it = enemies.iterator(); it.hasNext(); ) {
-            if (mSkill.getMaxTargetCount() <= mTargets.size) {
+
+            if (bs.getMaxTargetCount() <= mTargets.size) {
                 return;
             }
 
@@ -68,7 +69,7 @@ abstract public class AbstractBullet extends GameUnit {
             }
         }
 
-        if (mSkill.getMaxTargetCount() <= mTargets.size) {
+        if (bs.getMaxTargetCount() <= mTargets.size) {
             return;
         }
 
@@ -79,13 +80,14 @@ abstract public class AbstractBullet extends GameUnit {
         }
     }
 
-    public BulletSkill getSkill() {
+    public SkillItem getSkill() {
         return mSkill;
     }
 
     public void act(float delta) {
         mTime += delta;
         mStateTime += delta;
+        AbstractBulletSkill bs = (AbstractBulletSkill) mSkill.getInfo();
 
         Tower enemyTower = getTower().getEnemy();
 
@@ -93,7 +95,7 @@ abstract public class AbstractBullet extends GameUnit {
             removeTarget(enemyTower);
         }
 
-        if (mSkill.getMaxTargetCount() > mTargets.size) {
+        if (bs.getMaxTargetCount() > mTargets.size) {
             findTargets();
         }
 
@@ -118,7 +120,7 @@ abstract public class AbstractBullet extends GameUnit {
             if (mTargets.size > 0) {
                 setState(BulletState.ATTACK);
 
-                if ((mTime - mLastAttackedTime) >= mSkill.getAttackTime() / mTower.getTimeUp()) {
+                if ((mTime - mLastAttackedTime) >= bs.getAttackTime() / mTower.getTimeUp()) {
                     attack();
                     mLastAttackedTime = mTime;
                 }
@@ -133,7 +135,7 @@ abstract public class AbstractBullet extends GameUnit {
 
         BulletUnitView bv = (BulletUnitView)getViewObject();
 
-        mBounds.setWidth(getRealWidth() / 2 + mSkill.getAttackDistance() * Math.abs(bv.getScaleX()));
+        mBounds.setWidth(getRealWidth() / 2 + bs.getAttackDistance() * Math.abs(bv.getScaleX()));
         mBounds.setHeight(bv.getRealHeight());
         mBounds.setY(bv.getY() + 15);
         mBounds.setX(bv.getX() - getRealWidth() / 2);
@@ -147,9 +149,10 @@ abstract public class AbstractBullet extends GameUnit {
         if (mTargets.size > 0) {
             mGame.getListener().onBulletAttack(this, mTargets.get(0));
         }
+        AbstractBulletSkill bs = (AbstractBulletSkill) mSkill.getInfo();
         for (int i = 0; i < mTargets.size; i++) {
             if (!mTargets.get(i).isDied()) {
-                mTargets.get(i).harm(mSkill.getAttackDamage());
+                mTargets.get(i).harm(bs.getAttackDamage());
             }
         }
     }
@@ -212,7 +215,7 @@ abstract public class AbstractBullet extends GameUnit {
         mTower = tower;
     }
 
-    public void setSkill(BulletSkill skill) {
+    public void setSkill(SkillItem skill) {
         mSkill = skill;
     }
 

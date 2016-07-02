@@ -5,18 +5,19 @@ import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.GameListener;
 import com.quadrolord.epicbattle.logic.bullet.BulletInfoManager;
-import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
-import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
+import com.quadrolord.epicbattle.logic.bullet.worker.simple.SimpleBullet;
 import com.quadrolord.epicbattle.logic.campaign.CampaignManager;
 import com.quadrolord.epicbattle.logic.campaign.EnemyTower;
 import com.quadrolord.epicbattle.logic.campaign.Level;
 import com.quadrolord.epicbattle.logic.profile.PlayerProfile;
 import com.quadrolord.epicbattle.logic.profile.ProfileSkill;
+import com.quadrolord.epicbattle.logic.skill.AbstractBulletSkill;
 import com.quadrolord.epicbattle.logic.skill.AbstractSkillEntity;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
 import com.quadrolord.epicbattle.logic.skill.SkillManager;
+import com.quadrolord.epicbattle.logic.skill.bullet.Simple;
 import com.quadrolord.epicbattle.logic.tower.controller.AbstractController;
 import com.quadrolord.epicbattle.logic.tower.controller.ControllerAi;
 import com.quadrolord.epicbattle.logic.tower.controller.ControllerPlayer;
@@ -119,47 +120,46 @@ public class BattleGame {
         mListener.onTowerCreate(tower);
     }
 
-    public AbstractBullet createUnit(Tower tower, Class<? extends AbstractBullet> workerClass) {
-        BulletSkill skill = tower.getBulletSkill(workerClass);
-
-        if (tower.isInCooldown(workerClass)) {
+    public AbstractBullet createUnit(Tower tower, SkillItem skill, boolean checkCooldown, boolean useResources) {
+        if (checkCooldown && skill.isInCooldown()) {
             mListener.onBulletCreateFailCooldown();
             return null;
         }
 
-        if (!tower.hasCash(workerClass)) {
-            mListener.onBulletCreateFailCash(tower.getCash(), skill.getCost());
+        if (!(skill.getInfo() instanceof AbstractBulletSkill)) {
             return null;
         }
 
-        return createUnitEx(tower, skill);
-    }
+        AbstractBulletSkill bs = (AbstractBulletSkill) skill.getInfo();
 
-    /**
-     * Создание юнита без проверок
-     * @param tower
-     * @param skill
-     */
-    public AbstractBullet createUnitEx(Tower tower, BulletSkill skill) {
+        if (useResources && !tower.hasCash(bs)) {
+            mListener.onBulletCreateFailCash(tower.getCash(), bs.getCost());
+            return null;
+        }
+
         AbstractBullet bullet;
+
         try {
-            bullet = skill.getBulletClass().getConstructor(BattleGame.class).newInstance(this);
+            bullet = (AbstractBullet)bs.getBulletClass().getConstructor(BattleGame.class).newInstance(this);
         } catch (Exception e) {
-            Gdx.app.error("Game.createUnit", "error create bullet " + skill.getBulletClass().getName());
+            Gdx.app.error("Game.createUnit", "error create bullet " + bs.getName());
+            Gdx.app.error("Game.createUnit", "error create bullet " + bs.getBulletClass());
             e.printStackTrace();
-            bullet = new Simple(this);
+            bullet = new SimpleBullet(this);
         }
         bullet.setSkill(skill);
 
         bullet.setWidth(30);
-        bullet.setMaxHp(skill.getMaxHp());
+        bullet.setMaxHp(bs.getMaxHp());
         bullet.setHp(bullet.getMaxHp());
-        bullet.setVelocity(skill.getMoveSpeed() * tower.getSpeedRatio());
+        bullet.setVelocity(bs.getMoveSpeed() * tower.getSpeedRatio());
         bullet.setX(tower.getX() + tower.getWidth() / 2);
 
-        tower.setCash(tower.getCash() - skill.getCost());
+        if (useResources) {
+            tower.setCash(tower.getCash() - bs.getCost());
+        }
         tower.addUnit(bullet);
-        tower.toCooldown(bullet);
+        tower.toCooldown(skill);
 
         mBullets.add(bullet);
         mListener.onBulletCreate(bullet);

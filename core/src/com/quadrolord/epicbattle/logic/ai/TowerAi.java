@@ -1,7 +1,7 @@
 package com.quadrolord.epicbattle.logic.ai;
 
+import com.quadrolord.epicbattle.logic.skill.bullet.Simple;
 import com.quadrolord.epicbattle.logic.tower.Tower;
-import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 
 /**
  * Created by Quadrowin on 10.01.2016.
@@ -21,7 +21,7 @@ public class TowerAi {
         mTime += delta;
         int frame2 = (int)(mTime / 3);
         if (frame2 > frame1) {
-            mTower.getGame().createUnit(mTower, Simple.class);
+            mTower.getGame().createUnit(mTower, mTower.getBulletSkill(Simple.class), false, false);
         }
     }
 

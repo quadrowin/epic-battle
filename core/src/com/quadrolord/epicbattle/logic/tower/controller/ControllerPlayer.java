@@ -1,7 +1,7 @@
 package com.quadrolord.epicbattle.logic.tower.controller;
 
 import com.badlogic.gdx.utils.Queue;
-import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
+import com.quadrolord.epicbattle.logic.skill.SkillItem;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 
 /**
@@ -9,7 +9,7 @@ import com.quadrolord.epicbattle.logic.tower.BattleGame;
  */
 public class ControllerPlayer extends AbstractController {
 
-    private Queue<Class<? extends AbstractBullet>> mFireCalls = new Queue<Class<? extends AbstractBullet>>();
+    private Queue<SkillItem> mFireCalls = new Queue<SkillItem>();
 
     public ControllerPlayer(BattleGame game) {
         super(game);
@@ -18,13 +18,13 @@ public class ControllerPlayer extends AbstractController {
     @Override
     public void act(float delta) {
         for (; mFireCalls.size > 0; ) {
-            Class<? extends AbstractBullet> bulletClass = mFireCalls.removeFirst();
-            getGame().createUnit(getTower(), bulletClass);
+            SkillItem skill = mFireCalls.removeFirst();
+            getGame().createUnit(getTower(), skill, true, true);
         }
     }
 
-    public void callFire(Class<? extends AbstractBullet> bulletClass) {
-        mFireCalls.addLast(bulletClass);
+    public void callFire(SkillItem bulletSkill) {
+        mFireCalls.addLast(bulletSkill);
     }
 
     public void reset() {

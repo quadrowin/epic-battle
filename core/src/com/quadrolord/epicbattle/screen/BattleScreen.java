@@ -14,6 +14,7 @@ import com.quadrolord.ejge.AbstractGameAdapter;
 import com.quadrolord.epicbattle.logic.GameListener;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.campaign.Level;
+import com.quadrolord.epicbattle.logic.skill.AbstractBulletSkill;
 import com.quadrolord.epicbattle.logic.skill.passive.TowerRandomBleed;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.logic.tower.GameUnit;
@@ -124,9 +125,9 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
             @Override
             public void onBulletCreate(AbstractBullet bullet) {
-                Gdx.app.log("", "fire with " + bullet.getSkill().getTitle() + " at " + bullet.getX());
+                Gdx.app.log("", "fire with " + bullet.getSkill().getInfo().getName() + " at " + bullet.getX());
 
-                Class<? extends BulletUnitView> viewClass = bullet.getSkill().getViewClass();
+                Class<? extends BulletUnitView> viewClass = ((AbstractBulletSkill)bullet.getSkill().getInfo()).getViewClass();
                 BulletUnitView view;
 
                 try {

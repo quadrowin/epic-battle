@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.ArrayMap;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 
 /**
+ * Загрузчик логик скилов
  * Created by Quadrowin on 06.03.2016.
  */
 public class SkillManager {
@@ -22,6 +23,7 @@ public class SkillManager {
         }
         AbstractSkillEntity skill;
         try {
+            AbstractBulletSkill.debug = 1;
             skill = clazz.newInstance();
         } catch (Exception e) {
             e.printStackTrace();

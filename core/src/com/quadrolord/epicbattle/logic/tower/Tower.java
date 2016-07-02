@@ -4,10 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
-import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
-import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
-import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
+import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
+import com.quadrolord.epicbattle.logic.skill.AbstractBulletSkill;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
 import com.quadrolord.epicbattle.view.TowerView;
 
@@ -36,11 +35,10 @@ public class Tower extends GameUnit {
 
     protected float mMaxHp = 4000;
 
-    private ArrayMap<Class<? extends AbstractBullet>, BulletSkill> mBulletSkills = new ArrayMap<Class<? extends AbstractBullet>, BulletSkill>();
+    private ArrayMap<Class<? extends AbstractBulletSkill>, SkillItem> mBulletSkills = new ArrayMap<Class<? extends AbstractBulletSkill>, SkillItem>();
 
     private Array<SkillItem> mActSkills = new Array<SkillItem>();
     private Array<AbstractBullet> mBullets = new Array<AbstractBullet>();
-    private ArrayMap<Class<? extends AbstractBullet>, BulletInfo> mBulletInfos = new ArrayMap<Class<? extends AbstractBullet>, BulletInfo>();
 
     public Tower(BattleGame game) {
         super(game);
@@ -48,11 +46,13 @@ public class Tower extends GameUnit {
         mHp = mMaxHp;
     }
 
-    public BulletSkill addBulletSkill(Class<? extends AbstractBullet> bulletClass, int level) {
-        BulletSkill bulletSkill = new BulletSkill(getBulletInfo(bulletClass));
+    public AbstractBulletSkill addBulletSkill(Class<? extends AbstractBulletSkill> bulletClass, int level) {
+        AbstractBulletSkill bulletSkill = (AbstractBulletSkill)mGame.getSkillManager().get(bulletClass);
         bulletSkill.setLevel(level);
-        bulletSkill.setCooldown(0);
-        mBulletSkills.put(bulletClass, bulletSkill);
+        SkillItem si = new SkillItem();
+        si.setInfo(bulletSkill);
+        si.setCooldown(0);
+        mBulletSkills.put(bulletClass, si);
         return bulletSkill;
     }
 
@@ -60,8 +60,8 @@ public class Tower extends GameUnit {
         mTime += delta;
         mCash += mCashGrowth * delta * mTimeUp;
 
-        for (Iterator<BulletSkill> it = mBulletSkills.values().iterator(); it.hasNext(); ) {
-            BulletSkill tbs = it.next();
+        for (Iterator<SkillItem> it = mBulletSkills.values().iterator(); it.hasNext(); ) {
+            SkillItem tbs = it.next();
             if (mTime >= tbs.getCooldown()) {
                 tbs.setCooldown(0);
             }
@@ -113,37 +113,19 @@ public class Tower extends GameUnit {
         mBullets.clear();
     }
 
-    public BulletInfo getBulletInfo(Class<? extends AbstractBullet> workerClass) {
-        BulletInfo bi = mBulletInfos.get(workerClass);
-
-        if (bi == null) {
-            AbstractBullet bullet;
-
-            try {
-                bullet = workerClass.getConstructor(BattleGame.class).newInstance(getGame());
-            } catch (Exception e) {
-                Gdx.app.error("Tower.getBulletInfo", "error create bullet worker " + workerClass.getName());
-                e.printStackTrace();
-                bullet = new Simple(mGame);
-            }
-
-            bi = mGame.getBulletInfoManager().getBulletInfo(workerClass);
-            bullet.initInfo(bi);
-
-            mBulletInfos.put(workerClass, bi);
-        }
-        return bi;
+    public AbstractLogic getBulletInfo(Class<? extends AbstractLogic> workerClass) {
+        return mGame.getBulletInfoManager().getBulletLogic(workerClass);
     }
 
-    public BulletSkill getBulletSkill(Class<? extends AbstractBullet> workerClass) {
+    public SkillItem getBulletSkill(Class<? extends AbstractBulletSkill> workerClass) {
         return mBulletSkills.get(workerClass);
     }
 
-    public ArrayMap<Class<? extends AbstractBullet>, BulletSkill> getBulletSkills() {
+    public ArrayMap<Class<? extends AbstractBulletSkill>, SkillItem> getBulletSkills() {
         return mBulletSkills;
     }
 
-    public int getBulletLevel(Class<? extends AbstractBullet> bulletClass) {
+    public int getBulletLevel(Class<? extends AbstractBulletSkill> bulletClass) {
         if (mBulletSkills.containsKey(bulletClass)) {
             return mBulletSkills.get(bulletClass).getLevel();
         }
@@ -160,30 +142,23 @@ public class Tower extends GameUnit {
         unit.setTower(this);
     }
 
-    public long getConstructionTime(AbstractBullet unit) {
-        return Math.round(unit.getSkill().getConstructionTime() * mConstuctionMultiplier / mTimeUp);
+    public long getConstructionTime(AbstractBulletSkill bulletSkill) {
+        return Math.round(bulletSkill.getConstructionTime() * mConstuctionMultiplier / mTimeUp);
     }
 
-    public long getConstructionTime(Class<? extends AbstractBullet> bulletClass) {
-        return Math.round(getBulletInfo(bulletClass).getConstructionTime() * mConstuctionMultiplier / mTimeUp);
+    public void toCooldown(SkillItem skill) {
+        skill.setCooldown(mTime + ((AbstractBulletSkill)skill.getInfo()).getConstructionTime());
     }
 
-    public void toCooldown(AbstractBullet unit) {
-        mBulletSkills.get(unit.getClass()).setCooldown(mTime + getConstructionTime(unit));
-    }
-
-    public boolean isInCooldown(AbstractBullet unit) {
-        return isInCooldown(unit.getClass());
-    }
-
-    public boolean isInCooldown(Class<? extends AbstractBullet> bulletClass) {
+    public boolean isInCooldown(Class<? extends AbstractBulletSkill> bulletClass) {
         return mBulletSkills.containsKey(bulletClass)
                 ? mBulletSkills.get(bulletClass).getCooldown() > 0
                 : false;
     }
 
-    public float getCooldownTime(Class<? extends AbstractBullet> bulletClass) {
-        return Math.max(0, mBulletSkills.get(bulletClass).getCooldown() - mTime);
+    public float getCooldownTime(AbstractBulletSkill bulletSkill) {
+        SkillItem skill = mBulletSkills.get(bulletSkill.getClass());
+        return skill == null ? 0 : Math.max(0, skill.getCooldown() - mTime);
     }
 
     public boolean isPlayer() {
@@ -210,12 +185,8 @@ public class Tower extends GameUnit {
         mSpeedRatio = ratio;
     }
 
-    public boolean hasCash(BulletInfo info) {
-        return info.getCost() <= mCash;
-    }
-
-    public boolean hasCash(Class<? extends AbstractBullet> bulletClass) {
-        return hasCash(getBulletInfo(bulletClass));
+    public boolean hasCash(AbstractBulletSkill skill) {
+        return skill.getCost() <= mCash;
     }
 
     public Tower getEnemy() {
@@ -243,7 +214,7 @@ public class Tower extends GameUnit {
     }
 
     public void reward(AbstractBullet bullet) {
-        mCash += bullet.getSkill().getCost() / 3 * mRewardMultiplier;
+        mCash += ((AbstractBulletSkill)bullet.getSkill().getInfo()).getCost() / 3 * mRewardMultiplier;
     }
 
     public float getTimeUp() {

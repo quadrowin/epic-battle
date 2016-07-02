@@ -1,7 +1,7 @@
 package com.quadrolord.epicbattle.logic.tower.controller;
 
-import com.quadrolord.epicbattle.logic.bullet.worker.Simple;
 import com.quadrolord.epicbattle.logic.campaign.EnemyTower;
+import com.quadrolord.epicbattle.logic.skill.bullet.Simple;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 
 /**
@@ -23,7 +23,7 @@ public class ControllerAi extends AbstractController {
         mTime += delta;
         int frame2 = (int)(mTime / 3);
         if (frame2 > frame1) {
-            getGame().createUnit(getTower(), Simple.class);
+            getGame().createUnit(getTower(), getTower().getBulletSkill(Simple.class), true, true);
         }
     }
 

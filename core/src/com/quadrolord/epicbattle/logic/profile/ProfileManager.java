@@ -72,12 +72,12 @@ public class ProfileManager {
         mProfile.addSkill(com.quadrolord.epicbattle.logic.skill.bullet.Girl.class, 0);
 
 //        if (mProfile.getBullets().size < 1) {
-//            mProfile.addBullet(Simple.class);
+//            mProfile.addBullet(SimpleLogic.class);
 //        }
         mProfile.getBuildings().clear();
-//        mProfile.addBuildingSafe(Big.class).setLevel(3);
-//        mProfile.addBuildingSafe(Forks.class);
-//        mProfile.addBuildingSafe(Girl.class);
+//        mProfile.addBuildingSafe(BigBullet.class).setLevel(3);
+//        mProfile.addBuildingSafe(ForksLogic.class);
+//        mProfile.addBuildingSafe(GirlLogic.class);
     }
 
     public void saveProfile() {

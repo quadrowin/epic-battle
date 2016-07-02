@@ -1,23 +1,18 @@
-package com.quadrolord.epicbattle.logic.bullet;
+package com.quadrolord.epicbattle.logic.bullet.worker;
 
 import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.bullet.leveling.AbstractStrategy;
 import com.quadrolord.epicbattle.logic.bullet.leveling.LevelingDto;
-import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 
+import java.lang.reflect.ParameterizedType;
+
 /**
- * Базовое описание скила-выстрела
+ * Created by Quadrowin on 02.07.2016.
  */
-public class BulletInfo {
-
-    public BulletInfo() {
-
-    }
+abstract public class AbstractLogic<T extends AbstractBullet> {
 
     private int mCost;
-
-    private String mDescription;
 
     private float mAttackDamage = 50;
 
@@ -33,21 +28,19 @@ public class BulletInfo {
 
     private int mMaxTargetCount = 1;
 
+    private String mDescription;
+
+    private String mIcon;
+
     private String mTitle;
 
     private Class<? extends BulletUnitView> mViewClass;
 
     private Class<? extends AbstractBullet> mBulletClass;
 
-    private String mIcon;
+    private Array<LevelingDto> mLevelUps = new Array<LevelingDto>();
 
-    protected Array<LevelingDto> mLevelUps = new Array<LevelingDto>();
-
-    protected AbstractStrategy mLevelingStrategy;
-
-    public Class<? extends AbstractBullet> getBulletClass() {
-        return mBulletClass;
-    }
+    private AbstractStrategy mLevelingStrategy;
 
     public String getDescription() {
         return mDescription;
@@ -67,6 +60,52 @@ public class BulletInfo {
 
     public void setLevelUps(Array<LevelingDto> levelUps) {
         mLevelUps = levelUps;
+    }
+
+    public String getTitle() {
+        return mTitle;
+    }
+
+
+
+    public Class<? extends BulletUnitView> getViewClass() {
+        return mViewClass;
+    }
+
+    public void setViewClass(Class<? extends BulletUnitView> viewClass) {
+        mViewClass = viewClass;
+    }
+
+    public String getIcon() {
+        return mIcon;
+    }
+
+    public void setIcon(String mIcon) {
+        this.mIcon = mIcon;
+    }
+
+    public Class<? extends AbstractBullet> getBulletClass() {
+        if (mBulletClass == null) {
+            ParameterizedType type = (ParameterizedType)getClass().getGenericSuperclass();
+            mBulletClass = (Class)type.getActualTypeArguments()[0];
+        }
+        return mBulletClass;
+    }
+
+    public void setBulletClass(Class<? extends AbstractBullet> bulletClass) {
+        mBulletClass = bulletClass;
+    }
+
+    public void setDescription(String description) {
+        mDescription = description;
+    }
+
+    public void setTitle(String title) {
+        mTitle = title;
+    }
+
+    public void onDeath(AbstractBullet blt) {
+
     }
 
     public float getAttackDamage() {
@@ -101,37 +140,7 @@ public class BulletInfo {
         return mMaxTargetCount;
     }
 
-    public String getTitle() {
-        return mTitle;
-    }
 
-    public Class<? extends BulletUnitView> getViewClass() {
-        return mViewClass;
-    }
-
-    public void setViewClass(Class<? extends BulletUnitView> viewClass) {
-        mViewClass = viewClass;
-    }
-
-    public String getIcon() {
-        return mIcon;
-    }
-
-    public void setIcon(String mIcon) {
-        this.mIcon = mIcon;
-    }
-
-    public void setBulletClass(Class<? extends AbstractBullet> bulletClass) {
-        mBulletClass = bulletClass;
-    }
-
-    public void setDescription(String description) {
-        mDescription = description;
-    }
-
-    public void setTitle(String title) {
-        mTitle = title;
-    }
 
     public void setAttackDamage(float attackDamage) {
         mAttackDamage = attackDamage;
@@ -164,4 +173,5 @@ public class BulletInfo {
     public void setConstructionTime(float constructionTime) {
         mConstructionTime = constructionTime;
     }
+
 }

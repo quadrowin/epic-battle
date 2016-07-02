@@ -12,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.quadrolord.ejge.view.AbstractScreen;
-import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
 import com.quadrolord.epicbattle.logic.profile.ProfileManager;
+import com.quadrolord.epicbattle.logic.skill.SkillItem;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.screen.MyTownScreen;
 
@@ -100,8 +100,8 @@ public class DebugPanel extends Group {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                for (Iterator<BulletSkill> it = mScreen.get(BattleGame.class).getPlayerTower().getBulletSkills().values().iterator(); it.hasNext(); ) {
-                    BulletSkill skill = it.next();
+                for (Iterator<SkillItem> it = mScreen.get(BattleGame.class).getPlayerTower().getBulletSkills().values().iterator(); it.hasNext(); ) {
+                    SkillItem skill = it.next();
                     skill.setLevel(skill.getLevel() + 1);
                 }
             }

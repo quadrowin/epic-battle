@@ -5,6 +5,7 @@ import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 
 /**
+ * Общая логика и описание скила.
  * Created by Quadrowin on 14.01.2016.
  */
 abstract public class AbstractSkillEntity extends AbstractEntity<SkillItem> {

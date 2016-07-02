@@ -1,7 +1,7 @@
 package com.quadrolord.epicbattle.logic.bullet.leveling;
 
-import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
-import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
+import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
+import com.quadrolord.epicbattle.logic.skill.AbstractBulletSkill;
 
 /**
  * Created by Quadrowin on 15.01.2016.
@@ -9,34 +9,26 @@ import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
 public class SimpleStrategy extends AbstractStrategy {
 
     @Override
-    public void setLevel(BulletSkill skill, int level) {
-        BulletInfo info = skill.getInfo();
+    public void setLevel(AbstractBulletSkill skill, int level) {
+        AbstractLogic info = skill.getBulletLogic();
         for (int i = 2; i <= level; i++) {
 
             if (info.getLevelUps().size <= i - 2) {
                 continue;
             }
 
-            LevelingDto dto = info.getLevelUps().get(i - 2);
+            LevelingDto dto = (LevelingDto)info.getLevelUps().get(i - 2);
 
             if (dto == null) {
                 continue;
             }
 
-            if (dto.getBulletClass() != null) {
-                skill.setBulletClass(dto.getBulletClass());
-            }
-
             if (dto.getTitle() != "") {
-                skill.setTitle(dto.getTitle());
+                skill.setName(dto.getTitle());
             }
 
             if (dto.getIcon() != null) {
                 skill.setIcon(dto.getIcon());
-            }
-
-            if (dto.getViewClass() != null) {
-                skill.setViewClass(dto.getViewClass());
             }
 
             skill.setAttackDamage(info.getAttackDamage() + dto.getAttackDamageDelta());

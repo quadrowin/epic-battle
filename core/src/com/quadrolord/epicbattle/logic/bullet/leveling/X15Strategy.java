@@ -1,7 +1,7 @@
 package com.quadrolord.epicbattle.logic.bullet.leveling;
 
-import com.quadrolord.epicbattle.logic.bullet.BulletInfo;
-import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
+import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
+import com.quadrolord.epicbattle.logic.skill.AbstractBulletSkill;
 
 /**
  * Created by Quadrowin on 23.01.2016.
@@ -9,8 +9,8 @@ import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
 public class X15Strategy extends AbstractStrategy {
 
     @Override
-    public void setLevel(BulletSkill skill, int level) {
-        BulletInfo info = skill.getInfo();
+    public void setLevel(AbstractBulletSkill skill, int level) {
+        AbstractLogic info = skill.getBulletLogic();
         skill.assignBase(info);
         float factor = (float) Math.pow(1.15, level);
         skill.setAttackDamage(info.getAttackDamage() * factor);

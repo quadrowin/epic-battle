@@ -16,8 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.quadrolord.ejge.view.AbstractScreen;
-import com.quadrolord.epicbattle.logic.bullet.BulletSkill;
-import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
+import com.quadrolord.epicbattle.logic.skill.AbstractBulletSkill;
+import com.quadrolord.epicbattle.logic.skill.SkillItem;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 
 /**
@@ -25,7 +25,7 @@ import com.quadrolord.epicbattle.logic.tower.BattleGame;
  */
 public class BulletButton extends Group {
 
-    private BulletSkill mBulletSkill;
+    private SkillItem mBulletSkill;
     private BattleGame mGame;
     private ImageButton mFireButton;
     private ProgressBar mProgressBar;
@@ -35,13 +35,13 @@ public class BulletButton extends Group {
 
     private float mCooldownColor = new Color(0x7f7f7f77).toFloatBits();
 
-    public BulletButton(AbstractScreen screen, BulletSkill skill) {
+    public BulletButton(AbstractScreen screen, SkillItem skill) {
         mBulletSkill = skill;
         mGame = screen.get(BattleGame.class);
 
-        Gdx.app.log("BulletButton create", skill.getTitle() + " " + skill.getIcon().toString());
+        Gdx.app.log("BulletButton create", skill.getInfo().getName() + " " + skill.getInfo().getIcon().toString());
 
-        Texture iconTexture = new Texture(skill.getIcon());
+        Texture iconTexture = new Texture(skill.getInfo().getIcon());
 //        Drawable iconDrawable = new Image(iconTexture).getDrawable();
         Drawable iconDrawable = new TextureRegionDrawable(new TextureRegion(iconTexture));
         mFireButton = new ImageButton(iconDrawable);
@@ -70,7 +70,7 @@ public class BulletButton extends Group {
 
         this.addActor(mFireButton);
 
-        mCost = new Label(Integer.toString(skill.getCost()), screen.getSkin(), "default", Color.WHITE);
+        mCost = new Label(Integer.toString(((AbstractBulletSkill)skill.getInfo()).getCost()), screen.getSkin(), "default", Color.WHITE);
         mCost.setBounds(0, 0, mFireButton.getWidth(), mFireButton.getHeight());
         mCost.setAlignment(Align.bottom, Align.center);
         mCost.setFontScale(0.7f, 0.7f);
@@ -103,14 +103,20 @@ public class BulletButton extends Group {
         mFireButton.addActor(mProgressBar);
     }
 
-    public Class<? extends AbstractBullet> getBulletClass() {
-        return mBulletSkill.getBulletClass();
+    public Class<? extends AbstractBulletSkill> getBulletClass() {
+        return (Class<? extends AbstractBulletSkill>)mBulletSkill.getInfo().getClass();
+    }
+
+    public SkillItem getBulletSkill() {
+        return mBulletSkill;
     }
 
     public void act(float delta) {
+        AbstractBulletSkill bs = ((AbstractBulletSkill)mBulletSkill.getInfo());
+
         if (mBulletSkill.isInCooldown()) {
-            float constructionTime = mGame.getPlayerTower().getConstructionTime(mBulletSkill.getBulletClass());
-            float timeDelta = constructionTime - mGame.getPlayerTower().getCooldownTime(mBulletSkill.getBulletClass());
+            float constructionTime = mGame.getPlayerTower().getConstructionTime(bs);
+            float timeDelta = constructionTime - mGame.getPlayerTower().getCooldownTime(bs);
             mProgressBar.setValue(timeDelta / constructionTime * 100);
         } else {
             mProgressBar.setValue(mProgressBar.getMaxValue());
@@ -118,13 +124,13 @@ public class BulletButton extends Group {
 
         Color color = mFireButton.getColor();
 
-        if (!mGame.getPlayerTower().hasCash(mBulletSkill.getBulletClass())) {
+        if (!mGame.getPlayerTower().hasCash(bs)) {
             mFireButton.setColor(color.r, color.b, color.g, 0.5f);
         } else {
             mFireButton.setColor(color.r, color.b, color.g, 1.0f);
         }
 
-        mCost.setText(Integer.toString(mBulletSkill.getCost()));
+        mCost.setText(Integer.toString(bs.getCost()));
     }
 
     public void draw (Batch batch, float parentAlpha) {
@@ -138,8 +144,9 @@ public class BulletButton extends Group {
         if (!mBulletSkill.isInCooldown()) {
             return;
         }
-        float constructionTime = mGame.getPlayerTower().getConstructionTime(mBulletSkill.getBulletClass());
-        float timeDelta = constructionTime - mGame.getPlayerTower().getCooldownTime(mBulletSkill.getBulletClass());
+        AbstractBulletSkill bs = ((AbstractBulletSkill)mBulletSkill.getInfo());
+        float constructionTime = mGame.getPlayerTower().getConstructionTime(bs);
+        float timeDelta = constructionTime - mGame.getPlayerTower().getCooldownTime(bs);
         float part = timeDelta / constructionTime;
 
         float cdColor = mCooldownColor;
