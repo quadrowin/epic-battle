@@ -3,10 +3,10 @@ package com.quadrolord.epicbattle.logic.profile;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
+import com.quadrolord.ejge.utils.PlatformServices;
 import com.quadrolord.epicbattle.logic.skill.active.PowerWave;
 import com.quadrolord.epicbattle.logic.skill.passive.TowerMaxHp;
 import com.quadrolord.epicbattle.logic.skill.passive.TowerRandomBleed;
-import com.quadrolord.ejge.utils.PlatformServices;
 
 /**
  * Created by Quadrowin on 14.01.2016.
@@ -59,17 +59,15 @@ public class ProfileManager {
             mProfile.setName("An elf");
         }
 
-        mProfile.getSkills().clear();
-
-        mProfile.addSkill(TowerMaxHp.class, 0);
-        mProfile.addSkill(TowerRandomBleed.class, 1);
-        mProfile.addSkill(PowerWave.class, 0);
+        mProfile.addSkillSafe(TowerMaxHp.class, 0);
+        mProfile.addSkillSafe(TowerRandomBleed.class, 1);
+        mProfile.addSkillSafe(PowerWave.class, 0);
 
         // скилы юнитов
-        mProfile.addSkill(com.quadrolord.epicbattle.logic.skill.bullet.Simple.class, 0);
-        mProfile.addSkill(com.quadrolord.epicbattle.logic.skill.bullet.Big.class, 3);
-        mProfile.addSkill(com.quadrolord.epicbattle.logic.skill.bullet.Forks.class, 0);
-        mProfile.addSkill(com.quadrolord.epicbattle.logic.skill.bullet.Girl.class, 0);
+        mProfile.addSkillSafe(com.quadrolord.epicbattle.logic.skill.bullet.Simple.class, 0);
+        mProfile.addSkillSafe(com.quadrolord.epicbattle.logic.skill.bullet.Big.class, 3);
+        mProfile.addSkillSafe(com.quadrolord.epicbattle.logic.skill.bullet.Forks.class, 0);
+        mProfile.addSkillSafe(com.quadrolord.epicbattle.logic.skill.bullet.Girl.class, 0);
 
 //        if (mProfile.getBullets().size < 1) {
 //            mProfile.addBullet(SimpleLogic.class);

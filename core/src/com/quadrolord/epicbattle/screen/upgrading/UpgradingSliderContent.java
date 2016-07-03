@@ -22,7 +22,7 @@ import com.quadrolord.epicbattle.screen.slider.SliderContent;
 /**
  * Created by Quadrowin on 28.06.2016.
  */
-public class UpgradingSliderContent extends SliderContent {
+public class UpgradingSliderContent extends SliderContent<UpgradingItemData> {
 
     private EpicBattle mAdapter;
 
@@ -41,8 +41,8 @@ public class UpgradingSliderContent extends SliderContent {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (event.getRelatedActor() != null) {
-                    ProfileSkill profileSkill = (ProfileSkill)event.getRelatedActor().getUserObject();
-                    mSelectListener.onSelect(profileSkill);
+                    UpgradingItemData data = (UpgradingItemData)event.getRelatedActor().getUserObject();
+                    mSelectListener.onSelect(data.profileSkill);
                 }
             }
 
@@ -79,16 +79,28 @@ public class UpgradingSliderContent extends SliderContent {
         );
 
         btn.setStyle(tbs);
-        btn.setUserObject(profileSkill);
+
+        UpgradingItemData data = new UpgradingItemData();
+        data.profileSkill = profileSkill;
+
+        btn.setUserObject(data);
         btn.addListener(mClickListener);
 
-        Label btnLabel = new Label(
+        Label lvlLabel = new Label(
                 "lvl " + profileSkill.getLevel(),
                 mScreen.getSkin().get("default-label-style", Label.LabelStyle.class)
         );
-        btnLabel.setAlignment(Align.left);
-        btnLabel.setBounds(0, 0, btn.getWidth(), 15);
-        btn.addActor(btnLabel);
+        lvlLabel.setAlignment(Align.left);
+        lvlLabel.setBounds(0, 0, btn.getWidth(), 15);
+
+        data.lvlLabel = lvlLabel;
+
+        btn.addActor(lvlLabel);
+    }
+
+    public void updateButton(UpgradingItemData data) {
+        ProfileSkill profileSkill = data.profileSkill;
+        data.lvlLabel.setText("lvl " + profileSkill.getLevel());
     }
 
     public void setOnSelect(UpgradingItemSelect selectListener) {

@@ -8,4 +8,8 @@ import com.quadrolord.epicbattle.logic.skill.AbstractBulletSkill;
  */
 public class Big extends AbstractBulletSkill<BigLogic> {
 
+    public Big() {
+        setBaseUpgradingCost(200);
+    }
+
 }

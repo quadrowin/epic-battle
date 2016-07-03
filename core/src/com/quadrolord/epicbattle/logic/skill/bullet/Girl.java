@@ -8,4 +8,8 @@ import com.quadrolord.epicbattle.logic.skill.AbstractBulletSkill;
  */
 public class Girl extends AbstractBulletSkill<GirlLogic> {
 
+    public Girl() {
+        setBaseUpgradingCost(200);
+    }
+
 }

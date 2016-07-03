@@ -297,4 +297,14 @@ public class BattleGame {
         return mTowerRight;
     }
 
+    public void upgradeProfileSkill(ProfileSkill skill) {
+        int upgradeCost = mSkillManager.get(skill.getSkillClass()).getBaseUpgradingCost();
+        for (int i = 0; i < skill.getLevel(); i++) {
+            upgradeCost += upgradeCost;
+        }
+        mGame.getProfileManager().getProfile().decExperience( upgradeCost );
+        skill.setLevel(skill.getLevel() + 1);
+        mGame.getProfileManager().saveProfile();
+    }
+
 }

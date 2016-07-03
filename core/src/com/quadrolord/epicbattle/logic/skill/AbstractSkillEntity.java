@@ -13,6 +13,11 @@ abstract public class AbstractSkillEntity extends AbstractEntity<SkillItem> {
     private String mDescription;
     private String mIcon;
     private String mName;
+    private int mBaseUpgradingCost = 100;
+
+    public int getBaseUpgradingCost() {
+        return mBaseUpgradingCost;
+    }
 
     public float getCooldownLength() {
         return 0;
@@ -71,6 +76,10 @@ abstract public class AbstractSkillEntity extends AbstractEntity<SkillItem> {
      */
     public void use(SkillItem skill) {
 
+    }
+
+    public void setBaseUpgradingCost(int cost) {
+        mBaseUpgradingCost = cost;
     }
 
     public void setDescription(String description) {

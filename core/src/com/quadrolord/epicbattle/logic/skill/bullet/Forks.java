@@ -8,4 +8,8 @@ import com.quadrolord.epicbattle.logic.skill.AbstractBulletSkill;
  */
 public class Forks extends AbstractBulletSkill<ForksLogic> {
 
+    public Forks() {
+        setBaseUpgradingCost(300);
+    }
+
 }

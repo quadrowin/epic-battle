@@ -45,7 +45,6 @@ public class SliderList extends Group {
 
     private ShapeRenderer mShapeRenderer;
 
-
     public SliderList(final AbstractScreen screen, final SliderContent content) {
         mContent = content;
         mScreen = screen;
@@ -97,19 +96,6 @@ public class SliderList extends Group {
         TextButton tbViewFix = new TextButton("", defaultTextButtonStyle);
         tbViewFix.setBounds(items_count * (mItemWidth + mItemPaddingX) + mListPaddingX, mListPaddingBot, mItemWidth, mItemHeight);
         mWrapper.addActor(tbViewFix);
-
-        // Кнопка закрытия
-        TextButton btnClose = new TextButton("Close", defaultTextButtonStyle);
-        btnClose.setBounds(260, 80, 65, 30);
-        mBackground.addActor(btnClose);
-        btnClose.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                screen.getAdapter().switchToScreen(screen.getParentScreen(), true);
-            }
-
-        });
 
         setBounds(0, 0, 400, 180);
         screen.getStage().addActor(this);
@@ -206,17 +192,30 @@ public class SliderList extends Group {
         batch.begin();
     }
 
-    public void setItemIndex(int index)
-    {
+    public TextButton getCurrentItem() {
+        return 0 <= mItemIndex && mItemIndex < mButtons.length
+                ? mButtons[mItemIndex]
+                : null;
+    }
+
+    /**
+     * Возвращает UserObject текущего элемента
+     * @return
+     */
+    public Object getCurrentObject() {
+        return 0 <= mItemIndex && mItemIndex < mButtons.length
+            ? mButtons[mItemIndex].getUserObject()
+            : null;
+    }
+
+    public void setItemIndex(int index) {
         if (mItemIndex != index) {
             mItemIndex = index;
             triggerCurrentButtonClick();
         }
     }
 
-    public void triggerCurrentButtonClick()
-    {
-        Gdx.app.log("SliderList", "triggerBtnClick");
+    public void triggerCurrentButtonClick() {
         TextButton btn = mButtons[mItemIndex];
         InputEvent ie = new InputEvent();
         ie.setRelatedActor(btn);

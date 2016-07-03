@@ -54,17 +54,25 @@ public class PlayerProfile {
     }
 
     public ProfileBuilding addBuildingSafe(Class<? extends BuildingItem> buildingClass) {
-        if (hasBullet(buildingClass)) {
+        if (hasBuilding(buildingClass)) {
             return null;
         }
         return addBuilding(buildingClass);
     }
 
-    public void addSkill(Class<? extends AbstractSkillEntity> skillClass, int level) {
+    public ProfileSkill addSkillSafe(Class<? extends AbstractSkillEntity> skillClass, int level) {
+        if (hasSkill(skillClass)) {
+            return null;
+        }
+        return addSkill(skillClass, level);
+    }
+
+    public ProfileSkill addSkill(Class<? extends AbstractSkillEntity> skillClass, int level) {
         ProfileSkill sk = new ProfileSkill();
         sk.setSkillClass(skillClass);
         sk.setLevel(level);
         skills.add(sk);
+        return sk;
     }
 
     public long decExperience(long value) {
@@ -79,11 +87,21 @@ public class PlayerProfile {
         return experienceTotal;
     }
 
-    public boolean hasBullet(Class<? extends BuildingItem> buildingClass) {
-        String bulletClassName = buildingClass.getName();
+    public boolean hasBuilding(Class<? extends BuildingItem> buildingClass) {
+        String buildingClassName = buildingClass.getName();
         for (Iterator<ProfileBuilding> it = buildings.iterator(); it.hasNext(); ) {
             ProfileBuilding pb = it.next();
-            if (pb.getBuildingName().equals(bulletClassName)) {
+            if (pb.getBuildingName().equals(buildingClassName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasSkill(Class<? extends AbstractSkillEntity> skillClass) {
+        for (Iterator<ProfileSkill> it = skills.iterator(); it.hasNext(); ) {
+            ProfileSkill sk = it.next();
+            if (sk.getSkillClass() == skillClass) {
                 return true;
             }
         }
