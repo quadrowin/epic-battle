@@ -18,6 +18,7 @@ import com.quadrolord.epicbattle.logic.skill.AbstractSkillEntity;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
 import com.quadrolord.epicbattle.logic.skill.SkillManager;
 import com.quadrolord.epicbattle.logic.skill.bullet.Simple;
+import com.quadrolord.epicbattle.logic.skill.passive.MoneyGrowth;
 import com.quadrolord.epicbattle.logic.tower.controller.AbstractController;
 import com.quadrolord.epicbattle.logic.tower.controller.ControllerAi;
 import com.quadrolord.epicbattle.logic.tower.controller.ControllerPlayer;
@@ -142,7 +143,6 @@ public class BattleGame {
             bullet = (AbstractBullet)bs.getBulletClass().getConstructor(BattleGame.class).newInstance(this);
         } catch (Exception e) {
             Gdx.app.error("Game.createUnit", "error create bullet " + bs.getName());
-            Gdx.app.error("Game.createUnit", "error create bullet " + bs.getBulletClass());
             e.printStackTrace();
             bullet = new SimpleBullet(this);
         }
@@ -193,7 +193,8 @@ public class BattleGame {
 
         towerReset(tower, enemyTower.getX(), -1);
 
-        tower.addBulletSkill(Simple.class, 1);
+        setTowerSkill(tower, Simple.class, 1);
+        setTowerSkill(tower, MoneyGrowth.class, 10);
         tower.setMaxHp(enemyTower.getMaxHp());
         tower.setHp(enemyTower.getMaxHp());
 
@@ -204,14 +205,15 @@ public class BattleGame {
         towerReset(tower, 10, 1);
         PlayerProfile profile = mGame.getProfileManager().getProfile();
         // доступные скилы
+        setTowerSkill(tower, MoneyGrowth.class, 1);
         for (Iterator<ProfileSkill> it = profile.getSkills().iterator(); it.hasNext(); ) {
             ProfileSkill profileSkill = it.next();
             AbstractSkillEntity skillEntity = mSkillManager.get(profileSkill.getSkillClass());
-            SkillItem skill = new SkillItem();
-            skill.setInfo(skillEntity);
-            skill.setLevel(profileSkill.getLevel());
+            tower.addSkillEntity(
+                    skillEntity,
+                    profileSkill.getLevel()
+            );
             Gdx.app.log("initPlayerTower", "Skill inited " + profileSkill.getSkillName());
-            skillEntity.initTower(skill, tower);
         }
 //        // доступные виды юнитов
 //        for (Iterator<ProfileBuilding> it = profile.getBullets().iterator(); it.hasNext(); ) {
@@ -232,6 +234,10 @@ public class BattleGame {
 
     public void setListener(GameListener listener) {
         mListener = listener;
+    }
+
+    public SkillItem setTowerSkill(Tower tower, Class<? extends AbstractSkillEntity> skill, int level) {
+        return tower.addSkillEntity(mSkillManager.get(skill), level);
     }
 
     public void startLevel(Level level) {

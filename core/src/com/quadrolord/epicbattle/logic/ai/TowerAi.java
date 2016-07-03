@@ -1,5 +1,6 @@
 package com.quadrolord.epicbattle.logic.ai;
 
+import com.quadrolord.epicbattle.logic.skill.AbstractSkillEntity;
 import com.quadrolord.epicbattle.logic.skill.bullet.Simple;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 
@@ -12,8 +13,11 @@ public class TowerAi {
 
     private Tower mTower;
 
+    private AbstractSkillEntity mMobSkill;
+
     public TowerAi(Tower tower) {
         mTower = tower;
+        mMobSkill = tower.getGame().getSkillManager().get(Simple.class);
     }
 
     public void act(float delta) {
@@ -21,7 +25,7 @@ public class TowerAi {
         mTime += delta;
         int frame2 = (int)(mTime / 3);
         if (frame2 > frame1) {
-            mTower.getGame().createUnit(mTower, mTower.getBulletSkill(Simple.class), false, false);
+            mTower.getGame().createUnit(mTower, mTower.getBulletSkill(mMobSkill), false, false);
         }
     }
 

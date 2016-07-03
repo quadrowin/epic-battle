@@ -25,12 +25,6 @@ public class Tower extends GameUnit {
 
     private float mCash = 0;
 
-    /**
-     * Прирост бабла
-     * TODO Вынести в пассивный скил
-     */
-    private float mCashGrowth = 50;
-
     private float mConstructionMultiplier = 1.0f;
 
     private float mRewardMultiplier = 1.0f;
@@ -44,7 +38,7 @@ public class Tower extends GameUnit {
     /**
      * Все доступные башне скилы
      */
-    private ArrayMap<Class<? extends AbstractSkillEntity>, SkillItem> mAllSkills = new ArrayMap<Class<? extends AbstractSkillEntity>, SkillItem>();
+    private ArrayMap<AbstractSkillEntity, SkillItem> mAllSkills = new ArrayMap<AbstractSkillEntity, SkillItem>();
 
     private Array<AbstractBullet> mBullets = new Array<AbstractBullet>();
 
@@ -54,20 +48,16 @@ public class Tower extends GameUnit {
         mHp = mMaxHp;
     }
 
-    public SkillItem addBulletSkill(Class<? extends AbstractSkillEntity> bulletClass, int level) {
-        AbstractSkillEntity bulletSkill = mGame.getSkillManager().get(bulletClass);
-        bulletSkill.setLevel(level);
+    public SkillItem addSkillEntity(AbstractSkillEntity skillEntity, int level) {
         SkillItem si = new SkillItem();
-        si.setTower(this);
-        si.setInfo(bulletSkill);
-        si.resetCooldown();
-        mAllSkills.put(bulletClass, si);
+        si.setInfo(skillEntity);
+        si.setLevel(level);
+        addSkillItem(si);
         return si;
     }
 
     public void act(float delta) {
         mTime += delta;
-        mCash += mCashGrowth * delta * mTimeUp;
 
         for (Iterator<SkillItem> it = mAllSkills.values().iterator(); it.hasNext(); ) {
             SkillItem skill = it.next();
@@ -78,9 +68,11 @@ public class Tower extends GameUnit {
         }
     }
 
-    public void addActSkill(SkillItem skill) {
+    public void addSkillItem(SkillItem skill) {
         skill.setTower(this);
-        mAllSkills.put(skill.getInfo().getClass(), skill);
+        skill.resetCooldown();
+        mAllSkills.put(skill.getInfo(), skill);
+        skill.getInfo().initTower(skill, this);
     }
 
     public SkillItem getActiveSkill() {
@@ -119,11 +111,11 @@ public class Tower extends GameUnit {
         mBullets.clear();
     }
 
-    public SkillItem getBulletSkill(Class<? extends AbstractSkillEntity> workerClass) {
+    public SkillItem getBulletSkill(AbstractSkillEntity workerClass) {
         return mAllSkills.get(workerClass);
     }
 
-    public ArrayMap<Class<? extends AbstractSkillEntity>, SkillItem> getBulletSkills() {
+    public ArrayMap<AbstractSkillEntity, SkillItem> getBulletSkills() {
         return mAllSkills;
     }
 
@@ -169,10 +161,6 @@ public class Tower extends GameUnit {
 
     public void setCash(float cash) {
         mCash = cash;
-    }
-
-    public void setCashGrowth(float growth) {
-        mCashGrowth = growth;
     }
 
     public void setSpeedRatio(float ratio) {

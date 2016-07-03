@@ -139,7 +139,7 @@ abstract public class AbstractBulletSkill<T extends AbstractLogic> extends Abstr
 //        ParameterizedType type = (ParameterizedType)getClass().getGenericSuperclass();
 //        Class parameter = (Class)type.getActualTypeArguments()[0];
 //        mBulletLogic = game.getBulletInfoManager().getBulletLogic(parameter);
-        tower.addBulletSkill(this.getClass(), skill.getLevel());
+//        tower.addSkillEntity(this, skill.getLevel());
     }
 
     public void setAttackDistance(float attackDistance) {
@@ -160,13 +160,6 @@ abstract public class AbstractBulletSkill<T extends AbstractLogic> extends Abstr
 
     public void setCost(int cost) {
         mCost = cost;
-    }
-
-    @Override
-    public void setLevel(int level) {
-        mLevel = level;
-        mBulletLogic.getLevelingStrategy().setLevel(this, mLevel);
-        Gdx.app.log("bullets", "Set level of " + mBulletLogic.getClass().getSimpleName() + " to " + mLevel);
     }
 
     public void setMaxHp(int maxHp) {

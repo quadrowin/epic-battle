@@ -50,7 +50,6 @@ public class TowerRandomBleed extends AbstractSkillEntity {
     public void initTower(SkillItem skill, Tower tower) {
         skill.setTime(0);
         skill.setTower(tower);
-        tower.addActSkill(skill);
         Gdx.app.log("initTower", "TowerRandomBleed");
     }
 

@@ -85,8 +85,4 @@ abstract public class AbstractSkillEntity extends AbstractEntity<SkillItem> {
         mName = name;
     }
 
-    public void setLevel(int level) {
-
-    }
-
 }
