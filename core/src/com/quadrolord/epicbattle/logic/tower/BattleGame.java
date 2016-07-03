@@ -130,13 +130,12 @@ public class BattleGame {
             return null;
         }
 
-        AbstractBulletSkill bs = (AbstractBulletSkill) skill.getInfo();
-
-        if (useResources && !tower.hasCash(bs)) {
-            mListener.onBulletCreateFailCash(tower.getCash(), bs.getCost());
+        if (useResources && !tower.hasCash(skill)) {
+            mListener.onBulletCreateFailCash(tower.getCash(), skill.getCost());
             return null;
         }
 
+        AbstractBulletSkill bs = (AbstractBulletSkill) skill.getInfo();
         AbstractBullet bullet;
 
         try {
@@ -156,7 +155,7 @@ public class BattleGame {
         bullet.setX(tower.getX() + tower.getWidth() / 2);
 
         if (useResources) {
-            tower.setCash(tower.getCash() - bs.getCost());
+            tower.setCash(tower.getCash() - skill.getCost());
         }
         tower.addUnit(bullet);
         tower.toCooldown(skill);

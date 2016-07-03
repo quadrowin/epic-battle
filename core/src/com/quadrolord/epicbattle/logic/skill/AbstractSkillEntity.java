@@ -14,6 +14,14 @@ abstract public class AbstractSkillEntity extends AbstractEntity<SkillItem> {
     private String mIcon;
     private String mName;
 
+    public float getCooldownLength() {
+        return 0;
+    }
+
+    public int getSkillCost() {
+        return 0;
+    }
+
     public String getDescription() {
         return mDescription;
     }
@@ -75,6 +83,10 @@ abstract public class AbstractSkillEntity extends AbstractEntity<SkillItem> {
 
     public void setName(String name) {
         mName = name;
+    }
+
+    public void setLevel(int level) {
+
     }
 
 }

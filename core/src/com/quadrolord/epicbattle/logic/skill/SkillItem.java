@@ -12,7 +12,17 @@ public class SkillItem extends AbstractItem<AbstractSkillEntity> {
     /**
      * Время, когда закончится кулдаун.
      */
-    private float mCooldown;
+    private float mCooldownFinish;
+
+    /**
+     * Полная продолжительность текущего кулдауна
+     */
+    private float mCooldownLength;
+
+    /**
+     * Время начала кулдауна
+     */
+    private float mCooldownStart;
 
     private int mLevel;
 
@@ -23,8 +33,15 @@ public class SkillItem extends AbstractItem<AbstractSkillEntity> {
      */
     private Tower mTower;
 
-    public float getCooldown() {
-        return mCooldown;
+    public float getCooldownFinish() {
+        return mCooldownFinish;
+    }
+    public float getCooldownLength() {
+        return mCooldownLength;
+    }
+
+    public int getCost() {
+        return getInfo().getSkillCost();
     }
 
     public int getLevel() {
@@ -40,11 +57,19 @@ public class SkillItem extends AbstractItem<AbstractSkillEntity> {
     }
 
     public boolean isInCooldown() {
-        return mCooldown > 0;
+        return mCooldownFinish > 0;
     }
 
-    public void setCooldown(float cooldown) {
-        mCooldown = cooldown;
+    public void resetCooldown() {
+        mCooldownStart = 0;
+        mCooldownFinish = 0;
+        mCooldownLength = 0;
+    }
+
+    public void setCooldown(float currentTime, float cooldownLength) {
+        mCooldownStart = currentTime;
+        mCooldownFinish = currentTime + cooldownLength;
+        mCooldownLength = cooldownLength;
     }
 
     public void setLevel(int level) {

@@ -21,7 +21,7 @@ public class TowerMaxHp extends AbstractSkillEntity {
      */
     @Override
     public void initTower(SkillItem skill, Tower tower) {
-        tower.setMaxHp((skill.getLevel() + 5) * 100);
+        tower.setMaxHp((skill.getLevel() + 5) * 100 + 900);
     }
 
 }

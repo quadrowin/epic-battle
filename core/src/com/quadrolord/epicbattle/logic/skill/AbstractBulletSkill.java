@@ -73,11 +73,17 @@ abstract public class AbstractBulletSkill<T extends AbstractLogic> extends Abstr
         return mAttackTime;
     }
 
+    @Override
+    public float getCooldownLength() {
+        return mConstructionTime;
+    }
+
     public float getConstructionTime() {
         return mConstructionTime;
     }
 
-    public int getCost() {
+    @Override
+    public int getSkillCost() {
         return mCost;
     }
 
@@ -156,6 +162,7 @@ abstract public class AbstractBulletSkill<T extends AbstractLogic> extends Abstr
         mCost = cost;
     }
 
+    @Override
     public void setLevel(int level) {
         mLevel = level;
         mBulletLogic.getLevelingStrategy().setLevel(this, mLevel);

@@ -19,6 +19,10 @@ public class PowerWave extends AbstractSkillEntity {
         setIcon("icons/skills/wave.png");
     }
 
+    public float getCooldownLength() {
+        return 10;
+    }
+
     /**
      * Инициализация башни в начале уровня
      * @param tower
