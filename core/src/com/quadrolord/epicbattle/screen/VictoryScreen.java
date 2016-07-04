@@ -19,11 +19,13 @@ public class VictoryScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
     private com.quadrolord.ejge.view.AbstractScreen mBattleScreen;
 
-    public VictoryScreen(com.quadrolord.ejge.view.AbstractScreen battleScreen) {
+    private Level mLevel;
+
+    public VictoryScreen(com.quadrolord.ejge.view.AbstractScreen battleScreen, Level level) {
         super(battleScreen.getAdapter());
         mBattleScreen = battleScreen;
+        mLevel = level;
         initFitViewport();
-
 
         Texture texture = new Texture("ui/panel-64.png");
         mSkin.add("ui-panel-64", texture);
@@ -52,6 +54,12 @@ public class VictoryScreen extends com.quadrolord.ejge.view.AbstractScreen {
         lblTitle.setBounds(0, background.getHeight() - 50, background.getWidth(), 30);
         lblTitle.setFontScale(getPx());
         background.addActor(lblTitle);
+
+        Label lblRewardExp = new Label("+" + mLevel.getRewardExp() + " exp", mSkin.get("default-label-style", Label.LabelStyle.class));
+        lblRewardExp.setAlignment(Align.center, Align.center);
+        lblRewardExp.setBounds(0, background.getHeight() - 100, background.getWidth(), 30);
+        lblRewardExp.setFontScale(getPx());
+        background.addActor(lblRewardExp);
 
 
         TextButton btnGoNext = new TextButton("Go next", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));

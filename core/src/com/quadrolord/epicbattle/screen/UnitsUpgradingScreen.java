@@ -63,7 +63,7 @@ public class UnitsUpgradingScreen extends AbstractScreen {
 
         // Кнопка апгрейда текущего юнита
         TextButton btnUpgrade = new TextButton("Upgrade", getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnUpgrade.setBounds(260, 150, 70, 40);
+        btnUpgrade.setBounds(290, 180, 70, 40);
         mStage.addActor(btnUpgrade);
         btnUpgrade.addListener(new ClickListener() {
 
@@ -78,14 +78,18 @@ public class UnitsUpgradingScreen extends AbstractScreen {
         });
 
         // Кнопка закрытия
-        TextButton btnClose = new TextButton("Close", getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnClose.setBounds(260, 100, 65, 30);
+        TextButton btnClose = new TextButton("Back", getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
+        btnClose.setBounds(10, 10, 65, 30);
         mStage.addActor(btnClose);
         btnClose.addListener(new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                getAdapter().switchToScreen(getParentScreen(), true);
+                if (mParentScreen == null) {
+                    getAdapter().switchToScreen(CampaignSelectScreen.class);
+                } else {
+                    getAdapter().switchToScreen(getParentScreen(), true);
+                }
             }
 
         });

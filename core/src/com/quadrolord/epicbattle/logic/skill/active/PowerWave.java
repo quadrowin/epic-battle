@@ -17,6 +17,7 @@ public class PowerWave extends AbstractSkillEntity {
         setDescription("Knock back all your enemies.");
         setName("Power wave");
         setIcon("icons/skills/wave.png");
+        setIsActive(true);
     }
 
     public float getCooldownLength() {

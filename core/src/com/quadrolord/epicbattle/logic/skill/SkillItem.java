@@ -19,11 +19,6 @@ public class SkillItem extends AbstractItem<AbstractSkillEntity> {
      */
     private float mCooldownLength;
 
-    /**
-     * Время начала кулдауна
-     */
-    private float mCooldownStart;
-
     private int mLevel;
 
     private float mTime;
@@ -61,13 +56,11 @@ public class SkillItem extends AbstractItem<AbstractSkillEntity> {
     }
 
     public void resetCooldown() {
-        mCooldownStart = 0;
         mCooldownFinish = 0;
         mCooldownLength = 0;
     }
 
     public void setCooldown(float currentTime, float cooldownLength) {
-        mCooldownStart = currentTime;
         mCooldownFinish = currentTime + cooldownLength;
         mCooldownLength = cooldownLength;
     }

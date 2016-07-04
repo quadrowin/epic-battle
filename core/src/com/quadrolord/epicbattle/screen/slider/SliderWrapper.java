@@ -17,7 +17,7 @@ public class SliderWrapper extends Group {
     private Rectangle mScissorsRect = new Rectangle();
     private Rectangle mScissorsClipBounds = new Rectangle();
 
-    private int mPaddingX = 40;
+    private float mPaddingX = 40;
 
     public SliderWrapper(final AbstractScreen screen) {
         mScreen = screen;
@@ -32,7 +32,7 @@ public class SliderWrapper extends Group {
         mScissorsClipBounds.set(
                 mPaddingX - getX(),
                 0,
-                getParent().getWidth() - mPaddingX / 2,
+                getParent().getWidth() - mPaddingX * 2,
                 getHeight()
         );
         ScissorStack.calculateScissors(mScreen.getStage().getCamera(), batch.getTransformMatrix(), mScissorsClipBounds, mScissorsRect);
@@ -49,7 +49,10 @@ public class SliderWrapper extends Group {
         }
 
         resetTransform(batch);
+    }
 
+    public void setPaddingX(float padding) {
+        mPaddingX = padding;
     }
 
 }

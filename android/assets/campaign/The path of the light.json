@@ -2,6 +2,7 @@
   {
     "class": "Level",
     "name": "Sydänparka rinnassaan",
+    "rewardExp": 200,
     "enemyTower": {
       "class": "EnemyTower",
       "maxHp": 5000,
@@ -19,6 +20,7 @@
   {
     "class": "Level",
     "name": "Hakkaa kahleitaan",
+    "rewardExp": 400,
     "enemyTower": {
       "class": "EnemyTower",
       "maxHp": 6000,
@@ -36,6 +38,7 @@
   {
     "class": "Level",
     "name": "Ei koskaan katkeamaan saa",
+    "rewardExp": 600,
     "enemyTower": {
       "class": "EnemyTower",
       "maxHp": 7000,

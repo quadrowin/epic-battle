@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.quadrolord.ejge.view.AbstractScreen;
 
@@ -22,6 +24,10 @@ import java.util.Iterator;
  * Created by Quadrowin on 20.02.2016.
  */
 public class SliderList extends Group {
+
+    private boolean mDragging = false;
+    private float mDragStartWrapperX;
+    private float mDragStartCursorX;
 
     private int mListPaddingX = 10;
     private int mListPaddingBot = 10;
@@ -33,11 +39,9 @@ public class SliderList extends Group {
 
     private int mItemIndex = 0;
 
-    private Group mWrapper;
+    private SliderWrapper mWrapper;
 
     private TextButton[] mButtons;
-
-    private float mPosition;
 
     private AbstractScreen mScreen;
 
@@ -46,6 +50,9 @@ public class SliderList extends Group {
     private ShapeRenderer mShapeRenderer;
 
     public SliderList(final AbstractScreen screen, final SliderContent content) {
+        final float CONTROL_WIDTH = 400;
+        final float CONTROL_HEIGHT = 120;
+
         mContent = content;
         mScreen = screen;
         Skin skin = screen.getSkin();
@@ -69,13 +76,14 @@ public class SliderList extends Group {
                         skin.getFont("default")
                 )
         );
-        mBackground.setBounds(30, 30, 340, 120);
+        mBackground.setBounds(0, 0, CONTROL_WIDTH, CONTROL_HEIGHT);
         addActor(mBackground);
 
         int items_count = mContent.getCount();
         mButtons = new TextButton[items_count];
 
         mWrapper = new SliderWrapper(mScreen);
+        mWrapper.setPaddingX(10);
         mWrapper.setBounds(0, 0, items_count * (mItemWidth + mItemPaddingX) - mItemPaddingX + 2 * mListPaddingX, mBackground.getHeight());
         mBackground.addActor(mWrapper);
 
@@ -93,11 +101,20 @@ public class SliderList extends Group {
 
         // какой-то баг, последний лабел во вропере выходит за границы внешнего элемента,
         // поэтому добавляем еще одну копку, которая будет его перекрывать
-        TextButton tbViewFix = new TextButton("", defaultTextButtonStyle);
+        Texture transparentTexture = skin.get("transparent", Texture.class);
+        TextureRegionDrawable transparentRd = new TextureRegionDrawable(new TextureRegion(transparentTexture));
+        TextButton.TextButtonStyle transparentTextButtonStyle = new TextButton.TextButtonStyle(
+                transparentRd,
+                transparentRd,
+                transparentRd,
+                skin.getFont("default")
+        );
+//        TextButton tbViewFix = new TextButton("", defaultTextButtonStyle);
+        TextButton tbViewFix = new TextButton("", transparentTextButtonStyle);
         tbViewFix.setBounds(items_count * (mItemWidth + mItemPaddingX) + mListPaddingX, mListPaddingBot, mItemWidth, mItemHeight);
         mWrapper.addActor(tbViewFix);
 
-        setBounds(0, 0, 400, 180);
+        setBounds(0, 40, CONTROL_WIDTH, CONTROL_HEIGHT);
         screen.getStage().addActor(this);
 
         mShapeRenderer = new ShapeRenderer();
@@ -108,15 +125,24 @@ public class SliderList extends Group {
         float bgWidth = mBackground.getWidth();
         float freeSpace = (bgWidth - mItemWidth);
         if (Gdx.input.isTouched()) {
-            mPosition = Math.max(
-                    bgWidth - mWrapper.getWidth() - freeSpace + mItemWidth + mItemPaddingX * 3,
+            if (!mDragging) {
+                mDragging = true;
+                mDragStartWrapperX = mWrapper.getX();
+                mDragStartCursorX = Gdx.input.getX();
+            }
+            float cursorDeltaX = Gdx.input.getX() - mDragStartCursorX;
+            // На сколько можно протянуть список дальше крайнего положения
+            float tolerance = mItemWidth * 0.25f;
+            float newX = Math.max(
+                    bgWidth - mWrapper.getWidth() - freeSpace + mItemWidth + mItemPaddingX * 3 - tolerance,
                     Math.min(
-                            freeSpace / 2 - mListPaddingX,
-                            mPosition + Gdx.input.getDeltaX()
+                            freeSpace / 2 - mListPaddingX + tolerance,
+                            mDragStartWrapperX + cursorDeltaX
                     )
             );
-            mWrapper.setX(mPosition);
+            mWrapper.setX(newX);
         } else {
+            mDragging = false;
             float zero_x = freeSpace / 2 - mListPaddingX;
 
             float x = mWrapper.getX();

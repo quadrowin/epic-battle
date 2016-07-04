@@ -21,6 +21,11 @@ public class Tower extends GameUnit {
      */
     private SkillItem mActiveSkill;
 
+    /**
+     * Коэффициент времени отката активного скила
+     */
+    private float mActiveSkillCdRatio;
+
     private float mSpeedRatio = 1;
 
     private float mCash = 0;
@@ -28,6 +33,8 @@ public class Tower extends GameUnit {
     private float mConstructionMultiplier = 1.0f;
 
     private float mRewardMultiplier = 1.0f;
+
+    private float mSummonSkillCdRatio = 1;
 
     private float mTime = 0;
 
@@ -159,12 +166,20 @@ public class Tower extends GameUnit {
         return mSpeedRatio;
     }
 
+    public void setActiveSkillCdRatio(float ratio) {
+        mActiveSkillCdRatio = ratio;
+    }
+
     public void setCash(float cash) {
         mCash = cash;
     }
 
     public void setSpeedRatio(float ratio) {
         mSpeedRatio = ratio;
+    }
+
+    public void setSummonSkillCdRatio(float ratio) {
+        mSummonSkillCdRatio = ratio;
     }
 
     public boolean hasCash(SkillItem skill) {

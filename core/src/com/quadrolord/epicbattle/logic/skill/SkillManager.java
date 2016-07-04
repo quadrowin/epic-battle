@@ -23,7 +23,6 @@ public class SkillManager {
         }
         AbstractSkillEntity skill;
         try {
-            AbstractBulletSkill.debug = 1;
             skill = clazz.newInstance();
         } catch (Exception e) {
             e.printStackTrace();

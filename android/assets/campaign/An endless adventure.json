@@ -2,6 +2,7 @@
   {
     "class": "Level",
     "name": "Vaikka kiskoo raivoissaan",
+    "rewardExp": 1000,
     "enemyTower": {
       "class": "EnemyTower",
       "maxHp": 5000,
@@ -19,6 +20,7 @@
   {
     "class": "Level",
     "name": "Ei murru lenkki milloinkaan",
+    "rewardExp": 2000,
     "enemyTower": {
       "class": "EnemyTower",
       "maxHp": 6000,
@@ -36,6 +38,7 @@
   {
     "class": "Level",
     "name": "Ei koskaan katkeamaan saa",
+    "rewardExp": 3000,
     "enemyTower": {
       "class": "EnemyTower",
       "maxHp": 7000,

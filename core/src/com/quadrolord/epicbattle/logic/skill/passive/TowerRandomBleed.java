@@ -13,7 +13,8 @@ public class TowerRandomBleed extends AbstractSkillEntity {
     public TowerRandomBleed() {
         setDescription("Sometimes your tower bleeding. Nothing more.");
         setName("Random bleed");
-        setIcon("icons/skills/wave.png");
+        setIcon("icons/skills/random_bleed.png");
+        setIsPassive(true);
     }
 
     @Override

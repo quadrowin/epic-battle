@@ -1,6 +1,5 @@
 package com.quadrolord.epicbattle.logic.skill;
 
-import com.badlogic.gdx.Gdx;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
@@ -30,22 +29,14 @@ abstract public class AbstractBulletSkill<T extends AbstractLogic> extends Abstr
 
     private int mCost;
 
-    private int mLevel;
-
     private float mMoveSpeed = 1;
 
     private int mMaxHp = 100;
 
     private int mMaxTargetCount = 1;
 
-    public static int debug = 0;
-
     public AbstractBulletSkill() {
-        if (debug > 0) {
-            debug = 0;
-        } else {
-            Gdx.app.log("", "" + (1 / 0));
-        }
+        setIsSummon(true);
     }
 
     public void assignBase(AbstractLogic info) {
@@ -103,10 +94,6 @@ abstract public class AbstractBulletSkill<T extends AbstractLogic> extends Abstr
 
     public int getMaxTargetCount() {
         return mMaxTargetCount;
-    }
-
-    public int getLevel() {
-        return mLevel;
     }
 
     public AbstractLogic getBulletLogic() {

@@ -2,6 +2,7 @@ package com.quadrolord.epicbattle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -72,6 +73,7 @@ public class EpicBattle extends AbstractGameAdapter {
 				"test-texture", Texture.class,
 				"default-label-style", Label.LabelStyle.class,
 				"default-text-button-style", TextButton.TextButtonStyle.class,
+				"transparent", Texture.class,
 		};
 
 		for (int i = 0; i < copyResources.length; i += 2) {
@@ -117,6 +119,11 @@ public class EpicBattle extends AbstractGameAdapter {
 				font
 		);
 		skin.add("default-text-button-style", textButtonStyle);
+
+		Pixmap transparent = new Pixmap(2, 2, Pixmap.Format.RGBA8888);
+		transparent.setColor(1, 1, 1, 0);
+		transparent.fill();
+		skin.add("transparent", new Texture(transparent));
 	}
 
 }

@@ -2,9 +2,10 @@
   {
     "class": "Level",
     "name": "The greatest first battle",
+    "rewardExp": 100,
     "enemyTower": {
       "class": "EnemyTower",
-      "maxHp": 5000,
+      "maxHp": 500,
       "x": 500,
       "units": [
         {
@@ -20,9 +21,10 @@
   {
     "class": "Level",
     "name": "The greatest second battle",
+    "rewardExp": 200,
     "enemyTower": {
       "class": "EnemyTower",
-      "maxHp": 6000,
+      "maxHp": 1000,
       "x": 500,
       "units": [
         {
@@ -38,9 +40,10 @@
   {
     "class": "Level",
     "name": "The very very third enemy",
+    "rewardExp": 300,
     "enemyTower": {
       "class": "EnemyTower",
-      "maxHp": 7000,
+      "maxHp": 2000,
       "x": 700,
       "units": [
         {

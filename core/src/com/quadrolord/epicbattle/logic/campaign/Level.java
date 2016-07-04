@@ -11,6 +11,8 @@ public class Level {
 
     private String name;
 
+    private int rewardExp = 100;
+
     private EnemyTower enemyTower;
 
     public AbstractCampaign getCampaign() {
@@ -25,6 +27,10 @@ public class Level {
         return name;
     }
 
+    public int getRewardExp() {
+        return rewardExp;
+    }
+
     public int getIndex() {
         return mIndex;
     }
@@ -35,6 +41,10 @@ public class Level {
 
     public void setName(String val) {
         name = val;
+    }
+
+    public void setRewardExp(int exp) {
+        rewardExp = exp;
     }
 
     public void setIndex(int index) {

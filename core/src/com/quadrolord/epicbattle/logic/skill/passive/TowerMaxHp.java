@@ -12,7 +12,7 @@ public class TowerMaxHp extends AbstractSkillEntity {
     public TowerMaxHp() {
         setDescription("The bigger, the better.");
         setName("Max HP");
-        setIcon("icons/skills/wave.png");
+        setIcon("icons/skills/max_hp.png");
     }
 
     /**

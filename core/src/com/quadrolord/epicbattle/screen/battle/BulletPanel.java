@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.quadrolord.ejge.view.AbstractScreen;
-import com.quadrolord.epicbattle.logic.skill.AbstractBulletSkill;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.view.Sounds;
@@ -33,7 +32,7 @@ public class BulletPanel extends Group {
         int i = 0;
         for (Iterator<SkillItem> it = screen.get(BattleGame.class).getPlayerTower().getBulletSkills().values().iterator(); it.hasNext(); ) {
             SkillItem skill = it.next();
-            if (!(skill.getInfo() instanceof AbstractBulletSkill)) {
+            if (!skill.getInfo().isSummon()) {
                 // скил - не создание юнита
                 continue;
             }

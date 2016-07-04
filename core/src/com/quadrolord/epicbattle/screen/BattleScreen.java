@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.ejge.AbstractGameAdapter;
+import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.GameListener;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.campaign.Level;
@@ -185,7 +186,10 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
             @Override
             public void onLevelVictory() {
-                VictoryScreen vs = new VictoryScreen(screen);
+                Level level = get(BattleGame.class).getLevel();
+                get(EpicBattle.class).getProfileManager().getProfile().incExperience(level.getRewardExp());
+                get(EpicBattle.class).getProfileManager().saveProfile();
+                VictoryScreen vs = new VictoryScreen(screen, level);
                 mAdapter.switchToScreen(vs, false);
             }
 
