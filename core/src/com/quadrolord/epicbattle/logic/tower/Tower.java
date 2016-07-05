@@ -132,7 +132,6 @@ public class Tower extends GameUnit {
 
     public void addUnit(AbstractBullet unit) {
         mBullets.add(unit);
-        unit.setTower(this);
     }
 
     public float getCooldownLength(SkillItem skill) {

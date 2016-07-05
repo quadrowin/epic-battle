@@ -141,18 +141,15 @@ public class BattleGame {
 
         try {
             bullet = (AbstractBullet)bs.getBulletClass().getConstructor(BattleGame.class).newInstance(this);
+
         } catch (Exception e) {
             Gdx.app.error("Game.createUnit", "error create bullet " + bs.getName());
             e.printStackTrace();
             bullet = new SimpleBullet(this);
         }
         bullet.setSkill(skill);
-
-        bullet.setWidth(30);
-        bullet.setMaxHp(bs.getMaxHp());
-        bullet.setHp(bullet.getMaxHp());
-        bullet.setVelocity(bs.getMoveSpeed() * tower.getSpeedRatio());
         bullet.setX(tower.getX() + tower.getWidth() / 2);
+        ((AbstractBulletSkill) skill.getInfo()).getBulletLogic().initBullet(skill, bullet);
 
         if (useResources) {
             tower.setCash(tower.getCash() - skill.getCost());

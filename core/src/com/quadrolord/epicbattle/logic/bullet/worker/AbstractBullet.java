@@ -211,12 +211,9 @@ abstract public class AbstractBullet extends GameUnit {
         return mTower;
     }
 
-    public void setTower(Tower tower) {
-        mTower = tower;
-    }
-
     public void setSkill(SkillItem skill) {
         mSkill = skill;
+        mTower = skill.getTower();
     }
 
     public void setState(BulletState state) {

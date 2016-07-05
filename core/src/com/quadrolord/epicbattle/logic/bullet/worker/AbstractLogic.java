@@ -3,6 +3,8 @@ package com.quadrolord.epicbattle.logic.bullet.worker;
 import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.bullet.leveling.AbstractStrategy;
 import com.quadrolord.epicbattle.logic.bullet.leveling.LevelingDto;
+import com.quadrolord.epicbattle.logic.skill.SkillItem;
+import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 
 import java.lang.reflect.ParameterizedType;
@@ -50,6 +52,18 @@ abstract public class AbstractLogic<T extends AbstractBullet> {
         return mLevelingStrategy;
     }
 
+    abstract public void initBullet(SkillItem skill, AbstractBullet bullet);
+
+    protected void initBulletBase(SkillItem skill, AbstractBullet bullet) {
+        Tower tower = skill.getTower();
+        float levelFactor = (float)Math.pow(1.15, skill.getLevel());
+        bullet.setWidth(30);
+        bullet.setMaxHp(levelFactor * mMaxHp);
+        bullet.setHp(levelFactor * mMaxHp);
+        bullet.setVelocity(mMoveSpeed * tower.getSpeedRatio());
+        bullet.setX(tower.getX() + tower.getWidth() / 2);
+    }
+
     public void setLevelingStrategy(AbstractStrategy levelingStrategy) {
         mLevelingStrategy = levelingStrategy;
     }
@@ -65,8 +79,6 @@ abstract public class AbstractLogic<T extends AbstractBullet> {
     public String getTitle() {
         return mTitle;
     }
-
-
 
     public Class<? extends BulletUnitView> getViewClass() {
         return mViewClass;
@@ -139,8 +151,6 @@ abstract public class AbstractLogic<T extends AbstractBullet> {
     public int getMaxTargetCount() {
         return mMaxTargetCount;
     }
-
-
 
     public void setAttackDamage(float attackDamage) {
         mAttackDamage = attackDamage;
