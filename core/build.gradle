@@ -9,3 +9,7 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 eclipse.project {
     name = appName + "-core"
 }
+dependencies {
+    compile 'com.firebase:firebase-client-jvm:2.5.2'
+}
+

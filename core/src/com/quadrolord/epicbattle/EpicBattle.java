@@ -10,7 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 import com.quadrolord.ejge.AbstractGameAdapter;
+import com.quadrolord.ejge.utils.Dates;
 import com.quadrolord.ejge.utils.PlatformServices;
 import com.quadrolord.ejge.utils.ServiceFactory;
 import com.quadrolord.ejge.view.AbstractScreen;
@@ -54,6 +57,21 @@ public class EpicBattle extends AbstractGameAdapter {
 		AbstractScreen screen = new UnitsUpgradingScreen(this);
 //		AbstractScreen screen = new MyTownScreen(this);
 		switchToScreen(screen, true);
+
+		Firebase ref1 = new Firebase("http://epic-battle.firebaseio.com/web/data/users/last_auth/time");
+		ref1.setValue(Dates.now(), new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError != null) {
+                    Gdx.app.log("Firebase", "Data could not be saved. " + firebaseError.getMessage());
+                } else {
+                    Gdx.app.log("Firebase", "Data saved successfully.");
+                }
+            }
+        });
+        Firebase ref2 = new Firebase("http://epic-battle.firebaseio.com/web/data/test");
+        ref2.setValue("5");
+
 	}
 
 	public ProfileManager getProfileManager() {

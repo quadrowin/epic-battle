@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "192398468963",
+    "firebase_url": "https://epic-battle.firebaseio.com",
+    "project_id": "epic-battle",
+    "storage_bucket": "epic-battle.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:192398468963:android:5708f21a3c5c22eb",
+        "android_client_info": {
+          "package_name": "com.quadrolord.epicbattle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "192398468963-a3gi5s7vp5un24riedhsnl4jnj59tapq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApqr8X0VhUKhzKoD7XxpDmip1hM3wdc7s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
