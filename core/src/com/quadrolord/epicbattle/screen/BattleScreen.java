@@ -9,7 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.quadrolord.ejge.AbstractGameAdapter;
 import com.quadrolord.epicbattle.logic.GameListener;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
@@ -76,10 +78,12 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
                 }
         );
 
-        mStage.setViewport(new FitViewport(400 * mPx, 300 * mPx));
+        ScalingViewport vp = new FillViewport(400 * mPx, 300 * mPx);
+
+        mStage.setViewport(vp);
         mStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-        mBackStage = new Stage(new FitViewport(400 * mPx, 300 * mPx));
+        mBackStage = new Stage(vp);
         mBackStage.getRoot().setScale(mPx);
         mBackStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
@@ -273,7 +277,7 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
                                 oc.zoom + deltaX * 0.1f
                         )
                 );
-                float zeroY = 45; // земля - нулевая высота, на которой стоят башни
+                float zeroY = 90; // земля - нулевая высота, на которой стоят башни
                 oc.position.y = oc.zoom * oc.viewportHeight / 2 + zeroY * (1 - oc.zoom) * getPx();
                 return true;
             }

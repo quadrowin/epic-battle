@@ -17,7 +17,7 @@ public class SpriteAnimationActor extends Group {
     @Override
     public void act(float delta) {
         mTime += delta;
-        if (mAnimation.getAnimation().isAnimationFinished(mTime) && mOnFinish != null) {
+        if (mAnimation.isAnimationFinished(mTime) && mOnFinish != null) {
             Runnable cb = mOnFinish;
             mOnFinish = null;
             cb.run();

@@ -2,9 +2,9 @@ package com.quadrolord.epicbattle.view;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
-import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.screen.battle.Shadow;
 
 /**
@@ -26,7 +26,7 @@ public abstract class BulletUnitView extends Group {
 
     protected float mScaleWidth = 1.0f;
     protected float mScaleHeight = 1.0f;
-    protected float mUnitY = 60.0f;
+    protected float mUnitY = 100.0f;
 
     protected float mRealWidth;
     protected float mRealHeight;
@@ -57,6 +57,7 @@ public abstract class BulletUnitView extends Group {
 
     @Override
     public void act(float delta) {
+        float originalX = getX();
         if (mBullet.getVelocity() > 0) {
             setX(mBullet.getX());
             setScale(getScaleWidth(), getScaleHeight());
@@ -76,6 +77,7 @@ public abstract class BulletUnitView extends Group {
                 mAnimation.setAnimationLooped(mRunningAnim);
             }
         }
+        mAnimation.getAnimation().incDeltaX(getX() - originalX);
 
         super.act(delta);
     }
@@ -90,6 +92,7 @@ public abstract class BulletUnitView extends Group {
 
     public void startAttackAnimation() {
         mAnimation.setAnimationLooped(mAttackingAnim);
+        mAttackingAnim.setDeltaX( mAnimation.getAnimation().getDeltaX() );
     }
 
     public void startDeadAnimation() {

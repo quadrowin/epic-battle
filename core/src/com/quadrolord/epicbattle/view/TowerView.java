@@ -21,7 +21,7 @@ public class TowerView extends Group {
         mTower = tower;
         tower.setViewObject(this);
 
-        setBounds(mTower.getX() - tower.getWidth() / 2, 45, tower.getWidth(), tower.getWidth());
+        setBounds(mTower.getX() - tower.getWidth() / 2, 90, tower.getWidth(), tower.getWidth());
         screen.getStage().addActor(this);
 
         mView = new ImageButton(screen.getSkin().getDrawable("tower"));

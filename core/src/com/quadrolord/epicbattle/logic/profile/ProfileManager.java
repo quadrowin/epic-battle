@@ -64,6 +64,7 @@ public class ProfileManager {
         mProfile.addSkillSafe(PowerWave.class, 0);
 
         // скилы юнитов
+        mProfile.addSkillSafe(com.quadrolord.epicbattle.logic.skill.bullet.Wheel001.class, 0);
         mProfile.addSkillSafe(com.quadrolord.epicbattle.logic.skill.bullet.Simple.class, 0);
         mProfile.addSkillSafe(com.quadrolord.epicbattle.logic.skill.bullet.Big.class, 3);
         mProfile.addSkillSafe(com.quadrolord.epicbattle.logic.skill.bullet.Forks.class, 0);

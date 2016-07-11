@@ -65,7 +65,7 @@ public class Background extends Group {
                 {290, 0},
                 {130, 50},
                 {100, 50},
-                {50, -10}
+                {100, -10}
         };
 
         layers.put(mSky, 16);

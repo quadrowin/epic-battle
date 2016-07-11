@@ -49,6 +49,8 @@ public class BattleGame {
 
     private float mLevelTime;
 
+    private float mTimeFactor = 0.6f;
+
     private CampaignManager mCampaignManager = new CampaignManager();
 
     private BulletInfoManager mBulletInfoManager = new BulletInfoManager();
@@ -70,6 +72,7 @@ public class BattleGame {
     }
 
     public void act(float delta) {
+        delta *= mTimeFactor;
         mLevelTime += delta;
 
         for (Iterator<AbstractController> it = mControllers.iterator(); it.hasNext(); ) {

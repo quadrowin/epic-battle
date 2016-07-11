@@ -1,0 +1,43 @@
+{
+  "title": "Wheel model 001",
+  "cost": 50,
+  "construction_time": 3,
+  "attack_damage": 50,
+  "attack_distance": 20,
+  "attack_time": 1,
+  "move_speed": 30,
+  "max_target_count": 1,
+  "max_hp": 100,
+  "icon": "wheel/wheel001.png",
+  "width": 30,
+  "level_ups": [
+    {
+      "max_hp": 10,
+      "attack_damage": 5
+    },
+    {
+      "max_hp": 20,
+      "attack_damage": 10
+    },
+    {
+      "max_hp": 25,
+      "attack_damage": 15
+    },
+    {
+      "max_hp": 25,
+      "attack_damage": 15
+    },
+    {
+      "max_hp": 30,
+      "attack_damage": 20
+    },
+    {
+      "max_hp": 30,
+      "attack_damage": 20
+    },
+    {
+      "max_hp": 35,
+      "attack_damage": 25
+    }
+  ]
+}

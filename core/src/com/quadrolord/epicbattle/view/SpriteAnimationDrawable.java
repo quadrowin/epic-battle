@@ -18,6 +18,11 @@ public class SpriteAnimationDrawable implements Drawable {
 
     private float mTime = 0;
 
+    /**
+     * Смещение по X для анимаций, зависящих от перемещения.
+     */
+    private float mDeltaX = 0;
+
     public SpriteAnimationDrawable(
             Animation animation,
             int width,
@@ -48,6 +53,10 @@ public class SpriteAnimationDrawable implements Drawable {
                 getTexture(),
                 (width - mWidth) / 2, (height - mHeight) / 2, mWidth, mHeight
         );
+    }
+
+    public boolean isAnimationFinished(float stateTime) {
+        return mAnim.isAnimationFinished(stateTime);
     }
 
     @Override
@@ -109,4 +118,29 @@ public class SpriteAnimationDrawable implements Drawable {
     public void setMinHeight(float minHeight) {
 
     }
+
+    public float getDeltaX() {
+        return mDeltaX;
+    }
+
+    public int getHeight() {
+        return mHeight;
+    }
+
+    public float getTime() {
+        return mTime;
+    }
+
+    public int getWidth() {
+        return mWidth;
+    }
+
+    public void incDeltaX(float dx) {
+        mDeltaX += dx;
+    }
+
+    public void setDeltaX(float dx) {
+        mDeltaX = dx;
+    }
+
 }
