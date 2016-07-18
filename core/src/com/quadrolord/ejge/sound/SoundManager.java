@@ -16,24 +16,15 @@ public class SoundManager {
 
     private ArrayMap<String, LoadedSound> mLoaded = new ArrayMap<String, LoadedSound>();
 
-    public void disposeSounds(AbstractScreen screen) {
-        for (Iterator<ObjectMap.Entry<String, LoadedSound>> iter = mLoaded.iterator(); iter.hasNext(); ) {
-            ObjectMap.Entry<String, LoadedSound> item = iter.next();
-            if (item.value.Screens.contains(screen, true)) {
-                iter.remove();
-            }
-        }
-    }
-
-    public void loadSound(AbstractScreen screen, String name) {
+    public void loadSound(Object source, String name) {
         LoadedSound sound = mLoaded.get(name);
         if (sound == null) {
             sound = new LoadedSound();
             mLoaded.put(name, sound);
             sound.Item = Gdx.audio.newSound(Gdx.files.internal(mSoundsPath + name));
         }
-        if (!sound.Screens.contains(screen, true)) {
-            sound.Screens.add(screen);
+        if (!sound.Sources.contains(source, true)) {
+            sound.Sources.add(source);
         }
     }
 
@@ -49,6 +40,20 @@ public class SoundManager {
         }
         Gdx.app.log(getClass().getName(), "play sound " + name);
         return mLoaded.get(name).Item.play();
+    }
+
+    /**
+     * При закрытии экрана освобождаем ненужные звуки
+     * @param source
+     */
+    public void onSourceDispose(Object source) {
+        for (Iterator<ObjectMap.Entry<String, LoadedSound>> it = mLoaded.iterator(); it.hasNext(); ) {
+            ObjectMap.Entry<String, LoadedSound> en = it.next();
+            boolean removed = en.value.Sources.removeValue(source, true);
+            if (removed && en.value.Sources.size == 0) {
+                it.remove();
+            }
+        }
     }
 
 }

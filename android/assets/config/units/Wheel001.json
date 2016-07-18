@@ -7,9 +7,8 @@
   "attack_time": 1,
   "move_speed": 30,
   "max_target_count": 1,
-  "max_hp": 100,
+  "max_hp": 300,
   "icon": "wheel/wheel001.png",
-  "width": 30,
   "level_ups": [
     {
       "max_hp": 10,

@@ -51,6 +51,8 @@ public class BattleGame {
 
     private float mTimeFactor = 0.6f;
 
+    private float mZeroY = 70;
+
     private CampaignManager mCampaignManager = new CampaignManager();
 
     private BulletInfoManager mBulletInfoManager = new BulletInfoManager();
@@ -96,10 +98,10 @@ public class BattleGame {
     }
 
     public void foldBackUnit(AbstractBullet blt) {
-        blt.setState(BulletState.FOLD_BACK);
+        blt.setState(BulletState.FOLD_BACK, AbstractBullet.FOLD_BACK_TIME);
     }
 
-    public void towerReset(Tower tower, float position, float speedRatio) {
+    public void towerReset(Tower tower, float position, float direction) {
         if (position < mTowerLeft) {
             mTowerLeft = position;
         }
@@ -109,9 +111,11 @@ public class BattleGame {
         }
 
         tower.spawnReset();
+        tower.setY(mZeroY);
         tower.setX(position);
-        tower.setSpeedRatio(speedRatio);
+        tower.setDirection(direction);
         tower.setWidth(60);
+        tower.setHeight(60);
         tower.setCash(0);
     }
 
@@ -144,14 +148,12 @@ public class BattleGame {
 
         try {
             bullet = (AbstractBullet)bs.getBulletClass().getConstructor(BattleGame.class).newInstance(this);
-
         } catch (Exception e) {
             Gdx.app.error("Game.createUnit", "error create bullet " + bs.getName());
             e.printStackTrace();
             bullet = new SimpleBullet(this);
         }
         bullet.setSkill(skill);
-        bullet.setX(tower.getX() + tower.getWidth() / 2);
         ((AbstractBulletSkill) skill.getInfo()).getBulletLogic().initBullet(skill, bullet);
 
         if (useResources) {
@@ -191,7 +193,7 @@ public class BattleGame {
         ControllerAi ai = new ControllerAi(this);
         ai.setEnemyParams(enemyTower);
 
-        towerReset(tower, enemyTower.getX(), -1);
+        towerReset(tower, enemyTower.getX(), GameUnit.DIRECTION_LEFT);
 
         setTowerSkill(tower, Simple.class, 1);
         setTowerSkill(tower, MoneyGrowth.class, 10);
@@ -202,7 +204,7 @@ public class BattleGame {
     }
 
     private void initPlayerTower(Tower tower) {
-        towerReset(tower, 10, 1);
+        towerReset(tower, 10, GameUnit.DIRECTION_RIGHT);
         PlayerProfile profile = mGame.getProfileManager().getProfile();
         // доступные скилы
         setTowerSkill(tower, MoneyGrowth.class, 1);

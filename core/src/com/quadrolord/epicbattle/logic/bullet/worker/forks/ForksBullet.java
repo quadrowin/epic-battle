@@ -12,6 +12,8 @@ public class ForksBullet extends AbstractBullet {
 
     public ForksBullet(BattleGame game) {
         super(game);
+        setHeight(50);
+        setWidth(39);
     }
 
     public int getStage() {

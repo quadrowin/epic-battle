@@ -7,7 +7,7 @@
   "attack_time": 1,
   "move_speed": 50,
   "max_target_count": 1,
-  "max_hp": 100,
+  "max_hp": 300,
   "icon": "icons/units/simple.png",
   "level_ups": [
     {

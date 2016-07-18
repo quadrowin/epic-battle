@@ -10,6 +10,8 @@ public class Wheel001Bullet extends AbstractBullet {
 
     public Wheel001Bullet(BattleGame game) {
         super(game);
+        setHeight(40);
+        setWidth(40);
     }
 
 }

@@ -14,13 +14,13 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable {
     private Texture mTexture;
     private TextureRegion mTextureRegion;
 
-    public AttackAnimationDrawable(Animation animation, int width, int height, boolean isLooped) throws Exception {
+    public AttackAnimationDrawable(Animation animation, float width, float height, boolean isLooped) throws Exception {
         super(animation, width, height, isLooped);
         throw new Exception("Not implemented");
     }
 
-    public AttackAnimationDrawable(Texture texture) {
-        super(null, texture.getWidth(), texture.getHeight(), true);
+    public AttackAnimationDrawable(Texture texture, float width, float height) {
+        super(null, width, height, true);
         mTexture = texture;
         mTextureRegion = new TextureRegion(mTexture);
     }
@@ -31,8 +31,8 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable {
         float halfHeight = getHeight() / 2;
         batch.draw(
                 mTexture,
-                -halfWidth,     // x
-                -halfHeight + getHeight() * (float)Math.abs(Math.sin(getTime() * 2)),    // y
+                0,     // x
+                getHeight() * (float)Math.abs(Math.sin(3.14 * getTime())),    // y
                 halfWidth, halfHeight,  // originX, originY (центр колеса)
                 getWidth(), getHeight(), // width, height
                 1f, 1f,         // scaleX, scaleY

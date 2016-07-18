@@ -10,6 +10,12 @@ import com.quadrolord.epicbattle.view.visualization.AbstractVisualization;
  */
 public class GameUnit {
 
+    public static float DIRECTION_LEFT = -1;
+
+    public static float DIRECTION_RIGHT = 1;
+
+    private float mDirection = DIRECTION_RIGHT;
+
     protected float mHp = 100;
 
     protected float mMaxHp = 100;
@@ -22,13 +28,15 @@ public class GameUnit {
 
     private float mY;
 
-    protected float mWidth = 10;
+    private float mWidth = 10;
+
+    private float mHeight = 10;
 
     protected BattleGame mGame;
 
     protected boolean mIsUnderAttack = false;
 
-    protected Rectangle mBounds = new Rectangle();
+    protected Rectangle mAttackBounds = new Rectangle();
 
     private ArrayMap<Class, Class<? extends AbstractVisualization>> mVisualization = new ArrayMap<Class, Class<? extends AbstractVisualization>>();
 
@@ -38,6 +46,10 @@ public class GameUnit {
 
     public BattleGame getGame() {
         return mGame;
+    }
+
+    public float getDirection() {
+        return mDirection;
     }
 
     public float getHp() {
@@ -54,6 +66,10 @@ public class GameUnit {
 
     public Object getViewObject() {
         return mViewObject;
+    }
+
+    public float getHeight() {
+        return mHeight;
     }
 
     public float getWidth() {
@@ -85,20 +101,20 @@ public class GameUnit {
         return (mHp <= 0);
     }
 
-    public Rectangle getBounds() {
-        return mBounds;
+    public Rectangle getAttackBounds() {
+        return mAttackBounds;
     }
 
     public void onDeath() {
 
     }
 
-    public float getRealWidth() {
-        return getWidth();
-    }
-
     public boolean isUnderAttack() {
         return isUnderAttack();
+    }
+
+    public void setDirection(float direction) {
+        mDirection = direction;
     }
 
     public void setHp(float hp) {
@@ -124,6 +140,10 @@ public class GameUnit {
 
     public void setY(float y) {
         mY = y;
+    }
+
+    public void setHeight(float height) {
+        mHeight = height;
     }
 
     public void setWidth(float width) {

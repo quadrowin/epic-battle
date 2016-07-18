@@ -11,8 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 public class SpriteAnimationDrawable implements Drawable {
 
     private Animation mAnim;
-    private int mWidth;
-    private int mHeight;
+    private float mWidth;
+    private float mHeight;
 
     private boolean mIsLooped;
 
@@ -25,8 +25,8 @@ public class SpriteAnimationDrawable implements Drawable {
 
     public SpriteAnimationDrawable(
             Animation animation,
-            int width,
-            int height,
+            float width,
+            float height,
             boolean isLooped
     ) {
         mAnim = animation;
@@ -49,10 +49,7 @@ public class SpriteAnimationDrawable implements Drawable {
 
     @Override
     public void draw(Batch batch, float x, float y, float width, float height) {
-        batch.draw(
-                getTexture(),
-                (width - mWidth) / 2, (height - mHeight) / 2, mWidth, mHeight
-        );
+        batch.draw(getTexture(), 0, 0, mWidth, mHeight);
     }
 
     public boolean isAnimationFinished(float stateTime) {
@@ -123,7 +120,7 @@ public class SpriteAnimationDrawable implements Drawable {
         return mDeltaX;
     }
 
-    public int getHeight() {
+    public float getHeight() {
         return mHeight;
     }
 
@@ -131,7 +128,7 @@ public class SpriteAnimationDrawable implements Drawable {
         return mTime;
     }
 
-    public int getWidth() {
+    public float getWidth() {
         return mWidth;
     }
 

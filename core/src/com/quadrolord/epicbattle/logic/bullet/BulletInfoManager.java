@@ -10,6 +10,7 @@ import com.quadrolord.epicbattle.logic.bullet.loader.AttackDistance;
 import com.quadrolord.epicbattle.logic.bullet.loader.AttackTime;
 import com.quadrolord.epicbattle.logic.bullet.loader.ConstructionTime;
 import com.quadrolord.epicbattle.logic.bullet.loader.Cost;
+import com.quadrolord.epicbattle.logic.bullet.loader.Height;
 import com.quadrolord.epicbattle.logic.bullet.loader.Icon;
 import com.quadrolord.epicbattle.logic.bullet.loader.LevelUps;
 import com.quadrolord.epicbattle.logic.bullet.loader.MaxHp;
@@ -45,6 +46,7 @@ public class BulletInfoManager {
         mLoaders.put("max_target_count", new MaxTargetCount());
         mLoaders.put("move_speed", new MoveSpeed());
         mLoaders.put("title", new Title());
+        mLoaders.put("height", new Height());
     }
 
     public AbstractLogic getBulletLogic(Class<? extends AbstractLogic> bulletClass) {

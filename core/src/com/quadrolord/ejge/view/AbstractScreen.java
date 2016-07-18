@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.ejge.AbstractGameAdapter;
 import com.quadrolord.epicbattle.view.SpriteAnimationLoader;
-import com.quadrolord.epicbattle.view.TextureManager;
 
 /**
  * Created by Quadrowin on 27.11.2015.

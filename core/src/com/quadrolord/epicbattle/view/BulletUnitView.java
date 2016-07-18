@@ -24,20 +24,14 @@ public abstract class BulletUnitView extends Group {
     protected abstract SpriteAnimationDrawable getAttackingAnimation(AbstractScreen screen);
     protected abstract SpriteAnimationDrawable getDeadAnimation(AbstractScreen screen);
 
-    protected float mScaleWidth = 1.0f;
-    protected float mScaleHeight = 1.0f;
-    protected float mUnitY = 100.0f;
-
-    protected float mRealWidth;
-    protected float mRealHeight;
-
-    private Shadow mShadow;
-
     public BulletUnitView(AbstractBullet bullet, AbstractScreen screen) {
         mBullet = bullet;
         mBullet.setViewObject(this);
 
-        setBounds(mBullet.getX(), getUnitY(), bullet.getWidth(), bullet.getWidth());
+        setBounds(
+                mBullet.getX() - bullet.getWidth() * .5f, mBullet.getY(),
+                bullet.getWidth(), bullet.getHeight()
+        );
         screen.getStage().addActor(this);
 
         mRunningAnim = getRunningAnimation(screen);
@@ -47,47 +41,44 @@ public abstract class BulletUnitView extends Group {
         mAnimation = new SpriteAnimationActor();
         mAnimation.setAnimationLooped(mRunningAnim);
 
-        mRealWidth = mAnimation.getAnimation().getTexture().getRegionWidth();
-        mRealHeight = mAnimation.getAnimation().getTexture().getRegionHeight();
-
-        mShadow = new Shadow(this, screen);
+        new Shadow(this, screen);
 
         addActor(mAnimation);
     }
 
     @Override
     public void act(float delta) {
-        float originalX = getX();
-        if (mBullet.getVelocity() > 0) {
-            setX(mBullet.getX());
-            setScale(getScaleWidth(), getScaleHeight());
-        } else {
-            setX(mBullet.getX() + mBullet.getWidth());
-            setScale(-getScaleWidth(), getScaleHeight());
-        }
-
         if (mBullet.getState() == BulletState.FOLD_BACK) {
-            float dy = (float)Math.sin(3.14f * mBullet.getStateTime() / AbstractBullet.FOLD_BACK_TIME);
-            setY(mUnitY + dy * 10);
+            float dy = (float)Math.sin(3.14f * mBullet.getStatePart());
+            setY(mBullet.getY() + dy * 10);
             if (mAnimation.getAnimation() != mRunningAnim) {
                 mAnimation.setAnimationLooped(mRunningAnim);
             }
         } else if (mBullet.isRunning()) {
+            setY(mBullet.getY());
             if (mAnimation.getAnimation() != mRunningAnim) {
                 mAnimation.setAnimationLooped(mRunningAnim);
             }
         }
+
+        if (mAnimation.getAnimation() == mAttackingAnim) {
+            mAttackingAnim.setTime( mBullet.getStatePart() );
+        }
+
+
+        float originalX = getX();
+        float scale = mBullet.getHeight() / mAnimation.getAnimation().getHeight();
+        if (mBullet.getDirection() > 0) {
+            setX(mBullet.getX() - mBullet.getWidth() * .5f);
+            setScale(scale);
+        } else {
+            setX(mBullet.getX() + mBullet.getWidth() * .5f);
+            setScale(-scale, scale);
+        }
+
         mAnimation.getAnimation().incDeltaX(getX() - originalX);
 
         super.act(delta);
-    }
-
-    public float getRealWidth() {
-        return mRealWidth * getScaleX();
-    }
-
-    public float getRealHeight() {
-        return mRealHeight * getScaleY();
     }
 
     public void startAttackAnimation() {
@@ -96,8 +87,6 @@ public abstract class BulletUnitView extends Group {
     }
 
     public void startDeadAnimation() {
-        mShadow.remove();
-
         final Actor self = this;
         mAnimation.setAnimationCallback(
                 mDeadAnim,
@@ -110,15 +99,4 @@ public abstract class BulletUnitView extends Group {
         );
     }
 
-    protected float getScaleWidth() {
-        return mScaleWidth;
-    }
-
-    protected float getScaleHeight() {
-        return mScaleHeight;
-    }
-
-    protected float getUnitY() {
-        return mUnitY;
-    }
 }

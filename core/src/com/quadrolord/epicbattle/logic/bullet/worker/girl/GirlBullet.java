@@ -10,6 +10,8 @@ public class GirlBullet extends AbstractBullet {
 
     public GirlBullet(BattleGame game) {
         super(game);
+        setHeight(50);
+        setWidth(39);
     }
 
 }

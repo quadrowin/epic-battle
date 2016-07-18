@@ -10,6 +10,8 @@ public class SimpleBullet extends AbstractBullet {
 
     public SimpleBullet(BattleGame game) {
         super(game);
+        setHeight(50);
+        setWidth(39);
     }
 
 }

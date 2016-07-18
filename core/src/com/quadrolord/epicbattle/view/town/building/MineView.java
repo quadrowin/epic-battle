@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
-import com.quadrolord.epicbattle.view.TextureManager;
+import com.quadrolord.ejge.view.TextureManager;
 
 /**
  * Created by Quadrowin on 31.01.2016.

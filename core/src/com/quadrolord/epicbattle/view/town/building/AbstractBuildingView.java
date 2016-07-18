@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.quadrolord.epicbattle.logic.town.building.BuildingItem;
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.screen.town.MapGrid;
-import com.quadrolord.epicbattle.view.TextureManager;
+import com.quadrolord.ejge.view.TextureManager;
 
 /**
  * Created by morph on 17.01.2016.

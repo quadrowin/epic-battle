@@ -1,4 +1,4 @@
-package com.quadrolord.epicbattle.view;
+package com.quadrolord.ejge.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

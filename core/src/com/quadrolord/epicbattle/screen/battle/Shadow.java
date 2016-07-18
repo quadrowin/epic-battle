@@ -9,27 +9,20 @@ import com.quadrolord.epicbattle.view.BulletUnitView;
 /**
  * Created by morph on 15.01.2016.
  */
-public class Shadow extends Group {
+public class Shadow {
     BulletUnitView mUnitView;
     Image mShadow;
 
     public Shadow(BulletUnitView unitView, AbstractScreen screen) {
         mUnitView = unitView;
-        mShadow = new Image(new Texture("shadow.png"));
+        mShadow = new Image(screen.getTextures().get("shadow.png"));
 
-        mShadow.setWidth(Math.round(unitView.getWidth() * 2));
-        mShadow.setHeight(16);
-        mShadow.setY(-unitView.getHeight() - mShadow.getHeight());
-        mShadow.setX(getRealX());
+        mShadow.setWidth(unitView.getWidth() * .75f);
+        mShadow.setHeight(Math.max(15, unitView.getHeight() * .1f));
+        mShadow.setY(-mShadow.getHeight());
+        mShadow.setX((mUnitView.getWidth() - mShadow.getWidth()) / 2);
 
         mUnitView.addActor(mShadow);
     }
 
-    public void act(float delta) {
-        mShadow.setX(getRealX());
-    }
-
-    private float getRealX() {
-        return mUnitView.getOriginX() - mUnitView.getWidth() / 2 - mShadow.getWidth() / 2;
-    }
 }

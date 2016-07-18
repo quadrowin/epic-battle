@@ -37,7 +37,7 @@ import com.quadrolord.epicbattle.screen.debug.DebugPanel;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 import com.quadrolord.epicbattle.view.Sounds;
 import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
-import com.quadrolord.epicbattle.view.TextureManager;
+import com.quadrolord.ejge.view.TextureManager;
 import com.quadrolord.epicbattle.view.TowerDeath;
 import com.quadrolord.epicbattle.view.TowerView;
 import com.quadrolord.epicbattle.view.visualization.AbstractVisualization;
@@ -202,7 +202,7 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
             @Override
             public void onTowerCreate(final Tower tower) {
 
-                if (tower.getSpeedRatio() > 0) {
+                if (tower.isPlayer()) {
                     // башня игрока
                     Cash cl = new Cash(tower, screen, mFrontStage);
                     mLevelViews.add(cl);

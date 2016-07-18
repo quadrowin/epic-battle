@@ -1,5 +1,6 @@
 package com.quadrolord.epicbattle.logic.bullet.worker;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.bullet.leveling.AbstractStrategy;
 import com.quadrolord.epicbattle.logic.bullet.leveling.LevelingDto;
@@ -25,6 +26,8 @@ abstract public class AbstractLogic<T extends AbstractBullet> {
     private float mConstructionTime = 1;
 
     private float mMoveSpeed = 1;
+
+    private float mHeight = 1;
 
     private int mMaxHp = 100;
 
@@ -57,11 +60,12 @@ abstract public class AbstractLogic<T extends AbstractBullet> {
     protected void initBulletBase(SkillItem skill, AbstractBullet bullet) {
         Tower tower = skill.getTower();
         float levelFactor = (float)Math.pow(1.15, skill.getLevel());
-        bullet.setWidth(30);
         bullet.setMaxHp(levelFactor * mMaxHp);
         bullet.setHp(levelFactor * mMaxHp);
-        bullet.setVelocity(mMoveSpeed * tower.getSpeedRatio());
-        bullet.setX(tower.getX() + tower.getWidth() / 2);
+        bullet.setDirection(tower.getDirection());
+        bullet.setVelocity(mMoveSpeed * tower.getDirection());
+        bullet.setX(tower.getX() - tower.getWidth() / 2 * tower.getDirection());
+        bullet.setY(tower.getY());
     }
 
     public void setLevelingStrategy(AbstractStrategy levelingStrategy) {
@@ -92,8 +96,12 @@ abstract public class AbstractLogic<T extends AbstractBullet> {
         return mIcon;
     }
 
-    public void setIcon(String mIcon) {
-        this.mIcon = mIcon;
+    public void setIcon(String icon) {
+        mIcon = icon;
+    }
+
+    public void setHeight(float height) {
+        mHeight = height;
     }
 
     public Class<? extends AbstractBullet> getBulletClass() {
@@ -138,6 +146,10 @@ abstract public class AbstractLogic<T extends AbstractBullet> {
 
     public float getConstructionTime() {
         return mConstructionTime;
+    }
+
+    public float getHeight() {
+        return mHeight;
     }
 
     public float getMoveSpeed() {

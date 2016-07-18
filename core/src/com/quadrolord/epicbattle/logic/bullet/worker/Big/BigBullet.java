@@ -10,5 +10,8 @@ public class BigBullet extends AbstractBullet {
 
     public BigBullet(BattleGame game) {
         super(game);
+        setHeight(70);
+        setWidth(55);
     }
+
 }

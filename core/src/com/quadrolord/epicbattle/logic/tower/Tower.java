@@ -26,8 +26,6 @@ public class Tower extends GameUnit {
      */
     private float mActiveSkillCdRatio;
 
-    private float mSpeedRatio = 1;
-
     private float mCash = 0;
 
     private float mConstructionMultiplier = 1.0f;
@@ -65,6 +63,7 @@ public class Tower extends GameUnit {
 
     public void act(float delta) {
         mTime += delta;
+        getAttackBounds().set(getX(), getY(), getWidth(), getHeight());
 
         for (Iterator<SkillItem> it = mAllSkills.values().iterator(); it.hasNext(); ) {
             SkillItem skill = it.next();
@@ -91,19 +90,6 @@ public class Tower extends GameUnit {
         super.harm(damage);
 
         mGame.getListener().onTowerInjure(this);
-    }
-
-    public float getRealWidth() {
-        return ((TowerView)getViewObject()).getWidth();
-    }
-
-    public Rectangle getBounds() {
-        TowerView tv = (TowerView)getViewObject();
-
-        mBounds.setPosition(getX(), tv.getY());
-        mBounds.setSize(getRealWidth(), tv.getHeight());
-
-        return super.getBounds();
     }
 
     public void setActiveSkill(SkillItem skill) {
@@ -154,15 +140,11 @@ public class Tower extends GameUnit {
     }
 
     public boolean isPlayer() {
-        return mSpeedRatio > 0;
+        return getDirection() > 0;
     }
 
     public float getCash() {
         return mCash;
-    }
-
-    public float getSpeedRatio() {
-        return mSpeedRatio;
     }
 
     public void setActiveSkillCdRatio(float ratio) {
@@ -171,10 +153,6 @@ public class Tower extends GameUnit {
 
     public void setCash(float cash) {
         mCash = cash;
-    }
-
-    public void setSpeedRatio(float ratio) {
-        mSpeedRatio = ratio;
     }
 
     public void setSummonSkillCdRatio(float ratio) {

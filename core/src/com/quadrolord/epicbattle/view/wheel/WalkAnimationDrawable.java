@@ -14,13 +14,13 @@ public class WalkAnimationDrawable extends SpriteAnimationDrawable {
     private Texture mTexture;
     private TextureRegion mTextureRegion;
 
-    public WalkAnimationDrawable(Animation animation, int width, int height, boolean isLooped) throws Exception {
+    public WalkAnimationDrawable(Animation animation, float width, float height, boolean isLooped) throws Exception {
         super(animation, width, height, isLooped);
         throw new Exception("Not implemented");
     }
 
-    public WalkAnimationDrawable(Texture texture) {
-        super(null, texture.getWidth(), texture.getHeight(), true);
+    public WalkAnimationDrawable(Texture texture, float width, float height) {
+        super(null, width, height, true);
         mTexture = texture;
         mTextureRegion = new TextureRegion(mTexture);
     }
@@ -31,7 +31,7 @@ public class WalkAnimationDrawable extends SpriteAnimationDrawable {
         float halfHeight = getHeight() / 2;
         batch.draw(
                 mTexture,
-                -halfWidth, -halfHeight,           // x, y
+                0, 0,
                 halfWidth, halfHeight,  // originX, originY (центр колеса)
                 getWidth(), getHeight(), // width, height
                 1f, 1f,         // scaleX, scaleY

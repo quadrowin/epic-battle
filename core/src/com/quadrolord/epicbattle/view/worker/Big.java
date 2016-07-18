@@ -12,9 +12,6 @@ public class Big extends BulletUnitView {
 
     public Big(AbstractBullet bullet, AbstractScreen screen) {
         super(bullet, screen);
-
-        mScaleWidth = 1.0f;
-        mScaleHeight = 1.0f;
     }
 
     @Override

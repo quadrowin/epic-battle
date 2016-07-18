@@ -15,13 +15,13 @@ public class DeadAnimationDrawable extends SpriteAnimationDrawable {
     private TextureRegion mTextureRegion;
     private float mLength = 1;
 
-    public DeadAnimationDrawable(Animation animation, int width, int height, boolean isLooped) throws Exception {
+    public DeadAnimationDrawable(Animation animation, float width, float height, boolean isLooped) throws Exception {
         super(animation, width, height, isLooped);
         throw new Exception("Not implemented");
     }
 
-    public DeadAnimationDrawable(Texture texture) {
-        super(null, texture.getWidth(), texture.getHeight(), true);
+    public DeadAnimationDrawable(Texture texture, float width, float height) {
+        super(null, width, height, true);
         mTexture = texture;
         mTextureRegion = new TextureRegion(mTexture);
     }
@@ -32,8 +32,8 @@ public class DeadAnimationDrawable extends SpriteAnimationDrawable {
         float halfHeight = getHeight() / 2;
         batch.draw(
                 mTexture,
-                -halfWidth + Math.signum(getDeltaX()) * getTime() * 30,                 // x
-                -halfHeight + getHeight() * (float)Math.abs(Math.sin(getTime() * 3)),   // y
+                Math.signum(getDeltaX()) * getTime() * 30,                 // x
+                getHeight() * (float)Math.abs(Math.sin(getTime() * 3)),   // y
                 halfWidth, halfHeight,      // originX, originY (центр колеса)
                 getWidth(), getHeight(),    // width, height
                 1 - 0.5f * getTime() / mLength, // scaleX

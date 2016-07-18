@@ -14,6 +14,6 @@ public class LoadedSound {
     /**
      * Скрины, использующие этот звук
      */
-    public Array<AbstractScreen> Screens = new Array<AbstractScreen>();
+    public Array<Object> Sources = new Array<Object>();
 
 }

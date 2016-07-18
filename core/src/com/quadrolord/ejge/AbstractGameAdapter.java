@@ -142,6 +142,7 @@ abstract public class AbstractGameAdapter extends ApplicationAdapter {
     public void switchToScreen(AbstractScreen newScreen, boolean dispose) {
         if (dispose && mScreen != null) {
             mScreen.dispose();
+            mSoundManager.onSourceDispose(mScreen);
         }
         mScreen = newScreen;
         if (mScreen != null) {

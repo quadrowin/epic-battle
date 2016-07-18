@@ -18,25 +18,21 @@ public class Wheel extends BulletUnitView {
 
     public Wheel(AbstractBullet bullet, AbstractScreen screen) {
         super(bullet, screen);
-
-        mScaleWidth = 0.25f;
-        mScaleHeight = 0.25f;
-        mUnitY = 150;
     }
 
     @Override
     protected SpriteAnimationDrawable getRunningAnimation(AbstractScreen screen) {
-        return new WalkAnimationDrawable(getWheelTexture(screen));
+        return new WalkAnimationDrawable(getWheelTexture(screen), getWidth(), getHeight());
     }
 
     @Override
     protected SpriteAnimationDrawable getAttackingAnimation(AbstractScreen screen) {
-        return new AttackAnimationDrawable(getWheelTexture(screen));
+        return new AttackAnimationDrawable(getWheelTexture(screen), getWidth(), getHeight());
     }
 
     @Override
     protected SpriteAnimationDrawable getDeadAnimation(AbstractScreen screen) {
-        return new DeadAnimationDrawable(getWheelTexture(screen));
+        return new DeadAnimationDrawable(getWheelTexture(screen), getWidth(), getHeight());
     }
 
     private Texture getWheelTexture(AbstractScreen screen) {

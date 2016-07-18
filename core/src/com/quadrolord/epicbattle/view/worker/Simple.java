@@ -12,9 +12,6 @@ public class Simple extends BulletUnitView {
 
     public Simple(AbstractBullet bullet, AbstractScreen screen) {
         super(bullet, screen);
-
-        mScaleWidth = 0.5f;
-        mScaleHeight = 0.5f;
     }
 
     @Override
