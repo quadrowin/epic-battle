@@ -11,7 +11,7 @@ import com.quadrolord.epicbattle.view.SpriteAnimationLoader;
 /**
  * Created by Quadrowin on 27.11.2015.
  */
-public abstract class AbstractScreen implements Screen {
+public class AbstractScreen implements Screen {
 
     protected Stage mStage;
 
@@ -91,10 +91,15 @@ public abstract class AbstractScreen implements Screen {
     }
 
     /** Called when a screen should render itself */
-    public abstract void draw (float delta);
+    public void draw (float delta) {
+        mStage.act(delta);
+        mStage.draw();
+    }
 
     /** Called when the screen should update itself, e.g. continue a simulation etc. */
-    public abstract void update (float delta);
+    public void update (float delta) {
+        mStage.act(delta);
+    }
 
     @Override
     public void render (float delta) {

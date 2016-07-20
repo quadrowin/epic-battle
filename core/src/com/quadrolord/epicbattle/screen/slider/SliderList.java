@@ -93,9 +93,9 @@ public class SliderList extends Group {
             TextButton tb = new TextButton("", defaultTextButtonStyle);
             tb.setBounds(i * (mItemWidth + mItemPaddingX) + mListPaddingX, mListPaddingBot, mItemWidth, mItemHeight);
             mButtons[i] = tb;
-
-            mContent.initButton(tb, i);
-
+            tb.addListener(mContent.getClickListener());
+            Object data = mContent.initButton(tb, i);
+            tb.setUserObject(data);
             mWrapper.addActor(tb);
         }
 

@@ -11,6 +11,8 @@ import com.quadrolord.epicbattle.logic.skill.SkillItem;
 public class ForksLogic extends AbstractLogic<ForksBullet> {
 
     public ForksLogic() {
+        setHeight(50);
+        setWidth(39);
         setDescription("We are not the one.");
         setViewClass(com.quadrolord.epicbattle.view.worker.Forks.class);
         setLevelingStrategy(new SimpleStrategy());

@@ -11,6 +11,8 @@ import com.quadrolord.epicbattle.logic.skill.SkillItem;
 public class SimpleLogic extends AbstractLogic<SimpleBullet> {
 
     public SimpleLogic() {
+        setHeight(50);
+        setWidth(39);
         setDescription("I will fight for you to the end.");
         setViewClass(com.quadrolord.epicbattle.view.worker.Simple.class);
         setLevelingStrategy(new SimpleStrategy());

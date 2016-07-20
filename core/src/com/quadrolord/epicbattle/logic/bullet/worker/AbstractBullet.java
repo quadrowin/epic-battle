@@ -1,14 +1,12 @@
 package com.quadrolord.epicbattle.logic.bullet.worker;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.skill.AbstractBulletSkill;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.logic.tower.GameUnit;
 import com.quadrolord.epicbattle.logic.tower.Tower;
-import com.quadrolord.epicbattle.view.BulletUnitView;
 
 import java.util.Iterator;
 

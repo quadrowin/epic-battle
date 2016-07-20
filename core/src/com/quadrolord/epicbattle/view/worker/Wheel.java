@@ -3,6 +3,7 @@ package com.quadrolord.epicbattle.view.worker;
 import com.badlogic.gdx.graphics.Texture;
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
+import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
 import com.quadrolord.epicbattle.view.wheel.AttackAnimationDrawable;
@@ -21,18 +22,21 @@ public class Wheel extends BulletUnitView {
     }
 
     @Override
-    protected SpriteAnimationDrawable getRunningAnimation(AbstractScreen screen) {
-        return new WalkAnimationDrawable(getWheelTexture(screen), getWidth(), getHeight());
-    }
+    protected void initAnimations(AbstractScreen screen) {
+        mAnimations.put(
+                BulletState.RUN,
+                new WalkAnimationDrawable(getWheelTexture(screen), getWidth(), getHeight())
+        );
 
-    @Override
-    protected SpriteAnimationDrawable getAttackingAnimation(AbstractScreen screen) {
-        return new AttackAnimationDrawable(getWheelTexture(screen), getWidth(), getHeight());
-    }
+        mAnimations.put(
+                BulletState.ATTACK,
+                new AttackAnimationDrawable(getWheelTexture(screen), getWidth(), getHeight())
+        );
 
-    @Override
-    protected SpriteAnimationDrawable getDeadAnimation(AbstractScreen screen) {
-        return new DeadAnimationDrawable(getWheelTexture(screen), getWidth(), getHeight());
+        mAnimations.put(
+                BulletState.DEATH,
+                new DeadAnimationDrawable(getWheelTexture(screen), getWidth(), getHeight())
+        );
     }
 
     private Texture getWheelTexture(AbstractScreen screen) {

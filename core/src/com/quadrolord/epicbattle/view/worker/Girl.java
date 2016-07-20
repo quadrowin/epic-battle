@@ -2,6 +2,7 @@ package com.quadrolord.epicbattle.view.worker;
 
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.ejge.view.AbstractScreen;
+import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
 import com.quadrolord.epicbattle.view.BulletUnitView;
 import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
 
@@ -15,47 +16,51 @@ public class Girl extends BulletUnitView {
     }
 
     @Override
-    protected SpriteAnimationDrawable getRunningAnimation(AbstractScreen screen) {
-        return screen.getSpriteAnimationLoader().createDrawable(
-                screen.getSkin(),
-                "animation/ninja_girl/run.png",
-                72,
-                99,
-                10,
-                0.1f,
-                2,
-                2,
-                true
+    protected void initAnimations(AbstractScreen screen) {
+        mAnimations.put(
+                BulletState.RUN,
+                screen.getSpriteAnimationLoader().createDrawable(
+                    screen.getSkin(),
+                    "animation/ninja_girl/run.png",
+                    71,
+                    99,
+                    10,
+                    0.1f,
+                    2,
+                    2,
+                    true
+                )
+        );
+
+        mAnimations.put(
+                BulletState.ATTACK,
+                screen.getSpriteAnimationLoader().createDrawable(
+                    screen.getSkin(),
+                    "animation/ninja_girl/attack.png",
+                    92,
+                    99,
+                    10,
+                    0.1f,
+                    2,
+                    2,
+                    true
+                )
+        );
+
+        mAnimations.put(
+                BulletState.DEATH,
+                screen.getSpriteAnimationLoader().createDrawable(
+                    screen.getSkin(),
+                    "animation/ninja_girl/dead.png",
+                    96,
+                    99,
+                    10,
+                    0.1f,
+                    2,
+                    2,
+                    false
+                )
         );
     }
 
-    @Override
-    protected SpriteAnimationDrawable getAttackingAnimation(AbstractScreen screen) {
-        return screen.getSpriteAnimationLoader().createDrawable(
-                screen.getSkin(),
-                "animation/ninja_girl/attack.png",
-                92,
-                99,
-                10,
-                0.1f,
-                2,
-                2,
-                true
-        );
-    }
-
-    @Override
-    protected SpriteAnimationDrawable getDeadAnimation(AbstractScreen screen) {
-        return screen.getSpriteAnimationLoader().createDrawable(
-                screen.getSkin(),
-                "animation/ninja_girl/dead.png",
-                96,
-                99,
-                10,
-                0.1f,
-                2,
-                2,
-                false
-        );
-    }
 }

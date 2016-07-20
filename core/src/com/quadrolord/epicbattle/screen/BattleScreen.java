@@ -141,20 +141,12 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
                 } catch (Exception e) {
                     Gdx.app.error(screen.getClass().getName(), "Bullet view class not found: " + viewClass.getName());
                     view = new BulletUnitView(bullet, screen) {
-                        @Override
-                        protected SpriteAnimationDrawable getRunningAnimation(com.quadrolord.ejge.view.AbstractScreen screen) {
-                            return null;
-                        }
 
                         @Override
-                        protected SpriteAnimationDrawable getAttackingAnimation(com.quadrolord.ejge.view.AbstractScreen screen) {
-                            return null;
+                        protected void initAnimations(com.quadrolord.ejge.view.AbstractScreen screen) {
+
                         }
 
-                        @Override
-                        protected SpriteAnimationDrawable getDeadAnimation(com.quadrolord.ejge.view.AbstractScreen screen) {
-                            return null;
-                        }
                     };
                 }
 

@@ -28,25 +28,9 @@ public class UpgradingSliderContent extends SliderContent<UpgradingItemData> {
 
     private AbstractScreen mScreen;
 
-    private ClickListener mClickListener;
-
-    private UpgradingItemSelect mSelectListener;
-
     public UpgradingSliderContent(AbstractScreen screen) {
         mScreen = screen;
         mAdapter = (EpicBattle)screen.getAdapter();
-
-        mClickListener = new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (event.getRelatedActor() != null) {
-                    UpgradingItemData data = (UpgradingItemData)event.getRelatedActor().getUserObject();
-                    mSelectListener.onSelect(data.profileSkill);
-                }
-            }
-
-        };
     }
 
     @Override
@@ -58,7 +42,7 @@ public class UpgradingSliderContent extends SliderContent<UpgradingItemData> {
     }
 
     @Override
-    public void initButton(TextButton btn, int index) {
+    public UpgradingItemData initButton(TextButton btn, int index) {
         PlayerProfile profile = mAdapter.getProfileManager().getProfile();
         Array<ProfileSkill> skills = profile.getSkills();
         ProfileSkill profileSkill = skills.get(index);
@@ -83,9 +67,6 @@ public class UpgradingSliderContent extends SliderContent<UpgradingItemData> {
         UpgradingItemData data = new UpgradingItemData();
         data.profileSkill = profileSkill;
 
-        btn.setUserObject(data);
-        btn.addListener(mClickListener);
-
         Label lvlLabel = new Label(
                 "lvl " + profileSkill.getLevel(),
                 mScreen.getSkin().get("default-label-style", Label.LabelStyle.class)
@@ -96,15 +77,13 @@ public class UpgradingSliderContent extends SliderContent<UpgradingItemData> {
         data.lvlLabel = lvlLabel;
 
         btn.addActor(lvlLabel);
+
+        return data;
     }
 
     public void updateButton(UpgradingItemData data) {
         ProfileSkill profileSkill = data.profileSkill;
         data.lvlLabel.setText("lvl " + profileSkill.getLevel());
-    }
-
-    public void setOnSelect(UpgradingItemSelect selectListener) {
-        mSelectListener = selectListener;
     }
 
 }

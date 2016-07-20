@@ -2,6 +2,7 @@ package com.quadrolord.epicbattle.view;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.utils.ArrayMap;
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
@@ -16,13 +17,9 @@ public abstract class BulletUnitView extends Group {
 
     private SpriteAnimationActor mAnimation;
 
-    protected SpriteAnimationDrawable mRunningAnim;
-    protected SpriteAnimationDrawable mAttackingAnim;
-    protected SpriteAnimationDrawable mDeadAnim;
+    protected ArrayMap<BulletState, SpriteAnimationDrawable> mAnimations = new ArrayMap<BulletState, SpriteAnimationDrawable>();
 
-    protected abstract SpriteAnimationDrawable getRunningAnimation(AbstractScreen screen);
-    protected abstract SpriteAnimationDrawable getAttackingAnimation(AbstractScreen screen);
-    protected abstract SpriteAnimationDrawable getDeadAnimation(AbstractScreen screen);
+    protected abstract void initAnimations(AbstractScreen screen);
 
     public BulletUnitView(AbstractBullet bullet, AbstractScreen screen) {
         mBullet = bullet;
@@ -34,12 +31,10 @@ public abstract class BulletUnitView extends Group {
         );
         screen.getStage().addActor(this);
 
-        mRunningAnim = getRunningAnimation(screen);
-        mAttackingAnim = getAttackingAnimation(screen);
-        mDeadAnim = getDeadAnimation(screen);
+        initAnimations(screen);
 
         mAnimation = new SpriteAnimationActor();
-        mAnimation.setAnimationLooped(mRunningAnim);
+        mAnimation.setAnimationLooped(getAnimation(BulletState.RUN));
 
         new Shadow(this, screen);
 
@@ -48,23 +43,25 @@ public abstract class BulletUnitView extends Group {
 
     @Override
     public void act(float delta) {
+        SpriteAnimationDrawable runAnim = getAnimation(BulletState.RUN);
+        SpriteAnimationDrawable attAnim = getAnimation(BulletState.ATTACK);
+
         if (mBullet.getState() == BulletState.FOLD_BACK) {
             float dy = (float)Math.sin(3.14f * mBullet.getStatePart());
             setY(mBullet.getY() + dy * 10);
-            if (mAnimation.getAnimation() != mRunningAnim) {
-                mAnimation.setAnimationLooped(mRunningAnim);
+            if (mAnimation.getAnimation() != runAnim) {
+                mAnimation.setAnimationLooped(runAnim);
             }
         } else if (mBullet.isRunning()) {
             setY(mBullet.getY());
-            if (mAnimation.getAnimation() != mRunningAnim) {
-                mAnimation.setAnimationLooped(mRunningAnim);
+            if (mAnimation.getAnimation() != runAnim) {
+                mAnimation.setAnimationLooped(runAnim);
             }
         }
 
-        if (mAnimation.getAnimation() == mAttackingAnim) {
-            mAttackingAnim.setTime( mBullet.getStatePart() );
+        if (mAnimation.getAnimation() == attAnim) {
+            attAnim.setTime( mBullet.getStatePart() );
         }
-
 
         float originalX = getX();
         float scale = mBullet.getHeight() / mAnimation.getAnimation().getHeight();
@@ -81,15 +78,23 @@ public abstract class BulletUnitView extends Group {
         super.act(delta);
     }
 
+    public SpriteAnimationDrawable getAnimation(BulletState state) {
+        SpriteAnimationDrawable anim = mAnimations.get(state);
+        if (anim == null) {
+            anim = mAnimations.firstValue();
+        }
+        return anim;
+    }
+
     public void startAttackAnimation() {
-        mAnimation.setAnimationLooped(mAttackingAnim);
-        mAttackingAnim.setDeltaX( mAnimation.getAnimation().getDeltaX() );
+        SpriteAnimationDrawable anim = getAnimation(BulletState.ATTACK);
+        mAnimation.setAnimationLooped(anim);
     }
 
     public void startDeadAnimation() {
         final Actor self = this;
         mAnimation.setAnimationCallback(
-                mDeadAnim,
+                getAnimation(BulletState.DEATH),
                 new Runnable() {
                     @Override
                     public void run() {

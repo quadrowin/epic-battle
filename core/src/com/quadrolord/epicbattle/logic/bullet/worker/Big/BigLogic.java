@@ -11,6 +11,8 @@ import com.quadrolord.epicbattle.logic.skill.SkillItem;
 public class BigLogic extends AbstractLogic<BigBullet> {
 
     public BigLogic() {
+        setHeight(70);
+        setWidth(55);
         setDescription("He is real strong. He is real BIG. He will bring you victory.");
         setViewClass(com.quadrolord.epicbattle.view.worker.Big.class);
         setLevelingStrategy(new SimpleStrategy());

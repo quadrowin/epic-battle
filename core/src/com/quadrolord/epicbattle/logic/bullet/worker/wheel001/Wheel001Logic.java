@@ -11,6 +11,8 @@ import com.quadrolord.epicbattle.logic.skill.SkillItem;
 public class Wheel001Logic extends AbstractLogic<Wheel001Bullet> {
 
     public Wheel001Logic() {
+        setHeight(40);
+        setWidth(40);
         setDescription("I will fight for you to the end.");
         setViewClass(com.quadrolord.epicbattle.view.worker.Wheel.class);
         setLevelingStrategy(new SimpleStrategy());

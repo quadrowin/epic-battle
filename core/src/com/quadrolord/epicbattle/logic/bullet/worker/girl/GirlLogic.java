@@ -11,6 +11,8 @@ import com.quadrolord.epicbattle.logic.skill.SkillItem;
 public class GirlLogic extends AbstractLogic<GirlBullet> {
 
     public GirlLogic() {
+        setHeight(50);
+        setWidth(39);
         setDescription("Beauty is a horrible force.");
         setViewClass(com.quadrolord.epicbattle.view.worker.Girl.class);
         setLevelingStrategy(new X15Strategy());

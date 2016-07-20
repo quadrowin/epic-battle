@@ -27,7 +27,9 @@ abstract public class AbstractLogic<T extends AbstractBullet> {
 
     private float mMoveSpeed = 1;
 
-    private float mHeight = 1;
+    private float mHeight = 10;
+
+    private float mWidth = 10;
 
     private int mMaxHp = 100;
 
@@ -66,6 +68,8 @@ abstract public class AbstractLogic<T extends AbstractBullet> {
         bullet.setVelocity(mMoveSpeed * tower.getDirection());
         bullet.setX(tower.getX() - tower.getWidth() / 2 * tower.getDirection());
         bullet.setY(tower.getY());
+        bullet.setWidth(mWidth);
+        bullet.setHeight(mHeight);
     }
 
     public void setLevelingStrategy(AbstractStrategy levelingStrategy) {
@@ -102,6 +106,10 @@ abstract public class AbstractLogic<T extends AbstractBullet> {
 
     public void setHeight(float height) {
         mHeight = height;
+    }
+
+    public void setWidth(float width) {
+        mWidth = width;
     }
 
     public Class<? extends AbstractBullet> getBulletClass() {
@@ -150,6 +158,10 @@ abstract public class AbstractLogic<T extends AbstractBullet> {
 
     public float getHeight() {
         return mHeight;
+    }
+
+    public float getWidth() {
+        return mWidth;
     }
 
     public float getMoveSpeed() {

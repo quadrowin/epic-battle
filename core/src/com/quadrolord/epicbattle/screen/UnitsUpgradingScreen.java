@@ -13,8 +13,8 @@ import com.quadrolord.epicbattle.logic.profile.ProfileSkill;
 import com.quadrolord.epicbattle.logic.skill.AbstractSkillEntity;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.screen.slider.SliderList;
+import com.quadrolord.epicbattle.screen.slider.SliderListener;
 import com.quadrolord.epicbattle.screen.upgrading.UpgradingItemData;
-import com.quadrolord.epicbattle.screen.upgrading.UpgradingItemSelect;
 import com.quadrolord.epicbattle.screen.upgrading.UpgradingSliderContent;
 
 /**
@@ -46,12 +46,11 @@ public class UnitsUpgradingScreen extends AbstractScreen {
         getStage().addActor(mProfileExperience);
 
         final UpgradingSliderContent usc = new UpgradingSliderContent(this);
-        usc.setOnSelect(new UpgradingItemSelect() {
+        usc.setSliderListener(new SliderListener<UpgradingItemData>() {
 
             @Override
-            public void onSelect(ProfileSkill profileSkill) {
-                AbstractSkillEntity skill = get(BattleGame.class).getSkillManager().get(profileSkill.getSkillClass());
-                Gdx.app.log("upg", "on select " + skill.getName());
+            public void onSelect(TextButton btn, UpgradingItemData data) {
+                AbstractSkillEntity skill = get(BattleGame.class).getSkillManager().get(data.profileSkill.getSkillClass());
                 mCuName.setText( skill.getName() );
                 mCuDescription.setText( skill.getDescription() );
             }
@@ -93,17 +92,6 @@ public class UnitsUpgradingScreen extends AbstractScreen {
             }
 
         });
-    }
-
-    @Override
-    public void draw(float delta) {
-        mStage.act(delta);
-        mStage.draw();
-    }
-
-    @Override
-    public void update(float delta) {
-        mStage.act(delta);
     }
 
 }

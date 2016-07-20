@@ -49,6 +49,10 @@ public class BulletInfoManager {
         mLoaders.put("height", new Height());
     }
 
+    public ArrayMap<Class<? extends AbstractLogic>, AbstractLogic> getAllLogics() {
+        return mLogics;
+    }
+
     public AbstractLogic getBulletLogic(Class<? extends AbstractLogic> bulletClass) {
         AbstractLogic bl = mLogics.get(bulletClass);
 
