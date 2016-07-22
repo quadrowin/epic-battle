@@ -1,5 +1,6 @@
 package com.quadrolord.epicbattle.view.wheel;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -30,14 +31,18 @@ public class DeadAnimationDrawable extends SpriteAnimationDrawable {
     public void draw(Batch batch, float x, float y, float width, float height) {
         float halfWidth = getWidth() / 2;
         float halfHeight = getHeight() / 2;
+        float scale = Math.max(0, 1 - 0.5f * getTime() / mLength);
+        Gdx.app.log("DeadAnimDraw", "time " + getTime() + " scale " + scale);
+        if (scale == 0) {
+            return;
+        }
         batch.draw(
                 mTexture,
-                Math.signum(getDeltaX()) * getTime() * 30,                 // x
-                getHeight() * (float)Math.abs(Math.sin(getTime() * 3)),   // y
+                Math.signum(-getDeltaX()) * getTime() * 30,                 // x
+                getHeight() * (float)Math.abs(Math.sin(getTime() * 3)),    // y
                 halfWidth, halfHeight,      // originX, originY (центр колеса)
                 getWidth(), getHeight(),    // width, height
-                1 - 0.5f * getTime() / mLength, // scaleX
-                1 - 0.5f * getTime() / mLength, // scaleY
+                scale, scale,               // scaleX, scaleY
                 -3.14f * getDeltaX() + getTime() * 10,
                 0, 0,                   // srcX, srcY
                 mTexture.getWidth(),    // srcWidth
@@ -47,8 +52,13 @@ public class DeadAnimationDrawable extends SpriteAnimationDrawable {
     }
 
     @Override
-    public boolean isAnimationFinished(float stateTime) {
-        return stateTime >= mLength;
+    public boolean isAnimationFinished() {
+        return getTime() >= mLength;
+    }
+
+    @Override
+    public float getBaseDuration() {
+        return 3;
     }
 
     @Override

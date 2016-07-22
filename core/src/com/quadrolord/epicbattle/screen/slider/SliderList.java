@@ -162,7 +162,7 @@ public class SliderList extends Group {
             float exact_x = -itemIndex * (mItemWidth + mItemPaddingX) + zero_x;
             float delta_x = exact_x - x;
             float delta_val = Math.abs(delta_x);
-            if (delta_val < 0.001) {
+            if (delta_val < 1) {
                 mWrapper.setX(exact_x);
                 return;
             }

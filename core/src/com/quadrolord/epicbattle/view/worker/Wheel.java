@@ -5,7 +5,6 @@ import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
 import com.quadrolord.epicbattle.view.BulletUnitView;
-import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
 import com.quadrolord.epicbattle.view.wheel.AttackAnimationDrawable;
 import com.quadrolord.epicbattle.view.wheel.DeadAnimationDrawable;
 import com.quadrolord.epicbattle.view.wheel.WalkAnimationDrawable;

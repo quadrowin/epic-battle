@@ -43,8 +43,13 @@ public class WalkAnimationDrawable extends SpriteAnimationDrawable {
     }
 
     @Override
-    public boolean isAnimationFinished(float stateTime) {
+    public boolean isAnimationFinished() {
         return false;
+    }
+
+    @Override
+    public float getBaseDuration() {
+        return 1;
     }
 
     @Override

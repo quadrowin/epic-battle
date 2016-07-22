@@ -39,11 +39,11 @@ public class UnitTestSliderContent extends SliderContent<AbstractLogic> {
         mAdapter = (EpicBattle)screen.getAdapter();
 
         mAllClasses = new Class[] {
+                Wheel001Logic.class,
+                SimpleLogic.class,
                 BigLogic.class,
                 ForksLogic.class,
                 GirlLogic.class,
-                SimpleLogic.class,
-                Wheel001Logic.class,
         };
     }
 

@@ -222,6 +222,10 @@ abstract public class AbstractBullet extends GameUnit {
         }
     }
 
+    public void setStateTime(float time) {
+        mStateTime = time;
+    }
+
     public boolean isRunning() {
         return mState == BulletState.RUN;
     }

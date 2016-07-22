@@ -116,8 +116,6 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
             @Override
             public void onBulletAttack(AbstractBullet attacker, GameUnit target) {
-                BulletUnitView buv = ((BulletUnitView) attacker.getViewObject());
-                buv.startAttackAnimation();
                 new AttackAnimation(attacker, target, mSkin, mStage);
             }
 
@@ -165,8 +163,8 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
             @Override
             public void onBulletRemove(AbstractBullet bullet) {
-                BulletUnitView buv = ((BulletUnitView) bullet.getViewObject());
-                buv.startDeadAnimation();
+//                BulletUnitView buv = ((BulletUnitView) bullet.getViewObject());
+//                buv.startDeadAnimation();
             }
 
             @Override

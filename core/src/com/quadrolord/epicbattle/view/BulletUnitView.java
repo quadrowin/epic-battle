@@ -1,5 +1,6 @@
 package com.quadrolord.epicbattle.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.ArrayMap;
@@ -16,6 +17,10 @@ public abstract class BulletUnitView extends Group {
     private AbstractBullet mBullet;
 
     private SpriteAnimationActor mAnimation;
+
+    private BulletState mLastState = BulletState.IDLE;
+
+    private int mLastDirection;
 
     protected ArrayMap<BulletState, SpriteAnimationDrawable> mAnimations = new ArrayMap<BulletState, SpriteAnimationDrawable>();
 
@@ -43,24 +48,42 @@ public abstract class BulletUnitView extends Group {
 
     @Override
     public void act(float delta) {
-        SpriteAnimationDrawable runAnim = getAnimation(BulletState.RUN);
-        SpriteAnimationDrawable attAnim = getAnimation(BulletState.ATTACK);
+        BulletState bulletState = mBullet.getState();
 
-        if (mBullet.getState() == BulletState.FOLD_BACK) {
-            float dy = (float)Math.sin(3.14f * mBullet.getStatePart());
-            setY(mBullet.getY() + dy * 10);
-            if (mAnimation.getAnimation() != runAnim) {
-                mAnimation.setAnimationLooped(runAnim);
+        // Переключение анимации
+        if (bulletState != mLastState) {
+            switch (bulletState) {
+                case ATTACK:
+                    mAnimation.setAnimationLooped(getAnimation(BulletState.ATTACK));
+                    break;
+                case DEATH:
+                    mAnimation.setAnimation(getAnimation(BulletState.DEATH));
+                    break;
+                default:
+                    mAnimation.setAnimationLooped(getAnimation(BulletState.RUN));
             }
-        } else if (mBullet.isRunning()) {
-            setY(mBullet.getY());
-            if (mAnimation.getAnimation() != runAnim) {
-                mAnimation.setAnimationLooped(runAnim);
-            }
+            mLastState = bulletState;
         }
 
-        if (mAnimation.getAnimation() == attAnim) {
-            attAnim.setTime( mBullet.getStatePart() );
+        // Для текущей анимации
+        switch (bulletState) {
+            case FOLD_BACK:
+                mAnimation.getAnimation().setTime( mBullet.getStateTime() );
+                float dy = (float)Math.sin(3.14f * mBullet.getStatePart());
+                setY(mBullet.getY() + dy * 10);
+                break;
+            case ATTACK:
+                mAnimation.getAnimation().setTimePart( mBullet.getStatePart() );
+                setY(mBullet.getY());
+                break;
+            case DEATH:
+                mAnimation.getAnimation().setDeltaX( mBullet.getDirection() );
+                mAnimation.getAnimation().setTime( mBullet.getStateTime() );
+                setY(mBullet.getY());
+                break;
+            default:
+                mAnimation.getAnimation().setTime( mBullet.getStateTime() );
+                setY(mBullet.getY());
         }
 
         float originalX = getX();
@@ -81,27 +104,10 @@ public abstract class BulletUnitView extends Group {
     public SpriteAnimationDrawable getAnimation(BulletState state) {
         SpriteAnimationDrawable anim = mAnimations.get(state);
         if (anim == null) {
+            Gdx.app.log("buv", "st " + state.name());
             anim = mAnimations.firstValue();
         }
         return anim;
-    }
-
-    public void startAttackAnimation() {
-        SpriteAnimationDrawable anim = getAnimation(BulletState.ATTACK);
-        mAnimation.setAnimationLooped(anim);
-    }
-
-    public void startDeadAnimation() {
-        final Actor self = this;
-        mAnimation.setAnimationCallback(
-                getAnimation(BulletState.DEATH),
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        self.remove();
-                    }
-                }
-        );
     }
 
 }

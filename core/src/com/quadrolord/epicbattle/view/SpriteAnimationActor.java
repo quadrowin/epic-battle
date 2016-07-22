@@ -12,17 +12,13 @@ public class SpriteAnimationActor extends Group {
 
     private Runnable mOnFinish;
 
-    private float mTime;
-
     @Override
     public void act(float delta) {
-        mTime += delta;
-        if (mAnimation.isAnimationFinished(mTime) && mOnFinish != null) {
+        if (mAnimation.isAnimationFinished() && mOnFinish != null) {
             Runnable cb = mOnFinish;
             mOnFinish = null;
             cb.run();
         }
-        mAnimation.setTime(mTime);
     }
 
     @Override
@@ -37,19 +33,21 @@ public class SpriteAnimationActor extends Group {
         return mAnimation;
     }
 
-    public void reset() {
-        mTime = 0;
+    public void setAnimation(SpriteAnimationDrawable anim) {
+        mAnimation = anim;
+        mOnFinish = null;
+        mAnimation.setTime(0);
     }
 
     public void setAnimationCallback(SpriteAnimationDrawable anim, Runnable onFinish) {
         mAnimation = anim;
         mOnFinish = onFinish;
-        mTime = 0;
+        mAnimation.setTime(0);
     }
 
     public void setAnimationLooped(SpriteAnimationDrawable anim) {
         mAnimation = anim;
-        mTime = 0;
+        mAnimation.setTime(0);
     }
 
 }
