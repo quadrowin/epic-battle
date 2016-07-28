@@ -53,7 +53,7 @@ public class UnitsTestScreen extends AbstractScreen {
 
         mBullet = new MockBullet(get(BattleGame.class));
         mBullet.setY(0);
-        mBullet.setX(200);
+        mBullet.setX(mStage.getWidth() / mPx / 2);
 
         mBulletWrapper = new Group();
         mBulletWrapper.setBounds(0, 200, mStage.getWidth() / mPx, 100);
@@ -94,11 +94,12 @@ public class UnitsTestScreen extends AbstractScreen {
     }
 
     private void setUnitView(AbstractLogic logic) {
+        float previousWidth = mBullet.getWidth();
         mBullet.setLogic(logic);
         mCuName.setText( logic.getTitle() );
         Class<? extends BulletUnitView> viewClass = logic.getViewClass();
 
-        mBullet.setX((mStage.getWidth() / mPx - mBullet.getWidth()) / 2);
+        mBullet.setX(mBullet.getX() + (previousWidth - mBullet.getWidth()) / 2);
 
         if (mCurrentView != null) {
             mCurrentView.remove();
@@ -118,6 +119,7 @@ public class UnitsTestScreen extends AbstractScreen {
             };
         }
 
+        mCurrentView.setSize(mBullet.getWidth(), mBullet.getHeight());
         mBulletWrapper.addActor(mCurrentView);
 
         setStateAnimation(mCurrentStateIndex);

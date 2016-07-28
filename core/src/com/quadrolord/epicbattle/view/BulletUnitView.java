@@ -40,7 +40,7 @@ public abstract class BulletUnitView extends Group {
 
         mAnimation = new SpriteAnimationActor();
         mAnimation.setAnimationLooped(getAnimation(BulletState.RUN));
-
+        updateBounds();
         new Shadow(this, screen);
 
         addActor(mAnimation);
@@ -86,17 +86,7 @@ public abstract class BulletUnitView extends Group {
                 setY(mBullet.getY());
         }
 
-        float originalX = getX();
-        float scale = mBullet.getHeight() / mAnimation.getAnimation().getHeight();
-        if (mBullet.getDirection() > 0) {
-            setX(mBullet.getX() - mBullet.getWidth() * .5f);
-            setScale(scale);
-        } else {
-            setX(mBullet.getX() + mBullet.getWidth() * .5f);
-            setScale(-scale, scale);
-        }
-
-        mAnimation.getAnimation().incDeltaX(getX() - originalX);
+        updateBounds();
 
         super.act(delta);
     }
@@ -108,6 +98,20 @@ public abstract class BulletUnitView extends Group {
             anim = mAnimations.firstValue();
         }
         return anim;
+    }
+
+    public void updateBounds() {
+        float originalX = getX();
+        float scale = mBullet.getHeight() / mAnimation.getAnimation().getHeight();
+        if (mBullet.getDirection() > 0) {
+            setX(mBullet.getX() - mBullet.getWidth() * .5f);
+            setScale(scale);
+        } else {
+            setX(mBullet.getX() + mBullet.getWidth() * .5f);
+            setScale(-scale, scale);
+        }
+
+        mAnimation.getAnimation().incDeltaX(getX() - originalX);
     }
 
 }
