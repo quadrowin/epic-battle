@@ -1,19 +1,17 @@
 package com.quadrolord.epicbattle.screen.battle;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.quadrolord.ejge.view.AbstractScreen;
-import com.quadrolord.epicbattle.view.BulletUnitView;
+import com.quadrolord.epicbattle.view.bullet.AbstractBulletView;
 
 /**
  * Created by morph on 15.01.2016.
  */
 public class Shadow {
-    BulletUnitView mUnitView;
+    AbstractBulletView mUnitView;
     Image mShadow;
 
-    public Shadow(BulletUnitView unitView, AbstractScreen screen) {
+    public Shadow(AbstractBulletView unitView, AbstractScreen screen) {
         mUnitView = unitView;
         mShadow = new Image(screen.getTextures().get("shadow.png"));
 

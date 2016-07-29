@@ -32,7 +32,6 @@ public class DeadAnimationDrawable extends SpriteAnimationDrawable {
         float halfWidth = getWidth() / 2;
         float halfHeight = getHeight() / 2;
         float scale = Math.max(0, 1 - 0.5f * getTime() / mLength);
-        Gdx.app.log("DeadAnimDraw", "time " + getTime() + " scale " + scale);
         if (scale == 0) {
             return;
         }

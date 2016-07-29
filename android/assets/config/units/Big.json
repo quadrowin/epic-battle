@@ -8,7 +8,7 @@
   "move_speed": 30,
   "max_target_count": 2,
   "max_hp": 300,
-  "icon": "icons/units/big.png",
+  "icon": "wheel/offroad.png",
   "level_ups": [
     {
       "max_hp": 20

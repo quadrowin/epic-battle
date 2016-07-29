@@ -34,9 +34,8 @@ import com.quadrolord.epicbattle.screen.battle.LevelName;
 import com.quadrolord.epicbattle.screen.battle.PauseButton;
 import com.quadrolord.epicbattle.screen.battle.TowerHp;
 import com.quadrolord.epicbattle.screen.debug.DebugPanel;
-import com.quadrolord.epicbattle.view.BulletUnitView;
+import com.quadrolord.epicbattle.view.bullet.AbstractBulletView;
 import com.quadrolord.epicbattle.view.Sounds;
-import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
 import com.quadrolord.ejge.view.TextureManager;
 import com.quadrolord.epicbattle.view.TowerDeath;
 import com.quadrolord.epicbattle.view.TowerView;
@@ -121,7 +120,7 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
             @Override
             public void onBulletInjure(AbstractBullet target) {
-                BulletUnitView buv = ((BulletUnitView) target.getViewObject());
+                AbstractBulletView buv = ((AbstractBulletView) target.getViewObject());
                 float x = target.getX() - buv.getScaleX() * target.getWidth() / 2 + 15;
 
                 new BleedAnimation(screen, x, buv.getHeight() / 2 - 15 + buv.getY());
@@ -131,14 +130,14 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
             public void onBulletCreate(AbstractBullet bullet) {
                 Gdx.app.log("", "fire with " + bullet.getSkill().getInfo().getName() + " at " + bullet.getX());
 
-                Class<? extends BulletUnitView> viewClass = ((AbstractBulletSkill)bullet.getSkill().getInfo()).getViewClass();
-                BulletUnitView view;
+                Class<? extends AbstractBulletView> viewClass = ((AbstractBulletSkill)bullet.getSkill().getInfo()).getViewClass();
+                AbstractBulletView view;
 
                 try {
                     view = viewClass.getConstructor(AbstractBullet.class, com.quadrolord.ejge.view.AbstractScreen.class).newInstance(bullet, screen);
                 } catch (Exception e) {
                     Gdx.app.error(screen.getClass().getName(), "Bullet view class not found: " + viewClass.getName());
-                    view = new BulletUnitView(bullet, screen) {
+                    view = new AbstractBulletView(bullet, screen) {
 
                         @Override
                         protected void initAnimations(com.quadrolord.ejge.view.AbstractScreen screen) {
@@ -163,8 +162,8 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
             @Override
             public void onBulletRemove(AbstractBullet bullet) {
-//                BulletUnitView buv = ((BulletUnitView) bullet.getViewObject());
-//                buv.startDeadAnimation();
+                AbstractBulletView buv = ((AbstractBulletView) bullet.getViewObject());
+                buv.remove();
             }
 
             @Override

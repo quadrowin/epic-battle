@@ -8,7 +8,7 @@
   "move_speed": 50,
   "max_target_count": 1,
   "max_hp": 100,
-  "icon": "icons/units/forks.png",
+  "icon": "wheel/sedan.png",
   "level_ups": [
     {
       "max_hp": 10,

@@ -12,17 +12,11 @@ import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
 import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
 import com.quadrolord.epicbattle.logic.bullet.worker.MockBullet;
-import com.quadrolord.epicbattle.logic.profile.ProfileSkill;
-import com.quadrolord.epicbattle.logic.skill.AbstractBulletSkill;
-import com.quadrolord.epicbattle.logic.skill.AbstractSkillEntity;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.screen.slider.SliderList;
 import com.quadrolord.epicbattle.screen.slider.SliderListener;
 import com.quadrolord.epicbattle.screen.unitstest.UnitTestSliderContent;
-import com.quadrolord.epicbattle.screen.upgrading.UpgradingItemData;
-import com.quadrolord.epicbattle.screen.upgrading.UpgradingSliderContent;
-import com.quadrolord.epicbattle.view.BulletUnitView;
-import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
+import com.quadrolord.epicbattle.view.bullet.AbstractBulletView;
 
 /**
  * Created by Goorus on 20.07.2016.
@@ -37,7 +31,7 @@ public class UnitsTestScreen extends AbstractScreen {
 
     private Group mBulletWrapper;
 
-    private BulletUnitView mCurrentView;
+    private AbstractBulletView mCurrentView;
 
     private int mCurrentStateIndex = 0;
 
@@ -84,10 +78,18 @@ public class UnitsTestScreen extends AbstractScreen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("uts", "view clicked");
-                if (mCurrentView != null) {
-                    switchAnimation();
+                if (event.getButton() == 0) {
+                    if (mCurrentView != null) {
+                        switchAnimation();
+                    }
+                } else if (event.getButton() == 2){
+                    mBullet.setDirection(
+                            mBullet.getDirection() == AbstractBullet.DIRECTION_LEFT
+                                    ? AbstractBullet.DIRECTION_RIGHT
+                                    : AbstractBullet.DIRECTION_LEFT
+                    );
                 }
+
             }
 
         });
@@ -97,7 +99,7 @@ public class UnitsTestScreen extends AbstractScreen {
         float previousWidth = mBullet.getWidth();
         mBullet.setLogic(logic);
         mCuName.setText( logic.getTitle() );
-        Class<? extends BulletUnitView> viewClass = logic.getViewClass();
+        Class<? extends AbstractBulletView> viewClass = logic.getViewClass();
 
         mBullet.setX(mBullet.getX() + (previousWidth - mBullet.getWidth()) / 2);
 
@@ -109,7 +111,7 @@ public class UnitsTestScreen extends AbstractScreen {
             mCurrentView = viewClass.getConstructor(AbstractBullet.class, com.quadrolord.ejge.view.AbstractScreen.class).newInstance(mBullet, this);
         } catch (Exception e) {
             Gdx.app.error("uts", "view create " + viewClass.getName(), e.getCause());
-            mCurrentView = new BulletUnitView(mBullet, this) {
+            mCurrentView = new AbstractBulletView(mBullet, this) {
 
                 @Override
                 protected void initAnimations(com.quadrolord.ejge.view.AbstractScreen screen) {

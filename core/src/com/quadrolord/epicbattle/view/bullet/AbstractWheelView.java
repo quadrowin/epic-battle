@@ -1,22 +1,21 @@
-package com.quadrolord.epicbattle.view.worker;
+package com.quadrolord.epicbattle.view.bullet;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
-import com.quadrolord.epicbattle.view.BulletUnitView;
 import com.quadrolord.epicbattle.view.wheel.AttackAnimationDrawable;
 import com.quadrolord.epicbattle.view.wheel.DeadAnimationDrawable;
 import com.quadrolord.epicbattle.view.wheel.WalkAnimationDrawable;
 
 /**
- * Created by Quadrowin on 10.07.2016.
+ * Created by Goorus on 28.07.2016.
  */
-public class Wheel extends BulletUnitView {
+abstract public class AbstractWheelView extends AbstractBulletView {
 
     private Texture mWheelTexture;
 
-    public Wheel(AbstractBullet bullet, AbstractScreen screen) {
+    public AbstractWheelView(AbstractBullet bullet, AbstractScreen screen) {
         super(bullet, screen);
     }
 
@@ -38,10 +37,14 @@ public class Wheel extends BulletUnitView {
         );
     }
 
-    private Texture getWheelTexture(AbstractScreen screen) {
+    protected Texture getWheelTexture(AbstractScreen screen) {
         if (null == mWheelTexture) {
-            mWheelTexture = screen.getTextures().get("wheel/wheel001.png");
+            mWheelTexture = screen.getTextures().get(getWheelTextureFile());
         }
         return mWheelTexture;
     }
+
+    abstract protected String getWheelTextureFile();
+
 }
+

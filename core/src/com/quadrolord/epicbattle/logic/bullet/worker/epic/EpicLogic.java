@@ -1,21 +1,21 @@
-package com.quadrolord.epicbattle.logic.bullet.worker.big;
+package com.quadrolord.epicbattle.logic.bullet.worker.epic;
 
 import com.quadrolord.epicbattle.logic.bullet.leveling.SimpleStrategy;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
-import com.quadrolord.epicbattle.view.bullet.Big;
+import com.quadrolord.epicbattle.view.bullet.Epic;
 
 /**
- * Created by Quadrowin on 02.07.2016.
+ * Created by Goorus on 28.07.2016.
  */
-public class BigLogic extends AbstractLogic<BigBullet> {
+public class EpicLogic extends AbstractLogic<EpicBullet> {
 
-    public BigLogic() {
-        setHeight(60);
-        setWidth(60);
-        setDescription("He is real strong. He is real BIG. He will bring you victory.");
-        setViewClass(Big.class);
+    public EpicLogic() {
+        setHeight(40);
+        setWidth(40);
+        setDescription("A very very old wheel.");
+        setViewClass(Epic.class);
         setLevelingStrategy(new SimpleStrategy());
     }
 
@@ -25,3 +25,4 @@ public class BigLogic extends AbstractLogic<BigBullet> {
     }
 
 }
+

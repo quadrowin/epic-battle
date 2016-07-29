@@ -4,6 +4,7 @@ import com.quadrolord.epicbattle.logic.bullet.leveling.SimpleStrategy;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
+import com.quadrolord.epicbattle.view.bullet.Simple;
 
 /**
  * Created by Quadrowin on 09.01.2016.
@@ -11,10 +12,10 @@ import com.quadrolord.epicbattle.logic.skill.SkillItem;
 public class SimpleLogic extends AbstractLogic<SimpleBullet> {
 
     public SimpleLogic() {
-        setHeight(50);
-        setWidth(39);
+        setHeight(40);
+        setWidth(40);
         setDescription("I will fight for you to the end.");
-        setViewClass(com.quadrolord.epicbattle.view.worker.Simple.class);
+        setViewClass(Simple.class);
         setLevelingStrategy(new SimpleStrategy());
     }
 

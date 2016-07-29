@@ -8,7 +8,7 @@
   "move_speed": 50,
   "max_target_count": 1,
   "max_hp": 300,
-  "icon": "icons/units/simple.png",
+  "icon": "wheel/simple.png",
   "level_ups": [
     {
       "max_hp": 10,

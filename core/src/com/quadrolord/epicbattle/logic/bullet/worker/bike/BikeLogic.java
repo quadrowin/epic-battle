@@ -1,20 +1,21 @@
-package com.quadrolord.epicbattle.logic.bullet.worker.wheel001;
+package com.quadrolord.epicbattle.logic.bullet.worker.bike;
 
 import com.quadrolord.epicbattle.logic.bullet.leveling.SimpleStrategy;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
+import com.quadrolord.epicbattle.view.bullet.Bike;
 
 /**
  * Created by Quadrowin on 10.07.2016.
  */
-public class Wheel001Logic extends AbstractLogic<Wheel001Bullet> {
+public class BikeLogic extends AbstractLogic<BikeBullet> {
 
-    public Wheel001Logic() {
+    public BikeLogic() {
         setHeight(40);
         setWidth(40);
         setDescription("I will fight for you to the end.");
-        setViewClass(com.quadrolord.epicbattle.view.worker.Wheel.class);
+        setViewClass(Bike.class);
         setLevelingStrategy(new SimpleStrategy());
     }
 

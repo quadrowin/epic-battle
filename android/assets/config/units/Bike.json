@@ -1,14 +1,14 @@
 {
-  "title": "A beautiful ninja",
+  "title": "Wheel model 001",
   "cost": 50,
-  "construction_time": 9,
+  "construction_time": 3,
   "attack_damage": 50,
   "attack_distance": 20,
   "attack_time": 1,
-  "move_speed": 50,
+  "move_speed": 30,
   "max_target_count": 1,
-  "max_hp": 100,
-  "icon": "wheel/some_new.png",
+  "max_hp": 300,
+  "icon": "wheel/bike.png",
   "level_ups": [
     {
       "max_hp": 10,

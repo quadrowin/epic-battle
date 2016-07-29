@@ -4,7 +4,7 @@ import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.logic.tower.Tower;
-import com.quadrolord.epicbattle.view.BulletUnitView;
+import com.quadrolord.epicbattle.view.bullet.AbstractBulletView;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -104,7 +104,7 @@ abstract public class AbstractBulletSkill<T extends AbstractLogic> extends Abstr
         return mBulletLogic.getBulletClass();
     }
 
-    public Class<? extends BulletUnitView> getViewClass() {
+    public Class<? extends AbstractBulletView> getViewClass() {
         return mBulletLogic.getViewClass();
     }
 

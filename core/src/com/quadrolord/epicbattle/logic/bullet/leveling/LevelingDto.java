@@ -1,7 +1,7 @@
 package com.quadrolord.epicbattle.logic.bullet.leveling;
 
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
-import com.quadrolord.epicbattle.view.BulletUnitView;
+import com.quadrolord.epicbattle.view.bullet.AbstractBulletView;
 
 /**
  * Created by morph on 13.01.2016.
@@ -25,7 +25,7 @@ public class LevelingDto {
 
     private String mTitle;
 
-    private Class<? extends BulletUnitView> mViewClass;
+    private Class<? extends AbstractBulletView> mViewClass;
 
     private Class<? extends AbstractBullet> mBulletClass;
 
@@ -123,11 +123,11 @@ public class LevelingDto {
         return this;
     }
 
-    public Class<? extends BulletUnitView> getViewClass() {
+    public Class<? extends AbstractBulletView> getViewClass() {
         return mViewClass;
     }
 
-    public LevelingDto setViewClass(Class<? extends BulletUnitView> viewClass) {
+    public LevelingDto setViewClass(Class<? extends AbstractBulletView> viewClass) {
         this.mViewClass = viewClass;
         return this;
     }

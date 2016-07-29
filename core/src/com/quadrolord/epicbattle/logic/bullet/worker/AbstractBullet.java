@@ -87,6 +87,11 @@ abstract public class AbstractBullet extends GameUnit {
     public void act(float delta) {
         mTime += delta;
         mStateTime += delta;
+
+        if (isDied()) {
+            return;
+        }
+
         AbstractBulletSkill bs = (AbstractBulletSkill) mSkill.getInfo();
 
         Tower enemyTower = getTower().getEnemy();

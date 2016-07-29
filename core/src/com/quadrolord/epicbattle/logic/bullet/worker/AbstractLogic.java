@@ -1,12 +1,11 @@
 package com.quadrolord.epicbattle.logic.bullet.worker;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.bullet.leveling.AbstractStrategy;
 import com.quadrolord.epicbattle.logic.bullet.leveling.LevelingDto;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
 import com.quadrolord.epicbattle.logic.tower.Tower;
-import com.quadrolord.epicbattle.view.BulletUnitView;
+import com.quadrolord.epicbattle.view.bullet.AbstractBulletView;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -41,7 +40,7 @@ abstract public class AbstractLogic<T extends AbstractBullet> {
 
     private String mTitle;
 
-    private Class<? extends BulletUnitView> mViewClass;
+    private Class<? extends AbstractBulletView> mViewClass;
 
     private Class<? extends AbstractBullet> mBulletClass;
 
@@ -88,11 +87,11 @@ abstract public class AbstractLogic<T extends AbstractBullet> {
         return mTitle;
     }
 
-    public Class<? extends BulletUnitView> getViewClass() {
+    public Class<? extends AbstractBulletView> getViewClass() {
         return mViewClass;
     }
 
-    public void setViewClass(Class<? extends BulletUnitView> viewClass) {
+    public void setViewClass(Class<? extends AbstractBulletView> viewClass) {
         mViewClass = viewClass;
     }
 

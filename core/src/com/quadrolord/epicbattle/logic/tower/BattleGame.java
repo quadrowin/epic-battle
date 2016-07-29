@@ -31,6 +31,8 @@ import java.util.Iterator;
  */
 public class BattleGame {
 
+    private float mDeathDuration = 3;
+
     private EpicBattle mGame;
 
     private Array<AbstractController> mControllers = new Array<AbstractController>();
@@ -88,7 +90,7 @@ public class BattleGame {
         for (Iterator<AbstractBullet> it = mBullets.iterator(); it.hasNext(); ) {
             AbstractBullet unit = it.next();
 
-            if (unit.isDied()) {
+            if (unit.isDied() && unit.getStateTime() >= mDeathDuration) {
                 it.remove();
                 mListener.onBulletRemove(unit);
             } else {

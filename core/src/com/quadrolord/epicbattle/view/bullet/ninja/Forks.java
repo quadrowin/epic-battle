@@ -1,17 +1,16 @@
-package com.quadrolord.epicbattle.view.worker;
+package com.quadrolord.epicbattle.view.bullet.ninja;
 
-import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.ejge.view.AbstractScreen;
+import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
-import com.quadrolord.epicbattle.view.BulletUnitView;
-import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
+import com.quadrolord.epicbattle.view.bullet.AbstractBulletView;
 
 /**
- * Created by Quadrowin on 20.01.2016.
+ * Created by morph on 11.01.2016.
  */
-public class Girl extends BulletUnitView {
+public class Forks extends AbstractBulletView {
 
-    public Girl(AbstractBullet bullet, AbstractScreen screen) {
+    public Forks(AbstractBullet bullet, AbstractScreen screen) {
         super(bullet, screen);
     }
 
@@ -21,9 +20,9 @@ public class Girl extends BulletUnitView {
                 BulletState.RUN,
                 screen.getSpriteAnimationLoader().createDrawable(
                     screen.getSkin(),
-                    "animation/ninja_girl/run.png",
-                    71,
-                    99,
+                    "animation/ninja_a/ninja_run.png",
+                    70,
+                    89,
                     10,
                     0.1f,
                     2,
@@ -36,9 +35,9 @@ public class Girl extends BulletUnitView {
                 BulletState.ATTACK,
                 screen.getSpriteAnimationLoader().createDrawable(
                     screen.getSkin(),
-                    "animation/ninja_girl/attack.png",
-                    92,
-                    99,
+                    "animation/ninja_a/ninja_attack.png",
+                    95,
+                    89,
                     10,
                     0.1f,
                     2,
@@ -51,9 +50,9 @@ public class Girl extends BulletUnitView {
                 BulletState.DEATH,
                 screen.getSpriteAnimationLoader().createDrawable(
                     screen.getSkin(),
-                    "animation/ninja_girl/dead.png",
-                    96,
-                    99,
+                    "animation/ninja_a/ninja_dead.png",
+                    85,
+                    89,
                     10,
                     0.1f,
                     2,

@@ -4,6 +4,7 @@ import com.quadrolord.epicbattle.logic.bullet.leveling.SimpleStrategy;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
+import com.quadrolord.epicbattle.view.bullet.Forks;
 
 /**
  * Юнит раздваивается на 2 при смерти
@@ -11,10 +12,10 @@ import com.quadrolord.epicbattle.logic.skill.SkillItem;
 public class ForksLogic extends AbstractLogic<ForksBullet> {
 
     public ForksLogic() {
-        setHeight(50);
-        setWidth(39);
+        setHeight(40);
+        setWidth(40);
         setDescription("We are not the one.");
-        setViewClass(com.quadrolord.epicbattle.view.worker.Forks.class);
+        setViewClass(Forks.class);
         setLevelingStrategy(new SimpleStrategy());
     }
 

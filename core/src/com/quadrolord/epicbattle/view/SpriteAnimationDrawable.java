@@ -24,6 +24,13 @@ public class SpriteAnimationDrawable implements Drawable {
      */
     private float mDeltaX = 0;
 
+    /**
+     * Направление: +-1
+     * При изменении напрвления на все представление накладывается масштабирование "-1",
+     * поэтому вращение в анимации будет иметь значение отличное от mDeltaX.
+     */
+    private float mDirection = 1;
+
     public SpriteAnimationDrawable(
             Animation animation,
             float width,
@@ -140,6 +147,10 @@ public class SpriteAnimationDrawable implements Drawable {
         return mDeltaX;
     }
 
+    public float getDirection() {
+        return mDirection;
+    }
+
     public float getHeight() {
         return mHeight;
     }
@@ -158,6 +169,10 @@ public class SpriteAnimationDrawable implements Drawable {
 
     public void setDeltaX(float dx) {
         mDeltaX = dx;
+    }
+
+    public void setDirection(float dir) {
+        mDirection = dir > 0 ? 1 : -1;
     }
 
     public float getBaseDuration() {

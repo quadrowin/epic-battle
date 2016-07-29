@@ -1,4 +1,4 @@
-package com.quadrolord.epicbattle.view;
+package com.quadrolord.epicbattle.view.bullet;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -8,11 +8,13 @@ import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
 import com.quadrolord.epicbattle.screen.battle.Shadow;
+import com.quadrolord.epicbattle.view.SpriteAnimationActor;
+import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
 
 /**
  * Created by Quadrowin on 09.01.2016.
  */
-public abstract class BulletUnitView extends Group {
+public abstract class AbstractBulletView extends Group {
 
     private AbstractBullet mBullet;
 
@@ -26,7 +28,7 @@ public abstract class BulletUnitView extends Group {
 
     protected abstract void initAnimations(AbstractScreen screen);
 
-    public BulletUnitView(AbstractBullet bullet, AbstractScreen screen) {
+    public AbstractBulletView(AbstractBullet bullet, AbstractScreen screen) {
         mBullet = bullet;
         mBullet.setViewObject(this);
 
@@ -52,6 +54,7 @@ public abstract class BulletUnitView extends Group {
 
         // Переключение анимации
         if (bulletState != mLastState) {
+            float originalAnimDeltaX = mAnimation.getAnimation().getDeltaX();
             switch (bulletState) {
                 case ATTACK:
                     mAnimation.setAnimationLooped(getAnimation(BulletState.ATTACK));
@@ -63,6 +66,7 @@ public abstract class BulletUnitView extends Group {
                     mAnimation.setAnimationLooped(getAnimation(BulletState.RUN));
             }
             mLastState = bulletState;
+            mAnimation.getAnimation().setDeltaX(originalAnimDeltaX);
         }
 
         // Для текущей анимации
@@ -101,6 +105,7 @@ public abstract class BulletUnitView extends Group {
     }
 
     public void updateBounds() {
+        mAnimation.getAnimation().setDirection(mBullet.getDirection());
         float originalX = getX();
         float scale = mBullet.getHeight() / mAnimation.getAnimation().getHeight();
         if (mBullet.getDirection() > 0) {

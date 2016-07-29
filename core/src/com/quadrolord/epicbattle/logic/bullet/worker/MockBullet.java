@@ -36,14 +36,22 @@ public class MockBullet extends AbstractBullet {
         float halfWidth = getWidth() / 2;
         float originalX = getX() - halfWidth;
         float newX;
-        float speed = 40;
+        float speed = getDirection() == DIRECTION_LEFT ? -40 : 40;
 
         BulletState state = getState();
         if (state == BulletState.RUN || state == BulletState.WALK) {
-            if (originalX > stageWidth) {
-                newX = -getWidth();
+            if (speed > 0) {
+                if (originalX > stageWidth) {
+                    newX = -getWidth();
+                } else {
+                    newX = originalX + delta * speed;
+                }
             } else {
-                newX = originalX + delta * speed;
+                if (originalX < -getWidth()) {
+                    newX = stageWidth;
+                } else {
+                    newX = originalX - delta * speed;
+                }
             }
         } else {
             float centerX = stageWidth / 2;

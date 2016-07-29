@@ -1,5 +1,5 @@
 {
-  "title": "Wheel model 001",
+  "title": "The first wheel of the world",
   "cost": 50,
   "construction_time": 3,
   "attack_damage": 50,
@@ -8,7 +8,7 @@
   "move_speed": 30,
   "max_target_count": 1,
   "max_hp": 300,
-  "icon": "wheel/wheel001.png",
+  "icon": "wheel/epic.png",
   "level_ups": [
     {
       "max_hp": 10,
