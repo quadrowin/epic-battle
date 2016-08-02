@@ -1,13 +1,11 @@
 package com.quadrolord.epicbattle.logic.tower;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.skill.AbstractSkillEntity;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
-import com.quadrolord.epicbattle.view.TowerView;
 
 import java.util.Iterator;
 
@@ -47,10 +45,12 @@ public class Tower extends GameUnit {
 
     private Array<AbstractBullet> mBullets = new Array<AbstractBullet>();
 
+    private TowerUnitHeap mUnitsHeap = new TowerUnitHeap();
+
     public Tower(BattleGame game) {
         super(game);
-
         mHp = mMaxHp;
+        mUnitsHeap.add(this);
     }
 
     public SkillItem addSkillEntity(AbstractSkillEntity skillEntity, int level) {
@@ -72,6 +72,8 @@ public class Tower extends GameUnit {
             }
             skill.getInfo().act(skill, delta);
         }
+
+        mUnitsHeap.act(this);
     }
 
     public void addSkillItem(SkillItem skill) {
@@ -116,8 +118,13 @@ public class Tower extends GameUnit {
         return mBullets;
     }
 
+    public TowerUnitHeap getUnitsHeap() {
+        return mUnitsHeap;
+    }
+
     public void addUnit(AbstractBullet unit) {
         mBullets.add(unit);
+        mUnitsHeap.add(unit);
     }
 
     public float getCooldownLength(SkillItem skill) {
@@ -176,11 +183,8 @@ public class Tower extends GameUnit {
     }
 
     public void deleteUnit(AbstractBullet unit) {
-        for (Iterator<AbstractBullet> iter = mBullets.iterator(); iter.hasNext(); ) {
-            if (iter.next().equals(unit)) {
-                iter.remove();
-            }
-        }
+        mBullets.removeValue(unit, true);
+        mUnitsHeap.remove(unit);
     }
 
     public void onDeath() {

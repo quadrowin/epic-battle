@@ -142,6 +142,8 @@ abstract public class AbstractBullet extends GameUnit {
                 getX() - bs.getAttackDistance(), getY(),
                 bs.getAttackDistance() * 2, getHeight()
         );
+
+        mTower.getUnitsHeap().act(this);
     }
 
     public boolean isAttackingTower(Tower tower) {
