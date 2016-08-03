@@ -7,6 +7,7 @@ import com.quadrolord.epicbattle.logic.skill.SkillItem;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.logic.tower.GameUnit;
 import com.quadrolord.epicbattle.logic.tower.Tower;
+import com.quadrolord.epicbattle.logic.tower.TowerUnitHeap;
 
 import java.util.Iterator;
 
@@ -25,8 +26,6 @@ abstract public class AbstractBullet extends GameUnit {
     protected Tower mTower;
 
     private Array<GameUnit> mTargets = new Array<GameUnit>();
-
-    private Array<AbstractBullet> mAttackers = new Array<AbstractBullet>();
 
     /**
      * Состояние
@@ -47,25 +46,20 @@ abstract public class AbstractBullet extends GameUnit {
         super(game);
     }
 
-    public void addAttacker(AbstractBullet unit) {
-        mAttackers.add(unit);
-    }
-
     public void findTargets() {
-        Array<AbstractBullet> enemies = mTower.getEnemy().getUnits();
+        TowerUnitHeap enemies = mTower.getEnemy().getUnitsHeap();
         AbstractBulletSkill bs = (AbstractBulletSkill) mSkill.getInfo();
 
-        for (Iterator<AbstractBullet> it = enemies.iterator(); it.hasNext(); ) {
+        for (Iterator<GameUnit> it = enemies.iterator(); it.hasNext(); ) {
 
             if (bs.getMaxTargetCount() <= mTargets.size) {
                 return;
             }
 
-            AbstractBullet unit = it.next();
+            GameUnit unit = it.next();
 
             if (canAttack(unit) && !unit.isDied()) {
                 mTargets.add(unit);
-                unit.addAttacker(this);
             }
         }
 
@@ -155,9 +149,12 @@ abstract public class AbstractBullet extends GameUnit {
             mGame.getListener().onBulletAttack(this, mTargets.get(0));
         }
         AbstractBulletSkill bs = (AbstractBulletSkill) mSkill.getInfo();
-        for (int i = 0; i < mTargets.size; i++) {
-            if (!mTargets.get(i).isDied()) {
-                mTargets.get(i).harm(bs.getAttackDamage());
+        for (Iterator<GameUnit> it = mTargets.iterator(); it.hasNext(); ) {
+            GameUnit target = it.next();
+            if (target.isDied()) {
+                it.remove();
+            } else {
+                target.harm(bs.getAttackDamage());
             }
         }
     }
@@ -201,10 +198,6 @@ abstract public class AbstractBullet extends GameUnit {
     @Override
     public void onDeath() {
         setState(BulletState.DEATH, 1);
-
-        for (Iterator<AbstractBullet> iter = mAttackers.iterator(); iter.hasNext(); ) {
-            iter.next().removeTarget(this);
-        }
 
         mTower.getEnemy().reward(this);
         mTower.deleteUnit(this);

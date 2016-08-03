@@ -6,17 +6,24 @@ import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 /**
  * Created by Goorus on 02.08.2016.
  */
-public class TowerUnitHeapNode extends BinaryHeap.Node {
+public class TowerUnitHeapNode {
+
+    public float value;
+    public int index;
 
     private GameUnit mUnit;
 
     public TowerUnitHeapNode(GameUnit unit) {
-        super(unit.getX());
+        value = unit.getX();
         mUnit = unit;
     }
 
     public GameUnit getUnit() {
         return mUnit;
+    }
+
+    public float getValue() {
+        return value;
     }
 
 }
