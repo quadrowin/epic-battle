@@ -104,6 +104,7 @@ public class Tower extends GameUnit {
         setHp(getMaxHp());
         mAllSkills.clear();
         mBullets.clear();
+        mUnitsHeap.clear();
     }
 
     public SkillItem getBulletSkill(AbstractSkillEntity workerClass) {

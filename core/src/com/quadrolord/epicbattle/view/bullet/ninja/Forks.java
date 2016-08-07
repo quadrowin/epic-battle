@@ -32,7 +32,7 @@ public class Forks extends AbstractBulletView {
         );
 
         mAnimations.put(
-                BulletState.ATTACK,
+                BulletState.ATTACK_PREPARE,
                 screen.getSpriteAnimationLoader().createDrawable(
                     screen.getSkin(),
                     "animation/ninja_a/ninja_attack.png",

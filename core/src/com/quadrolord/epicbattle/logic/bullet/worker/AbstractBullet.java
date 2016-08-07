@@ -1,6 +1,7 @@
 package com.quadrolord.epicbattle.logic.bullet.worker;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.physics.bullet.Bullet;
 import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.skill.AbstractBulletSkill;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
@@ -30,7 +31,7 @@ abstract public class AbstractBullet extends GameUnit {
     /**
      * Состояние
      */
-    private BulletState mState;
+    private BulletState mState = BulletState.IDLE;
 
     /**
      * Время в текущем состоянии
@@ -94,12 +95,21 @@ abstract public class AbstractBullet extends GameUnit {
             removeTarget(enemyTower);
         }
 
-        if (bs.getMaxTargetCount() > mTargets.size) {
+        mIsUnderAttack = false;
+
+        if (mState == BulletState.ATTACK_PREPARE && mStateTime >= mStateLengthTime) {
             findTargets();
+            if (mTargets.size > 0) {
+                if ((mTime - mLastAttackedTime) >= bs.getAttackTime() / mTower.getTimeUp()) {
+                    attack();
+                }
+            }
+            setState(BulletState.ATTACK_FINISH, 0);
         }
 
-        mIsUnderAttack = false;
-        boolean isStateFree = false;
+        if (mState == BulletState.ATTACK_FINISH && mStateTime >= mStateLengthTime) {
+            setState(BulletState.RUN, 1);
+        }
 
         if (mState == BulletState.FOLD_BACK) {
             if (mStateTime >= FOLD_BACK_TIME) {
@@ -107,29 +117,18 @@ abstract public class AbstractBullet extends GameUnit {
             } else {
                 setX(getX() - 5 * Math.signum(getVelocity()) * delta * mTower.getTimeUp());
             }
-        } else if (mState == BulletState.IDLE) {
-            if (mStateTime >= IDLE_TIME) {
-                isStateFree = true;
-            }
-        } else {
-            isStateFree = true;
         }
 
-        if (isStateFree) {
+        if (mState == BulletState.RUN || mState == BulletState.IDLE) {
+            findTargets();
             if (mTargets.size > 0) {
-                setState(BulletState.ATTACK, bs.getAttackTime());
-
-                if ((mTime - mLastAttackedTime) >= bs.getAttackTime() / mTower.getTimeUp()) {
-                    attack();
-                    mLastAttackedTime = mTime;
-                }
-            } else {
+                setState(BulletState.ATTACK_PREPARE, bs.getAttackTime());
+                mLastAttackedTime = mTime;
+            } else if (mState == BulletState.IDLE && mStateTime >= IDLE_TIME) {
                 setState(BulletState.RUN, 1); // 1 - время одного шага
+            } else if (mState == BulletState.RUN) {
+                setX(getX() + getVelocity() * delta * mTower.getTimeUp());
             }
-        }
-
-        if (isRunning()) {
-            setX(getX() + getVelocity() * delta * mTower.getTimeUp());
         }
 
         mAttackBounds.set(

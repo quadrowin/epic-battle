@@ -12,6 +12,8 @@ import java.util.Iterator;
  */
 public class SoundManager {
 
+    private boolean mEnabled = false;
+
     private String mSoundsPath = "sounds/";
 
     private ArrayMap<String, LoadedSound> mLoaded = new ArrayMap<String, LoadedSound>();
@@ -36,6 +38,9 @@ public class SoundManager {
 
     public long play(String name) {
         if (name == null) {
+            return 0;
+        }
+        if (!mEnabled) {
             return 0;
         }
         Gdx.app.log(getClass().getName(), "play sound " + name);

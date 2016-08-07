@@ -11,10 +11,23 @@ public enum BulletState {
 
     RUN,
 
-    ATTACK,
+    /**
+     * Подготовка к атаке
+     */
+    ATTACK_PREPARE,
+
+    /**
+     * Промежуток между атаками (для серсии ударов)
+     */
+    ATTACK_BETWEEN,
+
+    /**
+     * Завершение атаки
+     */
+    ATTACK_FINISH,
 
     FOLD_BACK,
 
-    DEATH
+    DEATH,
 
 }

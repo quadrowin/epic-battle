@@ -27,7 +27,7 @@ abstract public class AbstractWheelView extends AbstractBulletView {
         );
 
         mAnimations.put(
-                BulletState.ATTACK,
+                BulletState.ATTACK_PREPARE,
                 new AttackAnimationDrawable(getWheelTexture(screen), getWidth(), getHeight())
         );
 

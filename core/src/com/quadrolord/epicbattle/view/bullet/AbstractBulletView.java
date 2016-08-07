@@ -31,7 +31,7 @@ public abstract class AbstractBulletView extends Group {
     public AbstractBulletView(AbstractBullet bullet, AbstractScreen screen) {
         mBullet = bullet;
         mBullet.setViewObject(this);
-
+        Gdx.app.log("bullet", "b " + bullet + " " + bullet.getState());
         setBounds(
                 mBullet.getX() - bullet.getWidth() * .5f, mBullet.getY(),
                 bullet.getWidth(), bullet.getHeight()
@@ -54,10 +54,16 @@ public abstract class AbstractBulletView extends Group {
 
         // Переключение анимации
         if (bulletState != mLastState) {
-            float originalAnimDeltaX = mAnimation.getAnimation().getDeltaX();
+            Gdx.app.log("st", "st " + bulletState.name());
+            float originalAnimDeltaX = mAnimation.getAnimation() == null
+                    ? 0
+                    : mAnimation.getAnimation().getDeltaX();
             switch (bulletState) {
-                case ATTACK:
-                    mAnimation.setAnimationLooped(getAnimation(BulletState.ATTACK));
+                case ATTACK_PREPARE:
+                    mAnimation.setAnimationLooped(getAnimation(BulletState.ATTACK_PREPARE));
+                    break;
+                case ATTACK_FINISH:
+                    mAnimation.setAnimation(getAnimation(BulletState.IDLE));
                     break;
                 case DEATH:
                     mAnimation.setAnimation(getAnimation(BulletState.DEATH));
@@ -76,7 +82,7 @@ public abstract class AbstractBulletView extends Group {
                 float dy = (float)Math.sin(3.14f * mBullet.getStatePart());
                 setY(mBullet.getY() + dy * 10);
                 break;
-            case ATTACK:
+            case ATTACK_PREPARE:
                 mAnimation.getAnimation().setTimePart( mBullet.getStatePart() );
                 setY(mBullet.getY());
                 break;

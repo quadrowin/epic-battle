@@ -37,7 +37,8 @@ public class UnitsTestScreen extends AbstractScreen {
 
     private BulletState[] mSwitchingStates = new BulletState[]{
             BulletState.WALK,
-            BulletState.ATTACK,
+            BulletState.ATTACK_PREPARE,
+            BulletState.IDLE,
             BulletState.DEATH,
     };
 
