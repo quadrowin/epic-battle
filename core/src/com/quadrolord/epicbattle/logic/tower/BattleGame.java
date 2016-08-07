@@ -122,6 +122,7 @@ public class BattleGame {
     }
 
     public void towerFinish(Tower tower, AbstractController controller) {
+        tower.setHp(tower.getMaxHp());
         controller.setTower(tower);
 
         mControllers.add(controller);
