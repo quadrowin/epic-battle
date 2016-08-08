@@ -36,7 +36,7 @@ public class WalkAnimationDrawable extends SpriteAnimationDrawable {
                 halfWidth, halfHeight,  // originX, originY (центр колеса)
                 getWidth(), getHeight(), // width, height
                 1f, 1f,         // scaleX, scaleY
-                -getDirection() * getDeltaX() * 3.14f,
+                -getDeltaX() * 3.14f,
                 0, 0,           // srcX, srcY
                 mTexture.getWidth(), mTexture.getHeight(),  // srcWidth, srcHeight
                 false, false    // flipX, flipY

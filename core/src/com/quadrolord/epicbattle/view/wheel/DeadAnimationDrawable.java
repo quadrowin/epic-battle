@@ -37,8 +37,8 @@ public class DeadAnimationDrawable extends SpriteAnimationDrawable {
         }
         batch.draw(
                 mTexture,
-                Math.signum(-getDeltaX()) * getTime() * 30,                 // x
-                getHeight() * (float)Math.abs(Math.sin(getTime() * 3)),    // y
+                -getDirection() * getTime() * 30,                           // x
+                getHeight() * (float)Math.abs(Math.sin(getTime() * 3)),     // y
                 halfWidth, halfHeight,      // originX, originY (центр колеса)
                 getWidth(), getHeight(),    // width, height
                 scale, scale,               // scaleX, scaleY

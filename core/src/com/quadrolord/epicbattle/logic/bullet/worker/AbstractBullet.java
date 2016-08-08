@@ -154,7 +154,11 @@ abstract public class AbstractBullet extends GameUnit {
                 it.remove();
             } else {
                 target.harm(bs.getAttackDamage());
+                if (target.isDied()) {
+                    it.remove();
+                }
             }
+
         }
     }
 

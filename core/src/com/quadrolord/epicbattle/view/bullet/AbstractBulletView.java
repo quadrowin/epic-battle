@@ -31,7 +31,6 @@ public abstract class AbstractBulletView extends Group {
     public AbstractBulletView(AbstractBullet bullet, AbstractScreen screen) {
         mBullet = bullet;
         mBullet.setViewObject(this);
-        Gdx.app.log("bullet", "b " + bullet + " " + bullet.getState());
         setBounds(
                 mBullet.getX() - bullet.getWidth() * .5f, mBullet.getY(),
                 bullet.getWidth(), bullet.getHeight()
@@ -87,7 +86,6 @@ public abstract class AbstractBulletView extends Group {
                 setY(mBullet.getY());
                 break;
             case DEATH:
-                mAnimation.getAnimation().setDeltaX( mBullet.getDirection() );
                 mAnimation.getAnimation().setTime( mBullet.getStateTime() );
                 setY(mBullet.getY());
                 break;
@@ -114,14 +112,8 @@ public abstract class AbstractBulletView extends Group {
         mAnimation.getAnimation().setDirection(mBullet.getDirection());
         float originalX = getX();
         float scale = mBullet.getHeight() / mAnimation.getAnimation().getHeight();
-        if (mBullet.getDirection() > 0) {
-            setX(mBullet.getX() - mBullet.getWidth() * .5f);
-            setScale(scale);
-        } else {
-            setX(mBullet.getX() + mBullet.getWidth() * .5f);
-            setScale(-scale, scale);
-        }
-
+        setScale(scale);
+        setX(mBullet.getX() - mBullet.getWidth() * .5f);
         mAnimation.getAnimation().incDeltaX(getX() - originalX);
     }
 
