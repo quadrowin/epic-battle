@@ -21,7 +21,7 @@ import com.quadrolord.epicbattle.logic.profile.ProfileManager;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.screen.BattleScreen;
-import com.quadrolord.epicbattle.screen.UnitsTestScreen;
+import com.quadrolord.epicbattle.screen.menu.MainMenuScreen;
 
 public class EpicBattle extends AbstractGameAdapter {
 
@@ -52,13 +52,7 @@ public class EpicBattle extends AbstractGameAdapter {
 			}
 		});
 
-
-		AbstractScreen screen = new BattleScreen(this, null);
-//		AbstractScreen screen = new CampaignSelectScreen(this);
-//		AbstractScreen screen = new UnitsUpgradingScreen(this);
-//		AbstractScreen screen = new UnitsTestScreen(this);
-//		AbstractScreen screen = new MyTownScreen(this);
-		switchToScreen(screen, true);
+		switchToScreen(getDefaultScreen(), true);
 
 		Firebase ref1 = new Firebase("http://epic-battle.firebaseio.com/web/data/users/last_auth/time");
 		ref1.setValue(Dates.now(), new Firebase.CompletionListener() {
@@ -74,6 +68,16 @@ public class EpicBattle extends AbstractGameAdapter {
         Firebase ref2 = new Firebase("http://epic-battle.firebaseio.com/web/data/test");
         ref2.setValue("5");
 
+	}
+
+	@Override
+	public AbstractScreen getDefaultScreen() {
+//		return new BattleScreen(this, null);
+		return new MainMenuScreen(this);
+//		return new CampaignSelectScreen(this);
+//		return new UnitsUpgradingScreen(this);
+//		return new UnitsTestScreen(this);
+//		return new MyTownScreen(this);
 	}
 
 	public ProfileManager getProfileManager() {
@@ -110,40 +114,7 @@ public class EpicBattle extends AbstractGameAdapter {
 
 
 	public void initCommonSkin(Skin skin) {
-		BitmapFont font = new BitmapFont();
-		skin.add("default", font, BitmapFont.class);
-
-		Label.LabelStyle ls = new Label.LabelStyle(font, Color.WHITE);
-		skin.add("default-label-style", ls);
-
-		Texture texture = new Texture(Gdx.files.internal("badlogic.jpg"));
-		skin.add("test-texture", texture);
-
-		Texture textureBtnUp = new Texture("ui/button64-up.png");
-		Texture textureBtnDown = new Texture("ui/button64-down.png");
-
-		NinePatch patchUp = new NinePatch(
-				textureBtnUp,
-				16, 16, 16, 16
-		);
-
-		NinePatch patchDown = new NinePatch(
-				textureBtnDown,
-				16, 16, 16, 16
-		);
-
-		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle(
-				new NinePatchDrawable(patchUp),
-				new NinePatchDrawable(patchDown),
-				null,
-				font
-		);
-		skin.add("default-text-button-style", textButtonStyle);
-
-		Pixmap transparent = new Pixmap(2, 2, Pixmap.Format.RGBA8888);
-		transparent.setColor(1, 1, 1, 0);
-		transparent.fill();
-		skin.add("transparent", new Texture(transparent));
+		RM.setSkin(skin);
 	}
 
 }

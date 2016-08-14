@@ -47,6 +47,8 @@ abstract public class AbstractGameAdapter extends ApplicationAdapter {
         return (T)mServices.get(type);
     }
 
+    abstract public AbstractScreen getDefaultScreen();
+
     public long getGameMillis() {
         return TimeUtils.millis();
     }
@@ -143,6 +145,9 @@ abstract public class AbstractGameAdapter extends ApplicationAdapter {
         if (dispose && mScreen != null) {
             mScreen.dispose();
             mSoundManager.onSourceDispose(mScreen);
+        }
+        if (newScreen == null) {
+            newScreen = getDefaultScreen();
         }
         mScreen = newScreen;
         if (mScreen != null) {

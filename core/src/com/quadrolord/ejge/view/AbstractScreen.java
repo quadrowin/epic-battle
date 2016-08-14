@@ -26,7 +26,7 @@ public class AbstractScreen implements Screen {
     /**
      * Размер пикселя
      */
-    protected float mPx = 2;
+    protected float mPx = 4;
 
     private SpriteAnimationLoader mSpriteAnimationLoader;
 
@@ -92,7 +92,6 @@ public class AbstractScreen implements Screen {
 
     /** Called when a screen should render itself */
     public void draw (float delta) {
-        mStage.act(delta);
         mStage.draw();
     }
 

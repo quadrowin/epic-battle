@@ -1,4 +1,4 @@
-package com.quadrolord.epicbattle.screen;
+package com.quadrolord.epicbattle.screen.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Group;
