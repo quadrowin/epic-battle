@@ -141,6 +141,15 @@ abstract public class AbstractGameAdapter extends ApplicationAdapter {
         }
     }
 
+    public void switchToChildScreen(Class<? extends AbstractScreen> screenClass, AbstractScreen parentScreen) {
+        try {
+            AbstractScreen screen = screenClass.getConstructor(AbstractScreen.class).newInstance(parentScreen);
+            switchToScreen(screen, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void switchToScreen(AbstractScreen newScreen, boolean dispose) {
         if (dispose && mScreen != null) {
             mScreen.dispose();

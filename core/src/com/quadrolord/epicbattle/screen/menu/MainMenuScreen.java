@@ -22,6 +22,7 @@ import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
 import com.quadrolord.epicbattle.logic.bullet.worker.MockBullet;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.screen.CampaignSelectScreen;
+import com.quadrolord.epicbattle.screen.menu.component.BackgroundStage;
 import com.quadrolord.epicbattle.screen.slider.SliderList;
 import com.quadrolord.epicbattle.screen.slider.SliderListener;
 import com.quadrolord.epicbattle.screen.unitstest.UnitTestSliderContent;
@@ -32,32 +33,25 @@ import com.quadrolord.epicbattle.view.bullet.AbstractBulletView;
  */
 public class MainMenuScreen extends AbstractScreen {
 
-    private Texture mBg;
+    private Image mLogo;
 
-    private Image mBgControl;
-
-    private Stage mBgStage;
-
-    private Viewport mBgViewport;
+    private BackgroundStage mBgStage = new BackgroundStage();
 
     public MainMenuScreen(AbstractGameAdapter adapter) {
         super(adapter);
         initFitViewport();
 
-        mBg = getTextures().get("Bg/menu/mbg1.jpg");
-        mBgControl = new Image(mBg);
-        mBgControl.setBounds(0, 0, 40, 30);
-
-        mBgViewport = new FillViewport(40, 30);
-        mBgViewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
-        mBgStage = new Stage(mBgViewport);
-        mBgStage.addActor(mBgControl);
+        mBgStage.loadImage(this, "Bg/menu/mbg1.jpg");
 
         mStage.setViewport( new FitViewport(800 * mPx, 600 * mPx) );
         mStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
+        mLogo = new Image(getTextures().get("ui/ewb-logo-1.png"));
+        mLogo.setBounds(0, 400, 400, 200);
+        mStage.addActor(mLogo);
+
         TextButton btnPlay = new TextButton("Play", RM.getTextButtonStyle());
-        btnPlay.setBounds(280, 310, 240, 80);
+        btnPlay.setBounds(270, 310, 260, 80);
         mStage.addActor(btnPlay);
         btnPlay.addListener(new ClickListener() {
 
@@ -67,14 +61,21 @@ public class MainMenuScreen extends AbstractScreen {
 
         });
 
+        final AbstractScreen thisScreen = this;
         TextButton btnSettings = new TextButton("Settings", RM.getTextButtonStyle());
-        btnSettings.setBounds(280, 210, 240, 80);
+        btnSettings.setBounds(270, 210, 260, 80);
         mStage.addActor(btnSettings);
+        btnSettings.addListener(new ClickListener() {
+
+            public void clicked (InputEvent event, float x, float y) {
+                mAdapter.switchToChildScreen(SettingsScreen.class, thisScreen);
+            }
+
+        });
     }
 
     @Override
     public void draw(float delta) {
-        mBgStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
         mBgStage.draw();
         mStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
         mStage.draw();
@@ -82,13 +83,11 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void update(float delta) {
-        mBgStage.act(delta);
         mStage.act(delta);
     }
 
     @Override
     public void resize(int width, int height) {
-        mBgStage.getViewport().update(width, height, true);
         mStage.getViewport().update(width, height, true);
     }
 

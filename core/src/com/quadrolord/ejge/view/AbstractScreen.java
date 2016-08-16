@@ -79,7 +79,7 @@ public class AbstractScreen implements Screen {
     }
 
     public void initFitViewport() {
-        mStage.setViewport(new FitViewport(400 * mPx, 300 * mPx));
+        mStage.setViewport(new FitViewport(800 * mPx, 600 * mPx));
         mStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
     }
 
