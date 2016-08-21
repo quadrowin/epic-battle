@@ -1,9 +1,10 @@
-package com.quadrolord.epicbattle.screen;
+package com.quadrolord.epicbattle.screen.menu;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.quadrolord.epicbattle.EpicBattle;
+import com.quadrolord.epicbattle.RM;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.screen.campaigns.CampaignsList;
 
@@ -18,8 +19,8 @@ public class CampaignSelectScreen extends com.quadrolord.ejge.view.AbstractScree
 
         new CampaignsList(this, get(BattleGame.class).getCampaignManager().getCampaigns());
 
-        TextButton btnToUpgrade = new TextButton("Upgrade units", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnToUpgrade.setBounds(210, 100, 180, 50);
+        TextButton btnToUpgrade = new TextButton("Upgrade units", RM.getTextButtonStyle());
+        btnToUpgrade.setBounds(210, 100, 260, 80);
         mStage.addActor(btnToUpgrade);
         btnToUpgrade.addListener(new ClickListener() {
 
@@ -30,7 +31,8 @@ public class CampaignSelectScreen extends com.quadrolord.ejge.view.AbstractScree
 
         });
 
-        TextButton btnToMyTown = new TextButton("Enter your city", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
+        /*
+        TextButton btnToMyTown = new TextButton("Enter your city", RM.getTextButtonStyle());
         btnToMyTown.setBounds(210, 190, 180, 50);
         mStage.addActor(btnToMyTown);
         btnToMyTown.addListener(new ClickListener() {
@@ -41,6 +43,7 @@ public class CampaignSelectScreen extends com.quadrolord.ejge.view.AbstractScree
             }
 
         });
+        */
     }
 
     @Override

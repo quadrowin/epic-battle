@@ -2,6 +2,8 @@ package com.quadrolord.epicbattle.screen.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.quadrolord.ejge.AbstractGameAdapter;
@@ -29,6 +31,33 @@ public class SettingsScreen extends AbstractScreen {
 
             public void clicked (InputEvent event, float x, float y) {
                 mAdapter.switchToScreen(mParentScreen, true);
+            }
+
+        });
+
+        CheckBox cbSounds = new CheckBox("", RM.getCheckBoxStyle());
+        cbSounds.setBounds(20, 500, 60, 60);
+        mStage.addActor(cbSounds);
+
+        Label lblSounds = new Label("Sound effects", RM.getLabelStyle());
+        lblSounds.setBounds(100, 500, 200, 60);
+        mStage.addActor(lblSounds);
+
+        CheckBox cbMusic = new CheckBox("", RM.getCheckBoxStyle());
+        cbMusic.setBounds(20, 400, 60, 60);
+        mStage.addActor(cbMusic);
+
+        Label lblMusic = new Label("Music", RM.getLabelStyle());
+        lblMusic.setBounds(100, 400, 200, 60);
+        mStage.addActor(lblMusic);
+
+        TextButton btnGooglePlayLink = new TextButton("GooglePlay", RM.getTextButtonStyle());
+        btnGooglePlayLink.setBounds(540, 20, 240, 80);
+        mStage.addActor(btnGooglePlayLink);
+        btnGooglePlayLink.addListener(new ClickListener() {
+
+            public void clicked (InputEvent event, float x, float y) {
+
             }
 
         });

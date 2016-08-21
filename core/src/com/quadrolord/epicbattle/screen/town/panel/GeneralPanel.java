@@ -9,7 +9,7 @@ import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.logic.town.building.entity.DoodleShop;
 import com.quadrolord.epicbattle.logic.town.building.entity.IronMine;
 import com.quadrolord.ejge.view.AbstractScreen;
-import com.quadrolord.epicbattle.screen.CampaignSelectScreen;
+import com.quadrolord.epicbattle.screen.menu.CampaignSelectScreen;
 import com.quadrolord.epicbattle.screen.NewBuildingScreen;
 
 /**

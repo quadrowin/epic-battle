@@ -1,32 +1,15 @@
 package com.quadrolord.epicbattle.screen.menu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.quadrolord.ejge.AbstractGameAdapter;
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.RM;
-import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
-import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
-import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
-import com.quadrolord.epicbattle.logic.bullet.worker.MockBullet;
-import com.quadrolord.epicbattle.logic.tower.BattleGame;
-import com.quadrolord.epicbattle.screen.CampaignSelectScreen;
 import com.quadrolord.epicbattle.screen.menu.component.BackgroundStage;
-import com.quadrolord.epicbattle.screen.slider.SliderList;
-import com.quadrolord.epicbattle.screen.slider.SliderListener;
-import com.quadrolord.epicbattle.screen.unitstest.UnitTestSliderContent;
-import com.quadrolord.epicbattle.view.bullet.AbstractBulletView;
 
 /**
  * Created by Goorus on 13.08.2016.

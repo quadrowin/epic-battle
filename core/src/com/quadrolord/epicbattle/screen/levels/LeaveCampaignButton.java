@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.quadrolord.ejge.view.AbstractScreen;
-import com.quadrolord.epicbattle.screen.CampaignSelectScreen;
+import com.quadrolord.epicbattle.screen.menu.CampaignSelectScreen;
 
 /**
  * Created by Quadrowin on 13.01.2016.

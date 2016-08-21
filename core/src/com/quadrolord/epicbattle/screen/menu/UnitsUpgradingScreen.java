@@ -1,6 +1,5 @@
-package com.quadrolord.epicbattle.screen;
+package com.quadrolord.epicbattle.screen.menu;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -8,8 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.EpicBattle;
+import com.quadrolord.epicbattle.RM;
 import com.quadrolord.epicbattle.logic.profile.ProfileManager;
-import com.quadrolord.epicbattle.logic.profile.ProfileSkill;
 import com.quadrolord.epicbattle.logic.skill.AbstractSkillEntity;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.screen.slider.SliderList;
@@ -31,16 +30,16 @@ public class UnitsUpgradingScreen extends AbstractScreen {
         super(adapter);
         initFitViewport();
 
-        mCuName = new Label("", mSkin.get("default-label-style", Label.LabelStyle.class));
+        mCuName = new Label("", RM.getLabelStyle());
         mCuName.setBounds(10, 270, 380, 30);
         getStage().addActor(mCuName);
 
-        mCuDescription = new Label("", mSkin.get("default-label-style", Label.LabelStyle.class));
+        mCuDescription = new Label("", RM.getLabelStyle());
         mCuDescription.setBounds(10, 200, 380, 70);
         mCuDescription.setAlignment(Align.topLeft);
         getStage().addActor(mCuDescription);
 
-        mProfileExperience = new Label("" + get(ProfileManager.class).getProfile().getExperience(), mSkin.get("default-label-style", Label.LabelStyle.class));
+        mProfileExperience = new Label("" + get(ProfileManager.class).getProfile().getExperience(), RM.getLabelStyle());
         mProfileExperience.setBounds(10, 270, 380, 30);
         mProfileExperience.setAlignment(Align.topRight);
         getStage().addActor(mProfileExperience);
@@ -61,8 +60,8 @@ public class UnitsUpgradingScreen extends AbstractScreen {
         sl.triggerCurrentButtonClick();
 
         // Кнопка апгрейда текущего юнита
-        TextButton btnUpgrade = new TextButton("Upgrade", getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnUpgrade.setBounds(290, 180, 70, 40);
+        TextButton btnUpgrade = new TextButton("Upgrade", RM.getTextButtonStyle());
+        btnUpgrade.setBounds(290, 180, 260, 80);
         mStage.addActor(btnUpgrade);
         btnUpgrade.addListener(new ClickListener() {
 
@@ -77,15 +76,15 @@ public class UnitsUpgradingScreen extends AbstractScreen {
         });
 
         // Кнопка закрытия
-        TextButton btnClose = new TextButton("Back", getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnClose.setBounds(10, 10, 65, 30);
+        TextButton btnClose = new TextButton("Back", RM.getTextButtonStyle());
+        btnClose.setBounds(10, 10, 260, 80);
         mStage.addActor(btnClose);
         btnClose.addListener(new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (mParentScreen == null) {
-                    getAdapter().switchToScreen(CampaignSelectScreen.class);
+                    getAdapter().switchToScreen(com.quadrolord.epicbattle.screen.menu.CampaignSelectScreen.class);
                 } else {
                     getAdapter().switchToScreen(getParentScreen(), true);
                 }

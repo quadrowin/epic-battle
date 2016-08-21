@@ -50,8 +50,8 @@ public class SliderList extends Group {
     private ShapeRenderer mShapeRenderer;
 
     public SliderList(final AbstractScreen screen, final SliderContent content) {
-        final float CONTROL_WIDTH = 400;
-        final float CONTROL_HEIGHT = 120;
+        final float CONTROL_WIDTH = 800;
+        final float CONTROL_HEIGHT = 240;
 
         mContent = content;
         mScreen = screen;
@@ -114,7 +114,7 @@ public class SliderList extends Group {
         tbViewFix.setBounds(items_count * (mItemWidth + mItemPaddingX) + mListPaddingX, mListPaddingBot, mItemWidth, mItemHeight);
         mWrapper.addActor(tbViewFix);
 
-        setBounds(0, 40, CONTROL_WIDTH, CONTROL_HEIGHT);
+        setBounds(0, 100, CONTROL_WIDTH, CONTROL_HEIGHT);
         screen.getStage().addActor(this);
 
         mShapeRenderer = new ShapeRenderer();
