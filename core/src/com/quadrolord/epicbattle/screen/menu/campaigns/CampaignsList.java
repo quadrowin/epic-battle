@@ -1,4 +1,4 @@
-package com.quadrolord.epicbattle.screen.campaigns;
+package com.quadrolord.epicbattle.screen.menu.campaigns;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -6,9 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.quadrolord.epicbattle.logic.campaign.AbstractCampaign;
 import com.quadrolord.ejge.view.AbstractScreen;
-import com.quadrolord.epicbattle.screen.LevelSelectScreen;
+import com.quadrolord.epicbattle.screen.menu.LevelSelectScreen;
 
 /**
+ * @deprecated
  * Created by Quadrowin on 13.01.2016.
  */
 public class CampaignsList extends Group {

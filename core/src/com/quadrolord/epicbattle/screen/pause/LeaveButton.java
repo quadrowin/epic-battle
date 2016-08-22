@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
-import com.quadrolord.epicbattle.screen.LevelSelectScreen;
+import com.quadrolord.epicbattle.screen.menu.LevelSelectScreen;
 import com.quadrolord.epicbattle.screen.PauseScreen;
 
 /**

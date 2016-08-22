@@ -75,7 +75,7 @@ public class DefeatScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                LevelSelectScreen levelsScreen = new LevelSelectScreen(mAdapter, get(BattleGame.class).getLevel().getCampaign());
+                com.quadrolord.epicbattle.screen.menu.LevelSelectScreen levelsScreen = new com.quadrolord.epicbattle.screen.menu.LevelSelectScreen(mAdapter, get(BattleGame.class).getLevel().getCampaign());
                 mAdapter.switchToScreen(levelsScreen, true);
             }
 

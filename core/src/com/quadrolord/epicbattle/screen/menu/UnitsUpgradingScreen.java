@@ -11,6 +11,7 @@ import com.quadrolord.epicbattle.RM;
 import com.quadrolord.epicbattle.logic.profile.ProfileManager;
 import com.quadrolord.epicbattle.logic.skill.AbstractSkillEntity;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
+import com.quadrolord.epicbattle.screen.menu.component.BackButton;
 import com.quadrolord.epicbattle.screen.slider.SliderList;
 import com.quadrolord.epicbattle.screen.slider.SliderListener;
 import com.quadrolord.epicbattle.screen.upgrading.UpgradingItemData;
@@ -61,7 +62,7 @@ public class UnitsUpgradingScreen extends AbstractScreen {
 
         // Кнопка апгрейда текущего юнита
         TextButton btnUpgrade = new TextButton("Upgrade", RM.getTextButtonStyle());
-        btnUpgrade.setBounds(290, 180, 260, 80);
+        btnUpgrade.setBounds(530, 10, 260, 80);
         mStage.addActor(btnUpgrade);
         btnUpgrade.addListener(new ClickListener() {
 
@@ -76,21 +77,7 @@ public class UnitsUpgradingScreen extends AbstractScreen {
         });
 
         // Кнопка закрытия
-        TextButton btnClose = new TextButton("Back", RM.getTextButtonStyle());
-        btnClose.setBounds(10, 10, 260, 80);
-        mStage.addActor(btnClose);
-        btnClose.addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (mParentScreen == null) {
-                    getAdapter().switchToScreen(com.quadrolord.epicbattle.screen.menu.CampaignSelectScreen.class);
-                } else {
-                    getAdapter().switchToScreen(getParentScreen(), true);
-                }
-            }
-
-        });
+        BackButton.create(this, CampaignSelectScreen.class);
     }
 
 }

@@ -1,14 +1,20 @@
 [
   {
     "class": "Campaign",
-    "name": "Let the combat begin"
+    "name": "Let the combat begin",
+    "icon": "pump.png",
+    "dir": "let_the_combat_begin"
   },
   {
     "class": "Campaign",
-    "name": "The path of the light"
+    "name": "An endless adventure",
+    "dir": "an_endless_adventure",
+    "icon": "metal_sphere.png"
   },
   {
     "class": "Campaign",
-    "name": "An endless adventure"
+    "name": "Wheelrmageddon",
+    "dir": "wheelrmageddon",
+    "icon": "wheel_on_fire.png"
   }
 ]

@@ -11,7 +11,7 @@ public class CampaignItem extends AbstractCampaign {
     private Level[] mLevels;
 
     public String getLevelsFile() {
-        return "campaign/" + getName().replaceAll("[^a-zA-Z0-9 _]]", "") + ".json";
+        return "campaign/" + getDir() + "/levels.json";
     }
 
     @Override

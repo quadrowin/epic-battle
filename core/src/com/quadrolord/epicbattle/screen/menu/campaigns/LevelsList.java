@@ -1,4 +1,4 @@
-package com.quadrolord.epicbattle.screen.levels;
+package com.quadrolord.epicbattle.screen.menu.campaigns;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;

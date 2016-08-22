@@ -1,7 +1,7 @@
 [
   {
     "class": "Level",
-    "name": "Vaikka kiskoo raivoissaan",
+    "name": "An endless adventure",
     "rewardExp": 1000,
     "enemyTower": {
       "class": "EnemyTower",

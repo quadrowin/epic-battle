@@ -1,32 +1,70 @@
 package com.quadrolord.epicbattle.screen.menu;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.RM;
+import com.quadrolord.epicbattle.logic.campaign.AbstractCampaign;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
-import com.quadrolord.epicbattle.screen.campaigns.CampaignsList;
+import com.quadrolord.epicbattle.screen.menu.campaigns.CampaignSliderContent;
+import com.quadrolord.epicbattle.screen.menu.component.BackButton;
+import com.quadrolord.epicbattle.screen.slider.SliderList;
+import com.quadrolord.epicbattle.screen.slider.SliderListener;
 
 /**
  * Created by Quadrowin on 13.01.2016.
  */
 public class CampaignSelectScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
+    private Label mCampName;
+
     public CampaignSelectScreen(EpicBattle adapter) {
         super(adapter);
         initFitViewport();
 
-        new CampaignsList(this, get(BattleGame.class).getCampaignManager().getCampaigns());
+        mCampName = new Label("", RM.getLabelStyle());
+        mCampName.setBounds(10, 500, 380, 30);
+        getStage().addActor(mCampName);
+
+        BackButton.create(this, MainMenuScreen.class);
+
+        CampaignSliderContent csc = new CampaignSliderContent(this, get(BattleGame.class).getCampaignManager());
+        csc.setSliderListener(new SliderListener<AbstractCampaign>() {
+
+            @Override
+            public void onSelect(TextButton btn, AbstractCampaign data) {
+                mCampName.setText( data.getName() );
+//                mCuDescription.setText( skill.getDescription() );
+            }
+
+        });
+        final SliderList sl = new SliderList(this, csc);
+        sl.triggerCurrentButtonClick();
 
         TextButton btnToUpgrade = new TextButton("Upgrade units", RM.getTextButtonStyle());
-        btnToUpgrade.setBounds(210, 100, 260, 80);
+        btnToUpgrade.setBounds(530, 350, 260, 80);
         mStage.addActor(btnToUpgrade);
         btnToUpgrade.addListener(new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 mAdapter.switchToScreen(UnitsUpgradingScreen.class);
+            }
+
+        });
+
+        TextButton btnToCampaign = new TextButton("Select campaign", RM.getTextButtonStyle());
+        btnToCampaign.setBounds(530, 10, 260, 80);
+        mStage.addActor(btnToCampaign);
+        btnToCampaign.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                AbstractCampaign camp = (AbstractCampaign)sl.getCurrentObject();
+                LevelSelectScreen levelsScreen = new LevelSelectScreen(mAdapter, camp);
+                mAdapter.switchToScreen(levelsScreen, true);
             }
 
         });

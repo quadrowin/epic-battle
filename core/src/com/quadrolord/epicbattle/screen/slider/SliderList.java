@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.quadrolord.ejge.view.AbstractScreen;
+import com.quadrolord.epicbattle.RM;
 
 import java.util.Iterator;
 
@@ -29,11 +30,11 @@ public class SliderList extends Group {
     private float mDragStartWrapperX;
     private float mDragStartCursorX;
 
-    private int mListPaddingX = 10;
-    private int mListPaddingBot = 10;
-    private int mItemPaddingX = 10;
-    private int mItemWidth = 100;
-    private int mItemHeight = 100;
+    private int mListPaddingX = 20;
+    private int mListPaddingBot = 20;
+    private int mItemPaddingX = 20;
+    private int mItemWidth = 200;
+    private int mItemHeight = 200;
 
     private TextButton mBackground;
 
@@ -87,10 +88,8 @@ public class SliderList extends Group {
         mWrapper.setBounds(0, 0, items_count * (mItemWidth + mItemPaddingX) - mItemPaddingX + 2 * mListPaddingX, mBackground.getHeight());
         mBackground.addActor(mWrapper);
 
-        TextButton.TextButtonStyle defaultTextButtonStyle = skin.get("default-text-button-style", TextButton.TextButtonStyle.class);
-
         for (int i = 0; i < items_count; i++) {
-            TextButton tb = new TextButton("", defaultTextButtonStyle);
+            TextButton tb = new TextButton("", RM.getTextButtonStyle());
             tb.setBounds(i * (mItemWidth + mItemPaddingX) + mListPaddingX, mListPaddingBot, mItemWidth, mItemHeight);
             mButtons[i] = tb;
             tb.addListener(mContent.getClickListener());
