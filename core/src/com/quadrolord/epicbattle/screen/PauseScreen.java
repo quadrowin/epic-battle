@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.quadrolord.epicbattle.RM;
 import com.quadrolord.epicbattle.screen.pause.CloseButton;
 import com.quadrolord.epicbattle.screen.pause.LeaveButton;
 
@@ -41,10 +42,10 @@ public class PauseScreen extends com.quadrolord.ejge.view.AbstractScreen {
                         mSkin.getFont("default")
                 )
         );
-        background.setBounds(50, 50, 300, 200);
+        background.setBounds(100, 100, 600, 400);
         mStage.addActor(background);
 
-        Label lblTitle = new Label("GAME IS PAUSED", mSkin.get("default-label-style", Label.LabelStyle.class));
+        Label lblTitle = new Label("GAME IS PAUSED", RM.getLabelStyle());
         lblTitle.setAlignment(Align.center, Align.center);
         lblTitle.setBounds(0, background.getHeight() - 50, background.getWidth(), 30);
         lblTitle.setFontScale(getPx());

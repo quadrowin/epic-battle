@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
+import com.quadrolord.epicbattle.screen.SES;
 import com.quadrolord.epicbattle.view.Sounds;
 
 import java.util.Iterator;
@@ -37,13 +38,13 @@ public class BulletPanel extends Group {
                 continue;
             }
             BulletButton btn = new BulletButton(screen, skill);
-            btn.setBounds(i * 50, 0, 40, 40);
+            btn.setBounds(i * 50 * SES.F, 0, 40 * SES.F, 40 * SES.F);
             btn.addListener(clickListener);
             addActor(btn);
             ++i;
         }
 
-        setBounds(10, 5, i * 50, 40);
+        setBounds(10 * SES.F, 5 * SES.F, i * 50 * SES.F, 40 * SES.F);
 
         stage.addActor(this);
     }

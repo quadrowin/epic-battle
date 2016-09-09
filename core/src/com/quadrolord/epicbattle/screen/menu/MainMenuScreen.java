@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.ejge.AbstractGameAdapter;
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.RM;
+import com.quadrolord.epicbattle.screen.SES;
 import com.quadrolord.epicbattle.screen.menu.component.BackgroundStage;
 
 /**
@@ -34,7 +35,7 @@ public class MainMenuScreen extends AbstractScreen {
         mStage.addActor(mLogo);
 
         TextButton btnPlay = new TextButton("Play", RM.getTextButtonStyle());
-        btnPlay.setBounds(270, 310, 260, 80);
+        btnPlay.setBounds(260, 310, SES.BUTTON_WIDTH, SES.BUTTON_HEIGHT);
         mStage.addActor(btnPlay);
         btnPlay.addListener(new ClickListener() {
 
@@ -46,7 +47,7 @@ public class MainMenuScreen extends AbstractScreen {
 
         final AbstractScreen thisScreen = this;
         TextButton btnSettings = new TextButton("Settings", RM.getTextButtonStyle());
-        btnSettings.setBounds(270, 210, 260, 80);
+        btnSettings.setBounds(260, 210, SES.BUTTON_WIDTH, SES.BUTTON_HEIGHT);
         mStage.addActor(btnSettings);
         btnSettings.addListener(new ClickListener() {
 

@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.quadrolord.ejge.AbstractGameAdapter;
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.RM;
+import com.quadrolord.epicbattle.screen.SES;
 import com.quadrolord.epicbattle.screen.menu.component.BackButton;
 import com.quadrolord.epicbattle.screen.menu.component.BackgroundStage;
 
@@ -28,23 +29,23 @@ public class SettingsScreen extends AbstractScreen {
         BackButton.create(this, MainMenuScreen.class);
 
         CheckBox cbSounds = new CheckBox("", RM.getCheckBoxStyle());
-        cbSounds.setBounds(20, 500, 60, 60);
+        cbSounds.setBounds(20, 500, SES.BUTTON_HEIGHT, SES.BUTTON_HEIGHT);
         mStage.addActor(cbSounds);
 
         Label lblSounds = new Label("Sound effects", RM.getLabelStyle());
-        lblSounds.setBounds(100, 500, 200, 60);
+        lblSounds.setBounds(120, 500, 200, SES.BUTTON_HEIGHT);
         mStage.addActor(lblSounds);
 
         CheckBox cbMusic = new CheckBox("", RM.getCheckBoxStyle());
-        cbMusic.setBounds(20, 400, 60, 60);
+        cbMusic.setBounds(20, 400, SES.BUTTON_HEIGHT, SES.BUTTON_HEIGHT);
         mStage.addActor(cbMusic);
 
         Label lblMusic = new Label("Music", RM.getLabelStyle());
-        lblMusic.setBounds(100, 400, 200, 60);
+        lblMusic.setBounds(120, 400, 200, SES.BUTTON_HEIGHT);
         mStage.addActor(lblMusic);
 
         TextButton btnGooglePlayLink = new TextButton("GooglePlay", RM.getTextButtonStyle());
-        btnGooglePlayLink.setBounds(540, 20, 240, 80);
+        btnGooglePlayLink.setBounds(SES.buttonRight(), 20, SES.BUTTON_WIDTH, SES.BUTTON_HEIGHT);
         mStage.addActor(btnGooglePlayLink);
         btnGooglePlayLink.addListener(new ClickListener() {
 

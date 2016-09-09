@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.screen.PauseScreen;
+import com.quadrolord.epicbattle.screen.SES;
 import com.quadrolord.epicbattle.view.Sounds;
 
 /**
@@ -20,10 +21,10 @@ public class PauseButton {
     public PauseButton(final AbstractScreen screen, Stage stage) {
         TextButton btnPause = new TextButton("", screen.getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
         btnPause.setBounds(
-                350,
-                250,
-                40,
-                40
+                SES.SCREEN_WIDTH - 50 * SES.F,
+                SES.SCREEN_HEIGHT - 50 * SES.F,
+                SES.BUTTON_HEIGHT,
+                SES.BUTTON_HEIGHT
         );
         stage.addActor(btnPause);
         btnPause.addListener(new ClickListener() {

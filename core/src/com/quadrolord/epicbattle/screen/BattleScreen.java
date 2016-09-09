@@ -86,7 +86,7 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
         mBackStage.getRoot().setScale(mPx);
         mBackStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 
-        mFrontStage = new Stage(new FitViewport(400 * mPx, 300 * mPx));
+        mFrontStage = new Stage(new FitViewport(SES.SCREEN_WIDTH * mPx, SES.SCREEN_HEIGHT * mPx));
         mFrontStage.getRoot().setScale(mPx);
         mFrontStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
         Gdx.input.setInputProcessor(mFrontStage);

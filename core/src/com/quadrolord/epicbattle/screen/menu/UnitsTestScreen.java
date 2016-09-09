@@ -13,6 +13,7 @@ import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
 import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
 import com.quadrolord.epicbattle.logic.bullet.worker.MockBullet;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
+import com.quadrolord.epicbattle.screen.SES;
 import com.quadrolord.epicbattle.screen.slider.SliderList;
 import com.quadrolord.epicbattle.screen.slider.SliderListener;
 import com.quadrolord.epicbattle.screen.unitstest.UnitTestSliderContent;
@@ -55,11 +56,11 @@ public class UnitsTestScreen extends AbstractScreen {
         mStage.addActor(mBulletWrapper);
 
         mCuName = new Label("", mSkin.get("default-label-style", Label.LabelStyle.class));
-        mCuName.setBounds(10, 270, 380, 30);
+        mCuName.setBounds(SES.SCREEN_BORDER, 270, 380, 30);
         getStage().addActor(mCuName);
 
         mCuState = new Label("", mSkin.get("default-label-style", Label.LabelStyle.class));
-        mCuState.setBounds(10, 240, 380, 30);
+        mCuState.setBounds(SES.SCREEN_BORDER, 240, 380, 30);
         getStage().addActor(mCuState);
 
         final UnitTestSliderContent usc = new UnitTestSliderContent(this);

@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.ejge.AbstractGameAdapter;
+import com.quadrolord.epicbattle.screen.SES;
 import com.quadrolord.epicbattle.view.SpriteAnimationLoader;
 
 /**
@@ -79,7 +80,7 @@ public class AbstractScreen implements Screen {
     }
 
     public void initFitViewport() {
-        mStage.setViewport(new FitViewport(800 * mPx, 600 * mPx));
+        mStage.setViewport(new FitViewport(SES.SCREEN_WIDTH * mPx, SES.SCREEN_HEIGHT * mPx));
         mStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
     }
 

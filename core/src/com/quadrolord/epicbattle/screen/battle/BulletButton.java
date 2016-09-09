@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.Align;
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
+import com.quadrolord.epicbattle.screen.SES;
 import com.quadrolord.epicbattle.screen.cooldown.CooldownElement;
 
 /**
@@ -49,8 +50,8 @@ public class BulletButton extends Group {
         mFireButton.setBounds(
                 0,
                 0,
-                40,
-                40
+                40 * SES.F,
+                40 * SES.F
         );
 
         Pixmap border = new Pixmap((int)mFireButton.getWidth() + 6, (int)mFireButton.getHeight() + 6, Pixmap.Format.RGBA8888);
@@ -60,7 +61,7 @@ public class BulletButton extends Group {
         Image borderImage = new Image(new Texture(border));
         borderImage.setWidth(border.getWidth());
         borderImage.setHeight(border.getHeight());
-        borderImage.setPosition(-3, -3);
+        borderImage.setPosition(-3 * SES.F, -3 * SES.F);
         borderImage.setZIndex(0);
         borderImage.toBack();
 
@@ -73,8 +74,8 @@ public class BulletButton extends Group {
         mCost = new Label(Integer.toString(mBulletSkill.getCost()), screen.getSkin(), "default", Color.WHITE);
         mCost.setBounds(0, 0, mFireButton.getWidth(), mFireButton.getHeight());
         mCost.setAlignment(Align.bottom, Align.center);
-        mCost.setFontScale(0.7f, 0.7f);
-        mCost.setPosition(0, 5);
+        mCost.setFontScale(0.7f * SES.F, 0.7f * SES.F);
+        mCost.setPosition(0, 5 * SES.F);
         mCost.setZIndex(2);
 
         mFireButton.addActor(mCost);
@@ -92,8 +93,8 @@ public class BulletButton extends Group {
 
         mProgressBar = new ProgressBar(0, 100, 1, false, barStyle);
 
-        mProgressBar.setPosition(5, 0);
-        mProgressBar.setSize(30, 5);
+        mProgressBar.setPosition(5 * SES.F, 0);
+        mProgressBar.setSize(30 * SES.F, 5 * SES.F);
         mProgressBar.setValue(mProgressBar.getMaxValue());
         mProgressBar.setZIndex(2);
 

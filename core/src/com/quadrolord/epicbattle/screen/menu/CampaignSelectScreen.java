@@ -8,6 +8,7 @@ import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.RM;
 import com.quadrolord.epicbattle.logic.campaign.AbstractCampaign;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
+import com.quadrolord.epicbattle.screen.SES;
 import com.quadrolord.epicbattle.screen.menu.campaigns.CampaignSliderContent;
 import com.quadrolord.epicbattle.screen.menu.component.BackButton;
 import com.quadrolord.epicbattle.screen.slider.SliderList;
@@ -25,7 +26,7 @@ public class CampaignSelectScreen extends com.quadrolord.ejge.view.AbstractScree
         initFitViewport();
 
         mCampName = new Label("", RM.getLabelStyle());
-        mCampName.setBounds(10, 500, 380, 30);
+        mCampName.setBounds(SES.SCREEN_BORDER, 500, 380, 30);
         getStage().addActor(mCampName);
 
         BackButton.create(this, MainMenuScreen.class);
@@ -44,7 +45,7 @@ public class CampaignSelectScreen extends com.quadrolord.ejge.view.AbstractScree
         sl.triggerCurrentButtonClick();
 
         TextButton btnToUpgrade = new TextButton("Upgrade units", RM.getTextButtonStyle());
-        btnToUpgrade.setBounds(530, 350, 260, 80);
+        btnToUpgrade.setBounds(SES.buttonRight(), 350, SES.BUTTON_WIDTH, SES.BUTTON_HEIGHT);
         mStage.addActor(btnToUpgrade);
         btnToUpgrade.addListener(new ClickListener() {
 
@@ -56,7 +57,7 @@ public class CampaignSelectScreen extends com.quadrolord.ejge.view.AbstractScree
         });
 
         TextButton btnToCampaign = new TextButton("Select campaign", RM.getTextButtonStyle());
-        btnToCampaign.setBounds(530, 10, 260, 80);
+        btnToCampaign.setBounds(SES.buttonRight(), SES.SCREEN_BORDER, SES.BUTTON_WIDTH, SES.BUTTON_HEIGHT);
         mStage.addActor(btnToCampaign);
         btnToCampaign.addListener(new ClickListener() {
 
