@@ -63,3 +63,9 @@ build/
 ## OS Specific
 .DS_Store
 android/android-release.apk
+
+
+## google services keys
+android/google-services.json
+core/google-services.json
+android/assets/keys/
