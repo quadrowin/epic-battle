@@ -115,7 +115,9 @@ abstract public class AbstractGameAdapter extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         mScreen.render(Gdx.graphics.getDeltaTime());
-        mFps.log();
+        if (Gdx.graphics.getFramesPerSecond() < 55) {
+            mFps.log();
+        }
     }
 
     @Override

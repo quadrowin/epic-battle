@@ -6,7 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.quadrolord.ejge.AbstractGameAdapter;
+import com.quadrolord.ejge.utils.AbstractAuthService;
+import com.quadrolord.ejge.utils.StorageValueListener;
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.RM;
 import com.quadrolord.epicbattle.screen.SES;
@@ -24,21 +25,69 @@ public class SettingsScreen extends AbstractScreen {
         super(parentScreen);
         initFitViewport();
 
+        final AbstractAuthService authService = mAdapter.getPlatformServices().getAuthService();
+
         mBgStage.loadImage(this, "Bg/menu/settings-bg.jpg");
 
         BackButton.create(this, MainMenuScreen.class);
 
-        CheckBox cbSounds = new CheckBox("", RM.getCheckBoxStyle());
+        authService.goOffline();
+
+        final CheckBox cbSounds = new CheckBox("", RM.getCheckBoxStyle());
         cbSounds.setBounds(20, 500, SES.BUTTON_HEIGHT, SES.BUTTON_HEIGHT);
+        authService.addValueListener(
+                this,
+                "settings/sound_enabled",
+                new StorageValueListener() {
+
+                    @Override
+                    public void onDataChange(Object value) {
+                        Gdx.app.log("sound value", value == null ? "null" : value.toString());
+                        cbSounds.setChecked( value instanceof Boolean && ((Boolean) value).booleanValue() );
+                    }
+                }
+        );
         mStage.addActor(cbSounds);
+        cbSounds.addListener(new ClickListener() {
+
+            @Override
+            public void clicked (InputEvent event, float x, float y) {
+                authService.saveValue(
+                        "settings/sound_enabled",
+                        new Boolean(cbSounds.isChecked())
+                );
+            }
+
+        });
 
         Label lblSounds = new Label("Sound effects", RM.getLabelStyle());
         lblSounds.setBounds(120, 500, 200, SES.BUTTON_HEIGHT);
         mStage.addActor(lblSounds);
 
-        CheckBox cbMusic = new CheckBox("", RM.getCheckBoxStyle());
+        final CheckBox cbMusic = new CheckBox("", RM.getCheckBoxStyle());
         cbMusic.setBounds(20, 400, SES.BUTTON_HEIGHT, SES.BUTTON_HEIGHT);
+        authService.addValueListener(
+                this,
+                "settings/music_enabled",
+                new StorageValueListener() {
+
+                    @Override
+                    public void onDataChange(Object value) {
+                        cbMusic.setChecked( value instanceof Boolean && ((Boolean) value).booleanValue() );
+                    }
+                }
+        );
         mStage.addActor(cbMusic);
+        cbMusic.addListener(new ClickListener() {
+
+            public void clicked (InputEvent event, float x, float y) {
+                mAdapter.getPlatformServices().getAuthService().saveValue(
+                        "settings/music_enabled",
+                        new Boolean(cbMusic.isChecked())
+                );
+            }
+
+        });
 
         Label lblMusic = new Label("Music", RM.getLabelStyle());
         lblMusic.setBounds(120, 400, 200, SES.BUTTON_HEIGHT);
@@ -66,6 +115,11 @@ public class SettingsScreen extends AbstractScreen {
     @Override
     public void update(float delta) {
         mStage.act(delta);
+    }
+
+    @Override
+    public void dispose () {
+        mAdapter.getPlatformServices().getAuthService().removeValueListener(this);
     }
 
 }

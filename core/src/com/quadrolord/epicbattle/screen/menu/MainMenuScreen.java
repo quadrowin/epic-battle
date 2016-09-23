@@ -3,6 +3,7 @@ package com.quadrolord.epicbattle.screen.menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -19,6 +20,8 @@ public class MainMenuScreen extends AbstractScreen {
 
     private Image mLogo;
 
+    private Label mBuildInfo;
+
     private BackgroundStage mBgStage = new BackgroundStage();
 
     public MainMenuScreen(AbstractGameAdapter adapter) {
@@ -33,6 +36,10 @@ public class MainMenuScreen extends AbstractScreen {
         mLogo = new Image(getTextures().get("ui/ewb-logo-1.png"));
         mLogo.setBounds(0, 400, 400, 200);
         mStage.addActor(mLogo);
+
+        mBuildInfo = new Label("B " + getAdapter().getPlatformServices().getBuildTime(), RM.getLabelStyle());
+        mBuildInfo.setBounds(500, 550, 100, 50);
+        mStage.addActor(mBuildInfo);
 
         TextButton btnPlay = new TextButton("Play", RM.getTextButtonStyle());
         btnPlay.setBounds(260, 310, SES.BUTTON_WIDTH, SES.BUTTON_HEIGHT);
@@ -51,8 +58,21 @@ public class MainMenuScreen extends AbstractScreen {
         mStage.addActor(btnSettings);
         btnSettings.addListener(new ClickListener() {
 
-            public void clicked (InputEvent event, float x, float y) {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
                 mAdapter.switchToChildScreen(SettingsScreen.class, thisScreen);
+            }
+
+        });
+
+        TextButton btnAuth = new TextButton("Auth", RM.getTextButtonStyle());
+        btnAuth.setBounds(SES.buttonRight(), 400, SES.BUTTON_WIDTH, SES.BUTTON_HEIGHT);
+        mStage.addActor(btnAuth);
+        btnAuth.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                mAdapter.getPlatformServices().getAuthService().auth();
             }
 
         });

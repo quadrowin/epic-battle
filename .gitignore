@@ -62,6 +62,10 @@ build/
 
 ## OS Specific
 .DS_Store
+
+
+## builds
+android/android-debug.apk
 android/android-release.apk
 
 
