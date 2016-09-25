@@ -46,7 +46,7 @@ public class VictoryScreen extends com.quadrolord.ejge.view.AbstractScreen {
                         mSkin.getFont("default")
                 )
         );
-        background.setBounds(50, 50, 300, 200);
+        background.setBounds(50, 50, SES.SCREEN_WIDTH - 100, SES.SCREEN_HEIGHT - 100);
         mStage.addActor(background);
 
         Label lblTitle = new Label("Victory!", mSkin.get("default-label-style", Label.LabelStyle.class));
@@ -63,7 +63,7 @@ public class VictoryScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
 
         TextButton btnGoNext = new TextButton("Go next", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnGoNext.setBounds(160, 40, 100, 50);
+        btnGoNext.setBounds(160, 40, SES.BUTTON_WIDTH, SES.BUTTON_HEIGHT);
         background.addActor(btnGoNext);
         btnGoNext.addListener(new ClickListener() {
 

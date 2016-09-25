@@ -2,8 +2,8 @@ package com.quadrolord.epicbattle.logic.campaign;
 
 import com.badlogic.gdx.utils.ArrayMap;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
-import com.quadrolord.epicbattle.logic.bullet.worker.big.BigLogic;
-import com.quadrolord.epicbattle.logic.bullet.worker.simple.SimpleLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.wheels.big.BigLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.wheels.simple.SimpleLogic;
 
 /**
  * Created by Quadrowin on 12.01.2016.
@@ -14,14 +14,14 @@ public class EnemyUnit {
     private static ArrayMap<String, Class<? extends AbstractLogic>> workerTypes = new ArrayMap<String, Class<? extends AbstractLogic>>();
 
     {
-        workerTypes.put("SimpleLogic", SimpleLogic.class);
+        workerTypes.put("BroomLogic", SimpleLogic.class);
         workerTypes.put("BigBullet", BigLogic.class);
     }
 
     /**
      * Класс юнита
      */
-    private String workerType = "SimpleLogic";
+    private String workerType = "BroomLogic";
 
     /**
      * Первая секунда, когда вызывается этот юнит

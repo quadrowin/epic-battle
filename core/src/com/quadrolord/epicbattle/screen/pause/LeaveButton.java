@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
+import com.quadrolord.epicbattle.screen.SES;
 import com.quadrolord.epicbattle.screen.menu.LevelSelectScreen;
 import com.quadrolord.epicbattle.screen.PauseScreen;
 
@@ -18,8 +19,8 @@ public class LeaveButton extends Group {
         btnPause.setBounds(
                 40,
                 40,
-                100,
-                50
+                SES.BUTTON_WIDTH,
+                SES.BUTTON_HEIGHT
         );
         panel.addActor(btnPause);
         btnPause.addListener(new ClickListener() {

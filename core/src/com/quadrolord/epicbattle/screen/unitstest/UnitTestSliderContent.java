@@ -8,12 +8,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
-import com.quadrolord.epicbattle.logic.bullet.worker.big.BigLogic;
-import com.quadrolord.epicbattle.logic.bullet.worker.epic.EpicLogic;
-import com.quadrolord.epicbattle.logic.bullet.worker.forks.ForksLogic;
-import com.quadrolord.epicbattle.logic.bullet.worker.girl.GirlLogic;
-import com.quadrolord.epicbattle.logic.bullet.worker.simple.SimpleLogic;
-import com.quadrolord.epicbattle.logic.bullet.worker.bike.BikeLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.balls.Broom.BroomLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.balls.MagicWand.MagicWandLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.balls.Owl.OwlLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.balls.book.BookLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.balls.hat.HatLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.wheels.big.BigLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.wheels.epic.EpicLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.wheels.forks.ForksLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.wheels.girl.GirlLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.wheels.simple.SimpleLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.wheels.bike.BikeLogic;
+import com.quadrolord.epicbattle.logic.skill.bullet.balls.MagicWand;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.screen.slider.SliderContent;
 
@@ -34,12 +40,11 @@ public class UnitTestSliderContent extends SliderContent<AbstractLogic> {
         mAdapter = (EpicBattle)screen.getAdapter();
 
         mAllClasses = new Class[] {
-                BikeLogic.class,
-                SimpleLogic.class,
-                BigLogic.class,
-                ForksLogic.class,
-                GirlLogic.class,
-                EpicLogic.class,
+                BookLogic.class,
+                BroomLogic.class,
+                HatLogic.class,
+                MagicWandLogic.class,
+                OwlLogic.class,
         };
     }
 

@@ -43,7 +43,7 @@ public class DefeatScreen extends com.quadrolord.ejge.view.AbstractScreen {
                         mSkin.getFont("default")
                 )
         );
-        background.setBounds(50, 50, 300, 200);
+        background.setBounds(50, 50, SES.SCREEN_WIDTH - 100, SES.SCREEN_HEIGHT - 100);
         mStage.addActor(background);
 
         Label lblTitle = new Label("Defeat!", mSkin.get("default-label-style", Label.LabelStyle.class));
@@ -54,7 +54,7 @@ public class DefeatScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
 
         TextButton btnRestart = new TextButton("Try again", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnRestart.setBounds(160, 40, 100, 50);
+        btnRestart.setBounds(160, 40, SES.BUTTON_WIDTH, SES.BUTTON_HEIGHT);
         background.addActor(btnRestart);
         btnRestart.addListener(new ClickListener() {
 
@@ -69,7 +69,7 @@ public class DefeatScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
 
         TextButton btnLeave = new TextButton("Leave this place", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnLeave.setBounds(40, 100, 150, 50);
+        btnLeave.setBounds(40, 100, SES.BUTTON_WIDTH, SES.BUTTON_HEIGHT);
         background.addActor(btnLeave);
         btnLeave.addListener(new ClickListener() {
 

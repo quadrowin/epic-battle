@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.RM;
+import com.quadrolord.epicbattle.screen.SES;
 
 import java.util.Iterator;
 
@@ -51,7 +52,7 @@ public class SliderList extends Group {
     private ShapeRenderer mShapeRenderer;
 
     public SliderList(final AbstractScreen screen, final SliderContent content) {
-        final float CONTROL_WIDTH = 800;
+        final float CONTROL_WIDTH = SES.SCREEN_WIDTH;
         final float CONTROL_HEIGHT = 240;
 
         mContent = content;
@@ -113,7 +114,7 @@ public class SliderList extends Group {
         tbViewFix.setBounds(items_count * (mItemWidth + mItemPaddingX) + mListPaddingX, mListPaddingBot, mItemWidth, mItemHeight);
         mWrapper.addActor(tbViewFix);
 
-        setBounds(0, 100, CONTROL_WIDTH, CONTROL_HEIGHT);
+        setBounds(0, 0, CONTROL_WIDTH, CONTROL_HEIGHT);
         screen.getStage().addActor(this);
 
         mShapeRenderer = new ShapeRenderer();

@@ -17,7 +17,7 @@ public class MockBullet extends AbstractBullet {
     }
 
     public void act(float delta) {
-        Gdx.app.log("MockBullet", "st " + getState().name() + " time " + getStateTime());
+//        Gdx.app.log("MockBullet", "st " + getState().name() + " time " + getStateTime());
         if (getState() == BulletState.DEATH && getStateTime() > 3) {
             setState(BulletState.DEATH, 3);
             setStateTime(0);

@@ -13,6 +13,7 @@ import com.quadrolord.epicbattle.logic.profile.ProfileManager;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.logic.town.MyTown;
 import com.quadrolord.epicbattle.screen.menu.MainMenuScreen;
+import com.quadrolord.epicbattle.screen.menu.UnitsTestScreen;
 
 public class EpicBattle extends AbstractGameAdapter {
 
@@ -48,8 +49,9 @@ public class EpicBattle extends AbstractGameAdapter {
 
 	@Override
 	public AbstractScreen getDefaultScreen() {
-//		return new BattleScreen(this, null);
 		return new MainMenuScreen(this);
+
+//		return new BattleScreen(this, null);
 //		return new CampaignSelectScreen(this);
 //		return new UnitsUpgradingScreen(this);
 //		return new UnitsTestScreen(this);

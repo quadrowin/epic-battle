@@ -77,7 +77,7 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
                 }
         );
 
-        ScalingViewport vp = new FillViewport(400 * mPx, 300 * mPx);
+        ScalingViewport vp = new FillViewport(SES.SCREEN_WIDTH, SES.SCREEN_HEIGHT);
 
         mStage.setViewport(vp);
         mStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);

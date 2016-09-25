@@ -16,6 +16,7 @@ import com.quadrolord.epicbattle.logic.profile.ProfileManager;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.screen.MyTownScreen;
+import com.quadrolord.epicbattle.screen.SES;
 
 import java.util.Iterator;
 
@@ -45,16 +46,16 @@ public class DebugPanel extends Group {
         Drawable drBg = new NinePatchDrawable(ninePatch);
 
         mPanel = new TextButton("", new TextButton.TextButtonStyle(drBg, drBg, null, screen.getSkin().getFont("default")));
-        mPanel.setBounds(30, 30, 340, 240);
+        mPanel.setBounds(50, 50, SES.SCREEN_WIDTH - 100, SES.SCREEN_HEIGHT - 100);
         mPanel.setVisible(mOpened);
         stage.addActor(mPanel);
 
         mToggleButton = new TextButton("debug", screen.getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
         mToggleButton.setBounds(
-                250,
-                250,
-                90,
-                40
+                500,
+                500,
+                180,
+                SES.BUTTON_HEIGHT
         );
         stage.addActor(mToggleButton);
         mToggleButton.addListener(new ClickListener() {

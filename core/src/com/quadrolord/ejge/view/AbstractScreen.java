@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.quadrolord.ejge.AbstractGameAdapter;
+import com.quadrolord.epicbattle.RM;
 import com.quadrolord.epicbattle.screen.SES;
 import com.quadrolord.epicbattle.view.SpriteAnimationLoader;
 
@@ -36,7 +37,7 @@ public class AbstractScreen implements Screen {
         mStage = new Stage();
         mStage.getRoot().setScale(mPx);
         mSkin = adapter.getNewSkin();
-        mTextures = new TextureManager(mSkin);
+        mTextures = RM.getTextures();
     }
 
     public AbstractScreen(AbstractScreen parentScreen) {

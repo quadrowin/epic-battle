@@ -1,0 +1,41 @@
+{
+  "title": "An old magic hat",
+  "cost": 500,
+  "construction_time": 10,
+  "attack_damage": 70,
+  "attack_distance": 20,
+  "attack_time": 2,
+  "move_speed": 30,
+  "max_target_count": 2,
+  "max_hp": 300,
+  "icon": "balls/content/hat.png",
+  "level_ups": [
+    {
+      "max_hp": 20
+    },
+    {
+      "max_hp": 30,
+      "attack_damage": 5
+    },
+    {
+      "max_hp": 30,
+      "attack_damage": 5
+    },
+    {
+      "max_hp": 35,
+      "attack_damage": 10
+    },
+    {
+      "max_hp": 35,
+      "attack_damage": 10
+    },
+    {
+      "max_hp": 35,
+      "attack_damage": 10
+    },
+    {
+      "max_hp": 40,
+      "attack_damage": 15
+    }
+  ]
+}

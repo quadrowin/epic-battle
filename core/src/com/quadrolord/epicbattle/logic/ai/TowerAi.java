@@ -1,7 +1,7 @@
 package com.quadrolord.epicbattle.logic.ai;
 
 import com.quadrolord.epicbattle.logic.skill.AbstractSkillEntity;
-import com.quadrolord.epicbattle.logic.skill.bullet.Simple;
+import com.quadrolord.epicbattle.logic.skill.bullet.wheels.Simple;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 
 /**

@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.quadrolord.ejge.view.TextureManager;
 
 /**
  * Resource Manager
@@ -19,6 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 public class RM {
 
     private static Skin mSkin;
+
+    private static TextureManager mTextures;
 
     private static final String DEFAULT_LABEL_STYLE = "default-label-style";
 
@@ -36,6 +39,13 @@ public class RM {
 
     public static TextButton.TextButtonStyle getTextButtonStyle() {
         return mSkin.get(DEFAULT_TEXT_BUTTON_STYLE, TextButton.TextButtonStyle.class);
+    }
+
+    public static TextureManager getTextures() {
+        if (mTextures == null) {
+            mTextures = new TextureManager(mSkin);
+        }
+        return mTextures;
     }
 
     public static void setSkin(Skin skin) {

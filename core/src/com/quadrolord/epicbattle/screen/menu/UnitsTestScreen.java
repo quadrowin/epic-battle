@@ -24,6 +24,8 @@ import com.quadrolord.epicbattle.view.bullet.AbstractBulletView;
  */
 public class UnitsTestScreen extends AbstractScreen {
 
+    private final String TAG = "UnitsTestScreen";
+
     private Label mCuName;
 
     private Label mCuState;
@@ -49,18 +51,24 @@ public class UnitsTestScreen extends AbstractScreen {
 
         mBullet = new MockBullet(get(BattleGame.class));
         mBullet.setY(0);
-        mBullet.setX(mStage.getWidth() / mPx / 2);
+        mBullet.setX(SES.SCREEN_WIDTH / 2);
 
         mBulletWrapper = new Group();
-        mBulletWrapper.setBounds(0, 200, mStage.getWidth() / mPx, 100);
+        mBulletWrapper.setBounds(0, SES.SCREEN_HEIGHT / 2, SES.SCREEN_WIDTH, SES.SCREEN_HEIGHT / 2);
         mStage.addActor(mBulletWrapper);
 
         mCuName = new Label("", mSkin.get("default-label-style", Label.LabelStyle.class));
-        mCuName.setBounds(SES.SCREEN_BORDER, 270, 380, 30);
+        mCuName.setBounds(
+                SES.SCREEN_BORDER, SES.SCREEN_HEIGHT - SES.BUTTON_HEIGHT,
+                380, 30
+        );
         getStage().addActor(mCuName);
 
         mCuState = new Label("", mSkin.get("default-label-style", Label.LabelStyle.class));
-        mCuState.setBounds(SES.SCREEN_BORDER, 240, 380, 30);
+        mCuState.setBounds(
+                SES.SCREEN_BORDER, SES.SCREEN_HEIGHT - SES.BUTTON_HEIGHT * 2,
+                380, 30
+        );
         getStage().addActor(mCuState);
 
         final UnitTestSliderContent usc = new UnitTestSliderContent(this);
@@ -123,6 +131,7 @@ public class UnitsTestScreen extends AbstractScreen {
             };
         }
 
+        Gdx.app.log(TAG, "bullet view size: " + mBullet.getWidth() + "x" + mBullet.getHeight());
         mCurrentView.setSize(mBullet.getWidth(), mBullet.getHeight());
         mBulletWrapper.addActor(mCurrentView);
 
@@ -146,6 +155,7 @@ public class UnitsTestScreen extends AbstractScreen {
     public void update(float delta) {
         mBullet.act(delta);
         mBullet.moveX(delta, mBulletWrapper.getWidth());
+        mStage.act();
 //        mCurrentView.setX(mBullet.getX() - mBullet.getWidth() * .5f - delta * 10);
     }
 

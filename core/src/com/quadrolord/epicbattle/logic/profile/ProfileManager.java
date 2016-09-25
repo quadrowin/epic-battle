@@ -5,6 +5,11 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.quadrolord.ejge.utils.PlatformServices;
 import com.quadrolord.epicbattle.logic.skill.active.PowerWave;
+import com.quadrolord.epicbattle.logic.skill.bullet.balls.Book;
+import com.quadrolord.epicbattle.logic.skill.bullet.balls.Broom;
+import com.quadrolord.epicbattle.logic.skill.bullet.balls.Hat;
+import com.quadrolord.epicbattle.logic.skill.bullet.balls.MagicWand;
+import com.quadrolord.epicbattle.logic.skill.bullet.balls.Owl;
 import com.quadrolord.epicbattle.logic.skill.passive.TowerMaxHp;
 import com.quadrolord.epicbattle.logic.skill.passive.TowerRandomBleed;
 
@@ -64,14 +69,14 @@ public class ProfileManager {
         mProfile.addSkillSafe(PowerWave.class, 0);
 
         // скилы юнитов
-        mProfile.addSkillSafe(com.quadrolord.epicbattle.logic.skill.bullet.Wheel001.class, 0);
-        mProfile.addSkillSafe(com.quadrolord.epicbattle.logic.skill.bullet.Simple.class, 0);
-        mProfile.addSkillSafe(com.quadrolord.epicbattle.logic.skill.bullet.Big.class, 3);
-        mProfile.addSkillSafe(com.quadrolord.epicbattle.logic.skill.bullet.Forks.class, 0);
-        mProfile.addSkillSafe(com.quadrolord.epicbattle.logic.skill.bullet.Girl.class, 0);
+        mProfile.addSkillSafe(Book.class, 0);
+        mProfile.addSkillSafe(Broom.class, 0);
+        mProfile.addSkillSafe(Hat.class, 3);
+        mProfile.addSkillSafe(MagicWand.class, 0);
+        mProfile.addSkillSafe(Owl.class, 0);
 
 //        if (mProfile.getBullets().size < 1) {
-//            mProfile.addBullet(SimpleLogic.class);
+//            mProfile.addBullet(BroomLogic.class);
 //        }
         mProfile.getBuildings().clear();
 //        mProfile.addBuildingSafe(BigBullet.class).setLevel(3);

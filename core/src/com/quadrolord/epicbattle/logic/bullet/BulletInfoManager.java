@@ -61,7 +61,8 @@ public class BulletInfoManager {
         }
 
         String logicName = bulletClass.getSimpleName(); // LalalaLogic
-        String fileName = "config/units/" + logicName.substring(0, logicName.length() - 5) + ".json";
+        String unitType = bulletClass.getName().contains(".wheels.") ? "wheels/" : "balls/";
+        String fileName = "config/units/" + unitType + "/" + logicName.substring(0, logicName.length() - 5) + ".json";
 
         try {
             bl = bulletClass.getConstructor().newInstance();
