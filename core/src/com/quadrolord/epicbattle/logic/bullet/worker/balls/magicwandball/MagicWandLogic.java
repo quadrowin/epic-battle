@@ -1,21 +1,21 @@
-package com.quadrolord.epicbattle.logic.bullet.worker.balls.Owl;
+package com.quadrolord.epicbattle.logic.bullet.worker.balls.magicwandball;
 
 import com.quadrolord.epicbattle.logic.bullet.leveling.SimpleStrategy;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
-import com.quadrolord.epicbattle.view.bullet.balls.Owl;
+import com.quadrolord.epicbattle.view.bullet.balls.MagicWand;
 
 /**
- * Created by Quadrowin on 09.01.2016.
+ * Created by Quadrowin on 10.07.2016.
  */
-public class OwlLogic extends AbstractLogic<OwlBullet> {
+public class MagicWandLogic extends AbstractLogic<MagicWandBullet> {
 
-    public OwlLogic() {
+    public MagicWandLogic() {
         setHeight(40);
         setWidth(40);
         setDescription("I will fight for you to the end.");
-        setViewClass(Owl.class);
+        setViewClass(MagicWand.class);
         setLevelingStrategy(new SimpleStrategy());
     }
 
@@ -25,3 +25,4 @@ public class OwlLogic extends AbstractLogic<OwlBullet> {
     }
 
 }
+

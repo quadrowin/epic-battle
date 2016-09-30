@@ -1,4 +1,4 @@
-package com.quadrolord.epicbattle.logic.bullet.worker.balls.Broom;
+package com.quadrolord.epicbattle.logic.bullet.worker.balls.ballball;
 
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
@@ -6,9 +6,9 @@ import com.quadrolord.epicbattle.logic.tower.BattleGame;
 /**
  * Created by Quadrowin on 02.07.2016.
  */
-public class BroomBullet extends AbstractBullet {
+public class BallBullet extends AbstractBullet {
 
-    public BroomBullet(BattleGame game) {
+    public BallBullet(BattleGame game) {
         super(game);
     }
 

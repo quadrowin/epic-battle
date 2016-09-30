@@ -1,14 +1,14 @@
 {
-  "title": "Just the flying broom.",
-  "cost": 75,
+  "title": "The magic ball inside another magic ball.\nVery very magic magic.",
+  "cost": 50,
   "construction_time": 3,
   "attack_damage": 50,
   "attack_distance": 20,
   "attack_time": 1,
   "move_speed": 50,
   "max_target_count": 1,
-  "max_hp": 100,
-  "icon": "balls/content/broom.png",
+  "max_hp": 300,
+  "icon": "balls/bubble1.png",
   "level_ups": [
     {
       "max_hp": 10,

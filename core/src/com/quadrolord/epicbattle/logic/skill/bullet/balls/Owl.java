@@ -1,6 +1,6 @@
 package com.quadrolord.epicbattle.logic.skill.bullet.balls;
 
-import com.quadrolord.epicbattle.logic.bullet.worker.balls.Owl.OwlLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.balls.owlball.OwlLogic;
 import com.quadrolord.epicbattle.logic.skill.AbstractBulletSkill;
 
 /**

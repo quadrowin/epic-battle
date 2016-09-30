@@ -1,21 +1,21 @@
-package com.quadrolord.epicbattle.logic.bullet.worker.balls.Broom;
+package com.quadrolord.epicbattle.logic.bullet.worker.balls.owlball;
 
 import com.quadrolord.epicbattle.logic.bullet.leveling.SimpleStrategy;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
-import com.quadrolord.epicbattle.view.bullet.balls.Broom;
+import com.quadrolord.epicbattle.view.bullet.balls.Owl;
 
 /**
  * Created by Quadrowin on 09.01.2016.
  */
-public class BroomLogic extends AbstractLogic<BroomBullet> {
+public class OwlLogic extends AbstractLogic<OwlBullet> {
 
-    public BroomLogic() {
-        setHeight(50);
-        setWidth(50);
+    public OwlLogic() {
+        setHeight(40);
+        setWidth(40);
         setDescription("I will fight for you to the end.");
-        setViewClass(Broom.class);
+        setViewClass(Owl.class);
         setLevelingStrategy(new SimpleStrategy());
     }
 

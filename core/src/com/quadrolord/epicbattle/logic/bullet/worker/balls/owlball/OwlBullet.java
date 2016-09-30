@@ -1,4 +1,4 @@
-package com.quadrolord.epicbattle.logic.bullet.worker.balls.Owl;
+package com.quadrolord.epicbattle.logic.bullet.worker.balls.owlball;
 
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;

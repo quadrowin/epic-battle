@@ -36,6 +36,8 @@ public class UnitsTestScreen extends AbstractScreen {
 
     private AbstractBulletView mCurrentView;
 
+    private float mUnitScale = 2;
+
     private int mCurrentStateIndex = 0;
 
     private BulletState[] mSwitchingStates = new BulletState[]{
@@ -54,7 +56,12 @@ public class UnitsTestScreen extends AbstractScreen {
         mBullet.setX(SES.SCREEN_WIDTH / 2);
 
         mBulletWrapper = new Group();
-        mBulletWrapper.setBounds(0, SES.SCREEN_HEIGHT / 2, SES.SCREEN_WIDTH, SES.SCREEN_HEIGHT / 2);
+        mBulletWrapper.setBounds(
+                0, SES.SCREEN_HEIGHT / 2,
+                SES.SCREEN_WIDTH / mUnitScale,
+                SES.SCREEN_HEIGHT / 2 / mUnitScale
+        );
+        mBulletWrapper.setScale(mUnitScale);
         mStage.addActor(mBulletWrapper);
 
         mCuName = new Label("", mSkin.get("default-label-style", Label.LabelStyle.class));

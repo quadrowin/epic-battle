@@ -1,21 +1,21 @@
-package com.quadrolord.epicbattle.logic.bullet.worker.balls.book;
+package com.quadrolord.epicbattle.logic.bullet.worker.balls.hatball;
 
 import com.quadrolord.epicbattle.logic.bullet.leveling.SimpleStrategy;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
-import com.quadrolord.epicbattle.view.bullet.balls.Book;
+import com.quadrolord.epicbattle.view.bullet.balls.Hat;
 
 /**
- * Created by Quadrowin on 09.01.2016.
+ * Created by Quadrowin on 02.07.2016.
  */
-public class BookLogic extends AbstractLogic<BookBullet> {
+public class HatLogic extends AbstractLogic<HatBullet> {
 
-    public BookLogic() {
+    public HatLogic() {
         setHeight(40);
         setWidth(40);
-        setDescription("I will fight for you to the end.");
-        setViewClass(Book.class);
+        setDescription("He is real strong. He is real BIG. He will bring you victory.");
+        setViewClass(Hat.class);
         setLevelingStrategy(new SimpleStrategy());
     }
 
