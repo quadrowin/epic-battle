@@ -60,9 +60,9 @@ public class BulletInfoManager {
             return bl;
         }
 
-        String logicName = bulletClass.getSimpleName(); // LalalaLogic
-        String unitType = bulletClass.getName().contains(".wheels.") ? "wheels/" : "balls/";
-        String fileName = "config/units/" + unitType + logicName.substring(0, logicName.length() - 5) + ".json";
+//        String logicName = bulletClass.getSimpleName(); // LalalaLogic
+//        String unitType = bulletClass.getName().contains(".wheels.") ? "wheels/" : "balls/";
+//        String fileName = "config/units/" + unitType + logicName.substring(0, logicName.length() - 5) + ".json";
 
         try {
             bl = bulletClass.getConstructor().newInstance();
@@ -70,29 +70,29 @@ public class BulletInfoManager {
             e.printStackTrace();
             return null;
         }
-        JsonValue json;
-
-        Gdx.app.log("bullets", "Loaded unit config: " + fileName);
-
-        try {
-            json = mReader.parse(Gdx.files.internal(fileName));
-        } catch (Exception e) {
-            throw new RuntimeException("Cannot found config file: " + fileName);
-        }
-
-        if (!json.has("title")) {
-            throw new RuntimeException("Empty unit name");
-        }
-
-        for (JsonValue.JsonIterator it = json.iterator(); it.hasNext(); ) {
-            JsonValue val = it.next();
-            String name = val.name();
-            if (mLoaders.containsKey(name)) {
-                mLoaders.get(name).assign(bl, val);
-            } else {
-                Gdx.app.log(BulletInfoManager.class.getName(), "Unknown param in " + bulletClass.getName() + ": " + name);
-            }
-        }
+//        JsonValue json;
+//
+//        Gdx.app.log("bullets", "Loaded unit config: " + fileName);
+//
+//        try {
+//            json = mReader.parse(Gdx.files.internal(fileName));
+//        } catch (Exception e) {
+//            throw new RuntimeException("Cannot found config file: " + fileName);
+//        }
+//
+//        if (!json.has("title")) {
+//            throw new RuntimeException("Empty unit name");
+//        }
+//
+//        for (JsonValue.JsonIterator it = json.iterator(); it.hasNext(); ) {
+//            JsonValue val = it.next();
+//            String name = val.name();
+//            if (mLoaders.containsKey(name)) {
+//                mLoaders.get(name).assign(bl, val);
+//            } else {
+//                Gdx.app.log(BulletInfoManager.class.getName(), "Unknown param in " + bulletClass.getName() + ": " + name);
+//            }
+//        }
 
         mLogics.put(bulletClass, bl);
         return bl;

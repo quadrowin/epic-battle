@@ -8,12 +8,19 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.EpicBattle;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractLogic;
-import com.quadrolord.epicbattle.logic.bullet.worker.balls.ballball.BallLogic;
-import com.quadrolord.epicbattle.logic.bullet.worker.balls.broomball.BroomLogic;
-import com.quadrolord.epicbattle.logic.bullet.worker.balls.magicwandball.MagicWandLogic;
-import com.quadrolord.epicbattle.logic.bullet.worker.balls.owlball.OwlLogic;
-import com.quadrolord.epicbattle.logic.bullet.worker.balls.bookball.BookLogic;
-import com.quadrolord.epicbattle.logic.bullet.worker.balls.hatball.HatLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.balls.ball.BallLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.balls.blackcat.BlackCatLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.balls.broom.BroomLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.balls.dice.DiceLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.balls.frog.FrogLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.balls.horseshoe.HorseshoeLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.balls.magicwand.MagicWandLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.balls.owl.OwlLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.balls.book.BookLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.balls.hat.HatLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.balls.snake.SnakeLogic;
+import com.quadrolord.epicbattle.logic.bullet.worker.balls.spider.SpiderLogic;
+import com.quadrolord.epicbattle.logic.skill.bullet.balls.BlackCat;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.screen.slider.SliderContent;
 
@@ -34,12 +41,18 @@ public class UnitTestSliderContent extends SliderContent<AbstractLogic> {
         mAdapter = (EpicBattle)screen.getAdapter();
 
         mAllClasses = new Class[] {
+                BallLogic.class,
+                BlackCatLogic.class,
                 BookLogic.class,
                 BroomLogic.class,
+                DiceLogic.class,
+                FrogLogic.class,
                 HatLogic.class,
+                HorseshoeLogic.class,
                 MagicWandLogic.class,
                 OwlLogic.class,
-                BallLogic.class,
+                SnakeLogic.class,
+                SpiderLogic.class,
         };
     }
 
