@@ -10,7 +10,7 @@ import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
 /**
  * Created by Quadrowin on 10.07.2016.
  */
-public class WalkAnimationDrawable extends SpriteAnimationDrawable {
+public class WalkAnimationDrawable extends SpriteAnimationDrawable implements AnimationWithContent {
 
     private Texture mBallTexture;
     private Texture mContentTexture;

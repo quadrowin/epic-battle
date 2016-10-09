@@ -14,7 +14,7 @@ public class Horseshoe extends AbstractBallView {
 
     public Horseshoe(AbstractBullet bullet, AbstractScreen screen) {
         super(bullet, screen);
-        ((WalkAnimationDrawable)getAnimation(BulletState.RUN)).setContentSize(0.6f);
+        setContentSize(0.6f);
     }
 
     @Override

@@ -48,13 +48,13 @@ public class DefeatScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
         Label lblTitle = new Label("Defeat!", mSkin.get("default-label-style", Label.LabelStyle.class));
         lblTitle.setAlignment(Align.center, Align.center);
-        lblTitle.setBounds(0, background.getHeight() - 50, background.getWidth(), 30);
+        lblTitle.setBounds(0, background.getHeight() - 50 * SES.F, background.getWidth(), 30);
         lblTitle.setFontScale(getPx());
         background.addActor(lblTitle);
 
 
         TextButton btnRestart = new TextButton("Try again", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnRestart.setBounds(160, 40, SES.BUTTON_WIDTH, SES.BUTTON_HEIGHT);
+        btnRestart.setBounds(160 * SES.F, 20 * SES.F, SES.BUTTON_WIDTH, SES.BUTTON_HEIGHT);
         background.addActor(btnRestart);
         btnRestart.addListener(new ClickListener() {
 
@@ -69,7 +69,7 @@ public class DefeatScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
 
         TextButton btnLeave = new TextButton("Leave this place", mSkin.get("default-text-button-style", TextButton.TextButtonStyle.class));
-        btnLeave.setBounds(40, 100, SES.BUTTON_WIDTH, SES.BUTTON_HEIGHT);
+        btnLeave.setBounds(20 * SES.F, 20 * SES.F, SES.BUTTON_WIDTH, SES.BUTTON_HEIGHT);
         background.addActor(btnLeave);
         btnLeave.addListener(new ClickListener() {
 

@@ -12,6 +12,7 @@ import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.logic.profile.ProfileManager;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.logic.town.MyTown;
+import com.quadrolord.epicbattle.screen.BattleScreen;
 import com.quadrolord.epicbattle.screen.menu.MainMenuScreen;
 import com.quadrolord.epicbattle.screen.menu.UnitsTestScreen;
 
@@ -51,10 +52,10 @@ public class EpicBattle extends AbstractGameAdapter {
 	public AbstractScreen getDefaultScreen() {
 //		return new MainMenuScreen(this);
 
-//		return new BattleScreen(this, null);
+		return new BattleScreen(this, null);
 //		return new CampaignSelectScreen(this);
 //		return new UnitsUpgradingScreen(this);
-		return new UnitsTestScreen(this);
+//		return new UnitsTestScreen(this);
 //		return new MyTownScreen(this);
 	}
 

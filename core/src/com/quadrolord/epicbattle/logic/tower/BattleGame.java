@@ -17,11 +17,11 @@ import com.quadrolord.epicbattle.logic.skill.AbstractBulletSkill;
 import com.quadrolord.epicbattle.logic.skill.AbstractSkillEntity;
 import com.quadrolord.epicbattle.logic.skill.SkillItem;
 import com.quadrolord.epicbattle.logic.skill.SkillManager;
+import com.quadrolord.epicbattle.logic.skill.bullet.balls.Snake;
+import com.quadrolord.epicbattle.logic.skill.bullet.balls.Spider;
 import com.quadrolord.epicbattle.logic.skill.bullet.wheels.Simple;
 import com.quadrolord.epicbattle.logic.skill.passive.MoneyGrowth;
-import com.quadrolord.epicbattle.logic.tower.controller.AbstractController;
-import com.quadrolord.epicbattle.logic.tower.controller.ControllerAi;
-import com.quadrolord.epicbattle.logic.tower.controller.ControllerPlayer;
+import com.quadrolord.epicbattle.logic.tower.controller.*;
 
 import java.util.Iterator;
 
@@ -53,7 +53,7 @@ public class BattleGame {
 
     private float mTimeFactor = 0.6f;
 
-    private float mZeroY = 70;
+    private float mZeroY = BattlePhysic.ZERO_Y;
 
     private CampaignManager mCampaignManager = new CampaignManager();
 
@@ -132,16 +132,20 @@ public class BattleGame {
     }
 
     public AbstractBullet createUnit(Tower tower, SkillItem skill, boolean checkCooldown, boolean useResources) {
+        Gdx.app.log("BattleGame", "createUnit");
         if (checkCooldown && skill.isInCooldown()) {
+            Gdx.app.log("BattleGame", "inCooldown");
             mListener.onBulletCreateFailCooldown();
             return null;
         }
 
         if (!(skill.getInfo() instanceof AbstractBulletSkill)) {
+            Gdx.app.log("BattleGame", "not a bullet skill");
             return null;
         }
 
         if (useResources && !tower.hasCash(skill)) {
+            Gdx.app.log("BattleGame", "no resources");
             mListener.onBulletCreateFailCash(tower.getCash(), skill.getCost());
             return null;
         }
@@ -198,8 +202,8 @@ public class BattleGame {
 
         towerReset(tower, enemyTower.getX(), GameUnit.DIRECTION_LEFT);
 
-        setTowerSkill(tower, Simple.class, 1);
-        setTowerSkill(tower, MoneyGrowth.class, 10);
+        setTowerSkill(tower, Snake.class, 1);
+        setTowerSkill(tower, Spider.class, 10);
         tower.setMaxHp(enemyTower.getMaxHp());
         tower.setHp(enemyTower.getMaxHp());
 

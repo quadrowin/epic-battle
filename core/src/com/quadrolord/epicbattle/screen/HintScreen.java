@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
+import com.quadrolord.epicbattle.RM;
 
 /**
  * Created by Quadrowin on 19.01.2016.
@@ -48,7 +49,7 @@ public class HintScreen extends com.quadrolord.ejge.view.AbstractScreen {
         bg3.setBounds(3, 3, bg2.getWidth() - 6, bg2.getHeight() - 6);
         bg2.addActor(bg3);
 
-        Label lbl = new Label(text, mSkin.get("default-label-style", Label.LabelStyle.class));
+        Label lbl = new Label(text, RM.getLabelStyle());
         lbl.setAlignment(Align.center, Align.center);
         lbl.setBounds(0, 0, bg3.getWidth(), bg3.getHeight());
         bg3.addActor(lbl);

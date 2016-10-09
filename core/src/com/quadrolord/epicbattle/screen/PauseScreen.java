@@ -45,7 +45,7 @@ public class PauseScreen extends com.quadrolord.ejge.view.AbstractScreen {
         background.setBounds(100, 100, SES.SCREEN_WIDTH - 200, SES.SCREEN_HEIGHT - 200);
         mStage.addActor(background);
 
-        Label lblTitle = new Label("GAME IS PAUSED", RM.getLabelStyle());
+        Label lblTitle = new Label("GAME PAUSED", RM.getLabelStyle());
         lblTitle.setAlignment(Align.center, Align.center);
         lblTitle.setBounds(0, background.getHeight() - 50, background.getWidth(), 30);
         lblTitle.setFontScale(getPx());

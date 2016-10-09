@@ -14,7 +14,7 @@ public class Snake extends AbstractBallView {
 
     public Snake(AbstractBullet bullet, AbstractScreen screen) {
         super(bullet, screen);
-        ((WalkAnimationDrawable)getAnimation(BulletState.RUN)).setContentSize(0.7f);
+        setContentSize(0.7f);
     }
 
     @Override

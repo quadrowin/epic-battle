@@ -23,6 +23,7 @@ import com.quadrolord.epicbattle.logic.skill.passive.TowerRandomBleed;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.logic.tower.GameUnit;
 import com.quadrolord.epicbattle.logic.tower.Tower;
+import com.quadrolord.epicbattle.logic.tower.BattlePhysic;
 import com.quadrolord.epicbattle.screen.battle.ActiveSkillButton;
 import com.quadrolord.epicbattle.screen.battle.AttackAnimation;
 import com.quadrolord.epicbattle.screen.battle.Background;
@@ -175,7 +176,7 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
             @Override
             public void onLevelStart() {
                 Level level = get(BattleGame.class).getLevel();
-                new LevelName(level, mSkin, mFrontStage);
+                new LevelName(level, mFrontStage);
             }
 
             @Override
@@ -266,7 +267,7 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
                                 oc.zoom + deltaX * 0.1f
                         )
                 );
-                float zeroY = 90; // земля - нулевая высота, на которой стоят башни
+                float zeroY = BattlePhysic.ZERO_Y;
                 oc.position.y = oc.zoom * oc.viewportHeight / 2 + zeroY * (1 - oc.zoom) * getPx();
                 return true;
             }

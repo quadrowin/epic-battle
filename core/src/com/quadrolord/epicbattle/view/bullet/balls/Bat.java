@@ -14,7 +14,7 @@ public class Bat extends AbstractBallView {
 
     public Bat(AbstractBullet bullet, AbstractScreen screen) {
         super(bullet, screen);
-        ((WalkAnimationDrawable)getAnimation(BulletState.RUN)).setContentSize(0.6f);
+        setContentSize(0.6f);
     }
 
     @Override

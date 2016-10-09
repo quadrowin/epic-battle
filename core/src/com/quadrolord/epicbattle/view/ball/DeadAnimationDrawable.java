@@ -10,10 +10,11 @@ import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
 /**
  * Created by Quadrowin on 11.07.2016.
  */
-public class DeadAnimationDrawable extends SpriteAnimationDrawable {
+public class DeadAnimationDrawable extends SpriteAnimationDrawable implements AnimationWithContent {
 
     private Texture mBallTexture;
     private Texture mContentTexture;
+    private float mContentSize = 0.8f;
     private Texture mEnergyTexture;
     private TextureRegion mTextureRegion;
     private float mLength = 1;
@@ -39,6 +40,24 @@ public class DeadAnimationDrawable extends SpriteAnimationDrawable {
         if (scale == 0) {
             return;
         }
+
+        // содержимое
+        batch.draw(
+                mContentTexture,
+                (getWidth() * (1 - mContentSize)) / 2 - getDirection() * getTime() * 30,  // x
+                (getHeight() * (1 - mContentSize)) / 2 + getHeight() * (float)Math.abs(Math.sin(getTime() * 3)), // y
+                halfWidth, halfHeight,      // originX, originY (центр колеса)
+                getWidth() * mContentSize,  // width
+                getHeight() * mContentSize, // height
+                scale, scale,                     // scaleX, scaleY
+                (float)Math.sin(-getDeltaX() * 0.05) * 10,       // rotation - покачивание
+                0, 0,                       // srcX, srcY
+                mContentTexture.getWidth(), // srcWidth
+                mContentTexture.getHeight(),// srcHeight
+                false, false                // flipX, flipY
+        );
+
+        // оболочка
         batch.draw(
                 mBallTexture,
                 -getDirection() * getTime() * 30,                           // x
@@ -69,4 +88,8 @@ public class DeadAnimationDrawable extends SpriteAnimationDrawable {
         return mTextureRegion;
     }
 
+    @Override
+    public void setContentSize(float scale) {
+        mContentSize = scale;
+    }
 }

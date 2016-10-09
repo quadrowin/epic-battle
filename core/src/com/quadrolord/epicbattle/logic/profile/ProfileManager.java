@@ -10,6 +10,8 @@ import com.quadrolord.epicbattle.logic.skill.bullet.balls.Broom;
 import com.quadrolord.epicbattle.logic.skill.bullet.balls.Hat;
 import com.quadrolord.epicbattle.logic.skill.bullet.balls.MagicWand;
 import com.quadrolord.epicbattle.logic.skill.bullet.balls.Owl;
+import com.quadrolord.epicbattle.logic.skill.bullet.balls.Snake;
+import com.quadrolord.epicbattle.logic.skill.bullet.balls.Spider;
 import com.quadrolord.epicbattle.logic.skill.passive.TowerMaxHp;
 import com.quadrolord.epicbattle.logic.skill.passive.TowerRandomBleed;
 
@@ -82,6 +84,8 @@ public class ProfileManager {
 //        mProfile.addBuildingSafe(BigBullet.class).setLevel(3);
 //        mProfile.addBuildingSafe(ForksLogic.class);
 //        mProfile.addBuildingSafe(GirlLogic.class);
+
+        resetCurrentProfile();
     }
 
     public void saveProfile() {
@@ -92,6 +96,23 @@ public class ProfileManager {
                 json.prettyPrint(getProfile()),
                 false
         );
+    }
+
+    public void resetCurrentProfile() {
+        if (mProfile == null) {
+            mProfile = new PlayerProfile();
+            mProfile.setName("An elf");
+        }
+
+        mProfile.getBuildings().clear();
+        mProfile.getSkills().clear();
+        mProfile.addSkillSafe(TowerMaxHp.class, 0);
+        mProfile.addSkillSafe(PowerWave.class, 0);
+
+        // скилы юнитов
+        mProfile.addSkillSafe(Book.class, 0);
+        mProfile.addSkillSafe(Snake.class, 0);
+        mProfile.addSkillSafe(Spider.class, 0);
     }
 
 }

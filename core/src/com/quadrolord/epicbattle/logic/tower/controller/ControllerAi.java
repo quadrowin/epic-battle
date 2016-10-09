@@ -2,7 +2,7 @@ package com.quadrolord.epicbattle.logic.tower.controller;
 
 import com.quadrolord.epicbattle.logic.campaign.EnemyTower;
 import com.quadrolord.epicbattle.logic.skill.AbstractSkillEntity;
-import com.quadrolord.epicbattle.logic.skill.bullet.wheels.Simple;
+import com.quadrolord.epicbattle.logic.skill.bullet.balls.Snake;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 
 /**
@@ -18,7 +18,7 @@ public class ControllerAi extends AbstractController {
 
     public ControllerAi(BattleGame game) {
         super(game);
-        mMobSkill = game.getSkillManager().get(Simple.class);
+        mMobSkill = game.getSkillManager().get(Snake.class);
     }
 
     @Override
@@ -27,6 +27,7 @@ public class ControllerAi extends AbstractController {
         mTime += delta;
         int frame2 = (int)(mTime / 3);
         if (frame2 > frame1) {
+            getTower().setCash(mMobSkill.getSkillCost());
             getGame().createUnit(getTower(), getTower().getBulletSkill(mMobSkill), true, true);
         }
     }

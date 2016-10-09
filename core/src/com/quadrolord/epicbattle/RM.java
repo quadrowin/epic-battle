@@ -37,6 +37,10 @@ public class RM {
         return mSkin.get(DEFAULT_CHECK_BOX_STYLE, CheckBox.CheckBoxStyle.class);
     }
 
+    public static Skin getSkin() {
+        return mSkin;
+    }
+
     public static TextButton.TextButtonStyle getTextButtonStyle() {
         return mSkin.get(DEFAULT_TEXT_BUTTON_STYLE, TextButton.TextButtonStyle.class);
     }

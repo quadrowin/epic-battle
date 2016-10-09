@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.ejge.view.AbstractScreen;
+import com.quadrolord.epicbattle.screen.SES;
 
 /**
  * Created by Quadrowin on 09.01.2016.
@@ -22,9 +23,9 @@ public class Cash extends Group {
                 screen.getSkin().get("default-label-style", Label.LabelStyle.class)
         );
         mLabel.setBounds(0, 0, getWidth(), getHeight());
-        this.addActor(mLabel);
+        addActor(mLabel);
 
-        this.setBounds(300, 250, 50, 50);
+        setBounds(50 * SES.F, 200 * SES.F, 50, 50);
         stage.addActor(this);
     }
 

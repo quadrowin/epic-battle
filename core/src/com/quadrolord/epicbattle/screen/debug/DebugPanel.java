@@ -113,10 +113,10 @@ public class DebugPanel extends Group {
     public void addButton(String title, ClickListener listener) {
         TextButton button = new TextButton(title, mScreen.getSkin().get("default-text-button-style", TextButton.TextButtonStyle.class));
         button.setBounds(
-                10 + 90 * (mButtonsCount % 3),
-                10 + 50 * Math.round(mButtonsCount / 3),
-                90,
-                40
+                40 + (SES.BUTTON_WIDTH + 20) * (mButtonsCount % 2),
+                40 + (SES.BUTTON_HEIGHT + 20) * Math.round(mButtonsCount / 2),
+                SES.BUTTON_WIDTH,
+                SES.BUTTON_HEIGHT
         );
         mPanel.addActor(button);
         button.addListener(listener);

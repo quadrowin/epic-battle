@@ -1,7 +1,7 @@
 package com.quadrolord.epicbattle.logic.ai;
 
 import com.quadrolord.epicbattle.logic.skill.AbstractSkillEntity;
-import com.quadrolord.epicbattle.logic.skill.bullet.wheels.Simple;
+import com.quadrolord.epicbattle.logic.skill.bullet.balls.Snake;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 
 /**
@@ -17,7 +17,7 @@ public class TowerAi {
 
     public TowerAi(Tower tower) {
         mTower = tower;
-        mMobSkill = tower.getGame().getSkillManager().get(Simple.class);
+        mMobSkill = tower.getGame().getSkillManager().get(Snake.class);
     }
 
     public void act(float delta) {

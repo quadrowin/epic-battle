@@ -1,12 +1,18 @@
 package com.quadrolord.epicbattle.view.bullet;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
+import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
+import com.quadrolord.epicbattle.view.ball.AnimationWithContent;
 import com.quadrolord.epicbattle.view.ball.AttackAnimationDrawable;
 import com.quadrolord.epicbattle.view.ball.DeadAnimationDrawable;
 import com.quadrolord.epicbattle.view.ball.WalkAnimationDrawable;
+
+import java.util.Iterator;
 
 /**
  * Created by Goorus on 25.09.2016.
@@ -31,7 +37,7 @@ public abstract class AbstractBallView extends AbstractBulletView {
 
         mAnimations.put(
                 BulletState.ATTACK_PREPARE,
-                new AttackAnimationDrawable(getBallTexture(screen), getContentTexture(screen), getWidth(), getHeight())
+                new AttackAnimationDrawable(getBallTexture(screen), getContentTexture(screen), this)
         );
 
         mAnimations.put(
@@ -59,5 +65,14 @@ public abstract class AbstractBallView extends AbstractBulletView {
     }
 
     abstract protected String getContentTextureFile();
+
+    protected void setContentSize(float scale) {
+        for (Iterator<SpriteAnimationDrawable> it = mAnimations.values().iterator(); it.hasNext(); ) {
+            SpriteAnimationDrawable anim = it.next();
+            if (anim instanceof AnimationWithContent) {
+                ((AnimationWithContent) anim).setContentSize(scale);
+            }
+        }
+    }
 
 }
