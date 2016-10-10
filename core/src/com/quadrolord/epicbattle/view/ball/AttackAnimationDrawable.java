@@ -1,5 +1,6 @@
 package com.quadrolord.epicbattle.view.ball;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -16,11 +17,7 @@ import com.quadrolord.epicbattle.view.visualization.BallAttackEffect;
  */
 public class AttackAnimationDrawable extends SpriteAnimationDrawable implements AnimationWithContent {
 
-    private class Flash {
-        public Texture texture;
-        public float created = 0;
-        public float angle = 0;
-    }
+    private static final String TAG = "AttackAnimationDrawable";
 
     private Actor mActor;
     private Animation mEffect;
@@ -31,10 +28,6 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
     private Texture mEnergyTexture;
     private float mContentSize = 0.8f;
     private TextureRegion mTextureRegion;
-
-    private Texture[] mFlashTextures;
-    private Array<Flash> mFlashes = new Array<Flash>();
-    private float mLastFlashTime = 0;
 
     public AttackAnimationDrawable(Animation animation, float width, float height, boolean isLooped) throws Exception {
         super(animation, width, height, isLooped);
@@ -49,29 +42,35 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
         mEnergyTexture = RM.getTextures().get("balls/content/energy.png");
         mTextureRegion = new TextureRegion(mBallTexture);
 
-        mFlashTextures = new Texture[2];
-        mFlashTextures[0] = RM.getTextures().get("balls/flash/blue1.png");
-        mFlashTextures[1] = RM.getTextures().get("balls/flash/blue2.png");
-
         mEffect = getAnimationResource();
     }
 
     public Animation getAnimationResource() {
-        String dir = "balls/flash/gif-anim";
+        String[][] sources = {
+//                {"balls/flash/gif-anim", "_delay-0.04s.gif", "28"},
+//                {"balls/flash/gif-anim2", "_delay-0.1s.gif", "56"},
+                {"balls/flash/gif-anim3", "_delay-0.04s.gif", "28"},
+        };
+
+        int animIndex = (int)(Math.random() * sources.length);
+
+        String dir = sources[animIndex][0];
         if (RM.getSkin().has(dir, Animation.class)) {
             return RM.getSkin().get(dir, Animation.class);
         }
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
+        int framesCount = Integer.valueOf(sources[animIndex][2]);
         for (int i = 0; i < 28; i++) {
-            String textureFile = dir + "/frame_" + (i < 10 ? "0" + i : i) + "_delay-0.04s.gif";
+//            String textureFile = dir + "/frame_" + (i < 10 ? "0" + i : i) + "_delay-0.04s.gif";
+            String textureFile = dir + "/frame_" + (i < 10 ? "0" + i : i) + sources[animIndex][1];
             Texture texture = RM.getTextures().get(textureFile);
             TextureRegion region = new TextureRegion(texture);
             frames.add(region);
         }
         frames.reverse();
 
-        Animation anim = new Animation(0.04f, frames);
+        Animation anim = new Animation(1 / 28, frames);
         RM.getSkin().add(dir, anim);
 
         return anim;
@@ -80,17 +79,6 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
     @Override
     public void draw(Batch batch, float x, float y, float width, float height) {
         float now = getTime();
-        if (mFlashes.size < 1 || now - mLastFlashTime > Math.random() * 7) {
-            mLastFlashTime = now;
-            Flash f = new Flash();
-            f.angle = (float)Math.random() - 0.5f;
-            if (f.angle == 0) {
-                f.angle = 0.2f;
-            }
-            f.created = now;
-            f.texture = mFlashTextures[Math.round((int)(Math.random() * mFlashTextures.length))];
-            mFlashes.add(f);
-        }
 
         float halfWidth = getWidth() / 2;
         float halfHeight = getHeight() / 2;
@@ -142,23 +130,23 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
         );
 
 
-        float et = getTime() * 3 % 3;
-        float animTime = getTime() * 5;
+        float et = getTimePart() * 3;
+        float animDuration = 0.5f;
+        int animFrameIndex = (int)((getTimePart() % animDuration) / animDuration * mEffect.getKeyFrames().length);
+//        Gdx.app.log(TAG, "anim frame " + animFrameIndex + " by " + getTimePart());
 
-//        while (et < 2) et++;
-
-        if (et < 1) {
-            float es = et;
-            batch.setColor(1, 1, 1, et);
+        if (et < 2) {
+            float es = et / 2;
+            batch.setColor(1, 1, 1, es);
             if (getDirection() < 0) {
                 batch.draw(
-                        mEffect.getKeyFrame(animTime, true),
+                        mEffect.getKeyFrames()[animFrameIndex],
                         getWidth() * (1 - es) / 2, getHeight() * (1 - es) / 2,
                         getWidth() * es, getHeight() * es
                 );
             } else {
                 batch.draw(
-                        mEffect.getKeyFrame(animTime, true),
+                        mEffect.getKeyFrames()[animFrameIndex],
                         getWidth() * (1 + es) / 2, getHeight() * (1 - es) / 2,
                         -getWidth() * es, getHeight() * es
                 );
@@ -166,7 +154,7 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
             mFinishEffectCreated = false;
         } else if (et < 2) {
             et -= 1;
-            float es = et;
+            float es;
             if (et < 0.25f) {
                 es = 1.00f - (et - 0.00f) / 0.25f * 0.50f;
             } else if (et < 0.5f) {
@@ -179,13 +167,13 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
             batch.setColor(1, 1, 1, es);
             if (getDirection() < 0) {
                 batch.draw(
-                        mEffect.getKeyFrame(animTime, true),
+                        mEffect.getKeyFrames()[animFrameIndex],
                         getWidth() * (1 - es) / 2, getHeight() * (1 - es) / 2,
                         getWidth() * es, getHeight() * es
                 );
             } else {
                 batch.draw(
-                        mEffect.getKeyFrame(animTime, true),
+                        mEffect.getKeyFrames()[animFrameIndex],
                         getWidth() * (1 + es) / 2, getHeight() * (1 - es) / 2,
                         -getWidth() * es, getHeight() * es
                 );
@@ -199,6 +187,7 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
             float clr = Color.toFloatBits(255, 255, 255, 255);
 
             float ss = et * halfHeight;
+            float textureY = 0; // 0 or 1
 
             /**
              * +-----+-----+
@@ -217,9 +206,9 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
                     dx + halfWidth, halfHeight,
                     clr, 0.5f, 0.5f,
                     dx + halfWidth * (1 - 0.75f * et), 0 + ss,
-                    clr, 0.5f, 0.0f,
+                    clr, 0.5f, 1 - textureY,
                     dx + 0, 0 + ss,
-                    clr, 0.0f, 0.0f,
+                    clr, 0.0f, 1 - textureY,
                     dx + halfWidth * (0 + 0.75f * et), halfHeight,
                     clr, 0.0f, 0.5f,
 
@@ -229,17 +218,17 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
                     dx + halfWidth * (0 + 0.75f * et), halfHeight,
                     clr, 0.0f, 0.5f,
                     dx + 0, halfHeight * 2 - ss,
-                    clr, 0.0f, 1.0f,
+                    clr, 0.0f, textureY,
                     dx + halfWidth * (1 - 0.75f * et), halfHeight * 2 - ss,
-                    clr, 0.5f, 1.0f,
+                    clr, 0.5f, textureY,
 
                     // 3
                     dx + halfWidth, halfHeight,
                     clr, 0.5f, 0.5f,
                     dx + halfWidth * (1 - 0.75f * et), halfHeight * 2 - ss,
-                    clr, 0.5f, 1.0f,
+                    clr, 0.5f, textureY,
                     dx + halfWidth * (2 - 1.50f * et), halfHeight * 2 - ss,
-                    clr, 1.0f, 1.0f,
+                    clr, 1.0f, textureY,
                     dx + halfWidth * (2 - 0.75f * et), halfHeight,
                     clr, 1.0f, 0.5f,
 
@@ -249,12 +238,12 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
                     dx + halfWidth * (2 - 0.75f * et), halfHeight,
                     clr, 1.0f, 0.5f,
                     dx + halfWidth * (2 - 1.50f * et), 0 + ss,
-                    clr, 1.0f, 0.0f,
+                    clr, 1.0f, 1 - textureY,
                     dx + halfWidth * (1 - 0.75f * et), 0 + ss,
-                    clr, 0.5f, 0.0f,
+                    clr, 0.5f, 1 - textureY,
             };
 
-            BallAttackEffect.create(mActor, mEffect, animTime, ff, getDirection());
+            BallAttackEffect.create(mActor, mEffect, animFrameIndex, ff, getDirection()).draw(batch, 1);
         }
 
         batch.setColor(1, 1, 1, 1);

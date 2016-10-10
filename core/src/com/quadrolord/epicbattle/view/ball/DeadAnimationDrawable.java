@@ -41,11 +41,13 @@ public class DeadAnimationDrawable extends SpriteAnimationDrawable implements An
             return;
         }
 
+        float jump_y = getHeight() * (float)Math.abs(Math.sin(getTime() * 3));
+
         // содержимое
         batch.draw(
                 mContentTexture,
                 (getWidth() * (1 - mContentSize)) / 2 - getDirection() * getTime() * 30,  // x
-                (getHeight() * (1 - mContentSize)) / 2 + getHeight() * (float)Math.abs(Math.sin(getTime() * 3)), // y
+                (getHeight() * (1 - mContentSize)) / 2 + jump_y, // y
                 halfWidth, halfHeight,      // originX, originY (центр колеса)
                 getWidth() * mContentSize,  // width
                 getHeight() * mContentSize, // height
@@ -60,8 +62,8 @@ public class DeadAnimationDrawable extends SpriteAnimationDrawable implements An
         // оболочка
         batch.draw(
                 mBallTexture,
-                -getDirection() * getTime() * 30,                           // x
-                getHeight() * (float)Math.abs(Math.sin(getTime() * 3)),     // y
+                -getDirection() * getTime() * 30,           // x
+                jump_y,                                     // y
                 halfWidth, halfHeight,      // originX, originY (центр колеса)
                 getWidth(), getHeight(),    // width, height
                 scale, scale,               // scaleX, scaleY

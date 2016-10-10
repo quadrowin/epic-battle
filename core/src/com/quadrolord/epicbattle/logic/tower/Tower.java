@@ -63,7 +63,7 @@ public class Tower extends GameUnit {
 
     public void act(float delta) {
         mTime += delta;
-        getAttackBounds().set(getX(), getY(), getWidth(), getHeight());
+        getAttackBounds().set(getX() - getWidth() / 2, getY(), getWidth(), getHeight());
 
         for (Iterator<SkillItem> it = mAllSkills.values().iterator(); it.hasNext(); ) {
             SkillItem skill = it.next();

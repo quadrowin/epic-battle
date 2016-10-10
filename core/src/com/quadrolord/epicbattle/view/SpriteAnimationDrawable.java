@@ -159,6 +159,10 @@ public class SpriteAnimationDrawable implements Drawable {
         return mTime;
     }
 
+    public float getTimePart() {
+        return mTimePart;
+    }
+
     public float getWidth() {
         return mWidth;
     }

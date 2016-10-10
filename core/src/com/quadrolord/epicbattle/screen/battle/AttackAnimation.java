@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
+import com.quadrolord.epicbattle.logic.tower.BattlePhysic;
 import com.quadrolord.epicbattle.logic.tower.GameUnit;
 
 /**
@@ -25,9 +26,9 @@ public class AttackAnimation extends Group {
 
         if (from.getX() < to.getX()) {
             setScaleX(-1);
-            setBounds(from.getX() + from.getWidth(), 20, 30, 30);
+            setBounds(from.getX() + from.getWidth() * 0.5f, 40, 30, 30);
         } else {
-            setBounds(from.getX(), 20, 30, 30);
+            setBounds(from.getX() - from.getWidth() * 0.5f, 40, 30, 30);
         }
         stage.addActor(this);
     }
@@ -45,7 +46,7 @@ public class AttackAnimation extends Group {
         TextureRegion frame = mAnim.getKeyFrame(mStateTime);
         Matrix4 transform = computeTransform();
         applyTransform(batch, transform);
-        batch.draw(frame, 0, 20, 30, 30);
+        batch.draw(frame, 0, 30, 30, 30);
         resetTransform(batch);
     }
 
