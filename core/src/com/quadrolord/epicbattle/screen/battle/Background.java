@@ -2,8 +2,10 @@ package com.quadrolord.epicbattle.screen.battle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ArrayMap;
@@ -16,6 +18,8 @@ import java.util.Iterator;
  * Created by Quadrowin on 10.01.2016.
  */
 public class Background extends Group {
+
+    private static final String TAG = "Background";
 
     private Texture mSky;
 
@@ -35,11 +39,17 @@ public class Background extends Group {
 
     private float mScale;
 
-    public Background(AbstractScreen screen, Stage stage, Camera camera) {
+    private Stage mStage;
+
+    private ShapeRenderer mShapeRenderer;
+
+    public Background(Stage stage, Camera camera) {
+        mShapeRenderer = new ShapeRenderer();
+        mStage = stage;
         mCamera = camera;
-        mWidth = screen.getStage().getViewport().getScreenWidth();
-        mHeight = screen.getStage().getViewport().getScreenHeight();
-        mScale = screen.getStage().getRoot().getScaleY();
+        mWidth = stage.getViewport().getScreenWidth();
+        mHeight = stage.getViewport().getScreenHeight();
+        mScale = stage.getRoot().getScaleY();
 
         Gdx.app.log("", "w " + mWidth + " h " + mHeight);
 
@@ -55,13 +65,17 @@ public class Background extends Group {
     @Override
     public void act(float delta) {
         mPosition = mCamera.position.x;
+        mWidth = mStage.getViewport().getScreenWidth();
+        mHeight = mStage.getViewport().getScreenHeight();
+        OrthographicCamera oc = (OrthographicCamera)mStage.getCamera();
+        mScale = oc.zoom;
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         ArrayMap<Texture, Integer> layers = new ArrayMap<Texture, Integer>();
         float[][] offsets = {
-                {mHeight, -150},
+                {mHeight, 0},
                 {290, 0},
                 {130, 50},
                 {100, 50},
@@ -73,6 +87,8 @@ public class Background extends Group {
         layers.put(mMiddleGround, 12);
         layers.put(mNearGround, 10);
         layers.put(mGrass, 1);
+
+        Gdx.app.log(TAG, "pos " + mPosition + " scale " + mScale);
 
         int i = 0;
         Iterator<ObjectMap.Entry<Texture, Integer>> iter = layers.iterator();
@@ -88,13 +104,27 @@ public class Background extends Group {
 
             batch.draw(
                     next.key,
+                    delta - mWidth, top, mWidth, offsets[i][0]
+            );
+
+            batch.draw(
+                    next.key,
                     delta, top, mWidth, offsets[i][0]
             );
 
             batch.draw(
                     next.key,
-                    mWidth + delta, top, mWidth, offsets[i][0]
+                    delta + mWidth, top, mWidth, offsets[i][0]
             );
+
+            batch.draw(
+                    next.key,
+                    delta + mWidth * 2, top, mWidth, offsets[i][0]
+            );
+
+            if (i == 0) {
+                batch.draw(next.key, delta - mWidth, -200, mWidth * 4, 200, 0, 1, 1, 0.99f);
+            }
 
             i++;
         }

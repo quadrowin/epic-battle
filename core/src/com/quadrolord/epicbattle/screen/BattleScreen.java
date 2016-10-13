@@ -1,6 +1,7 @@
 package com.quadrolord.epicbattle.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
@@ -92,7 +93,7 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
         mFrontStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
         Gdx.input.setInputProcessor(mFrontStage);
 
-        new Background(this, mBackStage, mStage.getCamera());
+        new Background(mBackStage, mStage.getCamera());
 
         new PauseButton(this, mFrontStage);
 
@@ -278,6 +279,11 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
     @Override
     public void draw(float delta) {
+        Gdx.gl.glClearColor(0.65f, 0.59f, 0.70f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
+
         mBackStage.act(delta);
         mBackStage.draw();
 
