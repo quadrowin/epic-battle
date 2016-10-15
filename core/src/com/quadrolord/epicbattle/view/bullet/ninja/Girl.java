@@ -4,11 +4,12 @@ import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
 import com.quadrolord.epicbattle.view.bullet.AbstractBulletView;
+import com.quadrolord.epicbattle.view.bullet.AbstractNinjaView;
 
 /**
  * Created by Quadrowin on 20.01.2016.
  */
-public class Girl extends AbstractBulletView {
+public class Girl extends AbstractNinjaView {
 
     public Girl(AbstractBullet bullet, AbstractScreen screen) {
         super(bullet, screen);

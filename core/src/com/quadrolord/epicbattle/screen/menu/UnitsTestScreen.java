@@ -150,7 +150,7 @@ public class UnitsTestScreen extends AbstractScreen {
         mCurrentStateIndex = stateIndex;
         BulletState newState = mSwitchingStates[mCurrentStateIndex];
         Gdx.app.log("uts", "new state " + newState.name());
-        float dur = mCurrentView.getAnimation(newState).getBaseDuration();
+        float dur = 3;
         mBullet.setState(newState, dur);
         mCuState.setText(newState.name());
     }

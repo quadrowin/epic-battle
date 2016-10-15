@@ -4,11 +4,12 @@ import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
 import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
 import com.quadrolord.epicbattle.view.bullet.AbstractBulletView;
+import com.quadrolord.epicbattle.view.bullet.AbstractNinjaView;
 
 /**
  * Created by morph on 11.01.2016.
  */
-public class Forks extends AbstractBulletView {
+public class Forks extends AbstractNinjaView {
 
     public Forks(AbstractBullet bullet, AbstractScreen screen) {
         super(bullet, screen);

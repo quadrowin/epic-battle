@@ -2,8 +2,6 @@ package com.quadrolord.epicbattle.view.bullet.balls;
 
 import com.quadrolord.ejge.view.AbstractScreen;
 import com.quadrolord.epicbattle.logic.bullet.worker.AbstractBullet;
-import com.quadrolord.epicbattle.logic.bullet.worker.BulletState;
-import com.quadrolord.epicbattle.view.ball.WalkAnimationDrawable;
 import com.quadrolord.epicbattle.view.bullet.AbstractBallView;
 
 /**

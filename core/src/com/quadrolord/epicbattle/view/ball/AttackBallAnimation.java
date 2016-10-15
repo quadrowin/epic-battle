@@ -9,36 +9,32 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.RM;
-import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
+import com.quadrolord.epicbattle.logic.tower.UnitTime;
+import com.quadrolord.epicbattle.view.bullet.AbstractBallView;
+import com.quadrolord.epicbattle.view.bullet.AbstractBulletView;
 import com.quadrolord.epicbattle.view.visualization.BallAttackEffect;
 
 /**
  * Created by Quadrowin on 11.07.2016.
  */
-public class AttackAnimationDrawable extends SpriteAnimationDrawable implements AnimationWithContent {
+public class AttackBallAnimation extends AbstractBallAnimation {
 
-    private static final String TAG = "AttackAnimationDrawable";
+    private static final String TAG = "AttackBallAnimation";
 
-    private Actor mActor;
     private Animation mEffect;
 
     private boolean mFinishEffectCreated = false;
     private Texture mBallTexture;
     private Texture mContentTexture;
     private Texture mEnergyTexture;
-    private float mContentSize = 0.8f;
+
     private TextureRegion mTextureRegion;
 
     private float[] mTempSquareVertices;
 
-    public AttackAnimationDrawable(Animation animation, float width, float height, boolean isLooped) throws Exception {
-        super(animation, width, height, isLooped);
-        throw new Exception("Not implemented");
-    }
+    public AttackBallAnimation(Texture ballTexture, Texture contentTexture, AbstractBulletView actor) {
+        super(actor);
 
-    public AttackAnimationDrawable(Texture ballTexture, Texture contentTexture, Actor actor) {
-        super(null, actor.getWidth(), actor.getHeight(), true);
-        mActor = actor;
         mBallTexture = ballTexture;
         mContentTexture = contentTexture;
         mEnergyTexture = RM.getTextures().get("balls/content/energy.png");
@@ -87,14 +83,14 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
     }
 
     @Override
-    public void draw(Batch batch, float x, float y, float width, float height) {
-        float now = getTime();
+    public void draw(Batch batch, float width, float height) {
+        UnitTime time = getActor().getBullet().getTime();
+        float contentSize = getContentSize();
 
+        Gdx.app.log(TAG, "time " + time.existsTime + " part " + time.statePart);
 
-        Gdx.app.log(TAG, "time " + getTime() + " part " + getTimePart());
-
-        float halfWidth = getWidth() / 2;
-        float halfHeight = getHeight() / 2;
+        float halfWidth = width / 2;
+        float halfHeight = height / 2;
 
         float dy = 0;
 //        dy = getHeight() * (float)Math.abs(Math.sin(3.14 * getTime()));
@@ -102,11 +98,11 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
         // крутящаяся энергия
         batch.draw(
                 mEnergyTexture,
-                0, dy,                      // x, y
+                -halfWidth, dy,                      // x, y
                 halfWidth, halfHeight,      // originX, originY (центр колеса)
-                getWidth(), getHeight(),    // width, height
+                width, height,    // width, height
                 1f, 1f,                     // scaleX, scaleY
-                (-getStartDeltaX() - now) * 3.14f,                // rotation
+                -time.existsTime * 30,      // rotation
                 0, 0,                       // srcX, srcY
                 mEnergyTexture.getWidth(),  // srcWidth
                 mEnergyTexture.getHeight(), // srcHeight
@@ -116,13 +112,13 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
         // содержимое
         batch.draw(
                 mContentTexture,
-                (getWidth() * (1 - mContentSize)) / 2,          // x
-                (getHeight() * (1 - mContentSize)) / 2 + dy,    // y
+                -halfWidth + (width * (1 - contentSize)) / 2,          // x
+                (height * (1 - contentSize)) / 2 + dy,    // y
                 halfWidth, halfHeight,      // originX, originY (центр колеса)
-                getWidth() * mContentSize,  // width
-                getHeight() * mContentSize, // height
+                width * contentSize,  // width
+                height * contentSize, // height
                 1f, 1f,                     // scaleX, scaleY
-                (float)Math.sin(now - getStartDeltaX() * 0.05) * 10,       // rotation - покачивание
+                (float)Math.sin(time.existsTime * 3) * 10,       // rotation - покачивание
                 0, 0,                       // srcX, srcY
                 mContentTexture.getWidth(), // srcWidth
                 mContentTexture.getHeight(),// srcHeight
@@ -132,9 +128,9 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
         // оболочка шара
         batch.draw(
                 mBallTexture,
-                0, dy,    // x, y
+                -halfWidth, dy,    // x, y
                 halfWidth, halfHeight,  // originX, originY (центр колеса)
-                getWidth(), getHeight(), // width, height
+                width, height, // width, height
                 1f, 1f,         // scaleX, scaleY
                 0,
                 0, 0,           // srcX, srcY
@@ -143,25 +139,26 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
         );
 
 
-        float et = getTimePart() * 3 % 5;
+        float et = time.statePart * 3 % 5;
         float animDuration = 0.5f;
-        int animFrameIndex = (int)((getTimePart() % animDuration) / animDuration * mEffect.getKeyFrames().length);
+        int animFrameIndex = (int)((time.statePart % animDuration) / animDuration * mEffect.getKeyFrames().length);
 //        Gdx.app.log(TAG, "anim frame " + animFrameIndex + " by " + getTimePart());
 
         if (et < 2) {
             float es = et / 2;
             batch.setColor(1, 1, 1, es);
-            if (getDirection() < 0) {
+            if (getActor().getBullet().getDirection() < 0) {
                 batch.draw(
                         mEffect.getKeyFrames()[animFrameIndex],
-                        getWidth() * (1 - es) / 2 - (es - 1) * getWidth() / 2, getHeight() * (1 - es) / 2,
-                        getWidth() * es, getHeight() * es
+                        width * (1 - es) / 2 - (es - 1) * width / 2 - halfWidth,
+                        height * (1 - es) / 2,
+                        width * es, height * es
                 );
             } else {
-                float drawX = getWidth() * (1 + es) / 2 + (es - 1) * getWidth() / 2;
-                float drawY = getHeight() * (1 - es) / 2;
-                float drawW = -getWidth() * es;
-                float drawH = getHeight() * es;
+                float drawX = width * (1 + es) / 2 + (es - 1) * width / 2 - halfWidth;
+                float drawY = height * (1 - es) / 2;
+                float drawW = -width * es;
+                float drawH = height * es;
                 mTempSquareVertices[0] = drawX;
                 mTempSquareVertices[1] = drawY + drawH;
                 mTempSquareVertices[5] = drawX + drawW;
@@ -172,11 +169,11 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
                 mTempSquareVertices[16] = drawY;
 
                 if (es < 0.5f) {
-                    mTempSquareVertices[6] += getHeight() * es / 2;
-                    mTempSquareVertices[11] += -getHeight() * es / 2;
+                    mTempSquareVertices[6] += height * es / 2;
+                    mTempSquareVertices[11] += -height * es / 2;
                 } else {
-                    mTempSquareVertices[6] += getHeight() / 4 - getHeight() * (es - 0.5f) / 2;
-                    mTempSquareVertices[11] += -getHeight() / 4 + getHeight() * (es - 0.5f) / 2;
+                    mTempSquareVertices[6] += height / 4 - height * (es - 0.5f) / 2;
+                    mTempSquareVertices[11] += -height / 4 + height * (es - 0.5f) / 2;
                 }
 
                 batch.draw(mEffect.getKeyFrames()[animFrameIndex].getTexture(), mTempSquareVertices, 0, mTempSquareVertices.length);
@@ -200,17 +197,17 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
                 es = 0.50f + (et - 0.75f) / 0.25f * 0.50f;
             }
             batch.setColor(1, 1, 1, es);
-            if (getDirection() < 0) {
+            if (getActor().getBullet().getDirection() < 0) {
                 batch.draw(
                         mEffect.getKeyFrames()[animFrameIndex],
-                        getWidth() * (1 - es) / 2, getHeight() * (1 - es) / 2,
-                        getWidth() * es, getHeight() * es
+                        width * (1 - es) / 2, height * (1 - es) / 2,
+                        width * es, height * es
                 );
             } else {
                 batch.draw(
                         mEffect.getKeyFrames()[animFrameIndex],
-                        getWidth() * (1 + es) / 2, getHeight() * (1 - es) / 2,
-                        -getWidth() * es, getHeight() * es
+                        width * (1 + es) / 2, height * (1 - es) / 2,
+                        -width * es, height * es
                 );
             }
             mFinishEffectCreated = false;
@@ -278,30 +275,13 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
                     clr, 0.5f, 1 - textureY,
             };
 
-            BallAttackEffect.create(mActor, mEffect, animFrameIndex, ff, getDirection()).draw(batch, 1);
+            // необходимо сразу нарисовать, чтобы не было пропуска кадра
+            BallAttackEffect ef = BallAttackEffect.create(getActor(), mEffect, animFrameIndex, ff, getActor().getBullet().getDirection(), width, height);
+            ef.act(0);
+            ef.draw(batch, 1);
         }
 
         batch.setColor(1, 1, 1, 1);
-    }
-
-    @Override
-    public boolean isAnimationFinished() {
-        return false;
-    }
-
-    @Override
-    public float getBaseDuration() {
-        return 1;
-    }
-
-    @Override
-    public TextureRegion getTexture() {
-        return mTextureRegion;
-    }
-
-    @Override
-    public void setContentSize(float scale) {
-        mContentSize = scale;
     }
 
 }

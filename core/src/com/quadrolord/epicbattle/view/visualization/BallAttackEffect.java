@@ -33,13 +33,13 @@ public class BallAttackEffect extends Group {
 
     }
 
-    public static BallAttackEffect create(Actor parent, Animation animation, int animationStartFrame, float[] vertices, float direction) {
+    public static BallAttackEffect create(Actor parent, Animation animation, int animationStartFrame, float[] vertices, float direction, float width, float height) {
         BallAttackEffect ef = new BallAttackEffect();
         ef.mAnimation = animation;
         ef.mAnimationStartFrame = animationStartFrame;
         ef.mCurrentVertices = vertices;
         ef.mDirection = direction;
-        ef.setBounds(parent.getX(), parent.getY(), parent.getWidth(), parent.getHeight());
+        ef.setBounds(parent.getX(), parent.getY(), width, height);
         parent.getParent().addActor(ef);
         return ef;
     }
@@ -59,9 +59,7 @@ public class BallAttackEffect extends Group {
 
         float dx = et * halfWidth * 2 * mDirection;
 
-        if (mDirection < 0) {
-            dx += halfWidth * 2;
-        }
+        dx -= halfWidth * mDirection;
 
         et = Math.min(1, et);
         float ss = et * halfHeight;
