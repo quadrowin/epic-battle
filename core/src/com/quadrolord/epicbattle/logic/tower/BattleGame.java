@@ -90,7 +90,7 @@ public class BattleGame {
         for (Iterator<AbstractBullet> it = mBullets.iterator(); it.hasNext(); ) {
             AbstractBullet unit = it.next();
 
-            if (unit.isDied() && unit.getStateTime() >= mDeathDuration) {
+            if (unit.isDied() && unit.getTime().stateTime >= mDeathDuration) {
                 it.remove();
                 mListener.onBulletRemove(unit);
             } else {

@@ -22,6 +22,8 @@ public class GameUnit {
 
     private float mVelocity = 0;
 
+    private UnitTime mTime = new UnitTime();
+
     private Object mViewObject;
 
     private float mX;
@@ -58,6 +60,10 @@ public class GameUnit {
 
     public float getMaxHp() {
         return mMaxHp;
+    }
+
+    public UnitTime getTime() {
+        return mTime;
     }
 
     public float getVelocity() {

@@ -18,11 +18,11 @@ public class MockBullet extends AbstractBullet {
 
     public void act(float delta) {
 //        Gdx.app.log("MockBullet", "st " + getState().name() + " time " + getStateTime());
-        if (getState() == BulletState.DEATH && getStateTime() > 3) {
+        if (getState() == BulletState.DEATH && getTime().stateTime > 3) {
             setState(BulletState.DEATH, 3);
             setStateTime(0);
         } else {
-            setStateTime(getStateTime() + delta);
+            setStateTime(getTime().stateTime + delta);
         }
     }
 
@@ -63,7 +63,6 @@ public class MockBullet extends AbstractBullet {
                 newX = originalX + Math.signum(deltaX) * stepLength;
             }
         }
-
 
         setX(newX + halfWidth);
     }

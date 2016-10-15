@@ -9,6 +9,7 @@ import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.logic.tower.GameUnit;
 import com.quadrolord.epicbattle.logic.tower.Tower;
 import com.quadrolord.epicbattle.logic.tower.TowerUnitHeap;
+import com.quadrolord.epicbattle.logic.tower.UnitTime;
 
 import java.util.Iterator;
 
@@ -33,15 +34,9 @@ abstract public class AbstractBullet extends GameUnit {
      */
     private BulletState mState = BulletState.IDLE;
 
-    /**
-     * Время в текущем состоянии
-     */
-    private float mStateTime = 0;
-
     private float mStateLengthTime = 1;
 
     private float mLastAttackedTime;
-    private float mTime = 0;
 
     public AbstractBullet(BattleGame game) {
         super(game);
@@ -80,8 +75,10 @@ abstract public class AbstractBullet extends GameUnit {
     }
 
     public void act(float delta) {
-        mTime += delta;
-        mStateTime += delta;
+        UnitTime time = getTime();
+        time.existsTime += delta;
+        time.stateTime += delta;
+        time.statePart = time.stateTime / mStateLengthTime;
 
         if (isDied()) {
             return;
@@ -97,22 +94,22 @@ abstract public class AbstractBullet extends GameUnit {
 
         mIsUnderAttack = false;
 
-        if (mState == BulletState.ATTACK_PREPARE && mStateTime >= mStateLengthTime) {
+        if (mState == BulletState.ATTACK_PREPARE && time.stateTime >= mStateLengthTime) {
             findTargets();
             if (mTargets.size > 0) {
-                if ((mTime - mLastAttackedTime) >= bs.getAttackTime() / mTower.getTimeUp()) {
+                if ((time.existsTime - mLastAttackedTime) >= bs.getAttackTime() / mTower.getTimeUp()) {
                     attack();
                 }
             }
             setState(BulletState.ATTACK_FINISH, 0);
         }
 
-        if (mState == BulletState.ATTACK_FINISH && mStateTime >= mStateLengthTime) {
+        if (mState == BulletState.ATTACK_FINISH && time.stateTime >= mStateLengthTime) {
             setState(BulletState.RUN, 1);
         }
 
         if (mState == BulletState.FOLD_BACK) {
-            if (mStateTime >= FOLD_BACK_TIME) {
+            if (time.stateTime >= FOLD_BACK_TIME) {
                 setState(BulletState.IDLE, IDLE_TIME);
             } else {
                 setX(getX() - 5 * Math.signum(getVelocity()) * delta * mTower.getTimeUp());
@@ -123,8 +120,8 @@ abstract public class AbstractBullet extends GameUnit {
             findTargets();
             if (mTargets.size > 0) {
                 setState(BulletState.ATTACK_PREPARE, bs.getAttackTime());
-                mLastAttackedTime = mTime;
-            } else if (mState == BulletState.IDLE && mStateTime >= IDLE_TIME) {
+                mLastAttackedTime = time.existsTime;
+            } else if (mState == BulletState.IDLE && time.stateTime >= IDLE_TIME) {
                 setState(BulletState.RUN, 1); // 1 - время одного шага
             } else if (mState == BulletState.RUN) {
                 setX(getX() + getVelocity() * delta * mTower.getTimeUp());
@@ -174,14 +171,6 @@ abstract public class AbstractBullet extends GameUnit {
         return mState;
     }
 
-    public float getStatePart() {
-        return mStateTime / mStateLengthTime;
-    }
-
-    public float getStateTime() {
-        return mStateTime;
-    }
-
     public boolean canAttack(GameUnit unit) {
         return getAttackBounds().overlaps(unit.getAttackBounds());
     }
@@ -220,13 +209,15 @@ abstract public class AbstractBullet extends GameUnit {
     public void setState(BulletState state, float lengthTime) {
         if (mState != state) {
             mState = state;
-            mStateTime = 0;
+            getTime().stateTime = 0;
+            getTime().statePart = 0;
             mStateLengthTime = lengthTime;
         }
     }
 
     public void setStateTime(float time) {
-        mStateTime = time;
+        getTime().stateTime = time;
+        getTime().statePart = time / mStateLengthTime;
     }
 
     public boolean isRunning() {

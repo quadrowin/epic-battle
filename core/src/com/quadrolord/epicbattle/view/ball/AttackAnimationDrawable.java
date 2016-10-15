@@ -21,13 +21,15 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
 
     private Actor mActor;
     private Animation mEffect;
-    private float mEffectTime;
+
     private boolean mFinishEffectCreated = false;
     private Texture mBallTexture;
     private Texture mContentTexture;
     private Texture mEnergyTexture;
     private float mContentSize = 0.8f;
     private TextureRegion mTextureRegion;
+
+    private float[] mTempSquareVertices;
 
     public AttackAnimationDrawable(Animation animation, float width, float height, boolean isLooped) throws Exception {
         super(animation, width, height, isLooped);
@@ -43,6 +45,14 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
         mTextureRegion = new TextureRegion(mBallTexture);
 
         mEffect = getAnimationResource();
+
+        float clr = Color.toFloatBits(255, 255, 255, 255);
+        mTempSquareVertices = new float[] {
+                0, 0, clr, 0, 0,
+                1, 0, clr, 1, 0,
+                1, 1, clr, 1, 1,
+                0, 1, clr, 0, 1,
+        };
     }
 
     public Animation getAnimationResource() {
@@ -80,6 +90,9 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
     public void draw(Batch batch, float x, float y, float width, float height) {
         float now = getTime();
 
+
+        Gdx.app.log(TAG, "time " + getTime() + " part " + getTimePart());
+
         float halfWidth = getWidth() / 2;
         float halfHeight = getHeight() / 2;
 
@@ -93,7 +106,7 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
                 halfWidth, halfHeight,      // originX, originY (центр колеса)
                 getWidth(), getHeight(),    // width, height
                 1f, 1f,                     // scaleX, scaleY
-                -getDeltaX() * 3.14f,       // rotation
+                (-getStartDeltaX() - now) * 3.14f,                // rotation
                 0, 0,                       // srcX, srcY
                 mEnergyTexture.getWidth(),  // srcWidth
                 mEnergyTexture.getHeight(), // srcHeight
@@ -109,7 +122,7 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
                 getWidth() * mContentSize,  // width
                 getHeight() * mContentSize, // height
                 1f, 1f,                     // scaleX, scaleY
-                (float)Math.sin(now - getDeltaX() * 0.05) * 10,       // rotation - покачивание
+                (float)Math.sin(now - getStartDeltaX() * 0.05) * 10,       // rotation - покачивание
                 0, 0,                       // srcX, srcY
                 mContentTexture.getWidth(), // srcWidth
                 mContentTexture.getHeight(),// srcHeight
@@ -130,7 +143,7 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
         );
 
 
-        float et = getTimePart() * 3;
+        float et = getTimePart() * 3 % 5;
         float animDuration = 0.5f;
         int animFrameIndex = (int)((getTimePart() % animDuration) / animDuration * mEffect.getKeyFrames().length);
 //        Gdx.app.log(TAG, "anim frame " + animFrameIndex + " by " + getTimePart());
@@ -141,15 +154,37 @@ public class AttackAnimationDrawable extends SpriteAnimationDrawable implements 
             if (getDirection() < 0) {
                 batch.draw(
                         mEffect.getKeyFrames()[animFrameIndex],
-                        getWidth() * (1 - es) / 2, getHeight() * (1 - es) / 2,
+                        getWidth() * (1 - es) / 2 - (es - 1) * getWidth() / 2, getHeight() * (1 - es) / 2,
                         getWidth() * es, getHeight() * es
                 );
             } else {
-                batch.draw(
-                        mEffect.getKeyFrames()[animFrameIndex],
-                        getWidth() * (1 + es) / 2, getHeight() * (1 - es) / 2,
-                        -getWidth() * es, getHeight() * es
-                );
+                float drawX = getWidth() * (1 + es) / 2 + (es - 1) * getWidth() / 2;
+                float drawY = getHeight() * (1 - es) / 2;
+                float drawW = -getWidth() * es;
+                float drawH = getHeight() * es;
+                mTempSquareVertices[0] = drawX;
+                mTempSquareVertices[1] = drawY + drawH;
+                mTempSquareVertices[5] = drawX + drawW;
+                mTempSquareVertices[6] = drawY + drawH;
+                mTempSquareVertices[10] = drawX + drawW;
+                mTempSquareVertices[11] = drawY;
+                mTempSquareVertices[15] = drawX;
+                mTempSquareVertices[16] = drawY;
+
+                if (es < 0.5f) {
+                    mTempSquareVertices[6] += getHeight() * es / 2;
+                    mTempSquareVertices[11] += -getHeight() * es / 2;
+                } else {
+                    mTempSquareVertices[6] += getHeight() / 4 - getHeight() * (es - 0.5f) / 2;
+                    mTempSquareVertices[11] += -getHeight() / 4 + getHeight() * (es - 0.5f) / 2;
+                }
+
+                batch.draw(mEffect.getKeyFrames()[animFrameIndex].getTexture(), mTempSquareVertices, 0, mTempSquareVertices.length);
+//                batch.draw(
+//                        mEffect.getKeyFrames()[animFrameIndex],
+//                        getWidth() * (1 + es) / 2 + (es - 1) * getWidth() / 2, getHeight() * (1 - es) / 2,
+//                        -getWidth() * es, getHeight() * es
+//                );
             }
             mFinishEffectCreated = false;
         } else if (et < 2) {

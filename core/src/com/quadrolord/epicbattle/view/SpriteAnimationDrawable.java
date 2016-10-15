@@ -25,6 +25,11 @@ public class SpriteAnimationDrawable implements Drawable {
     private float mDeltaX = 0;
 
     /**
+     * Смещение по Х в начале анимации
+     */
+    private float mStartDeltaX = 0;
+
+    /**
      * Направление: +-1
      * При изменении напрвления на все представление накладывается масштабирование "-1",
      * поэтому вращение в анимации будет иметь значение отличное от mDeltaX.
@@ -51,27 +56,20 @@ public class SpriteAnimationDrawable implements Drawable {
         return mAnim;
     }
 
+    /**
+     * Общее время, прошедшее с запуска анимации
+     * @param time
+     */
     public void setTime(float time) {
         mTime = time;
-        mTimePart = 0;
-        if (mAnim != null) {
-            float duration = mAnim.getAnimationDuration();
-            if (duration > 0) {
-                double steps = Math.floor(mTime / duration);
-                mTimePart = (float)(mTime - duration * steps) / duration;
-            }
-        }
     }
 
+    /**
+     * Завершенная часть анимации
+     * @param time 0..1
+     */
     public void setTimePart(float time) {
         mTimePart = time;
-        mTime = time;
-        if (mAnim != null) {
-            float duration = mAnim.getAnimationDuration();
-            if (duration > 0) {
-                mTime = time * duration;
-            }
-        }
     }
 
     @Override
@@ -155,6 +153,10 @@ public class SpriteAnimationDrawable implements Drawable {
         return mHeight;
     }
 
+    public float getStartDeltaX() {
+        return mStartDeltaX;
+    }
+
     public float getTime() {
         return mTime;
     }
@@ -173,6 +175,9 @@ public class SpriteAnimationDrawable implements Drawable {
 
     public void setDeltaX(float dx) {
         mDeltaX = dx;
+    }
+    public void setStartDeltaX(float dx) {
+        mStartDeltaX = dx;
     }
 
     public void setDirection(float dir) {

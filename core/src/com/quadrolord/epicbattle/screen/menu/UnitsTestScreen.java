@@ -52,6 +52,7 @@ public class UnitsTestScreen extends AbstractScreen {
         initFitViewport();
 
         mBullet = new MockBullet(get(BattleGame.class));
+        mBullet.setDirection(AbstractBullet.DIRECTION_RIGHT);
         mBullet.setY(0);
         mBullet.setX(SES.SCREEN_WIDTH / 2);
 
@@ -161,7 +162,7 @@ public class UnitsTestScreen extends AbstractScreen {
     @Override
     public void update(float delta) {
         mBullet.act(delta);
-        mBullet.moveX(delta, mBulletWrapper.getWidth());
+        mBullet.moveX(delta * mBullet.getDirection(), mBulletWrapper.getWidth());
         mStage.act();
 //        mCurrentView.setX(mBullet.getX() - mBullet.getWidth() * .5f - delta * 10);
     }

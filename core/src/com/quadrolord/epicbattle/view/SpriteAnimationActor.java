@@ -33,12 +33,6 @@ public class SpriteAnimationActor extends Group {
         return mAnimation;
     }
 
-    public void setAnimation(SpriteAnimationDrawable anim) {
-        mAnimation = anim;
-        mOnFinish = null;
-        mAnimation.setTime(0);
-    }
-
     public void setAnimationCallback(SpriteAnimationDrawable anim, Runnable onFinish) {
         mAnimation = anim;
         mOnFinish = onFinish;
@@ -47,6 +41,7 @@ public class SpriteAnimationActor extends Group {
 
     public void setAnimationLooped(SpriteAnimationDrawable anim) {
         mAnimation = anim;
+        mOnFinish = null;
         mAnimation.setTime(0);
     }
 

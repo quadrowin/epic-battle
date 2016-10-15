@@ -54,43 +54,37 @@ public abstract class AbstractBulletView extends Group {
         // Переключение анимации
         if (bulletState != mLastState) {
             Gdx.app.log("st", "st " + bulletState.name());
-            float originalAnimDeltaX = mAnimation.getAnimation() == null
-                    ? 0
-                    : mAnimation.getAnimation().getDeltaX();
             switch (bulletState) {
                 case ATTACK_PREPARE:
-                    mAnimation.setAnimationLooped(getAnimation(BulletState.ATTACK_PREPARE));
+                    switchAnimation(BulletState.ATTACK_PREPARE);
                     break;
                 case ATTACK_FINISH:
-                    mAnimation.setAnimation(getAnimation(BulletState.IDLE));
+                    switchAnimation(BulletState.IDLE);
                     break;
                 case DEATH:
-                    mAnimation.setAnimation(getAnimation(BulletState.DEATH));
+                    switchAnimation(BulletState.DEATH);
                     break;
                 default:
-                    mAnimation.setAnimationLooped(getAnimation(BulletState.RUN));
+                    switchAnimation(BulletState.RUN);
             }
             mLastState = bulletState;
-            mAnimation.getAnimation().setDeltaX(originalAnimDeltaX);
         }
 
         // Для текущей анимации
+        mAnimation.getAnimation().setTime( mBullet.getTime().stateTime );
+        mAnimation.getAnimation().setTimePart( mBullet.getTime().statePart );
         switch (bulletState) {
             case FOLD_BACK:
-                mAnimation.getAnimation().setTime( mBullet.getStateTime() );
-                float dy = (float)Math.sin(3.14f * mBullet.getStatePart());
+                float dy = (float)Math.sin(3.14f * mBullet.getTime().statePart);
                 setY(mBullet.getY() + dy * 10);
                 break;
             case ATTACK_PREPARE:
-                mAnimation.getAnimation().setTimePart( mBullet.getStatePart() );
                 setY(mBullet.getY());
                 break;
             case DEATH:
-                mAnimation.getAnimation().setTime( mBullet.getStateTime() );
                 setY(mBullet.getY());
                 break;
             default:
-                mAnimation.getAnimation().setTime( mBullet.getStateTime() );
                 setY(mBullet.getY());
         }
 
@@ -106,6 +100,16 @@ public abstract class AbstractBulletView extends Group {
             anim = mAnimations.firstValue();
         }
         return anim;
+    }
+
+    private void switchAnimation(BulletState state) {
+        float originalAnimDeltaX = mAnimation.getAnimation() == null
+                ? 0
+                : mAnimation.getAnimation().getDeltaX();
+        SpriteAnimationDrawable newAnim = getAnimation(state);
+        mAnimation.setAnimationLooped(newAnim);
+        newAnim.setDeltaX(originalAnimDeltaX);
+        newAnim.setStartDeltaX(originalAnimDeltaX);
     }
 
     public void updateBounds() {
