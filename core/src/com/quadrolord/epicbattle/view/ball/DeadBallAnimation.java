@@ -1,5 +1,6 @@
 package com.quadrolord.epicbattle.view.ball;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -15,6 +16,8 @@ import com.quadrolord.epicbattle.view.bullet.AbstractBulletView;
  * Created by Quadrowin on 11.07.2016.
  */
 public class DeadBallAnimation extends AbstractBallAnimation {
+
+    private static final String TAG = "DeadBallAnimation";
 
     private Texture mBallTexture;
     private Texture mContentTexture;
@@ -34,17 +37,19 @@ public class DeadBallAnimation extends AbstractBallAnimation {
 
         float halfWidth = width / 2;
         float halfHeight = height / 2;
-        float scale = Math.max(0, 1 - 0.5f * time.statePart);
-        if (scale == 0) {
+        float scale = 1 - 0.5f * time.statePart;
+        if (scale <= 0) {
             return;
         }
 
-        float jump_y = height * (float)Math.abs(Math.sin(time.existsTime * 3));
+        Gdx.app.log(TAG, "scale " + scale);
+
+        float jump_y = height * (float)Math.abs(Math.sin(time.stateTime * 3));
 
         // содержимое
         batch.draw(
                 mContentTexture,
-                (width * (1 - contentSize)) / 2 - direction * time.existsTime * 30,  // x
+                -halfWidth + (width * (1 - contentSize)) / 2 - direction * time.stateTime * 30,  // x
                 (height * (1 - contentSize)) / 2 + jump_y, // y
                 halfWidth, halfHeight,      // originX, originY (центр колеса)
                 width * contentSize,  // width
@@ -60,7 +65,7 @@ public class DeadBallAnimation extends AbstractBallAnimation {
         // оболочка
         batch.draw(
                 mBallTexture,
-                -direction * time.existsTime * 30,           // x
+                -halfWidth -direction * time.stateTime * 30,           // x
                 jump_y,                                     // y
                 halfWidth, halfHeight,      // originX, originY (центр колеса)
                 width, height,    // width, height

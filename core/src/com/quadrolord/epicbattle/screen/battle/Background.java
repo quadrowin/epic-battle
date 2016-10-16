@@ -79,7 +79,7 @@ public class Background extends Group {
                 {290, 0},
                 {130, 50},
                 {100, 50},
-                {100, -10}
+                {100, -30}
         };
 
         layers.put(mSky, 16);
@@ -88,7 +88,7 @@ public class Background extends Group {
         layers.put(mNearGround, 10);
         layers.put(mGrass, 1);
 
-        Gdx.app.log(TAG, "pos " + mPosition + " scale " + mScale);
+//        Gdx.app.log(TAG, "pos " + mPosition + " scale " + mScale);
 
         int i = 0;
         Iterator<ObjectMap.Entry<Texture, Integer>> iter = layers.iterator();

@@ -86,6 +86,7 @@ public class AttackBallAnimation extends AbstractBallAnimation {
     public void draw(Batch batch, float width, float height) {
         UnitTime time = getActor().getBullet().getTime();
         float contentSize = getContentSize();
+        float direction = getActor().getBullet().getDirection();
 
         Gdx.app.log(TAG, "time " + time.existsTime + " part " + time.statePart);
 
@@ -96,18 +97,20 @@ public class AttackBallAnimation extends AbstractBallAnimation {
 //        dy = getHeight() * (float)Math.abs(Math.sin(3.14 * getTime()));
 
         // крутящаяся энергия
+        batch.setColor(1, 0, 0, 0.5f);
         batch.draw(
                 mEnergyTexture,
                 -halfWidth, dy,                      // x, y
                 halfWidth, halfHeight,      // originX, originY (центр колеса)
                 width, height,    // width, height
                 1f, 1f,                     // scaleX, scaleY
-                -time.existsTime * 30,      // rotation
+                -direction * time.existsTime * 110,      // rotation
                 0, 0,                       // srcX, srcY
                 mEnergyTexture.getWidth(),  // srcWidth
                 mEnergyTexture.getHeight(), // srcHeight
-                false, false                // flipX, flipY
+                direction < 0, false                // flipX, flipY
         );
+        batch.setColor(1, 1, 1, 1f);
 
         // содержимое
         batch.draw(

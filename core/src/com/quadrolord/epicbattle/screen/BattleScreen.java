@@ -97,14 +97,6 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
 
         new PauseButton(this, mFrontStage);
 
-        TextureManager vl = new TextureManager(mSkin);
-        vl.loadTextures(
-                mSkin,
-                new String[]{
-                        "tower", "tower.png"
-                }
-        );
-
         final com.quadrolord.ejge.view.AbstractScreen screen = this;
         get(BattleGame.class).setListener(new GameListener() {
 
@@ -281,8 +273,6 @@ public class BattleScreen extends com.quadrolord.ejge.view.AbstractScreen {
     public void draw(float delta) {
         Gdx.gl.glClearColor(0.65f, 0.59f, 0.70f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-
 
         mBackStage.act(delta);
         mBackStage.draw();

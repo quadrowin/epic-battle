@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.quadrolord.epicbattle.RM;
+import com.quadrolord.epicbattle.logic.tower.GameUnit;
 import com.quadrolord.epicbattle.logic.tower.UnitTime;
 import com.quadrolord.epicbattle.view.SpriteAnimationDrawable;
 import com.quadrolord.epicbattle.view.bullet.AbstractBulletView;
@@ -39,21 +40,23 @@ public class WalkBallAnimation extends AbstractBallAnimation {
         float halfWidth = width / 2;
         float halfHeight = height / 2;
 
-        Gdx.app.log(TAG, "time " + time.existsTime);
+//        Gdx.app.log(TAG, "time " + time.existsTime);
 
         // крутящаяся энергия
+        batch.setColor(1, 1, 1, 0.5f);
         batch.draw(
                 mEnergyTexture,
                 -halfWidth, 0,
                 halfWidth, halfHeight,      // originX, originY (центр колеса)
-                width, height,    // width, height
+                width, height,              // width, height
                 1f, 1f,                     // scaleX, scaleY
-                -time.existsTime * 30,      // rotation
-                0, 0,                       // srcX, srcY
+                -direction * time.existsTime * 110,      // rotation
+                (int)(1f - direction) / 2, 0,                       // srcX, srcY
                 mEnergyTexture.getWidth(),  // srcWidth
                 mEnergyTexture.getHeight(), // srcHeight
-                false, false                // flipX, flipY
+                direction < 0, false        // flipX, flipY
         );
+        batch.setColor(1, 1, 1, 1f);
 
         // содержимое
         batch.draw(

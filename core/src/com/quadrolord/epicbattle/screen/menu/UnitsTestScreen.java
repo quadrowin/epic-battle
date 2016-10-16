@@ -1,6 +1,7 @@
 package com.quadrolord.epicbattle.screen.menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -96,18 +97,10 @@ public class UnitsTestScreen extends AbstractScreen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (event.getButton() == 0) {
-                    if (mCurrentView != null) {
-                        switchAnimation();
-                    }
-                } else if (event.getButton() == 2){
-                    mBullet.setDirection(
-                            mBullet.getDirection() == AbstractBullet.DIRECTION_LEFT
-                                    ? AbstractBullet.DIRECTION_RIGHT
-                                    : AbstractBullet.DIRECTION_LEFT
-                    );
+                Gdx.app.log(TAG, "click button " + event.getButton());
+                if (mCurrentView != null) {
+                    switchAnimation();
                 }
-
             }
 
         });
@@ -161,6 +154,14 @@ public class UnitsTestScreen extends AbstractScreen {
 
     @Override
     public void update(float delta) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
+            Gdx.app.log(TAG, "Just pressed D");
+            mBullet.setDirection(
+                    mBullet.getDirection() == AbstractBullet.DIRECTION_LEFT
+                            ? AbstractBullet.DIRECTION_RIGHT
+                            : AbstractBullet.DIRECTION_LEFT
+            );
+        }
         mBullet.act(delta);
         mBullet.moveX(delta * mBullet.getDirection(), mBulletWrapper.getWidth());
         mStage.act();

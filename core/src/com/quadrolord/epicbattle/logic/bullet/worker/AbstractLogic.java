@@ -1,5 +1,6 @@
 package com.quadrolord.epicbattle.logic.bullet.worker;
 
+import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer;
 import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.bullet.leveling.AbstractStrategy;
 import com.quadrolord.epicbattle.logic.bullet.leveling.LevelingDto;
@@ -66,7 +67,7 @@ abstract public class AbstractLogic<T extends AbstractBullet> {
         bullet.setDirection(tower.getDirection());
         bullet.setVelocity(mMoveSpeed * tower.getDirection());
         bullet.setX(tower.getX() - tower.getWidth() / 2 * tower.getDirection());
-        bullet.setY(tower.getY());
+        bullet.setY(tower.getY() + (float)(Math.random() * 10));
         bullet.setWidth(mWidth);
         bullet.setHeight(mHeight);
     }
