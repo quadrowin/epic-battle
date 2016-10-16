@@ -12,14 +12,13 @@ import com.quadrolord.epicbattle.view.bullet.balls.MagicWand;
 public class MagicWandLogic extends AbstractLogic<MagicWandBullet> {
 
     public MagicWandLogic() {
-        setHeight(40);
-        setWidth(40);
+        setWidthHeight(30);
         setDescription("Magic oak log with the star at the top.");
         setTitle("Magic Wand");
         setCost(50);
         setConstructionTime(3);
         setAttackDamage(50);
-        setAttackDistance(20);
+        setAttackDistance(getWidth() / 2);
         setAttackTime(1);
         setMoveSpeed(30);
         setMaxTargetCount(1);

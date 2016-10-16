@@ -137,6 +137,7 @@ public class UnitsTestScreen extends AbstractScreen {
         mBulletWrapper.addActor(mCurrentView);
 
         setStateAnimation(mCurrentStateIndex);
+        mCurrentView.act(0);
     }
 
     private void setStateAnimation(int stateIndex) {

@@ -12,14 +12,13 @@ import com.quadrolord.epicbattle.view.bullet.balls.Book;
 public class BookLogic extends AbstractLogic<BookBullet> {
 
     public BookLogic() {
-        setHeight(40);
-        setWidth(40);
+        setWidthHeight(30);
         setTitle("The book");
         setDescription("The very big and hard book.");
         setCost(50);
         setConstructionTime(3);
         setAttackDamage(50);
-        setAttackDistance(20);
+        setAttackDistance(getWidth() / 2);
         setAttackTime(1);
         setMoveSpeed(50);
         setMaxTargetCount(1);

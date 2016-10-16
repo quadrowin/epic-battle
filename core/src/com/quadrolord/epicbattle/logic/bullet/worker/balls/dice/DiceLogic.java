@@ -12,14 +12,13 @@ import com.quadrolord.epicbattle.view.bullet.balls.Dice;
 public class DiceLogic extends AbstractLogic<DiceBullet> {
 
     public DiceLogic() {
-        setHeight(40);
-        setWidth(40);
+        setWidthHeight(30);
         setTitle("The dice");
         setDescription("Drop it and see what happens. Nothing? It's according a plan.");
         setCost(50);
         setConstructionTime(3);
         setAttackDamage(50);
-        setAttackDistance(20);
+        setAttackDistance(getWidth() / 2);
         setAttackTime(1);
         setMoveSpeed(50);
         setMaxTargetCount(1);

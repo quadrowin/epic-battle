@@ -12,14 +12,13 @@ import com.quadrolord.epicbattle.view.bullet.balls.Frog;
 public class FrogLogic extends AbstractLogic<FrogBullet> {
 
     public FrogLogic() {
-        setHeight(40);
-        setWidth(40);
+        setWidthHeight(30);
         setTitle("Frog");
         setDescription("Was found in the laboratory of the lost wizard");
         setCost(50);
         setConstructionTime(9);
         setAttackDamage(50);
-        setAttackDistance(20);
+        setAttackDistance(getWidth() / 2);
         setAttackTime(1);
         setMoveSpeed(50);
         setMaxTargetCount(1);

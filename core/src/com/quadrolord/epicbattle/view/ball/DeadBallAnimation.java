@@ -42,8 +42,6 @@ public class DeadBallAnimation extends AbstractBallAnimation {
             return;
         }
 
-        Gdx.app.log(TAG, "scale " + scale);
-
         float jump_y = height * (float)Math.abs(Math.sin(time.stateTime * 3));
 
         // содержимое

@@ -88,8 +88,6 @@ public class AttackBallAnimation extends AbstractBallAnimation {
         float contentSize = getContentSize();
         float direction = getActor().getBullet().getDirection();
 
-        Gdx.app.log(TAG, "time " + time.existsTime + " part " + time.statePart);
-
         float halfWidth = width / 2;
         float halfHeight = height / 2;
 

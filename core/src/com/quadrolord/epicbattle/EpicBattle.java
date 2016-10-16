@@ -52,10 +52,10 @@ public class EpicBattle extends AbstractGameAdapter {
 	public AbstractScreen getDefaultScreen() {
 //		return new MainMenuScreen(this);
 
-		return new BattleScreen(this, null);
+//		return new BattleScreen(this, null);
 //		return new CampaignSelectScreen(this);
 //		return new UnitsUpgradingScreen(this);
-//		return new UnitsTestScreen(this);
+		return new UnitsTestScreen(this);
 //		return new MyTownScreen(this);
 	}
 

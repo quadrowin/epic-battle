@@ -12,14 +12,13 @@ import com.quadrolord.epicbattle.view.bullet.balls.Owl;
 public class OwlLogic extends AbstractLogic<OwlBullet> {
 
     public OwlLogic() {
-        setHeight(40);
-        setWidth(40);
+        setWidthHeight(30);
         setTitle("Owl");
         setDescription("The smarty owl. He doesn't fly. Too clever and old for it.");
         setCost(50);
         setConstructionTime(9);
         setAttackDamage(50);
-        setAttackDistance(20);
+        setAttackDistance(getWidth() / 2);
         setAttackTime(1);
         setMoveSpeed(50);
         setMaxTargetCount(1);

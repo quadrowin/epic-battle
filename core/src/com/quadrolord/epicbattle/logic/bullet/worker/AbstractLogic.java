@@ -1,5 +1,6 @@
 package com.quadrolord.epicbattle.logic.bullet.worker;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer;
 import com.badlogic.gdx.utils.Array;
 import com.quadrolord.epicbattle.logic.bullet.leveling.AbstractStrategy;
@@ -15,6 +16,8 @@ import java.lang.reflect.ParameterizedType;
  */
 abstract public class AbstractLogic<T extends AbstractBullet> {
 
+    private static final String TAG = "AbstractLogic";
+
     private int mCost;
 
     private float mAttackDamage = 50;
@@ -27,9 +30,9 @@ abstract public class AbstractLogic<T extends AbstractBullet> {
 
     private float mMoveSpeed = 1;
 
-    private float mHeight = 10;
+    private float mHeight = 7;
 
-    private float mWidth = 10;
+    private float mWidth = 7;
 
     private int mMaxHp = 100;
 
@@ -68,6 +71,7 @@ abstract public class AbstractLogic<T extends AbstractBullet> {
         bullet.setVelocity(mMoveSpeed * tower.getDirection());
         bullet.setX(tower.getX() - tower.getWidth() / 2 * tower.getDirection());
         bullet.setY(tower.getY() + (float)(Math.random() * 10));
+        Gdx.app.log(TAG, "logic size " + mWidth);
         bullet.setWidth(mWidth);
         bullet.setHeight(mHeight);
     }
@@ -110,6 +114,11 @@ abstract public class AbstractLogic<T extends AbstractBullet> {
 
     public void setWidth(float width) {
         mWidth = width;
+    }
+
+    public void setWidthHeight(float width) {
+        mWidth = width;
+        mHeight = width;
     }
 
     public Class<? extends AbstractBullet> getBulletClass() {

@@ -12,14 +12,13 @@ import com.quadrolord.epicbattle.view.bullet.balls.Hat;
 public class HatLogic extends AbstractLogic<HatBullet> {
 
     public HatLogic() {
-        setHeight(40);
-        setWidth(40);
+        setWidthHeight(30);
         setTitle("The hat");
         setDescription("An old hat of the some forgotten wizard.");
         setCost(500);
         setConstructionTime(10);
         setAttackDamage(70);
-        setAttackDistance(20);
+        setAttackDistance(getWidth() / 2);
         setAttackTime(2);
         setMoveSpeed(30);
         setMaxTargetCount(2);

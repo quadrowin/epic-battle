@@ -12,14 +12,13 @@ import com.quadrolord.epicbattle.view.bullet.balls.Spider;
 public class SpiderLogic extends AbstractLogic<SpiderBullet> {
 
     public SpiderLogic() {
-        setHeight(40);
-        setWidth(40);
+        setWidthHeight(30);
         setTitle("Spider");
         setDescription("He can cast eight spells at the same time.");
         setCost(50);
         setConstructionTime(3);
         setAttackDamage(50);
-        setAttackDistance(20);
+        setAttackDistance(getWidth() / 2);
         setAttackTime(1);
         setMoveSpeed(50);
         setMaxTargetCount(1);

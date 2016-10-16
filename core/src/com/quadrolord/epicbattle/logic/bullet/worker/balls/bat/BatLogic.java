@@ -12,15 +12,14 @@ import com.quadrolord.epicbattle.view.bullet.balls.Bat;
 public class BatLogic extends AbstractLogic<BatBullet> {
 
     public BatLogic() {
-        setHeight(40);
-        setWidth(40);
+        setWidthHeight(30);
         setTitle("Bat");
         setDescription("The child of darkness and absurdity.\n" +
                 "It can fly!");
         setCost(50);
         setConstructionTime(3);
         setAttackDamage(50);
-        setAttackDistance(20);
+        setAttackDistance(getWidth() / 2);
         setAttackTime(1);
         setMoveSpeed(50);
         setMaxTargetCount(1);

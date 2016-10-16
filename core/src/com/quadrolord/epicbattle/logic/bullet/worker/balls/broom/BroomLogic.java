@@ -12,14 +12,13 @@ import com.quadrolord.epicbattle.view.bullet.balls.Broom;
 public class BroomLogic extends AbstractLogic<BroomBullet> {
 
     public BroomLogic() {
-        setHeight(50);
-        setWidth(50);
+        setWidthHeight(30);
         setTitle("The broom");
         setDescription("Just the flying broom.");
         setCost(75);
         setConstructionTime(3);
         setAttackDamage(50);
-        setAttackDistance(20);
+        setAttackDistance(getWidth() / 2);
         setAttackTime(1);
         setMoveSpeed(50);
         setMaxTargetCount(1);

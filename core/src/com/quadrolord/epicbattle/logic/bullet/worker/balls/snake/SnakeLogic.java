@@ -12,14 +12,13 @@ import com.quadrolord.epicbattle.view.bullet.balls.Snake;
 public class SnakeLogic extends AbstractLogic<SnakeBullet> {
 
     public SnakeLogic() {
-        setHeight(40);
-        setWidth(40);
+        setWidthHeight(30);
         setTitle("Little snake");
         setDescription("It's long.");
         setCost(50);
         setConstructionTime(3);
         setAttackDamage(50);
-        setAttackDistance(20);
+        setAttackDistance(getWidth() / 2);
         setAttackTime(1);
         setMoveSpeed(50);
         setMaxTargetCount(1);

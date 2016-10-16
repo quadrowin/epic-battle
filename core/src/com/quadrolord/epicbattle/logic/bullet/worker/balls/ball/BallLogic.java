@@ -12,15 +12,14 @@ import com.quadrolord.epicbattle.view.bullet.balls.Ball;
 public class BallLogic extends AbstractLogic<BallBullet> {
 
     public BallLogic() {
-        setHeight(40);
-        setWidth(40);
+        setWidthHeight(30);
         setTitle("The ball");
         setDescription("The magic ball inside another magic ball.\n" +
                 "Very very magic magic.");
         setCost(50);
         setConstructionTime(3);
         setAttackDamage(50);
-        setAttackDistance(20);
+        setAttackDistance(getWidth() / 2);
         setAttackTime(1);
         setMoveSpeed(50);
         setMaxTargetCount(1);

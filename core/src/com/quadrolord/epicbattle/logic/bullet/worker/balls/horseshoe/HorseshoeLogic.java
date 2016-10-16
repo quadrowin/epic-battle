@@ -12,14 +12,13 @@ import com.quadrolord.epicbattle.view.bullet.balls.Horseshoe;
 public class HorseshoeLogic extends AbstractLogic<HorseshoeBullet> {
 
     public HorseshoeLogic() {
-        setHeight(40);
-        setWidth(40);
+        setWidthHeight(30);
         setTitle("Horseshoe");
         setDescription("Can bring you a luck. But likely not.");
         setCost(50);
         setConstructionTime(3);
         setAttackDamage(50);
-        setAttackDistance(20);
+        setAttackDistance(getWidth() / 2);
         setAttackTime(1);
         setMoveSpeed(50);
         setMaxTargetCount(1);
