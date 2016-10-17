@@ -129,7 +129,7 @@ public abstract class AbstractBallView extends AbstractBulletView {
     }
 
     protected String getBallTextureFile() {
-        return "balls/bubble1.png";
+        return "balls/bubble2.png";
     }
 
     abstract protected String getContentTextureFile();

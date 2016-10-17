@@ -55,7 +55,8 @@ public class AttackBallAnimation extends AbstractBallAnimation {
         String[][] sources = {
 //                {"balls/flash/gif-anim", "_delay-0.04s.gif", "28"},
 //                {"balls/flash/gif-anim2", "_delay-0.1s.gif", "56"},
-                {"balls/flash/gif-anim3", "_delay-0.04s.gif", "28"},
+//                {"balls/flash/gif-anim3", "_delay-0.04s.gif", "28"},
+                {"balls/flash/gif-anim4", "_delay-0.04s.gif", "28"},
         };
 
         int animIndex = (int)(Math.random() * sources.length);
