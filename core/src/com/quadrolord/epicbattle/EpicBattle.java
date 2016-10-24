@@ -9,6 +9,7 @@ import com.quadrolord.ejge.AbstractGameAdapter;
 import com.quadrolord.ejge.utils.PlatformServices;
 import com.quadrolord.ejge.utils.ServiceFactory;
 import com.quadrolord.ejge.view.AbstractScreen;
+import com.quadrolord.epicbattle.logic.LocalSettings;
 import com.quadrolord.epicbattle.logic.profile.ProfileManager;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 import com.quadrolord.epicbattle.logic.town.MyTown;
@@ -30,6 +31,7 @@ public class EpicBattle extends AbstractGameAdapter {
 
 		mProfileManager = new ProfileManager(getPlatformServices());
 		registerService(mProfileManager);
+		registerService(new LocalSettings());
 
 		registerFactory(BattleGame.class, new ServiceFactory() {
 			@Override

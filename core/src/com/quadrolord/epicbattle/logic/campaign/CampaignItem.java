@@ -8,6 +8,8 @@ import com.badlogic.gdx.utils.Json;
  */
 public class CampaignItem extends AbstractCampaign {
 
+    private int mIndex;
+
     private Level[] mLevels;
 
     public String getLevelsFile() {
@@ -30,6 +32,16 @@ public class CampaignItem extends AbstractCampaign {
         return mLevels;
     }
 
+    @Override
+    public int getIndex() {
+        if (mIndex == 0) {
+            throw new RuntimeException("Campaign index not received");
+        }
+        return mIndex;
+    }
 
+    public void setIndex(int index) {
+        mIndex = index;
+    }
 
 }

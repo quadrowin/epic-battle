@@ -1,8 +1,5 @@
 package com.quadrolord.epicbattle.logic.campaign;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Json;
-
 /**
  * Created by Quadrowin on 11.01.2016.
  */
@@ -10,11 +7,21 @@ public class CampaignManager {
 
     private AbstractCampaign[] mCampaigns;
 
+    private void addCampaign(int index, String name, String icon, String dir) {
+        CampaignItem camp = new CampaignItem();
+        camp.setIndex(index + 1);
+        camp.setName(name);
+        camp.setIcon(icon);
+        camp.setDir(dir);
+        mCampaigns[index] = camp;
+    }
+
     public AbstractCampaign[] getCampaigns() {
         if (mCampaigns == null) {
-            Json json = new Json();
-            json.addClassTag("Campaign", CampaignItem.class);
-            mCampaigns = json.fromJson(AbstractCampaign[].class, Gdx.files.internal("campaign/index.json"));
+            mCampaigns = new AbstractCampaign[3];
+            addCampaign(0, "Let the combat begin", "pump.png", "let_the_combat_begin");
+            addCampaign(1, "An endless adventure", "metal_sphere.png", "an_endless_adventure");
+            addCampaign(2, "Wheelrmageddon", "wheel_on_fire.png", "wheelrmageddon");
         }
         return mCampaigns;
     }

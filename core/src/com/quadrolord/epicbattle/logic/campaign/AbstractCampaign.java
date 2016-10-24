@@ -5,24 +5,38 @@ package com.quadrolord.epicbattle.logic.campaign;
  */
 abstract public class AbstractCampaign {
 
-    private String dir;
+    private String mDir;
 
-    private String icon;
+    private String mIcon;
 
-    private String name;
+    private String mName;
 
     abstract public Level[] getLevels();
 
+    abstract public int getIndex();
+
     public String getDir() {
-        return dir;
+        return mDir;
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public String getIcon() {
-        return icon;
+        return mIcon;
+    }
+
+    public void setDir(String dir) {
+        mDir = dir;
+    }
+
+    public void setName(String name) {
+        mName = name;
+    }
+
+    public void setIcon(String icon) {
+        mIcon = icon;
     }
 
 }

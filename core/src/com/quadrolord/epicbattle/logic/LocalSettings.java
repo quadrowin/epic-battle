@@ -27,6 +27,10 @@ public class LocalSettings {
         mPreferences.flush();
     }
 
+    public int getInt(String key, int def) {
+        return mPreferences.getInteger(key, def);
+    }
+
     public boolean getMusicEnabled() {
         return mPreferences.getBoolean(OPTION_MUSIC_ENABLED, true);
     }
@@ -41,6 +45,12 @@ public class LocalSettings {
 
     public void setSoundEnabled(boolean enabled) {
         mPreferences.putBoolean(OPTION_SOUND_ENABLED, enabled);
+    }
+
+    public int incCounter(String settingKey) {
+        int val = mPreferences.getInteger(settingKey, 0) + 1;
+        mPreferences.putInteger(settingKey, val);
+        return val;
     }
 
 }

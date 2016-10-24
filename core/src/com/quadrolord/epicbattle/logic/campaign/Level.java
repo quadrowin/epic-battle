@@ -23,6 +23,10 @@ public class Level {
         return enemyTower;
     }
 
+    public String getGlobalSettingsKey() {
+        return "cmp" + getCampaign().getIndex() + "lvl" + getIndex() + "vc";
+    }
+
     public String getName() {
         return name;
     }
