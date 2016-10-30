@@ -75,6 +75,9 @@ public class EpicBattle extends AbstractGameAdapter {
 
 		Object[] copyResources = new Object[] {
 				"default", BitmapFont.class,
+				"font-small", BitmapFont.class,
+				"font-normal", BitmapFont.class,
+				"font-large", BitmapFont.class,
 				"test-texture", Texture.class,
 				"default-label-style", Label.LabelStyle.class,
 				"default-text-button-style", TextButton.TextButtonStyle.class,

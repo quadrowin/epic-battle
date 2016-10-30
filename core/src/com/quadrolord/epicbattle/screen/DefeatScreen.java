@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.quadrolord.epicbattle.RM;
 import com.quadrolord.epicbattle.logic.campaign.Level;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 
@@ -46,10 +47,9 @@ public class DefeatScreen extends com.quadrolord.ejge.view.AbstractScreen {
         background.setBounds(50, 50, SES.SCREEN_WIDTH - 100, SES.SCREEN_HEIGHT - 100);
         mStage.addActor(background);
 
-        Label lblTitle = new Label("Defeat!", mSkin.get("default-label-style", Label.LabelStyle.class));
+        Label lblTitle = new Label("Defeat!", RM.getLabelStyleLarge());
         lblTitle.setAlignment(Align.center, Align.center);
         lblTitle.setBounds(0, background.getHeight() - 50 * SES.F, background.getWidth(), 30);
-        lblTitle.setFontScale(getPx());
         background.addActor(lblTitle);
 
 

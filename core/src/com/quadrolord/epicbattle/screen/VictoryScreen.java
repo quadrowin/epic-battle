@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.quadrolord.epicbattle.RM;
 import com.quadrolord.epicbattle.logic.campaign.Level;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
 
@@ -49,16 +50,14 @@ public class VictoryScreen extends com.quadrolord.ejge.view.AbstractScreen {
         background.setBounds(50, 50, SES.SCREEN_WIDTH - 100, SES.SCREEN_HEIGHT - 100);
         mStage.addActor(background);
 
-        Label lblTitle = new Label("Victory!", mSkin.get("default-label-style", Label.LabelStyle.class));
+        Label lblTitle = new Label("Victory!", RM.getLabelStyleLarge());
         lblTitle.setAlignment(Align.center, Align.center);
         lblTitle.setBounds(0, background.getHeight() - 50, background.getWidth(), 30);
-        lblTitle.setFontScale(getPx());
         background.addActor(lblTitle);
 
-        Label lblRewardExp = new Label("+" + mLevel.getRewardExp() + " exp", mSkin.get("default-label-style", Label.LabelStyle.class));
+        Label lblRewardExp = new Label("+" + mLevel.getRewardExp() + " exp", RM.getLabelStyleLarge());
         lblRewardExp.setAlignment(Align.center, Align.center);
         lblRewardExp.setBounds(0, background.getHeight() - 100, background.getWidth(), 30);
-        lblRewardExp.setFontScale(getPx());
         background.addActor(lblRewardExp);
 
 

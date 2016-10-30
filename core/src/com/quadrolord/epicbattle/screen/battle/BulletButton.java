@@ -68,7 +68,7 @@ public class BulletButton extends Group {
 
 
         String costText = mBulletSkill != null ?  Integer.toString(mBulletSkill.getCost()) : "";
-        mCost = new Label(costText, screen.getSkin(), "default", Color.WHITE);
+        mCost = new Label(costText, screen.getSkin(), "font-small", Color.WHITE);
         mCost.setBounds(0, 0, mFireButton.getWidth(), mFireButton.getHeight());
         mCost.setAlignment(Align.bottom, Align.center);
         mCost.setFontScale(0.7f * SES.F, 0.7f * SES.F);

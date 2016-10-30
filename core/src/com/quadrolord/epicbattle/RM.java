@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -24,13 +25,18 @@ public class RM {
     private static TextureManager mTextures;
 
     private static final String DEFAULT_LABEL_STYLE = "default-label-style";
-
     private static final String DEFAULT_CHECK_BOX_STYLE = "default-check-box-style";
-
     private static final String DEFAULT_TEXT_BUTTON_STYLE = "default-text-button-style";
+
+    private static final String LABEL_STYLE_SMALL = "label-style-small";
+    private static final String LABEL_STYLE_LARGE = "label-style-large";
 
     public static Label.LabelStyle getLabelStyle() {
         return mSkin.get(DEFAULT_LABEL_STYLE, Label.LabelStyle.class);
+    }
+
+    public static Label.LabelStyle getLabelStyleLarge() {
+        return mSkin.get(LABEL_STYLE_LARGE, Label.LabelStyle.class);
     }
 
     public static CheckBox.CheckBoxStyle getCheckBoxStyle() {
@@ -55,12 +61,19 @@ public class RM {
     public static void setSkin(Skin skin) {
         mSkin = skin;
 
-        BitmapFont font = new BitmapFont();
-        font.getData().setScale(2);
+        initFonts(skin);
+//        BitmapFont font = new BitmapFont();
+//        font.getData().setScale(2);
+        BitmapFont font = skin.getFont("font-normal");
         skin.add("default", font, BitmapFont.class);
 
         Label.LabelStyle ls = new Label.LabelStyle(font, Color.WHITE);
         skin.add(DEFAULT_LABEL_STYLE, ls);
+
+        ls = new Label.LabelStyle(skin.getFont("font-small"), Color.WHITE);
+        skin.add(LABEL_STYLE_SMALL, ls);
+        ls = new Label.LabelStyle(skin.getFont("font-large"), Color.WHITE);
+        skin.add(LABEL_STYLE_LARGE, ls);
 
         Texture texture = new Texture(Gdx.files.internal("badlogic.jpg"));
         skin.add("test-texture", texture);
@@ -98,6 +111,18 @@ public class RM {
         transparent.setColor(1, 1, 1, 0);
         transparent.fill();
         skin.add("transparent", new Texture(transparent));
+    }
+
+    private static void initFonts(Skin skin) {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/arial.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter ftfp = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        ftfp.size = 22;
+        skin.add("font-small", generator.generateFont(ftfp));
+        ftfp.size = 36;
+        skin.add("font-normal", generator.generateFont(ftfp));
+        ftfp.size = 48;
+        skin.add("font-large", generator.generateFont(ftfp));
+        generator.dispose();
     }
 
 }

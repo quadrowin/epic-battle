@@ -11,6 +11,7 @@ import com.quadrolord.epicbattle.RM;
 import com.quadrolord.epicbattle.logic.profile.ProfileManager;
 import com.quadrolord.epicbattle.logic.skill.AbstractSkillEntity;
 import com.quadrolord.epicbattle.logic.tower.BattleGame;
+import com.quadrolord.epicbattle.screen.SES;
 import com.quadrolord.epicbattle.screen.menu.component.BackButton;
 import com.quadrolord.epicbattle.screen.slider.SliderList;
 import com.quadrolord.epicbattle.screen.slider.SliderListener;
@@ -32,16 +33,26 @@ public class UnitsUpgradingScreen extends AbstractScreen {
         initFitViewport();
 
         mCuName = new Label("", RM.getLabelStyle());
-        mCuName.setBounds(10, 270, 380, 30);
+        mCuName.setBounds(SES.SCREEN_BORDER, SES.SCREEN_HEIGHT - SES.BUTTON_HEIGHT, SES.SCREEN_WIDTH, SES.BUTTON_HEIGHT);
         getStage().addActor(mCuName);
 
         mCuDescription = new Label("", RM.getLabelStyle());
-        mCuDescription.setBounds(10, 200, 380, 70);
+        mCuDescription.setBounds(
+                SES.SCREEN_BORDER,
+                SES.SCREEN_HEIGHT / 2,
+                SES.SCREEN_WIDTH - 2 * SES.SCREEN_BORDER,
+                SES.SCREEN_HEIGHT / 2 - SES.BUTTON_HEIGHT
+        );
         mCuDescription.setAlignment(Align.topLeft);
         getStage().addActor(mCuDescription);
 
         mProfileExperience = new Label("" + get(ProfileManager.class).getProfile().getExperience(), RM.getLabelStyle());
-        mProfileExperience.setBounds(10, 270, 380, 30);
+        mProfileExperience.setBounds(
+                SES.SCREEN_BORDER,
+                SES.SCREEN_HEIGHT - SES.BUTTON_HEIGHT,
+                SES.SCREEN_WIDTH - 2 * SES.SCREEN_BORDER,
+                SES.BUTTON_HEIGHT
+        );
         mProfileExperience.setAlignment(Align.topRight);
         getStage().addActor(mProfileExperience);
 
@@ -62,7 +73,7 @@ public class UnitsUpgradingScreen extends AbstractScreen {
 
         // Кнопка апгрейда текущего юнита
         TextButton btnUpgrade = new TextButton("Upgrade", RM.getTextButtonStyle());
-        btnUpgrade.setBounds(530, 10, 260, 80);
+        btnUpgrade.setBounds(SES.buttonRight(), SES.SCREEN_BORDER, SES.BUTTON_WIDTH, SES.BUTTON_HEIGHT);
         mStage.addActor(btnUpgrade);
         btnUpgrade.addListener(new ClickListener() {
 

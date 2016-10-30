@@ -114,7 +114,7 @@ public class SliderList extends Group {
         tbViewFix.setBounds(items_count * (mItemWidth + mItemPaddingX) + mListPaddingX, mListPaddingBot, mItemWidth, mItemHeight);
         mWrapper.addActor(tbViewFix);
 
-        setBounds(0, 0, CONTROL_WIDTH, CONTROL_HEIGHT);
+        setBounds(0, SES.SCREEN_BORDER * 2 + SES.BUTTON_HEIGHT, CONTROL_WIDTH, CONTROL_HEIGHT);
         screen.getStage().addActor(this);
 
         mShapeRenderer = new ShapeRenderer();
